@@ -56,4 +56,8 @@ handleTopicRequest(SIGNUP_APPLICANT_REQUEST_TOPIC, signupApplicantService);
 handleTopicRequest(POST_JOB_REQUEST, postJobService);
 handleTopicRequest(SIGNIN_RECRUITER_REQUEST_TOPIC, signinRecruiterService);
 handleTopicRequest(UPLOAD_COMPANY_LOGO_REQUEST, uploadCompanyLogoService);
+<<<<<<< HEAD
 handleTopicRequest(GET_JOBS_BY_RECRUITER_REQUEST, getJobsByRecruiter);
+=======
+handleTopicRequest(GET_JOBS_BY_RECRUITER_REQUEST, getJobsByRecruiter);
+>>>>>>> 777aaa44cc99cc2eb0a62930d31d8aad05f3a7b6

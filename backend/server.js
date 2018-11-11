@@ -9,6 +9,7 @@ let signupApplicant = require('./routes/signupApplicant');
 let signinRecruiter = require('./routes/signinRecruiter');
 let uploadCompanyLogo = require('./routes/uploadCompanyLogo');
 let postJob = require('./routes/postJob');
+let getJobsByRecruiter = require('./routes/getJobsByRecruiter');
 let expressValidator = require("express-validator");
 var morgan = require('morgan');
 let cors = require('cors');
@@ -45,6 +46,7 @@ app.use("/signup_applicant/", signupApplicant);
 app.use("/signin_recruiter/", signinRecruiter);
 app.use("/upload_company_logo/", uploadCompanyLogo);
 app.use("/post_job", postJob);
+app.use("/get_jobs_by_recruiter", getJobsByRecruiter)
 
 /** start server */
 app.listen(port, () => {

@@ -13,5 +13,5 @@ mongoose.connect('mongodb://nrupa16:16Jan91*@ds159263.mlab.com:59263/linkedin_pr
 
 module.exports = {
     mongoose,
-    secret : 'project_Linkedin'
+    // secret : 'project_Linkedin'
 };

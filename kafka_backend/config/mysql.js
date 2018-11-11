@@ -155,5 +155,5 @@ module.exports = {
     selectQuery: selectQuery,
     updateQuery: updateQuery,
     startConnection: startConnection,
-    secret: 'project_LinkedIn'
+    // secret: 'project_LinkedIn'
 };
