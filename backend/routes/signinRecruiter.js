@@ -1,17 +1,19 @@
 const express = require("express");
-const kafka = require('./../kafka/client');
-const { SIGNUP_RECRUITER_REQUEST_TOPIC, SIGNUP_RECRUITER_RESPONSE_TOPIC } = require('./../kafka/topics');
+const kafka = require('../kafka/client');
+const { LOGIN_RECRUITER_REQUEST_TOPIC, LOGIN_RECRUITER_RESPONSE_TOPIC } = require('../kafka/topics');
 const { responseHandler, sendInternalServerError, sendBadRequest } = require('./response');
+const jwt = require('jsonwebtoken');
 const router = express.Router();
+const config = require('../config');
 
 /**
- *  this script will be called for routes begin with /signup_recruiter 
+ *  this script will be called for routes begin with /signin_recruiter 
  *  
- *  below "/" is relative resource path, the actual resource path is /signup_recruiter/
+ *  below "/" is relative resource path, the actual resource path is /signin_recruiter/
  * 
  */
 router.post("/", (req, res) => {
-    console.log("Inside Sign Up Route :");
+    console.log("Inside Login Route :");
     let errors = validateInput(req);
     if (errors) {
         let msg = errors.map(error => error.msg).reduce((accumulator, currentVal) => accumulator + "\n" + currentVal);
@@ -20,17 +22,22 @@ router.post("/", (req, res) => {
         });
     }
     else {
-        kafka.make_request(SIGNUP_RECRUITER_REQUEST_TOPIC, SIGNUP_RECRUITER_RESPONSE_TOPIC, req.body, function (err, result) {
+        kafka.make_request(LOGIN_RECRUITER_REQUEST_TOPIC, LOGIN_RECRUITER_RESPONSE_TOPIC, req.body, function (err, result) {
             if (err) {
                 // called in case of time out error, or if we failed to send data over kafka
                 sendInternalServerError(res);
             } else {
+                if(result.code === 200){
+                    var token = jwt.sign(result.data, config.secret, {
+                        expiresIn: 10080 // in seconds
+                    });
+                    result.data.token = 'JWT ' + token;
+                }
                 responseHandler(res, result);
             }
         });
     }
 });
-
 
 /**
  * 
@@ -41,12 +48,8 @@ router.post("/", (req, res) => {
  */
 
 function validateInput(req) {
-    req.checkBody("email", "An Email address is required.").notEmpty();
+    req.checkBody("username", "An Email address is required.").notEmpty();
     req.checkBody("password", "A Password is required.").notEmpty();
-    //req.checkBody("password", "Your Password must contain at least 1 number and 1 letter. \n Your Password must be between 7 and 32 characters.").matches(/^(?=.*\d)(?=.*[a-zA-Z]).{7,32}$/);
-    req.checkBody("first_name", "First name is required").notEmpty();
-    req.checkBody("last_name", "Last name is required").notEmpty();
-
     //add more validation if needed.
     return req.validationErrors();
 }

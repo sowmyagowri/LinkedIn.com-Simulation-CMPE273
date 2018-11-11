@@ -1,7 +1,7 @@
 var crypto = require('crypto');
 var conn = require('./connection');
 
-var TIMEOUT=8000; //time to wait for response in ms
+var TIMEOUT = 15000; //time to wait for response in ms
 var self;
 
 exports = module.exports =  KafkaRPC;
@@ -14,7 +14,7 @@ function KafkaRPC(){
     this.producer = this.connection.getProducer();
 }
 
-KafkaRPC.prototype.makeRequest = function(topic_name, content, callback){
+KafkaRPC.prototype.makeRequest = function (request_topic, response_topic, content, callback) {
 
     self = this;
     //generate a unique correlation id for this call
@@ -40,16 +40,20 @@ KafkaRPC.prototype.makeRequest = function(topic_name, content, callback){
     self.requests[correlationId]=entry;
 
     //make sure we have a response topic
-    self.setupResponseQueue(self.producer,topic_name,function(){
+    self.setupResponseQueue(self.producer, response_topic, function () {
         console.log('in response');
         //put the request on a topic
 
         var payloads = [
-            { topic: topic_name, messages: JSON.stringify({
-                correlationId:correlationId,
-                replyTo:'response_topic_linkedin',
-                data:content}),
-                partition:0}
+            {
+                topic: request_topic, 
+                messages: JSON.stringify({
+                    correlationId: correlationId,
+                    replyTo: response_topic,
+                    data: content
+                }),
+                partition: 0
+            }
         ];
         console.log('in response1');
         console.log(self.producer.ready);
@@ -63,16 +67,16 @@ KafkaRPC.prototype.makeRequest = function(topic_name, content, callback){
 };
 
 
-KafkaRPC.prototype.setupResponseQueue = function(producer,topic_name, next){
+KafkaRPC.prototype.setupResponseQueue = function (producer, response_topic, next) {
     //don't mess around if we have a queue
     if(this.response_queue) return next();
 
-    console.log('setupResponseQueue');
+    console.log('setupResponseQueue for: ', response_topic);
 
     self = this;
 
     //subscribe to messages
-    var consumer = self.connection.getConsumer('response_topic_linkedin');
+    var consumer = self.connection.getConsumer(response_topic);
     consumer.on('message', function (message) {
         console.log('msg received');
         var data = JSON.parse(message.value);
