@@ -263,3 +263,18 @@ main .reg-form label, .main .reg-form input {
     line-height: 1.5;
     color: white;
 }
+
+/* .main .reg-alert ::before {
+    background: #ee1620;
+    border-radius: 3px;
+    content: "";
+    display: block;
+    height: 100%;
+    left: 0;
+    position: absolute;
+    top: 0;
+    width: 100%;
+    transform: translateY(0);
+    transition-duration: .5s;
+    transition-timing-function: cubic-bezier(0, 0, 0.2, 1);
+} */

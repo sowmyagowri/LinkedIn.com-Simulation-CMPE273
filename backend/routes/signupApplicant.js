@@ -1,19 +1,19 @@
 const express = require("express");
 const kafka = require('./../kafka/client');
-const { SIGNUP_RECRUITER_REQUEST_TOPIC, SIGNUP_RECRUITER_RESPONSE_TOPIC } = require('./../kafka/topics');
+const { SIGNUP_APPLICANT_REQUEST_TOPIC, SIGNUP_APPLICANT_RESPONSE_TOPIC } = require('./../kafka/topics');
 const { responseHandler, sendInternalServerError, sendBadRequest } = require('./response');
 const router = express.Router();
 const jwt = require('jsonwebtoken');
 const config = require('./../config');
 
 /**
- *  this script will be called for routes begin with /signup_recruiter 
+ *  this script will be called for routes begin with /signup_applicant
  *  
- *  below "/" is relative resource path, the actual resource path is /signup_recruiter/
+ *  below "/" is relative resource path, the actual resource path is /signup_applicant/
  * 
  */
 router.post("/", (req, res) => {
-    console.log("Inside Recruiter Sign Up Route :");
+    console.log("Inside Applicant Sign Up Route :");
     let errors = validateInput(req);
     if (errors) {
         let msg = errors.map(error => error.msg).reduce((accumulator, currentVal) => accumulator + "\n" + currentVal);
@@ -22,7 +22,7 @@ router.post("/", (req, res) => {
         });
     }
     else {
-        kafka.make_request(SIGNUP_RECRUITER_REQUEST_TOPIC, SIGNUP_RECRUITER_RESPONSE_TOPIC, req.body, function (err, result) {
+        kafka.make_request(SIGNUP_APPLICANT_REQUEST_TOPIC, SIGNUP_APPLICANT_RESPONSE_TOPIC, req.body, function (err, result) {
             if (err) {
                 // called in case of time out error, or if we failed to send data over kafka
                 sendInternalServerError(res);

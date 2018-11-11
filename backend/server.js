@@ -1,5 +1,3 @@
-// server/app.js
-
 /** require dependencies */
 const express = require("express");
 //const routes = require('./routes')
@@ -7,6 +5,7 @@ const bodyParser = require('body-parser');
 
 var cookieParser = require('cookie-parser');
 let signupRecruiter = require('./routes/signupRecruiter');
+let signupApplicant = require('./routes/signupApplicant');
 let signinRecruiter = require('./routes/signinRecruiter');
 let uploadCompanyLogo = require('./routes/uploadCompanyLogo');
 let postJob = require('./routes/postJob');
@@ -19,7 +18,6 @@ app.use(cookieParser());
 var passport = require('passport');
 app.use(passport.initialize());
 const multer = require('multer');
-
 
 let port = 5000 || process.env.PORT
 
@@ -43,6 +41,7 @@ app.use(morgan('dev'));
 
 // define routes
 app.use("/signup_recruiter/", signupRecruiter);
+app.use("/signup_applicant/", signupApplicant);
 app.use("/signin_recruiter/", signinRecruiter);
 app.use("/upload_company_logo/", uploadCompanyLogo);
 app.use("/post_job", postJob);

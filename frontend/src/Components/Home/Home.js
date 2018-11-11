@@ -1,25 +1,169 @@
 import React, {Component} from 'react';
 import '../../App.css';
 import '../../home_wrapper.css';
-import { Field, reduxForm } from "redux-form";
-import {Redirect, withRouter} from 'react-router-dom';
+import { reduxForm } from "redux-form";
+import { withRouter } from 'react-router-dom';
 import { connect } from "react-redux";
-import {home} from '../../Actions/home_actions.js';
+import {applicantsignup} from '../../Actions';
+import validator from 'validator';
 
 class Home extends Component{
     constructor(props){
         super(props);
         this.state = {
-          
+            firstname: { value: '', isValid: true },
+            lastname: { value: '', isValid: true },
+            email: { value: '', isValid: true },
+            password: { value: '', isValid: true },
+            message: "",          
         };
+
+        //Bind the handlers to this class
+        this.changeHandler = this.changeHandler.bind(this);
+        this.handleValidation = this.handleValidation.bind(this);
+        this.submitSignup = this.submitSignup.bind(this);
     }
 
+    //firstname ,lastname, email and password change handler to update state variable with the text entered by the applicant
+    changeHandler = (e) => {
+        const state = {
+          ...this.state,
+          [e.target.name]: {
+            ...this.state[e.target.name],
+            value: e.target.value,
+            isValid: true,
+          }
+        };
+
+        this.setState(state);
+    }
+
+    handleValidation(){
+        let formIsValid = true;
+        const firstname = { ...this.state.firstname };
+        const lastname = { ...this.state.lastname };
+        const email = { ...this.state.email };
+        const password = { ...this.state.password };
+
+        this.setState({
+            message: ""
+        });
+
+        //firstname
+        if(!firstname.value){
+            formIsValid = false;
+            firstname.isValid = false;
+            this.setState({
+                message: "Please enter your first name"
+            });
+            return formIsValid
+        } else if(typeof firstname.value !== "undefined"){
+            if(!firstname.value.match(/^[a-zA-Z ]+$/)){
+                formIsValid = false;
+                this.setState({
+                    message: "Please enter a valid first name"
+                });
+                firstname.isValid = false;
+                return formIsValid
+            }
+        }
+
+        //Lastname
+        if(!lastname.value){
+            formIsValid = false;
+            this.setState({
+                message: "Please enter your last name"
+            });
+            lastname.isValid = false;
+            return formIsValid
+         } else if(typeof lastname.value !== "undefined"){
+            if(!lastname.value.match(/^[a-zA-Z ]+$/)){
+                formIsValid = false;
+                this.setState({
+                    message: "Please enter a valid last name"
+                });
+                lastname.isValid = false;
+            }
+            return formIsValid
+        }
+        
+        //Email
+        if(!email.value){
+            formIsValid = false;
+            this.setState({
+                message: "Please enter your email address"
+            });
+            email.isValid = false;
+            return formIsValid
+        }
+        if(typeof email.value !== "undefined"){
+            if (!validator.isEmail(email.value)) {
+                formIsValid = false;
+                this.setState({
+                    message: "Please enter a valid email address"
+                });
+                email.isValid = false;
+            }
+            return formIsValid
+        }
+
+        //Password
+        if(!password.value){
+            formIsValid = false;
+            this.setState({
+                message: "Please enter your password"
+            });
+            password.isValid = false;
+            return formIsValid
+        }
+
+        return formIsValid;
+   }
+    
+   //submit Login handler to send a request to the node backend
+   submitSignup(event) {
+        //prevent page from refresh
+        event.preventDefault();
+       // this.setState({ submitted: true });
+        console.log("Traveller Login Form submitted");
+        const { firstname, lastname, email, password } = this.state;
+        if (this.handleValidation()) {
+            const data = {
+                firstname : firstname,
+                lastname : lastname,
+                email : email,
+                password : password
+            }
+            this.props.applicantsignup(data).then(response => {
+                // if(response.payload.status === 200){
+                //     //store JWT Token to browser session storage 
+                //     //If you use localStorage instead of sessionStorage, then this will persist across tabs and new windows.
+                //     //sessionStorage = persisted only in current tab
+                //     sessionStorage.setItem('jwtToken', response.payload.data.token);
+                //     sessionStorage.setItem('cookie1', response.payload.data.cookie1);
+                //     sessionStorage.setItem('cookie2', response.payload.data.cookie2);
+                //     sessionStorage.setItem('cookie3', response.payload.data.cookie3);
+                //     sessionStorage.setItem('cookie4', response.payload.data.cookie4);
+                //     this.setState({
+                //         message: ""
+                //     });
+                // }
+            }).catch (error => {
+                // console.log("Error is", error);
+                // this.setState({
+                //     message: JSON.parse(error.response.request.response).responseMessage,
+                // });
+            })
+        }
+    }
     componentDidMount() {
-        //call to action
+        
     }
     
 
     render(){
+        const { firstname, lastname, email, password, message } = {...this.state};
+        console.log(message)
         return(
           <div className = "global-wrapper">
               <div className="navbar fixed-top navbar-dark bg-dark" style = {{height : "52px"}}>
@@ -36,18 +180,31 @@ class Home extends Component{
                  </div>
               </div>
               <div className = "main background">
-                <form id = "regForm" className = "reg-form">
+                <form id = "regForm" className = "reg-form" onSubmit = {this.submitSignup} >
                     <h2 className = "title">Be great at what you do</h2>
                     <h3 className = "subtitle">Get started - it's free</h3>
+                    {message &&
+                    (
+                    <div className="reg-alert" role="alert">
+                        <div className="wrapper">
+                            <p className="message">
+                                <span className="alert-content"> {message} </span>
+                            </p>
+                            <button className="dismiss dismiss-alert">
+                            <i class="fa fa-times-circle" style={{fontSize:"36px", color: "red"}}> </i>
+                            </button>
+                        </div>
+                    </div>
+                    )}
                     <section className = "form-body">
                         <label htmlFor ="reg-firstname">First Name</label>
-                        <input type = "text" name = "firstName" id = "reg-firstname"></input>
+                        <input onChange = {this.changeHandler} type = "text" name = "firstname" value={firstname.value} id = "reg-firstname"></input>
                         <label htmlFor ="reg-lastname">Last Name</label>
-                        <input type = "text" name = "lastName" id = "reg-lastname"></input>
+                        <input onChange = {this.changeHandler} type = "text" name = "lastName" value={lastname.value} id = "reg-lastname"></input>
                         <label htmlFor ="reg-email">Email</label>
-                        <input type = "text" name = "email" id = "reg-email"></input>
+                        <input onChange = {this.changeHandler} type = "text" name = "email" value={email.value} id = "reg-email"></input>
                         <label htmlFor ="reg-password">Password(6 or more characters)</label>
-                        <input type = "password" name = "password" id = "reg-password"></input>
+                        <input onChange = {this.changeHandler} type = "password" name = "password" value={password.value} id = "reg-password"></input>
                         <span className = "agreement">By clicking Join now, you agree to the LinkedIn User Agreement, Privacy Policy, and Cookie Policy.</span>
                         <input id ="registration-submit" className = "registration submit-button" type = "submit" value = "Join now"></input>
                     </section>
@@ -59,10 +216,10 @@ class Home extends Component{
 }
 
   function mapStateToProps(state) {
-    return { home: state.home };
+    return { applicantsignup: state.applicantsignup };
   }
 
   export default withRouter(reduxForm({
     form: "Home_Page"
-  })(connect(mapStateToProps, {home })(Home)));
+  })(connect(mapStateToProps, { applicantsignup })(Home)));
   

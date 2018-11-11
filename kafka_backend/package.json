@@ -1,0 +1,19 @@
+{
+  "name": "Kafka-Backend",
+  "version": "1.0.0",
+  "description": "",
+  "main": "server.js",
+  "scripts": {
+    "test": "mocha",
+    "start": "nodemon server.js"
+  },
+  "keywords": [],
+  "author": "Team",
+  "license": "ISC",
+  "dependencies": {
+    "bcrypt": "^3.0.0",
+    "kafka-node": "^3.0.1",
+    "mongoose": "^5.3.7",
+    "mysql": "mysqljs/mysql"
+  }
+}
