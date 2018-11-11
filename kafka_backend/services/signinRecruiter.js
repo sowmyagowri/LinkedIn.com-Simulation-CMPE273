@@ -20,8 +20,8 @@ async function handle_request(msg, callback) {
             resp = prepareSuccess({
                 email: user.email,
                 // id: user.id,
-                first_name: user.firstname,
-                last_name: user.lastname
+                first_name: user.first_name,
+                last_name: user.last_name
             });
         } else {
             resp = prepareAuthenticationFailure({

@@ -1,10 +1,11 @@
 var { Jobs } = require('../models/job');
+const { prepareInternalServerError, prepareSuccess } = require('./responses');
 
 async function handle_request(msg, callback) {
     console.log("Company Logo:" + JSON.stringify(msg));
     console.log("Inside kafka upload company logo backend");
 
-    var fileName = msg.file.originalname;
+    var fileName = msg.file.filename;
     var jobID = msg.jobID;
     let resp = {};
     try {

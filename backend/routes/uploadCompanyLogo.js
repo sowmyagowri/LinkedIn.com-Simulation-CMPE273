@@ -18,7 +18,7 @@ let storage = multer.diskStorage({
     },
     filename: function (req, file, callbk) {
         
-        callbk(null, req.jobID + "_CompanyLogo_" + new Date().toISOString()
+        callbk(null, "CompanyLogo_" + ((new Date()).toISOString())+
             ((file.mimetype === 'image/jpeg') ? ".jpeg" : (file.mimetype === 'image/png') ? ".png" : ""));
     }
 });
@@ -40,7 +40,7 @@ let upload = multer({
 })
 
 
-router.post("/", upload.single('profilePhoto'), function (req, res) {
+router.post("/", upload.single('company_logo'), function (req, res) {
     let jobID = req.body.jobID;
     let file = req.file;
     console.log("files in uploadSingle", req.file);
