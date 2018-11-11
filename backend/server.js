@@ -1,6 +1,7 @@
 // server/app.js
 
 /** require dependencies */
+uploadCompanyLogo =  require('./controller/uploadCompanyLogo').uploadCompanyLogo
 const express = require("express")
 const routes = require('./backend/routes')
 const bodyParser = require('body-parser')
@@ -10,6 +11,7 @@ app.use(cookieParser());
 const router = express.Router()
 var passport = require('passport');
 app.use(passport.initialize());
+const multer = require('multer');
 
 let port = 5000 || process.env.PORT
 
@@ -21,6 +23,23 @@ app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({ extended: true }));
 
 app.use('/api', router)
+
+const storageCompanyLogo = multer.diskStorage({
+    destination: function (req, file, cb) {
+        cb(null, '../static/companyLogo');
+    },
+    filename: function (req, file, cb) {
+        cb(null, file.originalname);
+    }
+})
+ const uploadSingle = multer({
+    storage: storageCompanyLogo
+});
+ app.post('/upload_company_logo/', uploadSingle.single('company_logo'), (req, res) => {
+    var jobID = req.body.jobID;
+    console.log("files in uploadSingle", req.file);
+    uploadCompanyLogo(jobID, req.file)
+})
 
 /** start server */
 app.listen(port, () => {
