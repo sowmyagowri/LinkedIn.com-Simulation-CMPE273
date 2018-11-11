@@ -1,7 +1,6 @@
 var { Jobs } = require('../models/job');
 const { prepareInternalServerError, prepareSuccess } = require('./responses');
 
-
 async function handle_request(msg, callback) {
     console.log("In handle request:" + JSON.stringify(msg));
     console.log("Inside kafka post job backend");

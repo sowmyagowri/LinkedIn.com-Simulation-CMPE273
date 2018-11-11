@@ -7,10 +7,10 @@ var connection;
 
 if (isConnectionPool == false) {
     connection = mysql.createConnection({
-        host: 'localhost',
-        user: 'root',
-        password: 'password',
-        database: 'linkedin',
+        host: 'linkedinproject.cfs5kthazndf.us-west-1.rds.amazonaws.com',
+        user: 'nrupa16',
+        password: '16Jan91*',
+        database: 'linkedin_project',
         port: 3306,
     });
 

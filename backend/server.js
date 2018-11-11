@@ -18,6 +18,7 @@ const app = express()
 app.use(cookieParser());
 var passport = require('passport');
 app.use(passport.initialize());
+const multer = require('multer');
 
 
 let port = 5000 || process.env.PORT
@@ -46,6 +47,23 @@ app.use("/signin_recruiter/", signinRecruiter);
 app.use("/upload_company_logo/", uploadCompanyLogo);
 app.use("/post_job", postJob);
 
+
+const storageCompanyLogo = multer.diskStorage({
+    destination: function (req, file, cb) {
+        cb(null, '../static/companyLogo');
+    },
+    filename: function (req, file, cb) {
+        cb(null, file.originalname);
+    }
+})
+ const uploadSingle = multer({
+    storage: storageCompanyLogo
+});
+ app.post('/upload_company_logo/', uploadSingle.single('company_logo'), (req, res) => {
+    var jobID = req.body.jobID;
+    console.log("files in uploadSingle", req.file);
+    uploadCompanyLogo(jobID, req.file)
+})
 
 /** start server */
 app.listen(port, () => {
