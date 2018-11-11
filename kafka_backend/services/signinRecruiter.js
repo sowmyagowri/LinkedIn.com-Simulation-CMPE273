@@ -1,42 +1,39 @@
 var db = require('./../config/mysql');
 var bcrypt = require('bcrypt');
+const { prepareInternalServerError, prepareSuccess, prepareAuthenticationFailure } = require('./responses');
 
-function handle_request(msg, callback) {
+async function handle_request(msg, callback) {
     console.log("Inside kafka sign in Recuiter backend");
     console.log("In handle request:" + JSON.stringify(msg));
 
     var email = msg.email;
-    db.selectQuery('SELECT id, first_name, last_name, email, password FROM recruiter_profile WHERE email= ?', [email], function (e, result){
-    //     // console.log("Result:", result)
-        if(e){
-            console.log("Something went wrong during Recruiter signin!")
+    let resp = {};
+    try {
+        let result = await db.selectQuery('SELECT first_name, last_name, email, password FROM recruiter_profile WHERE email= ?', [email]);
+        let match = false;
+        let user = {};
+        if (result && result.length !== 0) {
+            user = result[0];
+            match = await bcrypt.compare(msg.password, user.password);
         }
-        else if(result && result.length == 0){
-            callback(null, { success: false, result : "Wrong Email"});
+        if (match) {
+            resp = prepareSuccess({
+                email: user.email,
+                // id: user.id,
+                first_name: user.first_name,
+                last_name: user.last_name
+            });
+        } else {
+            resp = prepareAuthenticationFailure({
+                result: "Invalid username or password"
+            });
         }
-        else{
-            var email = result[0]['email'];
-            var password = result[0]['password'];
-            var id = result[0]['id'];
-            var first_name = result[0]['first_name'];
-            var last_name = result[0]['last_name'];
-            bcrypt.compare(msg.password, password, function (err, result){
-                if(result == false){
-                    callback(null, { success: false, result : "Wrong Password" })
-                }
-                else{
-                    var data = {
-                        success: true,
-                        email:email,
-                        id:id,
-                        first_name:first_name,
-                        last_name:last_name
-                    }
-                    callback(null, data)
-                }
-            })
-        }
-    });
+
+    } catch (e) {
+        console.log("Error: ", e);
+        resp = prepareInternalServerError();
+    }
+    callback(null, resp);
 }
 
 module.exports = {
