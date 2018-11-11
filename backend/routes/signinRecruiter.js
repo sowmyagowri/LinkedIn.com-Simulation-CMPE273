@@ -1,6 +1,6 @@
 const express = require("express");
 const kafka = require('../kafka/client');
-const { LOGIN_RECRUITER_REQUEST_TOPIC, LOGIN_RECRUITER_RESPONSE_TOPIC } = require('../kafka/topics');
+const { SIGNIN_RECRUITER_REQUEST_TOPIC, SIGNIN_RECRUITER_RESPONSE_TOPIC } = require('../kafka/topics');
 const { responseHandler, sendInternalServerError, sendBadRequest } = require('./response');
 const jwt = require('jsonwebtoken');
 const router = express.Router();
@@ -13,7 +13,8 @@ const config = require('../config');
  * 
  */
 router.post("/", (req, res) => {
-    console.log("Inside Login Route :");
+    console.log("Inside sign in Recruiter controller");
+    console.log("SIGNIN: ", req.body);
     let errors = validateInput(req);
     if (errors) {
         let msg = errors.map(error => error.msg).reduce((accumulator, currentVal) => accumulator + "\n" + currentVal);
@@ -22,7 +23,7 @@ router.post("/", (req, res) => {
         });
     }
     else {
-        kafka.make_request(LOGIN_RECRUITER_REQUEST_TOPIC, LOGIN_RECRUITER_RESPONSE_TOPIC, req.body, function (err, result) {
+        kafka.make_request(SIGNIN_RECRUITER_REQUEST_TOPIC, SIGNIN_RECRUITER_RESPONSE_TOPIC, req.body, function (err, result) {
             if (err) {
                 // called in case of time out error, or if we failed to send data over kafka
                 sendInternalServerError(res);
@@ -48,7 +49,7 @@ router.post("/", (req, res) => {
  */
 
 function validateInput(req) {
-    req.checkBody("username", "An Email address is required.").notEmpty();
+    req.checkBody("email", "An Email address is required.").notEmpty();
     req.checkBody("password", "A Password is required.").notEmpty();
     //add more validation if needed.
     return req.validationErrors();

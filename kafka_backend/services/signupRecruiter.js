@@ -22,7 +22,12 @@ async function handle_request(msg, callback) {
         }
         let result = await db.insertQuery('INSERT INTO recruiter_profile SET ?', post);
         let _id = result.insertId;
-        resp = prepareSuccess({ id: _id, email: email  });
+        resp = prepareSuccess({             
+            email: post.email,
+            // id: result.id,
+            first_name: post.first_name,
+            last_name: post.last_name
+        });
     }
     catch (error) {
         if (error.errno === 1062) { //1062 is for primary key violation 

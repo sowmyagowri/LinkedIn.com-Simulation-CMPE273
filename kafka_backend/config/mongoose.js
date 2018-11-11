@@ -2,7 +2,7 @@ var mongoose = require('mongoose');
 
 mongoose.Promise = global.Promise;
 
-mongoose.connect('mongodb://nrupa16:16Jan91*@ds149593.mlab.com:49593/homeaway', { poolSize: 10 }).then(
+mongoose.connect('mongodb://nrupa16:16Jan91*@ds159263.mlab.com:59263/linkedin_project', { poolSize: 10 }).then(
     () => {
         console.log("Getting MongoDB Connection!!!")
     },
@@ -13,5 +13,5 @@ mongoose.connect('mongodb://nrupa16:16Jan91*@ds149593.mlab.com:49593/homeaway', 
 
 module.exports = {
     mongoose,
-    secret : 'lab2_HomeAway'
+    secret : 'project_Linkedin'
 };

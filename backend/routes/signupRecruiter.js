@@ -3,6 +3,8 @@ const kafka = require('./../kafka/client');
 const { SIGNUP_RECRUITER_REQUEST_TOPIC, SIGNUP_RECRUITER_RESPONSE_TOPIC } = require('./../kafka/topics');
 const { responseHandler, sendInternalServerError, sendBadRequest } = require('./response');
 const router = express.Router();
+const jwt = require('jsonwebtoken');
+const config = require('./../config');
 
 /**
  *  this script will be called for routes begin with /signup_recruiter 
@@ -25,6 +27,12 @@ router.post("/", (req, res) => {
                 // called in case of time out error, or if we failed to send data over kafka
                 sendInternalServerError(res);
             } else {
+                if(result.code === 200){
+                    var token = jwt.sign(result.data, config.secret, {
+                        expiresIn: 10080 // in seconds
+                    });
+                    result.data.token = 'JWT ' + token;
+                }
                 responseHandler(res, result);
             }
         });

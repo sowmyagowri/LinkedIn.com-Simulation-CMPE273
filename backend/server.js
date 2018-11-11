@@ -4,23 +4,24 @@
 const express = require("express");
 //const routes = require('./routes')
 const bodyParser = require('body-parser');
+
 var cookieParser = require('cookie-parser');
 let signupRecruiter = require('./routes/signupRecruiter');
 let signinRecruiter = require('./routes/signinRecruiter');
+let uploadCompanyLogo = require('./routes/uploadCompanyLogo');
+let postJob = require('./routes/postJob');
 let expressValidator = require("express-validator");
 var morgan = require('morgan');
 let cors = require('cors');
 const config = require('./config');
 const app = express()
 app.use(cookieParser());
-const router = express.Router()
 var passport = require('passport');
 app.use(passport.initialize());
 
+
 let port = 5000 || process.env.PORT
 
-/** set up routes {API Endpoints} */
-//routes(router)
 
 /** set up middlewares */
 
@@ -42,6 +43,9 @@ app.use(morgan('dev'));
 // define routes
 app.use("/signup_recruiter/", signupRecruiter);
 app.use("/signin_recruiter/", signinRecruiter);
+app.use("/upload_company_logo/", uploadCompanyLogo);
+app.use("/post_job", postJob);
+
 
 /** start server */
 app.listen(port, () => {

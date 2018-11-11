@@ -1,41 +1,39 @@
 var db = require('./../config/mysql');
 var bcrypt = require('bcrypt');
-var jwt = require('jsonwebtoken');
-var passport = require('passport');
-// require('../config/passport')(passport);
+const { prepareInternalServerError, prepareSuccess, prepareAuthenticationFailure } = require('./responses');
 
-function handle_request(msg, callback) {
+async function handle_request(msg, callback) {
     console.log("Inside kafka sign in Recuiter backend");
     console.log("In handle request:" + JSON.stringify(msg));
 
     var email = msg.email;
-    // db.selectQuery('SELECT id, email, password, type FROM users WHERE email= ?', [email], function (e, result){
-    //     // console.log("Result:", result)
-    //     if(result.length == 0){
-    //         return res.end(JSON.stringify({"result": "Wrong Email"}));
-    //     }
-    //     else if(result[0]['type'] != req.body.person_type){
-    //         return res.end(JSON.stringify({"result": "Invalid " + req.body.person_type + " login!"}));
-    //     }
-    //     else{
-    //         var email = result[0]['email'];
-    //         var password = result[0]['password'];
-    //         var id = result[0]['id'];
-    //         bcrypt.compare(req.body.password, password, function (err, result){
-    //             if(result == false){
-    //                 return res.end(JSON.stringify({"result": "Wrong Password"}));
-    //             }
-    //             else{
-    //                 res.cookie('cookie',req.body.email,{maxAge: 900000, httpOnly: false, path : '/'});
-    //                 req.session.user = req.body.email;
-    //                 res.writeHead(200,{
-    //                     'Content-Type' : 'application/json'
-    //                 });
-    //                 res.end(JSON.stringify({"id":id}));
-    //             }
-    //         })
-    //     }
-    // });
+    let resp = {};
+    try {
+        let result = await db.selectQuery('SELECT first_name, last_name, email, password FROM recruiter_profile WHERE email= ?', [email]);
+        let match = false;
+        let user = {};
+        if (result && result.length !== 0) {
+            user = result[0];
+            match = await bcrypt.compare(msg.password, user.password);
+        }
+        if (match) {
+            resp = prepareSuccess({
+                email: user.email,
+                // id: user.id,
+                first_name: user.firstname,
+                last_name: user.lastname
+            });
+        } else {
+            resp = prepareAuthenticationFailure({
+                result: "Invalid username or password"
+            });
+        }
+
+    } catch (e) {
+        console.log("Error: ", e);
+        resp = prepareInternalServerError();
+    }
+    callback(null, resp);
 }
 
 module.exports = {
