@@ -5,13 +5,15 @@ var { mongoose } = require('./config/mongoose');
 var signupRecruiterService = require('./services/signupRecruiter');
 var postJobService = require('./services/postJob');
 var signinRecruiterService = require('./services/signinRecruiter');
-var uploadCompanyLogoService = require('./services/uploadCompanyLogo')
+var uploadCompanyLogoService = require('./services/uploadCompanyLogo');
+var getJobsByRecruiter = require('./services/getJobsByRecruiter')
 
 
 //import kafka topics
 const {
     SIGNUP_RECRUITER_REQUEST_TOPIC, POST_JOB_REQUEST, 
     SIGNIN_RECRUITER_REQUEST_TOPIC, UPLOAD_COMPANY_LOGO_REQUEST,
+    GET_JOBS_BY_RECRUITER_REQUEST,
 } = require('./kafka/topics');
 
 function handleTopicRequest(topic_name, fname) {
@@ -52,3 +54,4 @@ handleTopicRequest(SIGNUP_RECRUITER_REQUEST_TOPIC, signupRecruiterService);
 handleTopicRequest(POST_JOB_REQUEST, postJobService);
 handleTopicRequest(SIGNIN_RECRUITER_REQUEST_TOPIC, signinRecruiterService);
 handleTopicRequest(UPLOAD_COMPANY_LOGO_REQUEST, uploadCompanyLogoService);
+handleTopicRequest(GET_JOBS_BY_RECRUITER_REQUEST, getJobsByRecruiter);
