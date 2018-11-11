@@ -7,10 +7,10 @@ var connection;
 
 if (isConnectionPool == false) {
     connection = mysql.createConnection({
-        host: 'localhost',
-        user: 'root',
+        host: 'linkedinproject.cfs5kthazndf.us-west-1.rds.amazonaws.com',
+        user: 'nrupa16',
         password: '16Jan91*',
-        database: 'linkedin',
+        database: 'linkedin_project',
         port: 3306,
     });
 
@@ -18,10 +18,10 @@ if (isConnectionPool == false) {
 else {
     connection = mysql.createPool({
         connectionLimit: 20,
-        host: 'localhost',
-        user: 'root',
+        host: 'linkedinproject.cfs5kthazndf.us-west-1.rds.amazonaws.com',
+        user: 'nrupa16',
         password: '16Jan91*',
-        database: 'linkedin',
+        database: 'linkedin_project',
         port: 3306
     });
 }

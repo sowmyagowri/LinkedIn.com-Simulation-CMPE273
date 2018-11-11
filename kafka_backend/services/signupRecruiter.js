@@ -1,9 +1,5 @@
 var db = require('./../config/mysql');
 var bcrypt = require('bcrypt');
-var jwt = require('jsonwebtoken');
-var passport = require('passport');
-// require('../config/passport')(passport);
-var config = require('../config/mysql');
 const saltRounds = 10;
 
 function handle_request(msg, callback) {
@@ -38,17 +34,9 @@ function handle_request(msg, callback) {
                         }
                         else {
                             var _id = result.insertId;
-                            var token_user = {
-                                email : email,
-                                id: _id
-                            }
-                            var token = jwt.sign(token_user, config.secret, {
-                                expiresIn: 10080 
-                            });
-                            var final_token = { success: true, token: 'JWT ' + token, id : _id, email:email }
-                            console.log("final_token = ", final_token)
-                            callback(null,final_token);
-                            // res.end(JSON.stringify({ "id": _id }));
+                            var data = { success: true, id : _id, email:email }
+                            console.log("final_token = ", data)
+                            callback(null,data);
                         }
                     });
                 }

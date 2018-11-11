@@ -1,6 +1,10 @@
 var connection =  new require('./kafka/Connection');
+var {mongoose} = require('./config/mongoose');
 //topics files
 var signupRecruiter = require('./services/signupRecruiter');
+var postJob = require('./services/postJob');
+var signinRecruiter = require('./services/signinRecruiter');
+var uploadCompanyLogo = require('./services/uploadCompanyLogo')
 
 function handleTopicRequest(topic_name,fname){
     //var topic_name = 'root_topic';
@@ -35,3 +39,6 @@ function handleTopicRequest(topic_name,fname){
 //first argument is topic name
 //second argument is a function that will handle this topic request
 handleTopicRequest("signup_recruiter_request",signupRecruiter)
+handleTopicRequest("post_job_request",postJob)
+handleTopicRequest("signin_recruiter_request",signinRecruiter)
+handleTopicRequest("upload_company_logo_request",uploadCompanyLogo)
