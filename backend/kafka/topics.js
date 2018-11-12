@@ -8,8 +8,6 @@ const SIGNUP_APPLICANT_REQUEST_TOPIC = "signupAPPLICANTRequest";
 const SIGNUP_APPLICANT_RESPONSE_TOPIC = "signupAPPLICANTResponse";
 const POST_JOB_REQUEST = "postJobRequest";
 const POST_JOB_RESPONSE = "postJobResponse";
-const UPLOAD_COMPANY_LOGO_REQUEST = "uploadCompanyLogoRequest";
-const UPLOAD_COMPANY_LOGO_RESPONSE = "uploadCompanyLogoResponse";
 const GET_JOBS_BY_RECRUITER_RESPONSE = "getJobsByRecruiterResponse";
 const GET_JOBS_BY_RECRUITER_REQUEST = "getJobsByRecruiterRequest";
 
