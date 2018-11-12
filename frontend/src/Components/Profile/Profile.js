@@ -269,7 +269,7 @@ class Profile extends Component{
                                     </button>
                                 </div>
                                 <div className="modal-body">
-                                <label htmlFor="position-school-typeahead" class="mb1 required">School</label>
+                            <label htmlFor="position-school-typeahead" class="mb1 required">School</label>
                             <input className = "form-control" id="position-school-typeahead" placeholder="Ex: Boston University" maxlength="100" type="text"/>
 
                             <label htmlFor="position-degree-typeahead" class="mb1 required">Degree</label>

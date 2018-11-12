@@ -9,6 +9,18 @@
     background: #283e4a;
 }
 
+.profilelocation-wrapper {
+    display: flex;
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+    flex-direction: column;
+    min-width: 1128px;
+    min-height: 100vh;
+    margin: 0;
+    background: #fff;
+}
+
+
 .home_wrapper {
     display: -webkit-box;
     display: -ms-flexbox;
@@ -152,6 +164,21 @@ h1 {
     padding: 24px 12px;
 }
 
+.main1{
+    background-size: cover;
+    margin-top: 200px;
+    display: flex;
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+    flex-direction: column;
+    -webkit-box-flex: 1;
+    align-items: center;
+    -webkit-box-pack: center;
+    justify-content: center;
+    overflow: hidden;
+    min-width: 1128px;
+}
+
 
 .main .reg-form {
     width: 400px;
@@ -241,6 +268,34 @@ main .reg-form label, .main .reg-form input {
 }
 
 .main .reg-form input[type="submit"] {
+    background-color: #0073b1;
+    border: 0;
+    border-radius: 2px;
+    box-sizing: border-box;
+    cursor: pointer;
+    display: inline-block;
+    font-family: inherit;
+    height: 32px;
+    overflow: hidden;
+    outline-width: 2px;
+    padding: 0 16px;
+    position: relative;
+    text-align: center;
+    text-decoration: none;
+    transition-duration: 167ms;
+    transition-property: background-color,box-shadow,color,-webkit-box-shadow;
+    transition-timing-function: cubic-bezier(0, 0, 0.2, 1);
+    vertical-align: middle;
+    z-index: 0;
+    font-size: 1rem;
+    line-height: 1.5;
+    color: white;
+}
+
+
+.main1 input[type="submit"] {
+    margin-top : 20px;
+    width : 500px;
     background-color: #0073b1;
     border: 0;
     border-radius: 2px;
