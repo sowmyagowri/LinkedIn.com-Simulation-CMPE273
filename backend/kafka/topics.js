@@ -6,12 +6,14 @@ const POST_JOB_REQUEST = "postJobRequest";
 const POST_JOB_RESPONSE = "postJobResponse";
 const GET_JOBS_BY_RECRUITER_RESPONSE = "getJobsByRecruiterResponse";
 const GET_JOBS_BY_RECRUITER_REQUEST = "getJobsByRecruiterRequest";
-const POST_RECRUITER_PROFILE_REQUEST = "postRecruiterProfileRequest";
-const POST_RECRUITER_PROFILE_RESPONSE = "postRecruiterProfileResponse";
 const SIGNUP_APPLICANT_REQUEST_TOPIC = "signupApplicantRequest";
 const SIGNUP_APPLICANT_RESPONSE_TOPIC = "signupApplicantResponse";
+const POST_RECRUITER_PROFILE_REQUEST = "postRecruiterProfileRequest";
+const POST_RECRUITER_PROFILE_RESPONSE = "postRecruiterProfileResponse";
 const GET_RECRUITER_PROFILE_REQUEST = "getRecruiterProfileRequest";
 const GET_RECRUITER_PROFILE_RESPONSE = "getRecruiterProfileResponse";
+
+
 
 module.exports = {
     SIGNIN_RECRUITER_REQUEST_TOPIC, SIGNIN_RECRUITER_RESPONSE_TOPIC,
