@@ -136,6 +136,7 @@ h1 {
 
 .main{
     margin-top: 50px;
+    background-size: cover;
     display: flex;
     -webkit-box-orient: vertical;
     -webkit-box-direction: normal;
@@ -219,7 +220,7 @@ h1 {
 }
 
 main .reg-form label, .main .reg-form input {
-    font-size: 1.4rem;
+    font-size: 1rem;
     line-height: 1.42857;
     font-weight: 400;
     color: rgba(0,0,0,0.9);
@@ -264,7 +265,7 @@ main .reg-form label, .main .reg-form input {
     color: white;
 }
 
-/* .main .reg-alert ::before {
+.main .reg-alert:before {
     background: #ee1620;
     border-radius: 3px;
     content: "";
@@ -274,7 +275,56 @@ main .reg-form label, .main .reg-form input {
     position: absolute;
     top: 0;
     width: 100%;
+    -webkit-transform: translateY(0);
     transform: translateY(0);
+    -webkit-transition-duration: .5s;
     transition-duration: .5s;
+    -webkit-transition-timing-function: cubic-bezier(0, 0, 0.2, 1);
     transition-timing-function: cubic-bezier(0, 0, 0.2, 1);
-} */
+}
+
+.main .reg-alert {
+    -webkit-box-sizing: border-box;
+    box-sizing: border-box;
+    border-radius: 3px;
+    color: #fff;
+    margin-bottom: 24px;
+    overflow: hidden;
+    padding: 0 15px;
+    position: relative;
+    width: 100%;
+    border-radius: 2px;
+    margin-bottom: 0;
+}
+
+.main .reg-alert>div {
+    -webkit-box-sizing: border-box;
+    box-sizing: border-box;
+    margin: 0 auto;
+    max-width: 1128px;
+    overflow: hidden;
+    padding-top: 12px;
+    position: relative;
+    width: 100%;
+}
+
+.main .reg-alert>div:before {
+    background-image: url(images/cwn0a0e7hog2i33c88ucrvot5.svg);
+    background-position: 0 -144px;
+    content: "";
+    display: block;
+    height: 24px;
+    left: 0;
+    position: absolute;
+    top: 10px;
+    width: 24px;
+    -webkit-transform: translateY(0);
+    transform: translateY(0);
+    transition-property: transform,-webkit-transform;
+    -webkit-transition-duration: .5s;
+    transition-duration: .5s;
+    -webkit-transition-delay: .033s;
+    transition-delay: .033s;
+    -webkit-transition-timing-function: cubic-bezier(0, 0, 0.2, 1);
+    transition-timing-function: cubic-bezier(0, 0, 0.2, 1);
+}

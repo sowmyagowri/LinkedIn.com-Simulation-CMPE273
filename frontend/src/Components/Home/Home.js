@@ -34,11 +34,13 @@ class Home extends Component{
             isValid: true,
           }
         };
-
         this.setState(state);
     }
 
-    handleValidation(){
+    handleValidation() {
+
+        console.log("validation check")
+
         let formIsValid = true;
         const firstname = { ...this.state.firstname };
         const lastname = { ...this.state.lastname };
@@ -50,7 +52,7 @@ class Home extends Component{
         });
 
         //firstname
-        if(!firstname.value){
+        if(!firstname.value || firstname.value === ""){
             formIsValid = false;
             firstname.isValid = false;
             this.setState({
@@ -69,7 +71,7 @@ class Home extends Component{
         }
 
         //Lastname
-        if(!lastname.value){
+        if(!lastname.value || lastname.value === ""){
             formIsValid = false;
             this.setState({
                 message: "Please enter your last name"
@@ -83,12 +85,12 @@ class Home extends Component{
                     message: "Please enter a valid last name"
                 });
                 lastname.isValid = false;
+                return formIsValid
             }
-            return formIsValid
         }
         
         //Email
-        if(!email.value){
+        if(!email.value || email.value === ""){
             formIsValid = false;
             this.setState({
                 message: "Please enter your email address"
@@ -103,12 +105,12 @@ class Home extends Component{
                     message: "Please enter a valid email address"
                 });
                 email.isValid = false;
+                return formIsValid
             }
-            return formIsValid
         }
 
         //Password
-        if(!password.value){
+        if(!password.value || password.value === ""){
             formIsValid = false;
             this.setState({
                 message: "Please enter your password"
@@ -116,7 +118,6 @@ class Home extends Component{
             password.isValid = false;
             return formIsValid
         }
-
         return formIsValid;
    }
     
@@ -125,7 +126,6 @@ class Home extends Component{
         //prevent page from refresh
         event.preventDefault();
        // this.setState({ submitted: true });
-        console.log("Traveller Login Form submitted");
         const { firstname, lastname, email, password } = this.state;
         if (this.handleValidation()) {
             const data = {
@@ -154,6 +154,7 @@ class Home extends Component{
                 //     message: JSON.parse(error.response.request.response).responseMessage,
                 // });
             })
+            console.log("Traveller Login Form submitted");
         }
     }
     componentDidMount() {
@@ -183,24 +184,21 @@ class Home extends Component{
                 <form id = "regForm" className = "reg-form" onSubmit = {this.submitSignup} >
                     <h2 className = "title">Be great at what you do</h2>
                     <h3 className = "subtitle">Get started - it's free</h3>
+                    <div className = "reg-alert" role = "alert" tabIndex = "-1">
                     {message &&
                     (
-                    <div className="reg-alert" role="alert">
                         <div className="wrapper">
                             <p className="message">
-                                <span className="alert-content"> {message} </span>
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span className="alert-content"> {message} </span>
                             </p>
-                            <button className="dismiss dismiss-alert">
-                            <i class="fa fa-times-circle" style={{fontSize:"36px", color: "red"}}> </i>
-                            </button>
                         </div>
-                    </div>
                     )}
+                    </div>
                     <section className = "form-body">
                         <label htmlFor ="reg-firstname">First Name</label>
                         <input onChange = {this.changeHandler} type = "text" name = "firstname" value={firstname.value} id = "reg-firstname"></input>
                         <label htmlFor ="reg-lastname">Last Name</label>
-                        <input onChange = {this.changeHandler} type = "text" name = "lastName" value={lastname.value} id = "reg-lastname"></input>
+                        <input onChange = {this.changeHandler} type = "text" name = "lastname" value={lastname.value} id = "reg-lastname"></input>
                         <label htmlFor ="reg-email">Email</label>
                         <input onChange = {this.changeHandler} type = "text" name = "email" value={email.value} id = "reg-email"></input>
                         <label htmlFor ="reg-password">Password(6 or more characters)</label>
@@ -210,6 +208,7 @@ class Home extends Component{
                     </section>
                 </form>
               </div>
+              
           </div>
         )
     }

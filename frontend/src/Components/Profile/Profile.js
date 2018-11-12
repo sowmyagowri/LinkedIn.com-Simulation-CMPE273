@@ -40,6 +40,119 @@ class Profile extends Component{
                 </div>
                 <div className = "pv-profile-section pv-top-card-section artdeco-container-card ember-view">
                 <div className ="mt4 display-flex ember-view">
+
+                 <div className="modal fade  bd-example-modal-lg" id="profilemodal" tabIndex="-1" role="dialog" aria-labelledby="profilemodallabel" aria-hidden="true"  style = {{marginTop : "40px"}}>
+                        <div className="modal-dialog modal-dialog-centered modal-lg">
+                            <div className="modal-content">
+                            <div className="modal-header">
+                                <h5 className="modal-title" id="profilemodallabel">Edit intro</h5>
+                                <button type="button" className="close" data-dismiss="modal" aria-label="Close">
+                                &times;
+                                </button>
+                            </div>
+                            <div className="modal-body">
+                            <div className="row form-group">
+                                <div className = "col-xs-6 col-md-6">
+                                <label htmlFor="position-firstname-typeahead" class="mb1 required">First Name</label>
+                                <input className = "form-control" id="position-firstname-typeahead" maxlength="100" type="text"/>
+                                </div>
+
+                                <div className = "col-xs-6 col-md-6">
+                                <label htmlFor="position-lastname-typeahead" class="mb1 required">Last Name</label>
+                                <input className = "form-control" id="position-lastname-typeahead" maxlength="100" type="text"/>
+                                </div>
+                            </div>
+
+                            <label htmlFor="position-profilesummary-typeahead" class="mb1 required">Profile Summary</label>
+                            <textarea className = "form-control" id="position-profilesummary-typeahead"/>
+
+                            <div className="row form-group">
+                                <div className = "col-xs-6 col-md-6">
+                                <label htmlFor="position-state-typeahead" class="mb1 required">State</label>
+                                <select className = "form-control" id="position-state-typeahead" maxlength="100" type="text">
+                                     <option value="">United States</option>
+                                    <option value="AL">Alabama</option>
+                                    <option value="AK">Alaska</option>
+                                    <option value="AZ">Arizona</option>
+                                    <option value="AR">Arkansas</option>
+                                    <option value="CA">California</option>
+                                    <option value="CO">Colorado</option>
+                                    <option value="CT">Connecticut</option>
+                                    <option value="DE">Delaware</option>
+                                    <option value="DC">District Of Columbia</option>
+                                    <option value="FL">Florida</option>
+                                    <option value="GA">Georgia</option>
+                                    <option value="HI">Hawaii</option>
+                                    <option value="ID">Idaho</option>
+                                    <option value="IL">Illinois</option>
+                                    <option value="IN">Indiana</option>
+                                    <option value="IA">Iowa</option>
+                                    <option value="KS">Kansas</option>
+                                    <option value="KY">Kentucky</option>
+                                    <option value="LA">Louisiana</option>
+                                    <option value="ME">Maine</option>
+                                    <option value="MD">Maryland</option>
+                                    <option value="MA">Massachusetts</option>
+                                    <option value="MI">Michigan</option>
+                                    <option value="MN">Minnesota</option>
+                                    <option value="MS">Mississippi</option>
+                                    <option value="MO">Missouri</option>
+                                    <option value="MT">Montana</option>
+                                    <option value="NE">Nebraska</option>
+                                    <option value="NV">Nevada</option>
+                                    <option value="NH">New Hampshire</option>
+                                    <option value="NJ">New Jersey</option>
+                                    <option value="NM">New Mexico</option>
+                                    <option value="NY">New York</option>
+                                    <option value="NC">North Carolina</option>
+                                    <option value="ND">North Dakota</option>
+                                    <option value="OH">Ohio</option>
+                                    <option value="OK">Oklahoma</option>
+                                    <option value="OR">Oregon</option>
+                                    <option value="PA">Pennsylvania</option>
+                                    <option value="RI">Rhode Island</option>
+                                    <option value="SC">South Carolina</option>
+                                    <option value="SD">South Dakota</option>
+                                    <option value="TN">Tennessee</option>
+                                    <option value="TX">Texas</option>
+                                    <option value="UT">Utah</option>
+                                    <option value="VT">Vermont</option>
+                                    <option value="VA">Virginia</option>
+                                    <option value="WA">Washington</option>
+                                    <option value="WV">West Virginia</option>
+                                    <option value="WI">Wisconsin</option>
+                                    <option value="WY">Wyoming</option>
+                                </select>				
+	
+                                </div>
+
+                                <div className = "col-xs-6 col-md-6">
+                                <label htmlFor="position-zip-typeahead" class="mb1 required">Zip Code</label>
+                                <input className = "form-control" id="position-lastname-typeahead" pattern="[0-9]{5}" placeholder="Five digit zip code" type="text"/>
+                                </div>
+                            </div>
+
+                            <label htmlFor="position-phone-typeahead" class="mb1 required">Phone Number</label>
+                            <input className = "form-control" id="position-phone-typeahead"  pattern="[0-9]{10}" placeholder="1234567890" type="text"/>
+                            
+                            <label htmlFor="position-address-typeahead" class="mb1 required">Address</label>
+                            <textarea className = "form-control" id="position-address-typeahead"/>
+
+                            <label htmlFor="position-resume-typeahead" class="mb1 required">Add your Resume</label>
+                            <div className="form-group">
+                            <button type="button" className="btn btn-outline-primary" id="position-resume-typeahead">Upload</button>
+                            </div>
+
+                            <div className="modal-footer">
+                                <button type="button" className="btn btn-secondary" data-dismiss="modal">Close</button>
+                                <button type="button" className="btn btn-primary">Save changes</button>
+                            </div>
+                            </div>
+                            </div>
+                        </div>
+                    </div>
+
+                <div className = "pv-entity__actions" data-toggle="modal" data-target="#profilemodal"><FontAwesomeIcon icon="pencil-alt" color="#0073b1" size ="lg"/></div>
                     <div className="row">
                       <div className="col-md-12">
                         <div className="row">
@@ -47,7 +160,7 @@ class Profile extends Component{
                         </div>
                           <div className="col-xs-12 col-sm-8">
                             <h3>Vince Nardone</h3>
-                            <p>City: </p>
+                            <p>California</p>
                             <p><strong>Hobbies: </strong> Read, out with friends, listen to music, dance, draw and learn new things. </p>
                             {/* <p><strong>City: </strong> <span className="label label-info tags"></span> <span className="label label-info tags"></span> </p> */}
                           </div>
@@ -99,7 +212,7 @@ class Profile extends Component{
                             <option value="12">December</option>
                             </select>
 
-                            <select name="startYear" id="position-start-typeahead"  className = "form-control edit-year">  
+                            <select name="startYear" id="position-start-typeahead" className = "form-control edit-year">  
                             <option value="">Year</option>
                             <option value="2018">2018</option>
                             <option value="2017">2017</option>
@@ -116,7 +229,6 @@ class Profile extends Component{
                             <label htmlFor="position-description-typeahead" class="mb1 required">Description</label>
                             <textarea className = "form-control" id="position-description-typeahead"/>
                             
-
                             </div>
                             <div className="modal-footer">
                                 <button type="button" className="btn btn-secondary" data-dismiss="modal">Close</button>
@@ -279,4 +391,3 @@ class Profile extends Component{
 }
 
 export default Profile;
-  
