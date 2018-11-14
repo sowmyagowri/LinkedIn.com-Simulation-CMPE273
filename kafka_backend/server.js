@@ -6,15 +6,16 @@ var signupRecruiterService = require('./services/signupRecruiter');
 var signupApplicantService = require('./services/signupApplicant');
 var postJobService = require('./services/postJob');
 var signinRecruiterService = require('./services/signinRecruiter');
-var uploadCompanyLogoService = require('./services/uploadCompanyLogo');
-var getJobsByRecruiter = require('./services/getJobsByRecruiter')
-
+var getJobsByRecruiter = require('./services/getJobsByRecruiter');
+var postRecruiterProfile = require('./services/postRecruiterProfile');
+var getRecruiterProfile = require('./services/getRecruiterProfile');
 
 //import kafka topics
 const {
     SIGNUP_RECRUITER_REQUEST_TOPIC, SIGNUP_APPLICANT_REQUEST_TOPIC, POST_JOB_REQUEST, 
-    SIGNIN_RECRUITER_REQUEST_TOPIC, UPLOAD_COMPANY_LOGO_REQUEST,
-    GET_JOBS_BY_RECRUITER_REQUEST,
+    SIGNIN_RECRUITER_REQUEST_TOPIC,
+    GET_JOBS_BY_RECRUITER_REQUEST, POST_RECRUITER_PROFILE_REQUEST,
+    GET_RECRUITER_PROFILE_REQUEST
 } = require('./kafka/topics');
 
 function handleTopicRequest(topic_name, fname) {
@@ -55,5 +56,6 @@ handleTopicRequest(SIGNUP_RECRUITER_REQUEST_TOPIC, signupRecruiterService);
 handleTopicRequest(SIGNUP_APPLICANT_REQUEST_TOPIC, signupApplicantService);
 handleTopicRequest(POST_JOB_REQUEST, postJobService);
 handleTopicRequest(SIGNIN_RECRUITER_REQUEST_TOPIC, signinRecruiterService);
-handleTopicRequest(UPLOAD_COMPANY_LOGO_REQUEST, uploadCompanyLogoService);
 handleTopicRequest(GET_JOBS_BY_RECRUITER_REQUEST, getJobsByRecruiter);
+handleTopicRequest(POST_RECRUITER_PROFILE_REQUEST, postRecruiterProfile);
+handleTopicRequest(GET_RECRUITER_PROFILE_REQUEST, getRecruiterProfile);
