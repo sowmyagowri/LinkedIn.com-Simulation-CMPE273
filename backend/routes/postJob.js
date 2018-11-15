@@ -42,9 +42,11 @@ router.post("/", (req, res) => {
  */
 
 function validateInput(req) {
-    // req.checkBody("email", "An Email address is required.").notEmpty();
-    // req.checkBody("password", "A Password is required.").notEmpty();
-    // req.checkBody("password", "Your Password must contain at least 1 number and 1 letter. \n Your Password must be between 7 and 32 characters.").matches(/^(?=.*\d)(?=.*[a-zA-Z]).{7,32}$/);
+    req.checkBody("title", "Job Title is required.").notEmpty();
+    req.checkBody("jobDescription", "Job Description is required.").notEmpty();
+    req.checkBody("employmentType", "Employment Type is required.").notEmpty();
+    req.checkBody("location", "Job location is required.").notEmpty();
+    req.checkBody("expiryDate", "Job expiry date is required.").notEmpty();
 
     //add more validation if needed.
     return req.validationErrors();

@@ -9,8 +9,8 @@ async function handle_request(msg, callback) {
 
     let email = msg.email;
     let password = msg.password;
-    let first_name = msg.first_name;
-    let last_name = msg.last_name;
+    let first_name = msg.firstName;
+    let last_name = msg.lastName;
     let resp = {};
     try {
         let hash = await bcrypt.hash(password, saltRounds);
