@@ -1,0 +1,125 @@
+.nav-main__content {
+    max-width: 1128px;
+    /* margin: auto; */
+}
+
+.full-height {
+    height: 100%;
+}
+.display-flex {
+    display: flex;
+}
+.align-items-center {
+    align-items: center;
+}
+
+ .nav-search-bar {
+    flex: 1 1 auto;
+    position: relative;
+}
+
+.jobs-search-box {
+    display: flex;
+    width : 300px;
+}
+.jobs-map-box {
+    display: flex;
+    width : 300px;
+}
+
+.jobs-search-box__input input {
+    height: 34px;
+}
+
+.jobs-map-box__input input {
+    height: 34px;
+}
+.visually-hidden {
+    display: block;
+    border: 0;
+    clip: rect(0 0 0 0);
+    height: 1px;
+    margin: -1px;
+    overflow: hidden;
+    padding: 0;
+    position: absolute;
+    white-space: nowrap;
+    width: 1px;
+}
+
+.jobs-search-box .fa-search { 
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    color:  #283e4a
+  }
+
+.jobs-map-box .fa-map-marker-alt{ 
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    color:  #283e4a
+}
+
+.jobs-map-box input{
+    font-size: 0.9rem;
+    width: 100%;
+    border: none;
+    border-radius: 2px;
+    padding: 0 8px 0 40px;
+    line-height: 36px;
+    color: #283e4a;
+    background-color: #dee2e6;
+}
+
+.jobs-search-box input{
+    font-size: 0.9rem;
+    width: 100%;
+    border: none;
+    border-radius: 2px;
+    padding: 0 8px 0 40px;
+    line-height: 36px;
+    color: #283e4a;
+    background-color: #dee2e6;
+}
+.search-jobs{
+    background-color: #545b62;
+    color : white;
+    width : 100px;
+    border: none !important;
+    height: 34px;
+    font-weight: 600;
+}
+
+.nav-compact .nav-main {
+    display: flex;
+    align-items: center;
+}
+
+.nav-main {
+    align-items: flex-end;
+    flex-shrink: 0;
+    background: 0 0;
+    width: auto;
+    overflow: visible;
+    margin: 0 0 0 100px;
+    justify-content: flex-end;
+}
+
+.nav-main, .nav-side {
+    z-index: 100;
+    position: relative;
+}
+
+ul{
+    list-style-type:none;
+}
+
+li{
+    list-style-type:none;
+}
+
+.nav-main .nav-item {
+    min-width: auto;
+    margin-right: 20px;
+}

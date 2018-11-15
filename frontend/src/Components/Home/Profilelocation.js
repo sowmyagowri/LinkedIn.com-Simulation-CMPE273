@@ -12,20 +12,63 @@ class ProfileLocation extends Component{
     constructor(props){
         super(props);
         this.state = {
-                  
+            firstname : "",
+            lastname : "",
+            email : "",
+            password : "",
+            state : "",
+            zipcode : ""
         };
 
         //Bind the handlers to this class
-       
+        this.changeHandler = this.changeHandler.bind(this);
+        this.handleValidation = this.handleValidation.bind(this);
+        this.submitSignup = this.submitSignup.bind(this);
     }
 
     
     componentDidMount() {
         
     }
-    
+
+    componentWillMount() {
+        this.setState ({ 
+             firstname : this.props.location.state?this.props.location.state.firstname:"",
+             lastname : this.props.location.state?this.props.location.state.lastname:"",
+             email : this.props.location.state?this.props.location.state.email:"",
+             password: this.props.location.state?this.props.location.state.password:""
+         })
+    }
+
+    changeHandler = (e) => {
+    }
+
+    handleValidation() {
+        console.log("validation check")
+
+    }
+
+    submitSignup(event) {
+        //prevent page from refresh
+        event.preventDefault();
+        if (this.handleValidation()) {
+            const { firstname, lastname, email, password, state, zipcode} = this.state;
+            this.props.history.push({
+                pathname:"/profileedit/new",
+                state:{
+                    firstname : firstname,
+                    lastname : lastname,
+                    email : email,
+                    password : password,
+                    state : state,
+                    zipcode : zipcode
+                }
+            });
+        }
+    }
 
     render(){
+        const { state, zipcode} = {...this.state};
         return(
           <div className = "profilelocation-wrapper">
               <div className="navbar fixed-top">
@@ -37,7 +80,7 @@ class ProfileLocation extends Component{
                     <h3 className = "subtitle" style = {{fontSize : "1.4rem", fontWeight: "300"}}>Let's start your profile, connect to people you know, and engage with them on topics you care about.</h3>
                     <section className = "form-body">
                         <label htmlFor ="reg-location" className = "mb1 required">Country/Region</label>
-                        <select className = "form-control" style = {{width : "500px"}} id="reg-location" maxlength="100" type="text">
+                        <select className = "form-control" onChange = {this.changeHandler} name = "state" value={state.value} style = {{width : "500px"}} id="reg-location" maxlength="100" type="text">
                                      <option value="">United States</option>
                                     <option value="AL">Alabama</option>
                                     <option value="AK">Alaska</option>
@@ -93,7 +136,7 @@ class ProfileLocation extends Component{
                                 </select>			
 
                                 <label htmlFor ="reg-zipcode" className = "mb1 required">Postal Code</label>
-                                <input className = "form-control" id="reg-zipcode" pattern="[0-9]{5}" placeholder="Five digit zip code" type="text"/>
+                                <input className = "form-control" onChange = {this.changeHandler} name = "zipcode" value={zipcode.value} id="reg-zipcode" pattern="[0-9]{5}" placeholder="Five digit zip code" type="text"/>
 
                         <input id ="registration-submit" className = "registration submit-button" type = "submit" value = "Next"></input>
                     </section>

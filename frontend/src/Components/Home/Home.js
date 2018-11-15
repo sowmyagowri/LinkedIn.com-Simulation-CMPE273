@@ -4,7 +4,7 @@ import '../../home_wrapper.css';
 import { reduxForm } from "redux-form";
 import { withRouter } from 'react-router-dom';
 import { connect } from "react-redux";
-import {applicantsignup, applicantlogin} from '../../Actions';
+import {applicantsignup} from '../../Actions';
 import validator from 'validator';
 
 class Home extends Component{
@@ -121,42 +121,23 @@ class Home extends Component{
         return formIsValid;
    }
     
-   //submit Login handler to send a request to the node backend
    submitSignup(event) {
         //prevent page from refresh
         event.preventDefault();
-       // this.setState({ submitted: true });
-        const { firstname, lastname, email, password } = this.state;
         if (this.handleValidation()) {
-            const data = {
-                firstname : firstname,
-                lastname : lastname,
-                email : email,
-                password : password
-            }
-            this.props.applicantsignup(data).then(response => {
-                // if(response.payload.status === 200){
-                //     //store JWT Token to browser session storage 
-                //     //If you use localStorage instead of sessionStorage, then this will persist across tabs and new windows.
-                //     //sessionStorage = persisted only in current tab
-                //     sessionStorage.setItem('jwtToken', response.payload.data.token);
-                //     sessionStorage.setItem('cookie1', response.payload.data.cookie1);
-                //     sessionStorage.setItem('cookie2', response.payload.data.cookie2);
-                //     sessionStorage.setItem('cookie3', response.payload.data.cookie3);
-                //     sessionStorage.setItem('cookie4', response.payload.data.cookie4);
-                //     this.setState({
-                //         message: ""
-                //     });
-                // }
-            }).catch (error => {
-                // console.log("Error is", error);
-                // this.setState({
-                //     message: JSON.parse(error.response.request.response).responseMessage,
-                // });
-            })
-            console.log("Traveller Login Form submitted");
+            const { firstname, lastname, email, password } = this.state;
+            this.props.history.push({
+                pathname:"/profilelocation/new",
+                state:{
+                    firstname : firstname,
+                    lastname : lastname,
+                    email : email,
+                    password : password
+                }
+            });
         }
     }
+    
     componentDidMount() {
         
     }
@@ -170,7 +151,7 @@ class Home extends Component{
               <div className="navbar fixed-top navbar-dark bg-dark" style = {{height : "52px"}}>
                 <div className = "home_wrapper">
                 <h1><a className="navbar-brand" href="#"><img src = {"/linkedinfulllogo1.png"} alt = "LinkedIn"/></a></h1>
-                    <form className = "login-form" method = "POST">
+                    <form className = "login-form">
                         <label htmlFor = "login-email">Email</label>
                         <input type = "text" id = "login-email" placeholder ="Email" autoFocus = "autofocus"></input>
                         <label htmlFor = "login-password">Password</label>
@@ -215,13 +196,10 @@ class Home extends Component{
 }
 
   function mapStateToProps(state) {
-    return { 
-        applicantsignup: state.applicantsignup,
-        applicantlogin: state.applicantlogin
-    };
+    return { applicantsignup: state.applicantsignup };
   }
 
   export default withRouter(reduxForm({
     form: "Home_Page"
-  })(connect(mapStateToProps, { applicantsignup, applicantlogin })(Home)));
+  })(connect(mapStateToProps, { applicantsignup })(Home)));
   
