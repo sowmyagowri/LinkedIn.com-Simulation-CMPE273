@@ -7,6 +7,7 @@ var cookieParser = require('cookie-parser');
 let signupRecruiter = require('./routes/signupRecruiter');
 let signupApplicant = require('./routes/signupApplicant');
 let signinRecruiter = require('./routes/signinRecruiter');
+let signinApplicant = require('./routes/signinApplicant');
 let uploadCompanyLogo = require('./routes/uploadCompanyLogo');
 let postJob = require('./routes/postJob');
 let getJobsByRecruiter = require('./routes/getJobsByRecruiter');

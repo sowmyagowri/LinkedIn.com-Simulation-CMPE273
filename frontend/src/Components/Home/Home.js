@@ -4,7 +4,7 @@ import '../../home_wrapper.css';
 import { reduxForm } from "redux-form";
 import { withRouter } from 'react-router-dom';
 import { connect } from "react-redux";
-import {applicantsignup} from '../../Actions';
+import {applicantsignup, applicantlogin} from '../../Actions';
 import validator from 'validator';
 
 class Home extends Component{
@@ -215,10 +215,13 @@ class Home extends Component{
 }
 
   function mapStateToProps(state) {
-    return { applicantsignup: state.applicantsignup };
+    return { 
+        applicantsignup: state.applicantsignup,
+        applicantlogin: state.applicantlogin
+    };
   }
 
   export default withRouter(reduxForm({
     form: "Home_Page"
-  })(connect(mapStateToProps, { applicantsignup })(Home)));
+  })(connect(mapStateToProps, { applicantsignup, applicantlogin })(Home)));
   
