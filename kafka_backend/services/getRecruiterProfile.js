@@ -5,7 +5,7 @@ async function handle_request(msg, callback) {
     console.log("Inside kafka get Recruiter profile backend");
     console.log("In handle request:" + JSON.stringify(msg));
 
-    let id = parseInt(msg.recruiter_id);
+    let id = parseInt(msg.recruiterID);
     let resp = {};
     try {
         let profile = await db.selectQuery('SELECT first_name, last_name, address, city, state, zipcode, company, phone_number, email FROM recruiter_profile WHERE id = ?',[ id ]);

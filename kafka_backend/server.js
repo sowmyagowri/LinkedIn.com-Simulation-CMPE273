@@ -6,16 +6,18 @@ var signupRecruiterService = require('./services/signupRecruiter');
 var signupApplicantService = require('./services/signupApplicant');
 var postJobService = require('./services/postJob');
 var signinRecruiterService = require('./services/signinRecruiter');
-var getJobsByRecruiter = require('./services/getJobsByRecruiter');
-var postRecruiterProfile = require('./services/postRecruiterProfile');
-var getRecruiterProfile = require('./services/getRecruiterProfile');
+var getJobsByRecruiterService = require('./services/getJobsByRecruiter');
+var postRecruiterProfileService = require('./services/postRecruiterProfile');
+var getRecruiterProfileService = require('./services/getRecruiterProfile');
+var editJobService =  require('./services/editJob');
+var updateJobViewsService = require('./services/updateJobViews')
 
 //import kafka topics
 const {
     SIGNUP_RECRUITER_REQUEST_TOPIC, SIGNUP_APPLICANT_REQUEST_TOPIC, POST_JOB_REQUEST, 
     SIGNIN_RECRUITER_REQUEST_TOPIC,
     GET_JOBS_BY_RECRUITER_REQUEST, POST_RECRUITER_PROFILE_REQUEST,
-    GET_RECRUITER_PROFILE_REQUEST
+    GET_RECRUITER_PROFILE_REQUEST, EDIT_JOB_REQUEST, UPDATE_JOB_VIEWS_REQUEST
 } = require('./kafka/topics');
 
 function handleTopicRequest(topic_name, fname) {
@@ -56,6 +58,8 @@ handleTopicRequest(SIGNUP_RECRUITER_REQUEST_TOPIC, signupRecruiterService);
 handleTopicRequest(SIGNUP_APPLICANT_REQUEST_TOPIC, signupApplicantService);
 handleTopicRequest(POST_JOB_REQUEST, postJobService);
 handleTopicRequest(SIGNIN_RECRUITER_REQUEST_TOPIC, signinRecruiterService);
-handleTopicRequest(GET_JOBS_BY_RECRUITER_REQUEST, getJobsByRecruiter);
-handleTopicRequest(POST_RECRUITER_PROFILE_REQUEST, postRecruiterProfile);
-handleTopicRequest(GET_RECRUITER_PROFILE_REQUEST, getRecruiterProfile);
+handleTopicRequest(GET_JOBS_BY_RECRUITER_REQUEST, getJobsByRecruiterService);
+handleTopicRequest(POST_RECRUITER_PROFILE_REQUEST, postRecruiterProfileService);
+handleTopicRequest(GET_RECRUITER_PROFILE_REQUEST, getRecruiterProfileService);
+handleTopicRequest(EDIT_JOB_REQUEST, editJobService);
+handleTopicRequest(UPDATE_JOB_VIEWS_REQUEST, updateJobViewsService);

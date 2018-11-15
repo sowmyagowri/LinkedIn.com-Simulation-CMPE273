@@ -8,11 +8,12 @@ let signupRecruiter = require('./routes/signupRecruiter');
 let signupApplicant = require('./routes/signupApplicant');
 let signinRecruiter = require('./routes/signinRecruiter');
 let signinApplicant = require('./routes/signinApplicant');
-let uploadCompanyLogo = require('./routes/uploadCompanyLogo');
 let postJob = require('./routes/postJob');
 let getJobsByRecruiter = require('./routes/getJobsByRecruiter');
 let postRecruiterProfile = require('./routes/postRecruiterProfile');
 let getRecruiterProfile = require('./routes/getRecruiterProfile');
+let editJob = require('./routes/editJob');
+let updateJobViews = require('./routes/updateJobViews');
 let expressValidator = require("express-validator");
 var morgan = require('morgan');
 let cors = require('cors');
@@ -51,6 +52,8 @@ app.use("/post_job/", postJob);
 app.use("/get_jobs_by_recruiter/", getJobsByRecruiter);
 app.use("/post_recruiter_profile", postRecruiterProfile);
 app.use("/get_recruiter_profile", getRecruiterProfile);
+app.use("/edit_job", editJob);
+app.use("/update_job_views", updateJobViews);
 
 /** start server */
 app.listen(port, () => {
