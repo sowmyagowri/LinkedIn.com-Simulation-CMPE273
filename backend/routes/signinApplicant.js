@@ -1,18 +1,20 @@
 const express = require("express");
-const kafka = require('./../kafka/client');
-const { POST_RECRUITER_PROFILE_REQUEST, POST_RECRUITER_PROFILE_RESPONSE } = require('./../kafka/topics');
+const kafka = require('../kafka/client');
+const { SIGNIN_APPLICANT_REQUEST_TOPIC, SIGNIN_APPLICANT_RESPONSE_TOPIC } = require('../kafka/topics');
 const { responseHandler, sendInternalServerError, sendBadRequest } = require('./response');
+const jwt = require('jsonwebtoken');
 const router = express.Router();
+const config = require('../config');
 
 /**
- *  this script will be called for routes begin with /post_job
+ *  this script will be called for routes begin with /signin_applicant 
  *  
- *  below "/" is relative resource path, the actual resource path is /post_job/
+ *  below "/" is relative resource path, the actual resource path is /signin_applicant/
  * 
  */
-router.put("/", (req, res) => {
-    console.log("Inside post Recruiter Profile controller");
-    console.log("POSTRECRUITERPROFILE: ", req.body);
+router.post("/", (req, res) => {
+    console.log("Inside sign in applicant controller");
+    console.log("SIGNIN: ", req.body);
     let errors = validateInput(req);
     if (errors) {
         let msg = errors.map(error => error.msg).reduce((accumulator, currentVal) => accumulator + "\n" + currentVal);
@@ -21,17 +23,22 @@ router.put("/", (req, res) => {
         });
     }
     else {
-        kafka.make_request(POST_RECRUITER_PROFILE_REQUEST, POST_RECRUITER_PROFILE_RESPONSE, req.body, function (err, result) {
+        kafka.make_request(SIGNIN_APPLICANT_REQUEST_TOPIC, SIGNIN_APPLICANT_RESPONSE_TOPIC, req.body, function (err, result) {
             if (err) {
                 // called in case of time out error, or if we failed to send data over kafka
                 sendInternalServerError(res);
             } else {
+                if(result.code === 200){
+                    var token = jwt.sign(result.data, config.secret, {
+                        expiresIn: 10080 // in seconds
+                    });
+                    result.data.token = 'JWT ' + token;
+                }
                 responseHandler(res, result);
             }
         });
     }
 });
-
 
 /**
  * 
@@ -42,10 +49,8 @@ router.put("/", (req, res) => {
  */
 
 function validateInput(req) {
-    req.checkBody("company", "A Company name is required.").notEmpty();
-    req.checkBody("phoneNumber", "A Phone Number is required.").notEmpty();
-    // req.checkBody("password", "Your Password must contain at least 1 number and 1 letter. \n Your Password must be between 7 and 32 characters.").matches(/^(?=.*\d)(?=.*[a-zA-Z]).{7,32}$/);
-
+    req.checkBody("email", "An Email address is required.").notEmpty();
+    req.checkBody("password", "A Password is required.").notEmpty();
     //add more validation if needed.
     return req.validationErrors();
 }

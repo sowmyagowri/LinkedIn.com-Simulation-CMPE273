@@ -11,18 +11,64 @@ class ProfileEdit extends Component{
     constructor(props){
         super(props);
         this.state = {
-                  
+            firstname : "",
+            lastname : "",
+            email : "",
+            password : "",
+            state : "",
+            zipcode : "",
+
         };
 
         //Bind the handlers to this class
-       
+        this.submitSignup = this.submitSignup.bind(this);
     }
 
     
     componentDidMount() {
         
     }
+
+    componentWillMount() {
+        this.setState ({ 
+             firstname : this.props.location.state?this.props.location.state.firstname:"",
+             lastname : this.props.location.state?this.props.location.state.lastname:"",
+             email : this.props.location.state?this.props.location.state.email:"",
+             password: this.props.location.state?this.props.location.state.password:"",
+             state : this.props.location.state?this.props.location.state.state:"",
+             zipcode: this.props.location.state?this.props.location.state.zipcode:""
+         })
+    }
     
+    submitSignup(event) {
+        // this.setState({ submitted: true });
+       if (this.handleValidation()) {
+             const data = {
+                
+             }
+             this.props.applicantsignup(data).then(response => {
+                 // if(response.payload.status === 200){
+                 //     //store JWT Token to browser session storage 
+                 //     //If you use localStorage instead of sessionStorage, then this will persist across tabs and new windows.
+                 //     //sessionStorage = persisted only in current tab
+                 //     sessionStorage.setItem('jwtToken', response.payload.data.token);
+                 //     sessionStorage.setItem('cookie1', response.payload.data.cookie1);
+                 //     sessionStorage.setItem('cookie2', response.payload.data.cookie2);
+                 //     sessionStorage.setItem('cookie3', response.payload.data.cookie3);
+                 //     sessionStorage.setItem('cookie4', response.payload.data.cookie4);
+                 //     this.setState({
+                 //         message: ""
+                 //     });
+                 // }
+             }).catch (error => {
+                 // console.log("Error is", error);
+                 // this.setState({
+                 //     message: JSON.parse(error.response.request.response).responseMessage,
+                 // });
+             })
+             console.log("Traveller Login Form submitted");
+         } 
+    }
 
     render(){
         return(

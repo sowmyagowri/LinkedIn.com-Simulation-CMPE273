@@ -4,6 +4,7 @@ import Home from './Home/Home';
 import ProfileLocation from './Home/Profilelocation';
 import ProfileEdit from './Home/Profileedit';
 import Profile from './Profile/Profile';
+import SearchJobs from './SearchJobs/Searchjobs';
 
 class Main extends Component {
     render(){
@@ -15,6 +16,7 @@ class Main extends Component {
                 <Route path="/profile" component={Profile}/>
                 <Route path="/profilelocation/new" component={ProfileLocation}/>
                 <Route path="/profileedit/new" component={ProfileEdit}/>
+                <Route path="/searchjobs" component={SearchJobs}/>
                 </Switch>
             </div>
         )

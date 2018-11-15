@@ -4,30 +4,25 @@ const saltRounds = 10;
 const { prepareInternalServerError, prepareSuccess, prepareResourceConflictFailure } = require('./responses')
 
 async function handle_request(msg, callback) {
-    console.log("Inside kafka sign up Recruiter backend");
+    console.log("Inside kafka sign up applicant backend");
     console.log("In handle request:" + JSON.stringify(msg));
 
-    let email = msg.email;
-    let password = msg.password;
-    let first_name = msg.first_name;
-    let last_name = msg.last_name;
     let resp = {};
     try {
-        let hash = await bcrypt.hash(password, saltRounds);
+        let hash = await bcrypt.hash(msg.password, saltRounds);
         let post = {
             email: msg.email,
             password: hash,
-            first_name: first_name,
-            last_name: last_name
+            first_name: msg.first_name,
+            last_name: msg.last_name
         }
-        let result = await db.insertQuery('INSERT INTO recruiter_profile SET ?', post);
+        let result = await db.insertQuery('INSERT INTO applicant_profile SET ?', post);
         let _id = result.insertId;
         resp = prepareSuccess({             
             email: post.email,
-            // id: result.id,
             first_name: post.first_name,
             last_name: post.last_name
-        });
+        }); 
     }
     catch (error) {
         if (error.errno === 1062) { //1062 is for primary key violation 

@@ -5,12 +5,12 @@ async function handle_request(msg, callback) {
     console.log("Inside kafka post Recruiter profile backend");
     console.log("In handle request:" + JSON.stringify(msg));
 
-    let id = parseInt(msg.recruiter_id);
+    let id = parseInt(msg.recruiterID);
     let address = msg.address;
     let city = msg.city;
     let state = msg.state;
     let zipcode = msg.zipcode;
-    let phone_number = msg.phone_number;
+    let phone_number = msg.phoneNumber;
     let company = msg.company;
     let resp = {};
     try {
