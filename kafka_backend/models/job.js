@@ -34,6 +34,9 @@ var Jobs = mongoose.model('Jobs',{
    no_of_views : {
        type : Number
    },
+   no_of_clicks : {
+       type : Number
+   },
    applications : [{
        applicant_id : {
            type : String
