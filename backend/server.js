@@ -14,6 +14,12 @@ let postRecruiterProfile = require('./routes/postRecruiterProfile');
 let getRecruiterProfile = require('./routes/getRecruiterProfile');
 let editJob = require('./routes/editJob');
 let updateJobViews = require('./routes/updateJobViews');
+let graphClicksPerJob = require('./routes/graphClicksPerJob');
+let graphTopJobPostings = require('./routes/graphTopJobPostings');
+let updateJobClicks = require('./routes/updateJobClicks');
+let graphUnpopularJobPostings = require('./routes/graphUnpopularJobPostings');
+let graphCitywiseApplication = require('./routes/graphCitywiseApplication');
+
 let expressValidator = require("express-validator");
 var morgan = require('morgan');
 let cors = require('cors');
@@ -50,10 +56,15 @@ app.use("/signup_applicant/", signupApplicant);
 app.use("/signin_recruiter/", signinRecruiter);
 app.use("/post_job/", postJob);
 app.use("/get_jobs_by_recruiter/", getJobsByRecruiter);
-app.use("/post_recruiter_profile", postRecruiterProfile);
-app.use("/get_recruiter_profile", getRecruiterProfile);
-app.use("/edit_job", editJob);
-app.use("/update_job_views", updateJobViews);
+app.use("/post_recruiter_profile/", postRecruiterProfile);
+app.use("/get_recruiter_profile/", getRecruiterProfile);
+app.use("/edit_job/", editJob);
+app.use("/update_job_views/", updateJobViews);
+app.use("/graph_clicks_per_job/", graphClicksPerJob);
+app.use("/graph_top_job_postings/", graphTopJobPostings);
+app.use("/update_job_clicks/", updateJobClicks);
+app.use("/graph_unpopular_job_postings/", graphUnpopularJobPostings);
+app.use("/graph_citywise_applications/", graphCitywiseApplication);
 
 /** start server */
 app.listen(port, () => {

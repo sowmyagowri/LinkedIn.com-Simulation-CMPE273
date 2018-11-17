@@ -10,14 +10,21 @@ var getJobsByRecruiterService = require('./services/getJobsByRecruiter');
 var postRecruiterProfileService = require('./services/postRecruiterProfile');
 var getRecruiterProfileService = require('./services/getRecruiterProfile');
 var editJobService =  require('./services/editJob');
-var updateJobViewsService = require('./services/updateJobViews')
+var updateJobViewsService = require('./services/updateJobViews');
+var graphClicksPerJobServce = require('./services/graphClicksPerJob');
+var garphTopJobPostings = require('./services/graphTopJobPostings');
+let updateJobClicksServices = require('./services/updateJobClicks'); 
+let graphUnpopularJobPostings = require('./services/graphUnpopularJobPostings');
+let graphCitywiseApplications = require('./services/graphCitywiseApplication');
 
 //import kafka topics
 const {
     SIGNUP_RECRUITER_REQUEST_TOPIC, SIGNUP_APPLICANT_REQUEST_TOPIC, POST_JOB_REQUEST, 
     SIGNIN_RECRUITER_REQUEST_TOPIC,
     GET_JOBS_BY_RECRUITER_REQUEST, POST_RECRUITER_PROFILE_REQUEST,
-    GET_RECRUITER_PROFILE_REQUEST, EDIT_JOB_REQUEST, UPDATE_JOB_VIEWS_REQUEST
+    GET_RECRUITER_PROFILE_REQUEST, EDIT_JOB_REQUEST, UPDATE_JOB_VIEWS_REQUEST,
+    GRAPHS_CLICK_PER_JOB_REQUEST, GRAPHS_TOP_JOB_POSTINGS_REQUEST, UPDATE_JOB_CLICKS_REQUEST,
+    GRAPHS_UNPOPULAR_JOB_POSTINGS_REQUEST, GRAPHS_CITYWISE_APPLICATION_REQUEST
 } = require('./kafka/topics');
 
 function handleTopicRequest(topic_name, fname) {
@@ -63,3 +70,8 @@ handleTopicRequest(POST_RECRUITER_PROFILE_REQUEST, postRecruiterProfileService);
 handleTopicRequest(GET_RECRUITER_PROFILE_REQUEST, getRecruiterProfileService);
 handleTopicRequest(EDIT_JOB_REQUEST, editJobService);
 handleTopicRequest(UPDATE_JOB_VIEWS_REQUEST, updateJobViewsService);
+handleTopicRequest(GRAPHS_CLICK_PER_JOB_REQUEST, graphClicksPerJobServce);
+handleTopicRequest(GRAPHS_TOP_JOB_POSTINGS_REQUEST, garphTopJobPostings);
+handleTopicRequest(UPDATE_JOB_CLICKS_REQUEST, updateJobClicksServices);
+handleTopicRequest(GRAPHS_UNPOPULAR_JOB_POSTINGS_REQUEST, graphUnpopularJobPostings);
+handleTopicRequest(GRAPHS_CITYWISE_APPLICATION_REQUEST, graphCitywiseApplications);
