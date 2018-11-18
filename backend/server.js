@@ -19,6 +19,8 @@ let graphTopJobPostings = require('./routes/graphTopJobPostings');
 let updateJobClicks = require('./routes/updateJobClicks');
 let graphUnpopularJobPostings = require('./routes/graphUnpopularJobPostings');
 let graphCitywiseApplication = require('./routes/graphCitywiseApplication');
+let logEvent = require('./routes/logEvent');
+let graphLogEvent = require('./routes/graphLogEvent');
 
 let expressValidator = require("express-validator");
 var morgan = require('morgan');
@@ -65,6 +67,8 @@ app.use("/graph_top_job_postings/", graphTopJobPostings);
 app.use("/update_job_clicks/", updateJobClicks);
 app.use("/graph_unpopular_job_postings/", graphUnpopularJobPostings);
 app.use("/graph_citywise_applications/", graphCitywiseApplication);
+app.use("/log_event/", logEvent);
+app.use("/graph_log_event/", graphLogEvent);
 
 /** start server */
 app.listen(port, () => {
