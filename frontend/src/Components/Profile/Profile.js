@@ -27,7 +27,7 @@ class Profile extends Component{
             <div className="navbar fixed-top navbar-dark bg-dark" style = {{height : "52px"}}>
             <div className = "home_wrapper">
             <div className = "nav-main__content full-height display-flex align-items-center" role = "navigation">
-            <h1><a className="navbar-brand" href="#" style = {{marginTop : "10px"}}><img src = {"/linkedin-logo1.jpg"} alt = ""/></a></h1>
+            <h1><a className="navbar-brand" href="#" style = {{marginTop : "10px"}}><img src = {"/images/linkedin-logo1.jpg"} alt = ""/></a></h1>
                 <div className = "nav-search-bar">
                     <div className ="nav-typeahead-wormhole">
                     <div className ="jobs-search-box">
@@ -60,7 +60,7 @@ class Profile extends Component{
             </div>
             </div>
             </div>
-            <div className="pv-content profile-view-grid neptune-grid two-column">
+            <div className="pv-content profile-view-grid neptune-grid2 two-column">
             <div className ="core-rail">
                 <div className = "Elevation-2dp profile-background-image profile-background-image--loading ember-view">
                 </div>
@@ -182,7 +182,7 @@ class Profile extends Component{
                     <div className="row">
                       <div className="col-md-12">
                         <div className="row">
-                        <div className="col-xs-12 col-sm-4 text-center"> <img src="/avatar.png" alt="" className="center-block img-circle rounded-circle img-thumbnail img-responsive"/> 
+                        <div className="col-xs-12 col-sm-4 text-center"> <img src="/images/avatar.png" alt="" className="center-block img-circle rounded-circle img-thumbnail img-responsive"/> 
                         </div>
                           <div className="col-xs-12 col-sm-8">
                             <h3>Vince Nardone</h3>

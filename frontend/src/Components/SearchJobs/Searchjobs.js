@@ -22,7 +22,7 @@ class SearchJobs extends Component{
                employment_type : "fulltime",
                location : "Sanjose",
                job_function : "adadawdfw",
-               company_logo : "/cisco.png",
+               company_logo : "/images/cisco.png",
                posted_date : "ssdsd",
                expiry_date : "sdfcsdf" }, {
                 id : 2,
@@ -33,7 +33,7 @@ class SearchJobs extends Component{
                 employment_type : "fulltime",
                location : "Sanjose",
                job_function : "adadawdfw",
-               company_logo : "/linkedin-logo1.jpg",
+               company_logo : "/images/linkedin-logo1.jpg",
                posted_date : "ssdsd",
                expiry_date : "sdfcsdf"
                },
@@ -46,7 +46,7 @@ class SearchJobs extends Component{
                 employment_type : "fulltime",
                location : "San Francisco",
                job_function : "adadawdfw sdfsfdsfdsg dgsgdsgsg\n sdgsdgsdgsg dgsdgdsgsgsdgsgsdgs",
-               company_logo : "/cisco.png",
+               company_logo : "/images/cisco.png",
                posted_date : "ssdsd",
                expiry_date : "sdfcsdf" }, {
                 id : 4,
@@ -57,7 +57,7 @@ class SearchJobs extends Component{
                 employment_type : "fulltime",
                location : "sanjose",
                job_function : "adadawdfw",
-               company_logo : "/linkedin-logo1.jpg",
+               company_logo : "/images/linkedin-logo1.jpg",
                posted_date : "ssdsd",
                expiry_date : "sdfcsdf"
                },
@@ -70,7 +70,7 @@ class SearchJobs extends Component{
                 employment_type : "fulltime",
                location : "Santa Clara",
                job_function : "adadawdfw",
-               company_logo : "/cisco.png",
+               company_logo : "/images/cisco.png",
                posted_date : "ssdsd",
                expiry_date : "sdfcsdf" }, {
                 id : 6,
@@ -81,7 +81,7 @@ class SearchJobs extends Component{
                 employment_type : "fulltime",
                location : "Los Angeles",
                job_function : "adadawdfw",
-               company_logo : "/linkedin-logo1.jpg",
+               company_logo : "/images/linkedin-logo1.jpg",
                posted_date : "ssdsd",
                expiry_date : "sdfcsdf"
                }
@@ -109,7 +109,7 @@ class SearchJobs extends Component{
             <div className="navbar fixed-top navbar-dark bg-dark" style = {{height : "52px"}}>
             <div className = "home_wrapper">
             <div className = "nav-main__content full-height display-flex align-items-center" role = "navigation">
-            <h1><a className="navbar-brand" href="#" style = {{marginTop : "10px"}}><img src = {"/linkedin-logo1.jpg"} alt = ""/></a></h1>
+            <h1><a className="navbar-brand" href="#" style = {{marginTop : "10px"}}><img src = {"/images/linkedin-logo1.jpg"} alt = ""/></a></h1>
                 <div className = "nav-search-bar">
                     <div className ="nav-typeahead-wormhole">
                     <div className ="jobs-search-box">
@@ -325,9 +325,9 @@ const JobListItem = ({ job, openJob, selectedJob}) => {
             <div className = "media">
             <a className = "pull-left"><img src = {job.company_logo} style = {{height : "56px", width : "56px"}}></img></a>
             <div className = "artdeco-entity-lockup--size-4 gap1">
-            <div className="job-item__subject" >
+            <a href = {`/jobs/view/${job.id}`}><div className="job-item__subject" >
             {job.title}
-            </div>
+            </div></a>
             <div className="job-item__name">{job.posted_by}</div>
             <div className="job-item__location"><FontAwesomeIcon className = "fa-map-marker-alt" icon="map-marker-alt"></FontAwesomeIcon>&nbsp;&nbsp;{job.location}</div>
             <div className="job-item__message" style = {{textOverflow: "ellipsis", whiteSpace: "pre-wrap", overflow: "hidden"}}>{job.job_description}</div>
@@ -355,9 +355,9 @@ const JobDetails = ({jobs}) =>{
                 <div className = "media">
                     <a className = "pull-left"><img src = {jobs.company_logo} style = {{height : "150px", width : "150px"}}></img></a>
                     <div className = "artdeco-entity-lockup--size-4 gap1">
-                    <div className="job-details__subject" >
+                    <a href = {`/jobs/view/${jobs.id}`}><div className="job-details__subject" >
                     {jobs.title}
-                    </div>
+                    </div></a>
                     <div className="job-details__name">{jobs.posted_by}</div>
                     <div className="job-details__location"><FontAwesomeIcon className = "fa-map-marker-alt" icon="map-marker-alt"></FontAwesomeIcon>&nbsp;&nbsp;{jobs.location}</div>
                     <div className="job-details__posted">Posted on {jobs.posted_date}</div>

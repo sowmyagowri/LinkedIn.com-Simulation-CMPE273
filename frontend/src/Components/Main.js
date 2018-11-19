@@ -5,6 +5,8 @@ import ProfileLocation from './Home/Profilelocation';
 import ProfileEdit from './Home/Profileedit';
 import Profile from './Profile/Profile';
 import SearchJobs from './SearchJobs/Searchjobs';
+import ViewJob from './SearchJobs/Viewjob';
+
 
 class Main extends Component {
     render(){
@@ -17,6 +19,7 @@ class Main extends Component {
                 <Route path="/profilelocation/new" component={ProfileLocation}/>
                 <Route path="/profileedit/new" component={ProfileEdit}/>
                 <Route path="/searchjobs" component={SearchJobs}/>
+                <Route path="/jobs/view/:jobid" component={ViewJob}/>
                 </Switch>
             </div>
         )

@@ -150,7 +150,7 @@ class Home extends Component{
           <div className = "global-wrapper">
               <div className="navbar fixed-top navbar-dark bg-dark" style = {{height : "52px"}}>
                 <div className = "home_wrapper">
-                <h1><a className="navbar-brand" href="#"><img src = {"/linkedinfulllogo1.png"} alt = "LinkedIn"/></a></h1>
+                <h1><a className="navbar-brand" href="#"><img src = {"/images/linkedinfulllogo1.png"} alt = "LinkedIn"/></a></h1>
                     <form className = "login-form">
                         <label htmlFor = "login-email">Email</label>
                         <input type = "text" id = "login-email" placeholder ="Email" autoFocus = "autofocus"></input>
