@@ -15,6 +15,8 @@ class Home extends Component{
             lastname: { value: '', isValid: true },
             email: { value: '', isValid: true },
             password: { value: '', isValid: true },
+            loginemail: { value: '', isValid: true },
+            loginpassword: { value: '', isValid: true },
             message: "",          
         };
 
@@ -22,6 +24,7 @@ class Home extends Component{
         this.changeHandler = this.changeHandler.bind(this);
         this.handleValidation = this.handleValidation.bind(this);
         this.submitSignup = this.submitSignup.bind(this);
+        this.submitLogin = this.submitLogin.bind(this);
     }
 
     //firstname ,lastname, email and password change handler to update state variable with the text entered by the applicant
@@ -137,6 +140,21 @@ class Home extends Component{
             });
         }
     }
+
+    submitLogin(event) {
+        //prevent page from refresh
+        event.preventDefault();
+        const { email, password } = this.state;
+        if ( email && password) {
+            const data = {
+                email:  email,
+                password: password
+            }
+            this.props.applicantlogin(data).then(response => {
+
+            })
+        }
+    }
     
     componentDidMount() {
         
@@ -144,18 +162,18 @@ class Home extends Component{
     
 
     render(){
-        const { firstname, lastname, email, password, message } = {...this.state};
+        const { firstname, lastname, email, password, message, loginemail, loginpassword } = {...this.state};
         console.log(message)
         return(
           <div className = "global-wrapper">
               <div className="navbar fixed-top navbar-dark bg-dark" style = {{height : "52px"}}>
                 <div className = "home_wrapper">
                 <h1><a className="navbar-brand" href="#"><img src = {"/linkedinfulllogo1.png"} alt = "LinkedIn"/></a></h1>
-                    <form className = "login-form">
+                    <form className = "login-form" onSubmit = {this.submitLogin}>
                         <label htmlFor = "login-email">Email</label>
-                        <input type = "text" id = "login-email" placeholder ="Email" autoFocus = "autofocus"></input>
+                        <input onChange = {this.changeHandler} type = "text" id = "login-email" name = "loginemail" value={loginemail.value} placeholder ="Email" autoFocus = "autofocus"></input>
                         <label htmlFor = "login-password">Password</label>
-                        <input type = "password" id = "login-password" placeholder ="Password" autoFocus = "autofocus"></input>
+                        <input onChange = {this.changeHandler} type = "password" id = "login-password" name = "loginpassword" value={loginpassword.value} placeholder ="Password" autoFocus = "autofocus"></input>
                         <input className = "login-submit" type ="submit" value = "Sign In"></input>
                         <a className = "link-forgot-password" tabIndex = "1">Forgot Password?</a>
                     </form>
