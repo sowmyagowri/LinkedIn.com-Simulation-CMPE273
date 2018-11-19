@@ -56,6 +56,7 @@ app.use(morgan('dev'));
 app.use("/signup_recruiter/", signupRecruiter);
 app.use("/signup_applicant/", signupApplicant);
 app.use("/signin_recruiter/", signinRecruiter);
+app.use("/signin_applicant/", signinApplicant);
 app.use("/post_job/", postJob);
 app.use("/get_jobs_by_recruiter/", getJobsByRecruiter);
 app.use("/post_recruiter_profile/", postRecruiterProfile);
