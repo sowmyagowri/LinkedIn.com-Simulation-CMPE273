@@ -40,7 +40,17 @@ class ProfileLocation extends Component{
          })
     }
 
+    //firstname ,lastname, email and password change handler to update state variable with the text entered by the applicant
     changeHandler = (e) => {
+        const state = {
+          ...this.state,
+          [e.target.name]: {
+            ...this.state[e.target.name],
+            value: e.target.value,
+            isValid: true,
+          }
+        };
+        this.setState(state);
     }
 
     handleValidation() {

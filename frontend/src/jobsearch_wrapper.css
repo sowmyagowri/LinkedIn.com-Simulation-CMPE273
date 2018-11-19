@@ -148,7 +148,7 @@
     border-radius: 2px;
     box-shadow: 0 0 0 1px rgba(0,0,0,.15), 0 2px 3px rgba(0,0,0,.2);
 }
-.container, .container-with-shadow {
+.container-with-shadow {
     padding-top: 70px;
     padding-bottom: 5px;
     padding-left: 0px;
@@ -254,8 +254,15 @@
     line-height: 1.75;
 }
 
-.job-details__location, .job-details__posted{
-    font-size: 1rem;
+.job-details__location{
+    font-size: 1.1rem;
+    line-height: 1.75;
+    font-weight: 400;
+    color: rgba(0,0,0,.6);
+}
+
+.job-details__posted{
+    font-size: 0.9rem;
     line-height: 1.75;
     font-weight: 400;
     color: rgba(0,0,0,.6);
@@ -281,6 +288,23 @@
     border : none;
     margin-top: 10px;
     margin-bottom: 10px;
+    height: 40px;
+    width: 85px;
+}
+
+.arteco-btn-save {
+    background-color: #fff;
+    color: #0073b1;
+    border-color :#0073b1 !important;
+    font-size: 1rem;
+    min-height: 32px;
+    font-weight: 600;
+    line-height: 25px;
+    padding: 6px 12px;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    height: 40px;
+    width: 85px;
 }
 
 .job-item__message {
