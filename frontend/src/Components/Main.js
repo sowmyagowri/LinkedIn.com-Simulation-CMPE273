@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {Route, Redirect, Switch} from 'react-router-dom';
+import {Route, Switch} from 'react-router-dom';
 import Home from './Home/Home';
 import ProfileLocation from './Home/Profilelocation';
 import ProfileEdit from './Home/Profileedit';

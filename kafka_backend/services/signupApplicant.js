@@ -1,4 +1,5 @@
 const db = require('./../config/mysql');
+var { Applicants } = require('../models/applicant');
 const bcrypt = require('bcrypt');
 const saltRounds = 10;
 const { prepareInternalServerError, prepareSuccess, prepareResourceConflictFailure } = require('./responses')
@@ -16,13 +17,12 @@ async function handle_request(msg, callback) {
             first_name: msg.first_name,
             last_name: msg.last_name
         }
-        let result = await db.insertQuery('INSERT INTO applicant_profile SET ?', post);
-        let _id = result.insertId;
-        resp = prepareSuccess({             
-            email: post.email,
-            first_name: post.first_name,
-            last_name: post.last_name
-        }); 
+        await db.insertQuery('INSERT INTO applicant_profile SET ?', post);
+        var applicant = new Applicants({
+            
+        });
+        await applicant.save();
+        resp = prepareSuccess({ "result": "Applicant Profile created Sucessfully" });
     }
     catch (error) {
         if (error.errno === 1062) { //1062 is for primary key violation 
@@ -31,7 +31,7 @@ async function handle_request(msg, callback) {
                 message: "Email address is already in use."
             });
         } else {
-            console.log("Something went wrong during Recruiter signup! : ", error);
+            console.log("Something went wrong during Applicant signup! : ", error);
             //don't let time out occur, send internal server error
             resp = prepareInternalServerError();
         }
