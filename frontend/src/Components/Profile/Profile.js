@@ -80,12 +80,12 @@ class Profile extends Component{
                             <div className="row form-group">
                                 <div className = "col-xs-6 col-md-6">
                                 <label htmlFor="position-firstname-typeahead" class="mb1 required">First Name</label>
-                                <input className = "form-control" id="position-firstname-typeahead" maxlength="100" type="text"/>
+                                <input className = "form-control" id="position-firstname-typeahead" maxLength="100" type="text"/>
                                 </div>
 
                                 <div className = "col-xs-6 col-md-6">
                                 <label htmlFor="position-lastname-typeahead" class="mb1 required">Last Name</label>
-                                <input className = "form-control" id="position-lastname-typeahead" maxlength="100" type="text"/>
+                                <input className = "form-control" id="position-lastname-typeahead" maxLength="100" type="text"/>
                                 </div>
                             </div>
 
@@ -95,7 +95,7 @@ class Profile extends Component{
                             <div className="row form-group">
                                 <div className = "col-xs-6 col-md-6">
                                 <label htmlFor="position-state-typeahead" class="mb1 required">State</label>
-                                <select className = "form-control" id="position-state-typeahead" maxlength="100" type="text">
+                                <select className = "form-control" id="position-state-typeahead" maxLength="100" type="text">
                                      <option value="">United States</option>
                                     <option value="AL">Alabama</option>
                                     <option value="AK">Alaska</option>
@@ -213,13 +213,13 @@ class Profile extends Component{
                             </div>
                             <div className="modal-body">
                             <label htmlFor="position-title-typeahead" class="mb1 required">Title</label>
-                            <input className = "form-control" id="position-title-typeahead" placeholder="Ex: Manager" maxlength="100" type="text"/>
+                            <input className = "form-control" id="position-title-typeahead" placeholder="Ex: Manager" maxLength="100" type="text"/>
 
                             <label htmlFor="position-company-typeahead" class="mb1 required">Company</label>
-                            <input className = "form-control" id="position-company-typeahead" placeholder="Ex: Microsoft" maxlength="100" type="text"/>
+                            <input className = "form-control" id="position-company-typeahead" placeholder="Ex: Microsoft" maxLength="100" type="text"/>
 
                             <label htmlFor="position-location-typeahead" class="mb1 required">Location</label>
-                            <input className = "form-control" id="position-location-typeahead" placeholder="Ex: London, United Kingdom" maxlength="100" type="text"/>
+                            <input className = "form-control" id="position-location-typeahead" placeholder="Ex: London, United Kingdom" maxLength="100" type="text"/>
 
                             <label htmlFor="position-date-typeahead" class="mb1 required">From</label>
                             <select className = "form-control edit-date" id="position-date-typeahead" name="startMonth">
@@ -296,10 +296,10 @@ class Profile extends Component{
                                 </div>
                                 <div className="modal-body">
                             <label htmlFor="position-school-typeahead" class="mb1 required">School</label>
-                            <input className = "form-control" id="position-school-typeahead" placeholder="Ex: Boston University" maxlength="100" type="text"/>
+                            <input className = "form-control" id="position-school-typeahead" placeholder="Ex: Boston University" maxLength="100" type="text"/>
 
                             <label htmlFor="position-degree-typeahead" class="mb1 required">Degree</label>
-                            <input className = "form-control" id="position-degree-typeahead" placeholder="Ex: Bachelor's" maxlength="100" type="text"/>
+                            <input className = "form-control" id="position-degree-typeahead" placeholder="Ex: Bachelor's" maxLength="100" type="text"/>
 
                             <label htmlFor="position-date-typeahead" class="mb1 required">From - To</label>
                             <select name="startYear" id="position-start-typeahead"  className = "form-control edit-year">  

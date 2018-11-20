@@ -14,13 +14,13 @@ async function handle_request(msg, callback) {
         let post = {
             email: msg.email,
             password: hash,
-            first_name: msg.first_name,
-            last_name: msg.last_name
+            firstName: msg.firstname,
+            lastName: msg.lastname
         }
         await db.insertQuery('INSERT INTO applicant_profile SET ?', post);
         var applicant = new Applicants({
-            firstname : msg.firstname,
-            lastname : msg.lastname,
+            firstName : msg.firstname,
+            lastName : msg.lastname,
             state : msg.state,
             zipcode : msg.zipcode,
             experience : [{
@@ -37,6 +37,7 @@ async function handle_request(msg, callback) {
                 schooltoYear: msg.schooltoYear,
             }]
         });
+        console.log("applicant:", applicant);
         await applicant.save();
         resp = prepareSuccess({ "result": "Applicant Profile created Sucessfully" });
     }

@@ -3,10 +3,10 @@ const SIGNIN_RECRUITER_RESPONSE_TOPIC = "signinRecruiterResponse";
 const SIGNUP_RECRUITER_REQUEST_TOPIC = "signupRecruiterRequest";
 const SIGNUP_RECRUITER_RESPONSE_TOPIC = "signupRecruiterResponse";
 
-const SIGNIN_APPLICANT_REQUEST_TOPIC = "signinAPPLICANTRequest";
-const SIGNIN_APPLICANT_RESPONSE_TOPIC = "signinAPPLICANTResponse";
-const SIGNUP_APPLICANT_REQUEST_TOPIC = "signupAPPLICANTRequest";
-const SIGNUP_APPLICANT_RESPONSE_TOPIC = "signupAPPLICANTResponse";
+const SIGNIN_APPLICANT_REQUEST_TOPIC = "signinApplicantRequest";
+const SIGNIN_APPLICANT_RESPONSE_TOPIC = "signinApplicantResponse";
+const SIGNUP_APPLICANT_REQUEST_TOPIC = "signupApplicantRequest";
+const SIGNUP_APPLICANT_RESPONSE_TOPIC = "signupApplicantResponse";
 
 const POST_JOB_REQUEST = "postJobRequest";
 const POST_JOB_RESPONSE = "postJobResponse";

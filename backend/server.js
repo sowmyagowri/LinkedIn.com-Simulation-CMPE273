@@ -37,11 +37,11 @@ let port = 5000 || process.env.PORT
 
 /** set up middlewares */
 
-app.use(cors({ origin: `http://${config.frontend_host}`, credentials: true }));
+app.use(cors({ origin: `http://${config.frontend_host_port}`, credentials: true }));
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(function(req, res, next) {
-    res.setHeader('Access-Control-Allow-Origin', `http://${config.frontend_host}`);
+    res.setHeader('Access-Control-Allow-Origin', `http://${config.frontend_host_port}`);
     res.setHeader('Access-Control-Allow-Credentials', 'true');
     res.setHeader('Access-Control-Allow-Methods', 'GET,HEAD,OPTIONS,POST,PUT,DELETE');
     res.setHeader('Access-Control-Allow-Headers', 'Access-Control-Allow-Headers, Origin,Accept, X-Requested-With, Content-Type, Access-Control-Request-Method, Access-Control-Request-Headers');

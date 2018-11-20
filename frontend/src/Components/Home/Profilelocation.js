@@ -84,7 +84,7 @@ class ProfileLocation extends Component{
                     <h3 className = "subtitle" style = {{fontSize : "1.4rem", fontWeight: "300"}}>Let's start your profile, connect to people you know, and engage with them on topics you care about.</h3>
                     <section className = "form-body">
                         <label htmlFor ="reg-location" className = "mb1 required">Country/Region</label>
-                        <select className = "form-control" onChange = {this.changeHandler} name = "state" value={state.value} style = {{width : "500px"}} id="reg-location" maxlength="100" type="text">
+                        <select className = "form-control" onChange = {this.changeHandler} name = "state" value={state} style = {{width : "500px"}} id="reg-location" maxLength="100" type="text">
                             <option value="">United States</option>
                             <option value="AL">Alabama</option>
                             <option value="AK">Alaska</option>
@@ -139,7 +139,7 @@ class ProfileLocation extends Component{
                             <option value="WY">Wyoming</option>
                         </select>			
                         <label htmlFor ="reg-zipcode" className = "mb1 required">Postal Code</label>
-                        <input className = "form-control" onChange = {this.changeHandler} name = "zipcode" value={zipcode.value} id="reg-zipcode" pattern="[0-9]{5}" placeholder="Five digit zip code" type="text"/>
+                        <input className = "form-control" onChange = {this.changeHandler} name = "zipcode" value={zipcode} id="reg-zipcode" pattern="[0-9]{5}" placeholder="Five digit zip code" type="text"/>
                         <input onClick = {this.submitSignup} id ="registration-submit" className = "registration submit-button" type = "submit" value = "Next"></input>
                     </section>
               </div>

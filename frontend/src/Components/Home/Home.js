@@ -134,10 +134,10 @@ class Home extends Component{
             this.props.history.push({
                 pathname:"/profilelocation/new",
                 state:{
-                    firstname : firstname,
-                    lastname : lastname,
-                    email : email,
-                    password : password
+                    firstname : firstname.value,
+                    lastname : lastname.value,
+                    email : email.value,
+                    password : password.value
                 }
             });
         }

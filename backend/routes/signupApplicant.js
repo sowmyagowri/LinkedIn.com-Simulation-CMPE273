@@ -13,7 +13,7 @@ const config = require('./../config');
  * 
  */
 router.post("/", (req, res) => {
-    console.log("Inside Applicant Sign Up Route :");
+    console.log("Inside Applicant Sign Up Route req:", req.body);
     let errors = validateInput(req);
     if (errors) {
         let msg = errors.map(error => error.msg).reduce((accumulator, currentVal) => accumulator + "\n" + currentVal);
@@ -52,8 +52,8 @@ function validateInput(req) {
     req.checkBody("email", "An Email address is required.").notEmpty();
     req.checkBody("password", "A Password is required.").notEmpty();
     //req.checkBody("password", "Your Password must contain at least 1 number and 1 letter. \n Your Password must be between 7 and 32 characters.").matches(/^(?=.*\d)(?=.*[a-zA-Z]).{7,32}$/);
-    req.checkBody("firstName", "First name is required").notEmpty();
-    req.checkBody("lastName", "Last name is required").notEmpty();
+    req.checkBody("firstname", "First name is required").notEmpty();
+    req.checkBody("lastname", "Last name is required").notEmpty();
 
     //add more validation if needed.
     return req.validationErrors();
