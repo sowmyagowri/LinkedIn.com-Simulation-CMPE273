@@ -18,16 +18,21 @@ class ProfileEdit extends Component{
             password : "",
             state : "",
             zipcode : "",
+            title : "",
+            company : "",
+            location : "",
+            fromMonth: "",
+            fromYear: "",
+            school : "",
+            degree : "",
+            schoolfromYear: "",
+            schooltoYear: "",
             signedUp: false,
         };
 
         //Bind the handlers to this class
         this.submitSignup = this.submitSignup.bind(this);
-    }
-
-    
-    componentDidMount() {
-        
+        //this.handleValidation = this.handleValidation.bind(this);
     }
 
     componentWillMount() {
@@ -41,11 +46,16 @@ class ProfileEdit extends Component{
          })
     }
     
+    changeHandler(e) {
+        const { name, value } = e.target;
+        this.setState({ [name]: value });
+    }
+
     submitSignup(event) {
         //prevent page from refresh
         event.preventDefault();
        if (this.handleValidation()) {
-            const { firstname, lastname, email, password, state, zipcode} = this.state;
+            const { firstname, lastname, email, password, state, zipcode, title, company, location, fromMonth, fromYear, school, degree, schoolfromYear, schooltoYear} = this.state;
             const data = {
                 firstname : firstname,
                 lastname : lastname,
@@ -53,6 +63,15 @@ class ProfileEdit extends Component{
                 password : password,
                 state : state,
                 zipcode : zipcode,
+                title : title,
+                company : company,
+                location : location,
+                fromMonth: fromMonth,
+                fromYear: fromYear,
+                school : school,
+                degree : degree,
+                schoolfromYear: schoolfromYear,
+                schooltoYear: schooltoYear,
             }
             this.props.applicantsignup(data).then(response => {
             if(response.payload.status === 200){
@@ -67,6 +86,7 @@ class ProfileEdit extends Component{
     }
 
     render(){
+        const { title, company, location, fromMonth, fromYear, school, degree, schoolfromYear, schooltoYear} = this.state;
         let redirectVar = null;
         if( this.state.signedUp ){
             redirectVar = <Redirect to= "/profile"/>
@@ -87,17 +107,17 @@ class ProfileEdit extends Component{
                     <h3 className = "subtitle" style = {{fontSize : "1.4rem", fontWeight: "300"}}>Your Profile helps you discover the right people and opportunities</h3>
                     <section className = "form-body" style ={{marginBottom : "50px"}}>
                     <h2 className = "pv-profile-section__card-heading t-20 t-black t-normal">Experience</h2>
-                    <label htmlFor="position-title-typeahead" class="mb1 required">Title</label>
-                            <input className = "form-control" id="position-title-typeahead" placeholder="Ex: Manager" maxlength="100" type="text"/>
+                    <label htmlFor="position-title-typeahead" className="mb1 required">Title</label>
+                            <input className = "form-control" onChange = {this.changeHandler} name = "title" value={title.value} id="position-title-typeahead" placeholder="Ex: Manager" maxLength="100" type="text"/>
 
-                            <label htmlFor="position-company-typeahead" class="mb1 required">Company</label>
-                            <input className = "form-control" id="position-company-typeahead" placeholder="Ex: Microsoft" maxlength="100" type="text"/>
+                            <label htmlFor="position-company-typeahead" className="mb1 required">Company</label>
+                            <input className = "form-control" onChange = {this.changeHandler} name = "company" value={company.value} id="position-company-typeahead" placeholder="Ex: Microsoft" maxLength="100" type="text"/>
 
-                            <label htmlFor="position-location-typeahead" class="mb1 required">Location</label>
-                            <input className = "form-control" id="position-location-typeahead" placeholder="Ex: London, United Kingdom" maxlength="100" type="text"/>
+                            <label htmlFor="position-location-typeahead" className="mb1 required">Location</label>
+                            <input className = "form-control" onChange = {this.changeHandler} name = "location" value={location.value} id="position-location-typeahead" placeholder="Ex: London, United Kingdom" maxLength="100" type="text"/>
 
-                            <label htmlFor="position-date-typeahead" class="mb1 required">From</label>
-                            <select className = "form-control edit-date" id="position-date-typeahead" name="startMonth">
+                            <label htmlFor="position-date-typeahead" className="mb1 required">From</label>
+                            <select className = "form-control edit-date" onChange = {this.changeHandler} name = "fromMonth" value={fromMonth.value} id="position-date-typeahead" name="startMonth">
                             <option value="">Month</option>
                             <option value="1">January</option>
                             <option value="2">February</option>
@@ -113,7 +133,7 @@ class ProfileEdit extends Component{
                             <option value="12">December</option>
                             </select>
 
-                            <select name="startYear" id="position-start-typeahead" className = "form-control edit-year">  
+                            <select name="startYear" id="position-start-typeahead" onChange = {this.changeHandler} name = "fromYear" value={fromYear.value} className = "form-control edit-year">  
                             <option value="">Year</option>
                             <option value="2018">2018</option>
                             <option value="2017">2017</option>
@@ -128,14 +148,14 @@ class ProfileEdit extends Component{
                             </select>
                     <hr/>
                     <h2 className = "pv-profile-section__card-heading t-20 t-black t-normal">Education</h2>
-                    <label htmlFor="position-school-typeahead" class="mb1 required">School</label>
-                            <input className = "form-control" id="position-school-typeahead" placeholder="Ex: Boston University" maxlength="100" type="text"/>
+                    <label htmlFor="position-school-typeahead" className="mb1 required">School</label>
+                            <input className = "form-control" onChange = {this.changeHandler} name = "school" value={school.value} id="position-school-typeahead" placeholder="Ex: Boston University" maxLength="100" type="text"/>
 
-                            <label htmlFor="position-degree-typeahead" class="mb1 required">Degree</label>
-                            <input className = "form-control" id="position-degree-typeahead" placeholder="Ex: Bachelor's" maxlength="100" type="text"/>
+                            <label htmlFor="position-degree-typeahead" className="mb1 required">Degree</label>
+                            <input className = "form-control" onChange = {this.changeHandler} name = "degree" value={degree.value} id="position-degree-typeahead" placeholder="Ex: Bachelor's" maxLength="100" type="text"/>
 
-                            <label htmlFor="position-date-typeahead" class="mb1 required">From - To</label>
-                            <select name="startYear" id="position-start-typeahead"  className = "form-control edit-year">  
+                            <label htmlFor="position-date-typeahead" className="mb1 required">From - To</label>
+                            <select name="startYear" id="position-start-typeahead" onChange = {this.changeHandler} name = "schoolfromYear" value={schoolfromYear.value} className = "form-control edit-year">  
                             <option value="">Year</option>
                             <option value="2018">2018</option>
                             <option value="2017">2017</option>
@@ -149,7 +169,7 @@ class ProfileEdit extends Component{
                             <option value="2009">2009</option>
                             </select>
 
-                            <select name="endYear" id="position-end-typeahead"  className = "form-control edit-year">  
+                            <select name="endYear" id="position-end-typeahead"  onChange = {this.changeHandler} name = "schooltoYear" value={schooltoYear.value} className = "form-control edit-year">  
                             <option value="">Year</option>
                             <option value="2018">2018</option>
                             <option value="2017">2017</option>

@@ -19,7 +19,23 @@ async function handle_request(msg, callback) {
         }
         await db.insertQuery('INSERT INTO applicant_profile SET ?', post);
         var applicant = new Applicants({
-            
+            firstname : msg.firstname,
+            lastname : msg.lastname,
+            state : msg.state,
+            zipcode : msg.zipcode,
+            experience : [{
+            title : msg.title,
+            company : msg.company,
+            location : msg.location,
+            fromMonth: msg.fromMonth,
+            fromYear: msg.fromYear,
+            }],
+            education : [{
+                school : msg.school,
+                degree : msg.degree,
+                schoolfromYear: msg.schoolfromYear,
+                schooltoYear: msg.schooltoYear,
+            }]
         });
         await applicant.save();
         resp = prepareSuccess({ "result": "Applicant Profile created Sucessfully" });
