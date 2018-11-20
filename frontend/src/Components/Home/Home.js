@@ -184,7 +184,7 @@ class Home extends Component{
             {redirectVar}
               <div className="navbar fixed-top navbar-dark bg-dark" style = {{height : "52px"}}>
                 <div className = "home_wrapper">
-                <h1><a className="navbar-brand" href="#"><img src = {"/linkedinfulllogo1.png"} alt = "LinkedIn"/></a></h1>
+                <h1><a className="navbar-brand" href="#"><img src = {"images/linkedinfulllogo1.png"} alt = "LinkedIn"/></a></h1>
                     <form className = "login-form" onSubmit = {this.submitLogin}>
                         <label htmlFor = "login-email">Email</label>
                         <input onChange = {this.changeHandler} type = "text" id = "login-email" name = "loginemail" value={loginemail.value} placeholder ="Email" autoFocus = "autofocus"></input>

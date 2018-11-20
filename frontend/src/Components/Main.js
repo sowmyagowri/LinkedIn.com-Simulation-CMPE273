@@ -1,12 +1,12 @@
 import React, {Component} from 'react';
-import {Route, Switch} from 'react-router-dom';
+import {Route, Redirect, Switch} from 'react-router-dom';
 import Home from './Home/Home';
 import ProfileLocation from './Home/Profilelocation';
 import ProfileEdit from './Home/Profileedit';
 import Profile from './Profile/Profile';
 import SearchJobs from './SearchJobs/Searchjobs';
 import ViewJob from './SearchJobs/Viewjob';
-
+import ViewSavedJobs from './SearchJobs/Viewsavedjobs';
 
 class Main extends Component {
     render(){
@@ -20,6 +20,7 @@ class Main extends Component {
                 <Route path="/profileedit/new" component={ProfileEdit}/>
                 <Route path="/searchjobs" component={SearchJobs}/>
                 <Route path="/jobs/view/:jobid" component={ViewJob}/>
+                <Route path="/jobs/saved/" component={ViewSavedJobs}/>
                 </Switch>
             </div>
         )

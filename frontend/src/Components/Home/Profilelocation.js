@@ -2,6 +2,9 @@ import React, {Component} from 'react';
 import '../../App.css';
 import '../../home_wrapper.css';
 import '../../profile_wrapper.css';
+import { withRouter } from 'react-router-dom';
+import { connect } from "react-redux";
+import {applicantsignup} from '../../Actions';
 
 class ProfileLocation extends Component{
     constructor(props){
@@ -77,8 +80,8 @@ class ProfileLocation extends Component{
           <div className = "profilelocation-wrapper">
               <div className="navbar fixed-top">
                 <div className = "home_wrapper">
-                    <h1><a className="navbar-brand" href="#"><img src = {"/linkedinfulllogo.png"} alt = "LinkedIn"/></a></h1>
-                </div>
+                <h1><a className="navbar-brand" href="#"><img src = {"/images/linkedinfulllogo.png"} alt = "LinkedIn"/></a></h1>
+                 </div>
               </div>
               <div className = "main1">
                     <h3 className = "subtitle" style = {{fontSize : "1.4rem", fontWeight: "300"}}>Let's start your profile, connect to people you know, and engage with them on topics you care about.</h3>

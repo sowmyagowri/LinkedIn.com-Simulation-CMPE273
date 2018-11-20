@@ -171,7 +171,7 @@ class SearchJobs extends Component{
                                         </div>
                                         <div className="button-panel text-right">
                                         <button type="submit" className="btn arteco-btn">Apply</button>
-                                        <button type="button" className="btn btn-white">Cancel</button>
+                                        <button type="button" className="btn arteco-btn-save" style = {{marginLeft : "10px", marginRight : "10px"}}>Cancel</button>
                                         </div>
                                     </div>
                                     </div>
@@ -182,56 +182,28 @@ class SearchJobs extends Component{
                                         <span className="caret"></span>
                                     </button>
                                     <div className="dropdown-menu" role="menu">
-                                        <div className="checkbox-wrapper">
-                                        <div className="checkbox" data-search="Cisco" >
-                                            <label className = "align-boxes-center">
-                                            <input name="selectedColumns" value="Cisco" type="checkbox"/>&nbsp;&nbsp;CISCO
-                                            </label>
-                                        </div>   
-                                        <div className="checkbox" data-search="Google" >
-                                            <label className = "align-boxes-center">
-                                            <input name="selectedColumns" value="Google" type="checkbox"/>&nbsp;&nbsp;Google
-                                            </label>
-                                        </div>  
-                                        <div className="checkbox" data-search="Apple" >
-                                            <label className = "align-boxes-center">
-                                            <input name="selectedColumns" value="Apple" type="checkbox"/>&nbsp;&nbsp;Apple
-                                            </label>
-                                        </div>     
-                                        </div>
+                                        <div className ="jobs-search-box1">
+                                            <input type = "text" id = "jobsearch3" className ="jobs-search-box__input1" placeholder = "Search by Company Name"/>
+                                        </div>                                       
                                         <div className="button-panel text-right">
                                         <button type="submit" className="btn arteco-btn">Apply</button>
-                                        <button type="button" className="btn btn-white">Cancel</button>
+                                        <button type="button" className="btn arteco-btn-save" style = {{marginLeft : "10px", marginRight : "10px"}}>Cancel</button>
                                         </div>
                                     </div>
                                     </div>
                             </li>
                             <li className = "search-s-facet pr3 inline-block search-s-facet--f_TP search-s-facet--is-closed ember-view">
                                 <div className="dropdown">
-                                    <button type="button" className="btn btn-white dropdown-toggle border-btn" data-toggle="dropdown" aria-expanded="false">Experience Level
+                                    <button type="button" className="btn btn-white dropdown-toggle border-btn" data-toggle="dropdown" aria-expanded="false">Location
                                         <span className="caret"></span>
                                     </button>
                                     <div className="dropdown-menu" role="menu">
-                                        <div className="checkbox-wrapper">
-                                        <div className="checkbox" data-search="Internship" >
-                                            <label className = "align-boxes-center">
-                                            <input name="selectedColumns" value="Internship" type="checkbox"/>&nbsp;&nbsp;Internship
-                                            </label>
-                                        </div>   
-                                        <div className="checkbox" data-search="Entry Level" >
-                                            <label className = "align-boxes-center">
-                                            <input name="selectedColumns" value="Entry Level" type="checkbox"/>&nbsp;&nbsp;Entry Level
-                                            </label>
-                                        </div>  
-                                        <div className="checkbox" data-search="Senior Level" >
-                                            <label className = "align-boxes-center">
-                                            <input name="selectedColumns" value="SeniorLevel" type="checkbox"/>&nbsp;&nbsp;Senior Level
-                                            </label>
-                                        </div>     
-                                        </div>
+                                        <div className ="jobs-search-box1">
+                                            <input type = "text" id = "jobsearch4" className ="jobs-search-box__input1" placeholder = "Search by Location"/>
+                                        </div> 
                                         <div className="button-panel text-right">
                                         <button type="submit" className="btn arteco-btn">Apply</button>
-                                        <button type="button" className="btn btn-white">Cancel</button>
+                                        <button type="button" className="btn arteco-btn-save" style = {{marginLeft : "10px", marginRight : "10px"}}>Cancel</button>
                                         </div>
                                     </div>
                                     </div>
@@ -266,7 +238,7 @@ class SearchJobs extends Component{
                                         </div>
                                         <div className="button-panel text-right">
                                         <button type="submit" className="btn arteco-btn">Apply</button>
-                                        <button type="button" className="btn btn-white">Cancel</button>
+                                        <button type="button" className="btn arteco-btn-save" style = {{marginLeft : "10px", marginRight : "10px"}}>Cancel</button>
                                         </div>
                                     </div>
                                     </div>
