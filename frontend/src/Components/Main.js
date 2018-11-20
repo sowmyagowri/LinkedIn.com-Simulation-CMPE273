@@ -5,18 +5,22 @@ import ProfileLocation from './Home/Profilelocation';
 import ProfileEdit from './Home/Profileedit';
 import Profile from './Profile/Profile';
 import SearchJobs from './SearchJobs/Searchjobs';
+import PostAJobHome from './PostJobs/PostAJobHome'
+import PostAJobWizardA from './PostJobs/PostAJobWizardA'
 
 class Main extends Component {
     render(){
         return(
             <div>
-                {/* Render Different Component based on Route */}
+                
                 <Switch>
                 <Route path="/" component={Home} exact/>
                 <Route path="/profile" component={Profile}/>
                 <Route path="/profilelocation/new" component={ProfileLocation}/>
                 <Route path="/profileedit/new" component={ProfileEdit}/>
                 <Route path="/searchjobs" component={SearchJobs}/>
+                <Route path="/postajob" component={PostAJobHome}/>
+                <Route path="/postajobwizard" component={PostAJobWizardA}/>
                 </Switch>
             </div>
         )
@@ -24,3 +28,7 @@ class Main extends Component {
 }
 
 export default Main;
+
+
+
+

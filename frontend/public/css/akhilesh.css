@@ -1,0 +1,44 @@
+.blueBackground{
+    background: #006097;
+}
+
+.navlinkhover:hover {
+    opacity: .5;
+}
+
+.bottomBorder{
+    border-bottom-style: solid;
+    border-bottom-width:.005em;
+    border-bottom-color: white
+}
+
+.chip {
+    display: inline-block;
+    padding: 0 15px;
+    height: 30px;
+    font-size: 16px;
+    line-height: 30px;
+    border-radius: 25px;
+    background-color: #0073b1;
+}
+
+.closebtn {
+    padding-left: 10px;
+    color: #ffffff;
+    font-weight: bold;
+    float: right;
+    font-size: 20px;
+    cursor: pointer;
+}
+
+.closebtn:hover {
+    color: #ffffff;
+    transform: scale(1.2);
+}
+
+.jodField{
+     font-size: 14px;
+    border: solid;
+    border-width: .1em;
+    border-radius: 0px;
+}
