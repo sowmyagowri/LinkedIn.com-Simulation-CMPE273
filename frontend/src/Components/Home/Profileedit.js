@@ -2,10 +2,11 @@ import React, {Component} from 'react';
 import '../../App.css';
 import '../../home_wrapper.css';
 import '../../profile_wrapper.css';
+import { Redirect } from 'react-router';
 import { reduxForm } from "redux-form";
 import { withRouter } from 'react-router-dom';
 import { connect } from "react-redux";
-import {applicantsignup} from '../../Actions';
+import { applicantsignup } from '../../Actions';
 
 class ProfileEdit extends Component{
     constructor(props){
@@ -17,7 +18,7 @@ class ProfileEdit extends Component{
             password : "",
             state : "",
             zipcode : "",
-
+            signedUp: false,
         };
 
         //Bind the handlers to this class
@@ -41,42 +42,43 @@ class ProfileEdit extends Component{
     }
     
     submitSignup(event) {
-        // this.setState({ submitted: true });
+        //prevent page from refresh
+        event.preventDefault();
        if (this.handleValidation()) {
-             const data = {
-                
-             }
-             this.props.applicantsignup(data).then(response => {
-                 // if(response.payload.status === 200){
-                 //     //store JWT Token to browser session storage 
-                 //     //If you use localStorage instead of sessionStorage, then this will persist across tabs and new windows.
-                 //     //sessionStorage = persisted only in current tab
-                 //     sessionStorage.setItem('jwtToken', response.payload.data.token);
-                 //     sessionStorage.setItem('cookie1', response.payload.data.cookie1);
-                 //     sessionStorage.setItem('cookie2', response.payload.data.cookie2);
-                 //     sessionStorage.setItem('cookie3', response.payload.data.cookie3);
-                 //     sessionStorage.setItem('cookie4', response.payload.data.cookie4);
-                 //     this.setState({
-                 //         message: ""
-                 //     });
-                 // }
-             }).catch (error => {
-                 // console.log("Error is", error);
-                 // this.setState({
-                 //     message: JSON.parse(error.response.request.response).responseMessage,
-                 // });
-             })
-             console.log("Traveller Login Form submitted");
+            const { firstname, lastname, email, password, state, zipcode} = this.state;
+            const data = {
+                firstname : firstname,
+                lastname : lastname,
+                email : email,
+                password : password,
+                state : state,
+                zipcode : zipcode,
+                Experience
+            }
+            this.props.applicantsignup(data).then(response => {
+            if(response.payload.status === 200){
+                this.setState({
+                    signedUp: true
+                });
+            }
+            }).catch (error => {
+            console.log("Error is", error);
+            })
          } 
     }
 
     render(){
+        let redirectVar = null;
+        if( this.state.signedUp ){
+            redirectVar = <Redirect to= "/profile"/>
+        }
         return(
           <div className = "profilelocation-wrapper">
+          {redirectVar}
               <div className="navbar fixed-top">
                 <div className = "home_wrapper">
-                <h1><a className="navbar-brand" href="#"><img src = {"/images/linkedinfulllogo.png"} alt = "LinkedIn"/></a></h1>
-                 </div>
+                    <h1><a className="navbar-brand" href="#"><img src = {"/images/linkedinfulllogo.png"} alt = "LinkedIn"/></a></h1>
+                </div>
               </div>
               <div className = "main1">
                     <h3 className = "subtitle" style = {{fontSize : "1.4rem", fontWeight: "300"}}>Your Profile helps you discover the right people and opportunities</h3>
@@ -158,13 +160,19 @@ class ProfileEdit extends Component{
                             <option value="2009">2009</option>
                             </select>
                                 
-                    <input id ="registration-submit" className = "registration submit-button" type = "submit" value = "Agree & Confirm"></input>
+                    <input id ="registration-submit" onClick = {this.submitSignup} className = "registration submit-button" type = "submit" value = "Agree & Confirm"></input>
                     </section>
               </div>
-              
           </div>
         )
     }
 }
 
-export default ProfileEdit;
+function mapStateToProps(state) {
+    return { 
+        applicantsignup: state.applicantsignup,
+    };
+  }
+  export default withRouter(reduxForm({
+    form: "Applicant_Signup_Page"
+  })(connect(mapStateToProps, { applicantsignup }) (ProfileEdit) ));

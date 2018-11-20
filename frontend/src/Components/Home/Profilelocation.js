@@ -2,11 +2,6 @@ import React, {Component} from 'react';
 import '../../App.css';
 import '../../home_wrapper.css';
 import '../../profile_wrapper.css';
-import { reduxForm } from "redux-form";
-import { withRouter } from 'react-router-dom';
-import { connect } from "react-redux";
-import {applicantsignup} from '../../Actions';
-import validator from 'validator';
 
 class ProfileLocation extends Component{
     constructor(props){
@@ -17,7 +12,8 @@ class ProfileLocation extends Component{
             email : "",
             password : "",
             state : "",
-            zipcode : ""
+            zipcode : "",
+            message: "",
         };
 
         //Bind the handlers to this class
@@ -40,28 +36,21 @@ class ProfileLocation extends Component{
          })
     }
 
-    //firstname ,lastname, email and password change handler to update state variable with the text entered by the applicant
-    changeHandler = (e) => {
-        const state = {
-          ...this.state,
-          [e.target.name]: {
-            ...this.state[e.target.name],
-            value: e.target.value,
-            isValid: true,
-          }
-        };
-        this.setState(state);
+    changeHandler(e) {
+        const { name, value } = e.target;
+        this.setState({ [name]: value });
     }
 
     handleValidation() {
-        console.log("validation check")
-
+        return (this.state.zipcode.match(/(^[0-9]{5}(?:-[0-9]{4})?$)/));
     }
 
     submitSignup(event) {
         //prevent page from refresh
-        console.log("here")
         event.preventDefault();
+        this.setState({
+            message: ""
+        });
         if (this.handleValidation()) {
             const { firstname, lastname, email, password, state, zipcode} = this.state;
             this.props.history.push({
@@ -75,17 +64,21 @@ class ProfileLocation extends Component{
                     zipcode : zipcode
                 }
             });
+        } else {
+            this.setState({
+                message: "This is not a valid zipcode"
+            })
         }
     }
 
     render(){
-        const { state, zipcode} = {...this.state};
+        const { state, zipcode, message} = this.state;
         return(
           <div className = "profilelocation-wrapper">
               <div className="navbar fixed-top">
                 <div className = "home_wrapper">
-                <h1><a className="navbar-brand" href="#"><img src = {"/linkedinfulllogo.png"} alt = "LinkedIn"/></a></h1>
-                 </div>
+                    <h1><a className="navbar-brand" href="#"><img src = {"/linkedinfulllogo.png"} alt = "LinkedIn"/></a></h1>
+                </div>
               </div>
               <div className = "main1">
                     <h3 className = "subtitle" style = {{fontSize : "1.4rem", fontWeight: "300"}}>Let's start your profile, connect to people you know, and engage with them on topics you care about.</h3>

@@ -2,9 +2,10 @@ import React, {Component} from 'react';
 import '../../App.css';
 import '../../home_wrapper.css';
 import { reduxForm } from "redux-form";
+import {Redirect} from 'react-router';
 import { withRouter } from 'react-router-dom';
 import { connect } from "react-redux";
-import {applicantsignup, applicantlogin} from '../../Actions';
+import { applicantlogin } from '../../Actions';
 import validator from 'validator';
 
 class Home extends Component{
@@ -17,6 +18,7 @@ class Home extends Component{
             password: { value: '', isValid: true },
             loginemail: { value: '', isValid: true },
             loginpassword: { value: '', isValid: true },
+            islogged: false,
             message: "",          
         };
 
@@ -144,14 +146,23 @@ class Home extends Component{
     submitLogin(event) {
         //prevent page from refresh
         event.preventDefault();
-        const { email, password } = this.state;
-        if ( email && password) {
+        const { loginemail, loginpassword } = this.state;
+        if ( loginemail && loginpassword) {
             const data = {
-                email:  email,
-                password: password
+                email:  loginemail,
+                password: loginpassword
             }
             this.props.applicantlogin(data).then(response => {
+                if(response.payload.status === 200){
+                    this.setState({
+                        islogged: true
+                    });
+                }
+            }).catch (error => {
+                console.log("Error is", error);
+                this.setState({
 
+                });
             })
         }
     }
@@ -162,10 +173,15 @@ class Home extends Component{
     
 
     render(){
-        const { firstname, lastname, email, password, message, loginemail, loginpassword } = {...this.state};
+        const { firstname, lastname, email, password, message, loginemail, loginpassword, islogged } = {...this.state};
         console.log(message)
+        let redirectVar = null;
+        if( islogged ){
+            redirectVar = <Redirect to= "/profile"/>
+        }
         return(
           <div className = "global-wrapper">
+            {redirectVar}
               <div className="navbar fixed-top navbar-dark bg-dark" style = {{height : "52px"}}>
                 <div className = "home_wrapper">
                 <h1><a className="navbar-brand" href="#"><img src = {"/linkedinfulllogo1.png"} alt = "LinkedIn"/></a></h1>
@@ -214,11 +230,10 @@ class Home extends Component{
 }
 
 function mapStateToProps(state) {
-    return { 
-        applicantsignup: state.applicantsignup,
+    return {
         applicantlogin: state.applicantlogin
     };
   }
   export default withRouter(reduxForm({
     form: "Home_Page"
-  })(connect(mapStateToProps, { applicantsignup, applicantlogin })(Home)));
+  })(connect(mapStateToProps, { applicantlogin })(Home)));
