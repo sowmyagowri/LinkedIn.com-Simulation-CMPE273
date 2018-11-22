@@ -109,6 +109,16 @@ class Login extends Component{
         return formIsValid;
    }
 
+   componentWillMount() {
+    const email = { ...this.state.email };
+    const password = { ...this.state.password };
+    email.value =  this.props.location.state?this.props.location.state.email:""
+    password.value = this.props.location.state?this.props.location.state.password:""
+    this.setState({
+        message: this.props.location.state?this.props.location.state.message:""
+    })
+   }
+
     submitLogin(event) {
         //prevent page from refresh
         event.preventDefault();
@@ -128,7 +138,7 @@ class Login extends Component{
                 }).catch (error => {
                     console.log("Error is", error);
                     this.setState({
-                        message : error
+                        message : "Please enter valid email address and password"
                     });
                 })
             }

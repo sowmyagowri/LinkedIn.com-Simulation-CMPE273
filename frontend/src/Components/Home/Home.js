@@ -164,7 +164,8 @@ class Home extends Component{
                     pathname:"/login",
                     state:{
                         email : email.value,
-                        password : password.value
+                        password : password.value,
+                        message : "Please enter valid email address and password"
                     }
                 });
             })
