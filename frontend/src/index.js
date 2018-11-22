@@ -8,9 +8,10 @@ import { createStore, applyMiddleware, compose} from "redux";
 import promise from "redux-promise";
 import RootReducer from "./Reducers";
 import * as serviceWorker from './serviceWorker';
+import thunkMiddleware from 'redux-thunk'
 
 const composePlugin = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
-const store = createStore(RootReducer, composePlugin(applyMiddleware(promise)));
+const store = createStore(RootReducer, composePlugin(applyMiddleware(thunkMiddleware,promise)));
 
 ReactDOM.render(
   <Provider store={store}>

@@ -4,6 +4,7 @@ const express = require("express");
 const bodyParser = require('body-parser');
 
 var cookieParser = require('cookie-parser');
+
 let signupRecruiter = require('./routes/signupRecruiter');
 let signupApplicant = require('./routes/signupApplicant');
 let signinRecruiter = require('./routes/signinRecruiter');

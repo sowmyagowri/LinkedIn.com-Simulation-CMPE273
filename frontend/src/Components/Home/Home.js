@@ -146,10 +146,13 @@ class Home extends Component{
     submitLogin(event) {
         //prevent page from refresh
         event.preventDefault();
-        if ( this.state.loginemail.value && this.state.loginpassword.value) {
+
+        const { loginemail, loginpassword, email, password  } = this.state;
+        if ( loginemail && loginpassword) {
             const data = {
-                email:  this.state.loginemail.value,
-                password: this.state.loginpassword.value
+                email:  loginemail.value,
+                password: loginpassword.value,
+
             }
             this.props.applicantlogin(data).then(response => {
                 if(response.payload.status === 200){
@@ -159,17 +162,17 @@ class Home extends Component{
                 }
             }).catch (error => {
                 console.log("Error is", error);
-                this.setState({
-
+                this.props.history.push({
+                    pathname:"/login",
+                    state:{
+                        email : email.value,
+                        password : password.value,
+                        message : "Please enter valid email address and password"
+                    }
                 });
             })
         }
     }
-    
-    componentDidMount() {
-        
-    }
-    
 
     render(){
         const { firstname, lastname, email, password, message, loginemail, loginpassword, islogged } = {...this.state};

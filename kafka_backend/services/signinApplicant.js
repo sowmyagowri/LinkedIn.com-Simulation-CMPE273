@@ -9,7 +9,7 @@ async function handle_request(msg, callback) {
     var email = msg.email;
     let resp = {};
     try {
-        let result = await db.selectQuery('SELECT firstname, lastname, email, password FROM applicant_profile WHERE email= ?', [email]);
+        let result = await db.selectQuery('SELECT * FROM applicant_profile WHERE email= ?', [email]);
         let match = false;
         let user = {};
         if (result && result.length !== 0) {
@@ -19,7 +19,6 @@ async function handle_request(msg, callback) {
         if (match) {
             resp = prepareSuccess({
                 email: user.email,
-                // id: user.id,
                 first_name: user.firstname,
                 last_name: user.lastname,
                 //role is needed to create JWT so that we can call appropriate SQL user table in passport
