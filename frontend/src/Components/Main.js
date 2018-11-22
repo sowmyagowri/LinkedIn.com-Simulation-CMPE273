@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
-import {Route, Switch} from 'react-router-dom';
+import {Route, Redirect, Switch} from 'react-router-dom';
 import Home from './Home/Home';
+import Login from './Home/Login';
 import ProfileLocation from './Home/Profilelocation';
 import ProfileEdit from './Home/Profileedit';
 import Profile from './Profile/Profile';
@@ -14,9 +15,11 @@ import Jobs from './PostJobs/Jobs'
 class Main extends Component {
     render(){
         return(
-            <div>         
+            <div>
+                {/* Render Different Component based on Route */}
                 <Switch>
                 <Route path="/" component={Home} exact/>
+                <Route path="/login" component={Login}/>
                 <Route path="/profile" component={Profile}/>
                 <Route path="/profilelocation/new" component={ProfileLocation}/>
                 <Route path="/profileedit/new" component={ProfileEdit}/>
@@ -33,7 +36,3 @@ class Main extends Component {
 }
 
 export default Main;
-
-
-
-

@@ -144,7 +144,6 @@
 .p3 {
     padding: 12px;
 }
-
 .container-with-shadow {
     border-radius: 2px;
     box-shadow: 0 0 0 1px rgba(0,0,0,.15), 0 2px 3px rgba(0,0,0,.2);
@@ -380,6 +379,7 @@
     margin-bottom: 8px;
     padding: 12px;
 }
+
 .jobs-search-box1 input{
     font-size: 0.9rem;
     width: 80%;
