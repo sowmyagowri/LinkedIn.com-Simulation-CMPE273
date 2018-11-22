@@ -9,7 +9,7 @@ async function handle_request(msg, callback) {
     var email = msg.email;
     let resp = {};
     try {
-        let result = await db.selectQuery('SELECT first_name, last_name, email, password FROM applicant_profile WHERE email= ?', [email]);
+        let result = await db.selectQuery('SELECT firstname, lastname, email, password FROM applicant_profile WHERE email= ?', [email]);
         let match = false;
         let user = {};
         if (result && result.length !== 0) {
@@ -20,8 +20,8 @@ async function handle_request(msg, callback) {
             resp = prepareSuccess({
                 email: user.email,
                 // id: user.id,
-                first_name: user.first_name,
-                last_name: user.last_name
+                first_name: user.firstname,
+                last_name: user.lastname
             });
         } else {
             resp = prepareAuthenticationFailure({
