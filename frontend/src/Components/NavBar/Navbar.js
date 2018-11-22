@@ -2,9 +2,10 @@ import React, { Component } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import './Navbar.css';
 import { withRouter } from 'react-router-dom';
+import {Link} from 'react-router-dom';
 
 class Navbar extends Component {
-    constructor(props) { 
+    constructor(props) {
         super(props);
     }
 
@@ -38,8 +39,9 @@ class Navbar extends Component {
                         <ul className="nav-main nav-container display-flex full-height" role="navigation" aria-label="primary">
                             <li className="nav-item nav-item--jobs">
                                 <FontAwesomeIcon color="#dee2e6" size="lg" icon="suitcase"></FontAwesomeIcon><a href="/jobs"></a></li>
-                            <li className="nav-item nav-item--messaging">
-                                <FontAwesomeIcon color="#dee2e6" size="lg" icon="comments"></FontAwesomeIcon><a href="/messages"></a></li>
+                            <Link to="/messages">
+                                <li className="nav-item nav-item--messaging"><FontAwesomeIcon color="#dee2e6" size="lg" icon="comments"></FontAwesomeIcon></li>
+                            </Link>
                             <li className="nav-item nav-item--profile">
                                 <FontAwesomeIcon color="#dee2e6" size="lg" icon="user-circle"></FontAwesomeIcon><a href="/profile"></a></li>
                         </ul>
