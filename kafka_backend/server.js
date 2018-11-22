@@ -4,8 +4,9 @@ var { mongoose } = require('./config/mongoose');
 //import kafka services
 var signupRecruiterService = require('./services/signupRecruiter');
 var signupApplicantService = require('./services/signupApplicant');
-var postJobService = require('./services/postJob');
 var signinRecruiterService = require('./services/signinRecruiter');
+var signinApplicantService = require('./services/signinApplicant');
+var postJobService = require('./services/postJob');
 var getJobsByRecruiterService = require('./services/getJobsByRecruiter');
 var postRecruiterProfileService = require('./services/postRecruiterProfile');
 var getRecruiterProfileService = require('./services/getRecruiterProfile');
@@ -22,7 +23,7 @@ let graphLogEvent = require('./services/graphLogEvent');
 //import kafka topics
 const {
     SIGNUP_RECRUITER_REQUEST_TOPIC, SIGNUP_APPLICANT_REQUEST_TOPIC, POST_JOB_REQUEST, 
-    SIGNIN_RECRUITER_REQUEST_TOPIC,
+    SIGNIN_RECRUITER_REQUEST_TOPIC,SIGNIN_APPLICANT_REQUEST_TOPIC,
     GET_JOBS_BY_RECRUITER_REQUEST, POST_RECRUITER_PROFILE_REQUEST,
     GET_RECRUITER_PROFILE_REQUEST, EDIT_JOB_REQUEST, UPDATE_JOB_VIEWS_REQUEST,
     GRAPHS_CLICK_PER_JOB_REQUEST, GRAPHS_TOP_JOB_POSTINGS_REQUEST, UPDATE_JOB_CLICKS_REQUEST,
@@ -66,8 +67,9 @@ function handleTopicRequest(topic_name, fname) {
 
 handleTopicRequest(SIGNUP_RECRUITER_REQUEST_TOPIC, signupRecruiterService);
 handleTopicRequest(SIGNUP_APPLICANT_REQUEST_TOPIC, signupApplicantService);
-handleTopicRequest(POST_JOB_REQUEST, postJobService);
 handleTopicRequest(SIGNIN_RECRUITER_REQUEST_TOPIC, signinRecruiterService);
+handleTopicRequest(SIGNIN_APPLICANT_REQUEST_TOPIC, signinApplicantService);
+handleTopicRequest(POST_JOB_REQUEST, postJobService);
 handleTopicRequest(GET_JOBS_BY_RECRUITER_REQUEST, getJobsByRecruiterService);
 handleTopicRequest(POST_RECRUITER_PROFILE_REQUEST, postRecruiterProfileService);
 handleTopicRequest(GET_RECRUITER_PROFILE_REQUEST, getRecruiterProfileService);

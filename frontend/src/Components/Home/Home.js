@@ -149,8 +149,8 @@ class Home extends Component{
         const { loginemail, loginpassword } = this.state;
         if ( loginemail && loginpassword) {
             const data = {
-                email:  loginemail,
-                password: loginpassword
+                email:  loginemail.value,
+                password: loginpassword.value,
             }
             this.props.applicantlogin(data).then(response => {
                 if(response.payload.status === 200){
