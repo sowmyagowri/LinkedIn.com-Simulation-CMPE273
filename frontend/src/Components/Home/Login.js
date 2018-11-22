@@ -52,14 +52,6 @@ class Login extends Component{
         this.submitLogin = this.submitLogin.bind(this);
     }
 
-    
-    componentDidMount() {
-        
-    }
-
-    componentWillMount() {
-    }
-
     changeHandler = (e) => {
         const state = {
           ...this.state,

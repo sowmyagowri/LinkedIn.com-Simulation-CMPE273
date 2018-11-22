@@ -158,28 +158,18 @@ class Home extends Component{
                         islogged: true
                     });
                 }
-                if(response.payload.status === 401){
-                    this.props.history.push({
-                        pathname:"/profilelocation/new",
-                        state:{
-                            email : email.value,
-                            password : password.value
-                        }
-                    });
-                }
             }).catch (error => {
                 console.log("Error is", error);
-                this.setState({
-
+                this.props.history.push({
+                    pathname:"/login",
+                    state:{
+                        email : email.value,
+                        password : password.value
+                    }
                 });
             })
         }
     }
-    
-    componentDidMount() {
-        
-    }
-    
 
     render(){
         const { firstname, lastname, email, password, message, loginemail, loginpassword, islogged } = {...this.state};
