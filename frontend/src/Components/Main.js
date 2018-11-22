@@ -7,6 +7,7 @@ import Profile from './Profile/Profile';
 import SearchJobs from './SearchJobs/Searchjobs';
 import ViewJob from './SearchJobs/Viewjob';
 import ViewSavedJobs from './SearchJobs/Viewsavedjobs';
+import Inbox from './Messages/Inbox'
 
 class Main extends Component {
     render(){
@@ -21,6 +22,7 @@ class Main extends Component {
                 <Route path="/searchjobs" component={SearchJobs}/>
                 <Route path="/jobs/view/:jobid" component={ViewJob}/>
                 <Route path="/jobs/saved/" component={ViewSavedJobs}/>
+                <Route path="/messages" component={Inbox}/>
                 </Switch>
             </div>
         )
