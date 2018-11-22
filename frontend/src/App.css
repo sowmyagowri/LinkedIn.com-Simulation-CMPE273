@@ -30,3 +30,17 @@
     transform: rotate(360deg);
   }
 }
+
+input[type=text]:focus{
+  outline: 2px solid ;
+  outline-color: #0073b1;   
+}
+
+input[type=number]:focus{
+  outline: 2px solid ;
+  outline-color: #0073b1;   
+}
+input[type=password]:focus{
+  outline: 2px solid ;
+  outline-color: #0073b1;   
+}

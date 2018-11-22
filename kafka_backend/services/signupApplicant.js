@@ -1,4 +1,5 @@
 const db = require('./../config/mysql');
+var { Applicants } = require('../models/applicant');
 const bcrypt = require('bcrypt');
 const saltRounds = 10;
 const { prepareInternalServerError, prepareSuccess, prepareResourceConflictFailure } = require('./responses')
@@ -13,16 +14,32 @@ async function handle_request(msg, callback) {
         let post = {
             email: msg.email,
             password: hash,
-            first_name: msg.first_name,
-            last_name: msg.last_name
+            firstName: msg.firstname,
+            lastName: msg.lastname
         }
-        let result = await db.insertQuery('INSERT INTO applicant_profile SET ?', post);
-        let _id = result.insertId;
-        resp = prepareSuccess({             
-            email: post.email,
-            first_name: post.first_name,
-            last_name: post.last_name
-        }); 
+        await db.insertQuery('INSERT INTO applicant_profile SET ?', post);
+        var applicant = new Applicants({
+            firstName : msg.firstname,
+            lastName : msg.lastname,
+            state : msg.state,
+            zipcode : msg.zipcode,
+            experience : [{
+            title : msg.title,
+            company : msg.company,
+            location : msg.location,
+            fromMonth: msg.fromMonth,
+            fromYear: msg.fromYear,
+            }],
+            education : [{
+                school : msg.school,
+                degree : msg.degree,
+                schoolfromYear: msg.schoolfromYear,
+                schooltoYear: msg.schooltoYear,
+            }]
+        });
+        console.log("applicant:", applicant);
+        await applicant.save();
+        resp = prepareSuccess({ "result": "Applicant Profile created Sucessfully" });
     }
     catch (error) {
         if (error.errno === 1062) { //1062 is for primary key violation 
@@ -31,7 +48,7 @@ async function handle_request(msg, callback) {
                 message: "Email address is already in use."
             });
         } else {
-            console.log("Something went wrong during Recruiter signup! : ", error);
+            console.log("Something went wrong during Applicant signup! : ", error);
             //don't let time out occur, send internal server error
             resp = prepareInternalServerError();
         }

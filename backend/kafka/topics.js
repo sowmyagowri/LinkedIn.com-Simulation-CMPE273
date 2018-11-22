@@ -3,10 +3,10 @@ const SIGNIN_RECRUITER_RESPONSE_TOPIC = "signinRecruiterResponse";
 const SIGNUP_RECRUITER_REQUEST_TOPIC = "signupRecruiterRequest";
 const SIGNUP_RECRUITER_RESPONSE_TOPIC = "signupRecruiterResponse";
 
-const SIGNIN_APPLICANT_REQUEST_TOPIC = "signinAPPLICANTRequest";
-const SIGNIN_APPLICANT_RESPONSE_TOPIC = "signinAPPLICANTResponse";
-const SIGNUP_APPLICANT_REQUEST_TOPIC = "signupAPPLICANTRequest";
-const SIGNUP_APPLICANT_RESPONSE_TOPIC = "signupAPPLICANTResponse";
+const SIGNIN_APPLICANT_REQUEST_TOPIC = "signinApplicantRequest";
+const SIGNIN_APPLICANT_RESPONSE_TOPIC = "signinApplicantResponse";
+const SIGNUP_APPLICANT_REQUEST_TOPIC = "signupApplicantRequest";
+const SIGNUP_APPLICANT_RESPONSE_TOPIC = "signupApplicantResponse";
 
 const POST_JOB_REQUEST = "postJobRequest";
 const POST_JOB_RESPONSE = "postJobResponse";
@@ -26,25 +26,25 @@ const UPDATE_JOB_VIEWS_RESPONSE = "updateJobViewsResponse";
 const GET_RECRUITER_PROFILE_REQUEST = "getRecruiterProfileRequest";
 const GET_RECRUITER_PROFILE_RESPONSE = "getRecruiterProfileResponse";
 
-const GRAPHS_CLICK_PER_JOB_REQUEST = "graphClicksPerJobRequet";
+const GRAPHS_CLICK_PER_JOB_REQUEST = "graphClicksPerJobRequest";
 const GRAPHS_CLICK_PER_JOB_RESPONSE = "graphClicksPerJobResponse";
 
-const GRAPHS_TOP_JOB_POSTINGS_REQUEST = "graphTopJobPostingsRequet";
+const GRAPHS_TOP_JOB_POSTINGS_REQUEST = "graphTopJobPostingsRequest";
 const GRAPHS_TOP_JOB_POSTINGS_RESPONSE = "graphTopJobPostingsResponse";
 
 const UPDATE_JOB_CLICKS_REQUEST = "updateJobClicksRequest";
 const UPDATE_JOB_CLICKS_RESPONSE = "updateJobClicksResponse";
 
-const GRAPHS_UNPOPULAR_JOB_POSTINGS_REQUEST = "graphUnpopularJobPostingsRequet";
+const GRAPHS_UNPOPULAR_JOB_POSTINGS_REQUEST = "graphUnpopularJobPostingsRequest";
 const GRAPHS_UNPOPULAR_JOB_POSTINGS_RESPONSE = "graphUnpopularJobPostingsResponse";
 
-const GRAPHS_CITYWISE_APPLICATION_REQUEST = "graphCitywiseApplicationRequet";
+const GRAPHS_CITYWISE_APPLICATION_REQUEST = "graphCitywiseApplicationRequest";
 const GRAPHS_CITYWISE_APPLICATION_RESPONSE = "graphCitywiseApplicationResponse";
 
-const LOG_EVENT_REQUEST = "logEventRequet";
+const LOG_EVENT_REQUEST = "logEventRequest";
 const LOG_EVENT_RESPONSE = "logEventResponse";
 
-const GRAPHS_LOG_EVENT_REQUEST = "graphLogEventRequet";
+const GRAPHS_LOG_EVENT_REQUEST = "graphLogEventRequest";
 const GRAPHS_LOG_EVENT_RESPONSE = "graphLogEventResponse";
 
 module.exports = {
