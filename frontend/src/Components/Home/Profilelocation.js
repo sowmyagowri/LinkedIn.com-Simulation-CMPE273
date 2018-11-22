@@ -14,8 +14,8 @@ class ProfileLocation extends Component{
             lastname : "",
             email : "",
             password : "",
-            state : "",
-            zipcode : "",
+            state : { value: '', isValid: true },
+            zipcode : { value: '', isValid: true },
             message: "",
         };
 
@@ -23,11 +23,6 @@ class ProfileLocation extends Component{
         this.changeHandler = this.changeHandler.bind(this);
         this.handleValidation = this.handleValidation.bind(this);
         this.submitSignup = this.submitSignup.bind(this);
-    }
-
-    
-    componentDidMount() {
-        
     }
 
     componentWillMount() {

@@ -14,7 +14,7 @@ import Jobs from './PostJobs/Jobs'
 class Main extends Component {
     render(){
         return(
-            <div         
+            <div>         
                 <Switch>
                 <Route path="/" component={Home} exact/>
                 <Route path="/profile" component={Profile}/>

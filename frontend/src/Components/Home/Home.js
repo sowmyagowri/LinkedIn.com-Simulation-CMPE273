@@ -146,7 +146,7 @@ class Home extends Component{
     submitLogin(event) {
         //prevent page from refresh
         event.preventDefault();
-        const { loginemail, loginpassword } = this.state;
+        const { loginemail, loginpassword, email, password  } = this.state;
         if ( loginemail && loginpassword) {
             const data = {
                 email:  loginemail.value,
@@ -156,6 +156,15 @@ class Home extends Component{
                 if(response.payload.status === 200){
                     this.setState({
                         islogged: true
+                    });
+                }
+                if(response.payload.status === 401){
+                    this.props.history.push({
+                        pathname:"/profilelocation/new",
+                        state:{
+                            email : email.value,
+                            password : password.value
+                        }
                     });
                 }
             }).catch (error => {
