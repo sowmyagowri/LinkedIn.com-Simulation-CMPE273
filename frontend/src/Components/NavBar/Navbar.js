@@ -46,15 +46,15 @@ class Navbar extends Component {
                             <span className = "nav-item nav-item__icon">
                             <li className="nav-item--profile">
                             <div className ="dropdown">
-                            <button type="button" class="nav-item__link nav-item__link--underline js-nav-item-link dropdown-toggle"  id="dropdownMenuProfile"  data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <button type="button" className="nav-item__link nav-item__link--underline js-nav-item-link dropdown-toggle"  id="dropdownMenuProfile"  data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                 <FontAwesomeIcon color="#dee2e6" size="lg" icon="user-circle"></FontAwesomeIcon><small className ="nocolor small">Me</small></button>
-                            <div class="dropdown-menu" aria-labelledby="dropdownMenuProfile">
-                                <a class="dropdown-item" href="/profile">Profile</a>
-                                <div class="dropdown-divider"></div>
-                                <a class="dropdown-item" href="/searchjobs">Job Postings</a>
-                                <a class="dropdown-item" href="/jobs/saved">Saved Jobs</a>
-                                <div class="dropdown-divider"></div>
-                                <a class="dropdown-item" href="#">Sign Out</a></div>
+                            <div className="dropdown-menu" aria-labelledby="dropdownMenuProfile">
+                                <a className="dropdown-item" href="/profile">Profile</a>
+                                <div className="dropdown-divider"></div>
+                                <a className="dropdown-item" href="/searchjobs">Job Postings</a>
+                                <a className="dropdown-item" href="/jobs/saved">Saved Jobs</a>
+                                <div className="dropdown-divider"></div>
+                                <a className="dropdown-item" href="#">Sign Out</a></div>
                             </div>
                             </li></span> 
                         </ul>

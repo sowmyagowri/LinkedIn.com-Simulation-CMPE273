@@ -107,8 +107,8 @@ class ProfileLocation extends Component{
                     lastname : lastname,
                     email : email,
                     password : password,
-                    state : state,
-                    zipcode : zipcode
+                    state : state.value,
+                    zipcode : zipcode.value
                 }
             });
         }

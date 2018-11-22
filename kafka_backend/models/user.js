@@ -1,16 +1,22 @@
 var mongoose = require('mongoose');
 
-var Applicants = mongoose.model('Applicants',{
+var Users = mongoose.model('Users',{
     firstName : {
         type : String
     },
     lastName : {
         type : String
     },
+    email : {
+        type : String
+    },
     state : {
         type: String
     },
     zipcode : {
+        type: String
+    },
+    role : {
         type: String
     },
     experience : [{
@@ -26,6 +32,15 @@ var Applicants = mongoose.model('Applicants',{
         fromYear: Number,
         toYear: Number,
     }],
+    connectionsIncoming:[{
+        email : String,
+    }],
+    connectionsOutgoing:[{
+        email : String,
+    }],
+    connectionsApproved:[{
+        email : String,
+    }],
 });
 
-module.exports = {Applicants};
+module.exports = {Users};

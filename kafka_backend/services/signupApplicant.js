@@ -1,5 +1,5 @@
 const db = require('./../config/mysql');
-var { Applicants } = require('../models/applicant');
+var { Users } = require('../models/user');
 const bcrypt = require('bcrypt');
 const saltRounds = 10;
 const { prepareInternalServerError, prepareSuccess, prepareResourceConflictFailure } = require('./responses')
@@ -12,17 +12,19 @@ async function handle_request(msg, callback) {
     try {
         let hash = await bcrypt.hash(msg.password, saltRounds);
         let post = {
+            firstName: msg.firstname,
+            lastName: msg.lastname,
             email: msg.email,
             password: hash,
-            firstName: msg.firstname,
-            lastName: msg.lastname
+            role: 'A'
         }
-        await db.insertQuery('INSERT INTO applicant_profile SET ?', post);
-        var applicant = new Applicants({
+        await db.insertQuery('INSERT INTO user_profile SET ?', post);
+        var user = new Users({
             firstName : msg.firstname,
             lastName : msg.lastname,
             state : msg.state,
             zipcode : msg.zipcode,
+            role: 'A',
             experience : [{
             title : msg.title,
             company : msg.company,
@@ -37,8 +39,8 @@ async function handle_request(msg, callback) {
                 schooltoYear: msg.schooltoYear,
             }]
         });
-        console.log("applicant:", applicant);
-        await applicant.save();
+        console.log("applicant:", user);
+        await user.save();
         resp = prepareSuccess({ "result": "Applicant Profile created Sucessfully" });
     }
     catch (error) {
