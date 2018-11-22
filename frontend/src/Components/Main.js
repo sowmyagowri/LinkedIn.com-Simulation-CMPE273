@@ -1,12 +1,13 @@
 import React, {Component} from 'react';
-import {Route, Redirect, Switch} from 'react-router-dom';
+import {Route, Switch} from 'react-router-dom';
 import Home from './Home/Home';
 import ProfileLocation from './Home/Profilelocation';
 import ProfileEdit from './Home/Profileedit';
 import Profile from './Profile/Profile';
 import SearchJobs from './SearchJobs/Searchjobs';
 import PostAJobHome from './PostJobs/PostAJobHome'
-import PostAJobWizardA from './PostJobs/PostAJobWizardA'
+import PostAJobHeader from './PostJobs/PostJobHeader'
+import Jobs from './PostJobs/Jobs'
 
 class Main extends Component {
     render(){
@@ -19,8 +20,10 @@ class Main extends Component {
                 <Route path="/profilelocation/new" component={ProfileLocation}/>
                 <Route path="/profileedit/new" component={ProfileEdit}/>
                 <Route path="/searchjobs" component={SearchJobs}/>
-                <Route path="/postajob" component={PostAJobHome}/>
-                <Route path="/postajobwizard" component={PostAJobWizardA}/>
+                <Route path="/postajobhome" component={PostAJobHome}/>
+                <Route path="/postajob" component={PostAJobHeader}/>
+                <Route path="/jobs" component={Jobs}/>
+
                 </Switch>
             </div>
         )

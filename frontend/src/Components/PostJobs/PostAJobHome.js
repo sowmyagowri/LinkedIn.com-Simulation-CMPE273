@@ -1,5 +1,4 @@
 import React, { Component } from "react";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import PostJobNav from "./PostJobNav";
 
 class PostAJobHome extends Component {
@@ -26,47 +25,47 @@ class PostAJobHome extends Component {
 
             <div className="row">
               <div className="col-5 offset-3">
-                <div class="card shadow-lg">
-                  <div class="card-body">
-                    <div class="input-group">
-                      <div class="input-group-append border-right-0">
-                        <span class="input-group-text bg-transparent border-right-0">
-                          <i class="fas fa-building border-right-0" />
+                <div className="card shadow-lg">
+                  <div className="card-body">
+                    <div className="input-group">
+                      <div className="input-group-append border-right-0">
+                        <span className="input-group-text bg-transparent border-right-0">
+                          <i className="fas fa-building border-right-0" />
                         </span>
                       </div>
                       <input
                         type="text"
-                        class="form-control form-control-lg border-left-0"
+                        className="form-control form-control-lg border-left-0"
                         placeholder="Company"
                         aria-label="company"
                         aria-describedby="company"
                       />
                     </div>
                     <br />
-                    <div class="input-group">
-                      <div class="input-group-append border-right-0">
-                        <span class="input-group-text bg-transparent border-right-0">
-                          <i class="fas fa-suitcase border-right-0" />
+                    <div className="input-group">
+                      <div className="input-group-append border-right-0">
+                        <span className="input-group-text bg-transparent border-right-0">
+                          <i className="fas fa-suitcase border-right-0" />
                         </span>
                       </div>
                       <input
                         type="text"
-                        class="form-control form-control-lg border-left-0"
+                        className="form-control form-control-lg border-left-0"
                         placeholder="Job title"
                         aria-label="jobtitle"
                         aria-describedby="jobtitle"
                       />
                     </div>
                     <br />
-                    <div class="input-group">
-                      <div class="input-group-append border-right-0">
-                        <span class="input-group-text bg-transparent border-right-0">
-                          <i class="fas fa-map-marker-alt border-right-0" />
+                    <div className="input-group">
+                      <div className="input-group-append border-right-0">
+                        <span className="input-group-text bg-transparent border-right-0">
+                          <i className="fas fa-map-marker-alt border-right-0" />
                         </span>
                       </div>
                       <input
                         type="text"
-                        class="form-control form-control-lg border-left-0"
+                        className="form-control form-control-lg border-left-0"
                         placeholder="Job address or city"
                         aria-label="jbcity"
                         aria-describedby="jbcity"
@@ -76,7 +75,7 @@ class PostAJobHome extends Component {
                     <button
                       type="button"
                       style={{background:"#004b7c"}}
-                      class="btn btn-lg btn-block text-white"
+                      className="btn btn-lg btn-block text-white"
                     >
                       Start job post
                     </button>

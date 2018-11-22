@@ -2,9 +2,7 @@ import React, {Component} from 'react';
 import '../../App.css';
 import '../../jobsearch_wrapper.css';
 import '../../navbar.css';
-import { Field, reduxForm } from "redux-form";
-import {Redirect, withRouter} from 'react-router-dom';
-import { connect } from "react-redux";
+
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 
 class SearchJobs extends Component{

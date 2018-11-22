@@ -11,7 +11,10 @@ export const renderFieldLarge = ({
   meta: { touched, error }
 }) => (
   <div>
-    <label style={{ fontSize: "14px" }}>{label}</label>
+    <label style={{ fontSize: "14px" }}>
+      {label}
+      <span style={{ color: "#0073b1" }}>*</span>
+    </label>
     <div>
       <input
         {...input}
@@ -40,7 +43,10 @@ export const renderEmploymentType = ({
   meta: { touched, error }
 }) => (
   <div>
-    <label style={{ fontSize: "14px" }}>{label}</label>
+    <label style={{ fontSize: "14px" }}>
+      {label}
+      <span style={{ color: "#0073b1" }}>*</span>
+    </label>
     <div>
       <select {...input} className="form-control form-control-lg jodField">
         <option value="">Choose One</option>
@@ -65,7 +71,10 @@ export const renderJobDescription = ({
   meta: { touched, error }
 }) => (
   <div>
-    <label style={{ fontSize: "14px" }}>{label}</label>
+    <label style={{ fontSize: "14px" }}>
+      {label}
+      <span style={{ color: "#0073b1" }}>*</span>
+    </label>
 
     <div>
       <textarea
@@ -89,16 +98,20 @@ export const renderDatePicker = ({
   meta: { touched, error }
 }) => (
   <div>
-    <label style={{ fontSize: "14px" }}>{label}</label>
+    <label style={{ fontSize: "14px" }}>
+      {label}
+      <span style={{ color: "#0073b1" }}>*</span>
+    </label>
 
     <div>
       <DatePicker
         {...input}
         className="form-control form-control-lg jodField "
         dateForm="MM/DD/YYYY"
-        selected={input.value ? moment(input.value) : null}
+        selected={input.value ? new Date(moment(input.value)) : null}
       />
-      {touched && error && <span>{error}</span>}
+
+      {touched && error && <span className="text-danger">{error}</span>}
     </div>
   </div>
 );

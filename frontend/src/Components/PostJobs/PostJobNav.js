@@ -10,38 +10,40 @@ class PostJobNav extends Component {
   render() {
     return (
       <div>
-        <nav class=" bottomBorder navbar navbar-expand-md navbar-fixed-top navbar-dark blueBackground main-nav">
-          <div class="container" style={{ marginLeft: "15%" }}>
-            <a class="navbar-brand" href="#">
-              <img style={{ width: "50%" }} src="images/linkedinjob.png" />
+        <nav className=" bottomBorder navbar navbar-expand-md navbar-fixed-top navbar-dark blueBackground main-nav">
+          <div className="container" style={{ marginLeft: "15%" }}>
+            <a className="navbar-brand" href="/">
+              <img style={{ width: "50%" }} src="images/linkedinjob.png"  alt=""/>
             </a>
 
-            <ul class="nav navbar-nav mx-auto">
-              <li class="nav-item">
-                <a class="nav-link text-white navlinkhover" href="#">
+            <ul className="nav navbar-nav mx-auto">
+              <li className="nav-item">
+                <a className="nav-link text-white navlinkhover" href="/">
                   HOME
                 </a>
               </li>
-              <li class="nav-item">
-                <a class="nav-link text-white navlinkhover" href="#">
+              <li className="nav-item">
+                <a className="nav-link text-white navlinkhover" href="/">
                   POST A JOB
                 </a>
               </li>
-              <li class="nav-item">
-                <a class="nav-link text-white navlinkhover" href="#">
+              <li className="nav-item">
+                <a className="nav-link text-white navlinkhover" href="/">
                   LINKEDIN.COM
                 </a>
               </li>{" "}
             </ul>
 
-            <ul class="nav navbar-nav">
+            <ul className="nav navbar-nav">
               <li className="nav-link">
+              <a href="/jobs" >
                 <FontAwesomeIcon color="#dee2e6" size="lg" icon="envelope" />
-                <a href="/jobs" />
+                </a>
               </li>
               <li className="nav-link">
+              <a href="/profile" >
                 <FontAwesomeIcon color="#dee2e6" size="lg" icon="user-circle" />
-                <a href="/profile" />
+               </a>
               </li>
             </ul>
           </div>
