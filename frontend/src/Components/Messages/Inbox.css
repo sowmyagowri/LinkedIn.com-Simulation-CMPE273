@@ -1,0 +1,74 @@
+.user-inbox{
+
+}
+
+.user-inbox .content{
+    display: flex;
+    height: 100vh;
+    margin-left:200px;
+    margin-right: 200px;
+    padding-top: 100px;
+    padding-bottom: 50px;
+    
+}
+
+.user-inbox .master{
+    flex:1;
+    border: 1px solid #cccccc;
+    border-right-width: 0px;
+    overflow-y: auto;
+}
+
+.user-inbox .detail{
+    flex:3;
+    border: 1px solid #cccccc;
+}
+
+.user-inbox .message {
+    text-decoration: none;
+    cursor: pointer;
+    width: inherit;
+    border-bottom: 1px solid #d3d8de;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    padding-left: 20px;
+    padding-right: 20px;
+    padding-top: 10px;
+    padding-bottom: 10px;   
+}
+
+.user-inbox .message:hover{
+    background-color: #f6f7f8;
+}
+
+.user-inbox .message img{
+    height: 80px;
+    width: 80px;
+}
+
+.user-inbox .conversation{
+    display: flex;
+    flex-direction: column;
+}
+
+.user-inbox .conversation-list{
+    flex: 7;
+    margin-left: 20%;
+    margin-right: 20%;
+    margin-top:25px
+}
+
+.user-inbox .input-message{
+    display: flex;
+    flex: 3;
+    align-items: flex-end;
+    width: inherit;
+    padding: 10px;
+    border-top: 1px solid #cccccc;
+}
+
+.user-inbox textarea{
+    margin-right: 10px;
+    resize: none;
+}

@@ -19,8 +19,10 @@ async function handle_request(msg, callback) {
         if (match) {
             resp = prepareSuccess({
                 email: user.email,
-                first_name: user.firstName,
-                last_name: user.lastName
+                first_name: user.firstname,
+                last_name: user.lastname,
+                //role is needed to create JWT so that we can call appropriate SQL user table in passport
+                role: "applicant"
             });
         } else {
             resp = prepareAuthenticationFailure({
