@@ -21,7 +21,8 @@ let graphUnpopularJobPostings = require('./routes/graphUnpopularJobPostings');
 let graphCitywiseApplication = require('./routes/graphCitywiseApplication');
 let logEvent = require('./routes/logEvent');
 let graphLogEvent = require('./routes/graphLogEvent');
-let sendMessage = require('./routes/sendMessage')
+let sendMessage = require('./routes/sendMessage');
+let getAllMessages = require('./routes/getAllMessages');
 
 let expressValidator = require("express-validator");
 var morgan = require('morgan');
@@ -77,7 +78,7 @@ app.use("/graph_citywise_applications/", graphCitywiseApplication);
 app.use("/log_event/", logEvent);
 app.use("/graph_log_event/", graphLogEvent);
 app.use("/message", sendMessage);
-
+app.use("/messages", getAllMessages);
 /** start server */
 app.listen(port, () => {
     console.log(`Server started at port: ${port}`);
