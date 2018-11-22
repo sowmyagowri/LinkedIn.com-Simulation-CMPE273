@@ -26,7 +26,9 @@ async function handle_request(msg, callback) {
             email: post.email,
             // id: result.id,
             first_name: post.first_name,
-            last_name: post.last_name
+            last_name: post.last_name,
+            //role is needed to create JWT so that we can call appropriate SQL user table in passport
+            role: "recruiter"
         });
     }
     catch (error) {

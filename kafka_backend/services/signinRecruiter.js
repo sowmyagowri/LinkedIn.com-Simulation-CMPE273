@@ -21,7 +21,9 @@ async function handle_request(msg, callback) {
                 email: user.email,
                 // id: user.id,
                 first_name: user.first_name,
-                last_name: user.last_name
+                last_name: user.last_name,
+                //role is needed to create JWT so that we can call appropriate SQL user table in passport
+                role: "recruiter"
             });
         } else {
             resp = prepareAuthenticationFailure({

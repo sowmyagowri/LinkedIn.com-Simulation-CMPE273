@@ -26,6 +26,7 @@ var Applicants = mongoose.model('Applicants',{
         fromYear: Number,
         toYear: Number,
     }],
+    email: String
 });
 
 module.exports = {Applicants};
