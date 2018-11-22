@@ -191,7 +191,7 @@ class Home extends Component{
                         <label htmlFor = "login-password">Password</label>
                         <input onChange = {this.changeHandler} type = "password" id = "login-password" name = "loginpassword" value={loginpassword.value} placeholder ="Password" autoFocus = "autofocus"></input>
                         <input className = "login-submit" type ="submit" value = "Sign In"></input>
-                        <a className = "link-forgot-password" tabIndex = "1" href="/">Forgot Password?</a>
+                        <a className = "link-forgot-password" tabIndex = "1">Forgot Password?</a>
                     </form>
                  </div>
               </div>
