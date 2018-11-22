@@ -1,7 +1,3 @@
-.user-inbox{
-
-}
-
 .user-inbox .content{
     display: flex;
     height: 100vh;
@@ -9,11 +5,14 @@
     margin-right: 200px;
     padding-top: 100px;
     padding-bottom: 50px;
-    
+}
+
+.master{
+    width : 300px;
 }
 
 .user-inbox .master{
-    flex:1;
+    /* flex:1; */
     border: 1px solid #cccccc;
     border-right-width: 0px;
     overflow-y: auto;
@@ -22,6 +21,7 @@
 .user-inbox .detail{
     flex:3;
     border: 1px solid #cccccc;
+    overflow-y: auto;
 }
 
 .user-inbox .message {
@@ -40,6 +40,7 @@
 
 .user-inbox .message:hover{
     background-color: #f6f7f8;
+    box-shadow: rgb(0, 115, 177) 4px 0px 0px inset, rgb(243, 246, 248) 0px -1px 0px inset;
 }
 
 .user-inbox .message img{
@@ -50,25 +51,74 @@
 .user-inbox .conversation{
     display: flex;
     flex-direction: column;
+    overflow-y: auto;
 }
 
 .user-inbox .conversation-list{
     flex: 7;
     margin-left: 20%;
     margin-right: 20%;
-    margin-top:25px
+    margin-top:25px;
+    min-height : 450px;
+    overflow-y: auto;
 }
 
-.user-inbox .input-message{
+.conversation .input-message{
     display: flex;
-    flex: 3;
+    align-content: stretch;
+    /* flex: 3; */
     align-items: flex-end;
     width: inherit;
+    height:auto;
+    justify-content: space-around;
     padding: 10px;
     border-top: 1px solid #cccccc;
 }
 
+.conversation {
+    overflow-y: auto;
+}
+
 .user-inbox textarea{
     margin-right: 10px;
-    resize: none;
+    flex-wrap: wrap;
+    /* resize: none; */
+}
+
+.msg-conversation-card__row {
+    display: flex;
+    flex-wrap: wrap;
+    padding-left: 8px;
+}
+.ph2, .pr2 {
+    padding-right: 8px;
+}
+
+.t-14 {
+    font-size: 1rem;
+    line-height: 1.5;
+}
+
+.t-black--light {
+    color: rgba(0,0,0,.6);
+}
+
+.t1-bold {
+    font-weight: 600;
+}
+.msg-conversation-card__convo-utility {
+    white-space: nowrap;
+}
+
+.t-12{
+    font-size: 0.9rem;
+    line-height: 1.5;
+    color: rgba(0,0,0,.6);
+}
+
+.msg-conversations-container__title-row {
+    height: 44px;
+    display: flex;
+    align-items: center;
+    border-bottom: 1px solid rgb(205, 207, 210);
 }

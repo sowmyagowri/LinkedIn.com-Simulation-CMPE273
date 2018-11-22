@@ -13,6 +13,8 @@ class Inbox extends Component {
                 <Navbar></Navbar>
                 <div class="content">
                     <div class="master">
+                    <div className = "msg-conversations-container__title-row">
+                    <h1 className = "ph4 t-14 t-black-light t1-bold">Messaging</h1></div>
                         {this.renderMessageList()}
                     </div>
                     <div class="detail">
@@ -30,8 +32,12 @@ class Inbox extends Component {
         message.map((conversation, index) => {
             conversations.push(
                 <div class="message" key={index} onClick={this.viewConversation.bind(this, conversation)}>
-                    <img src="/images/avatar.png" />
-                    <h5>{'Yash Mahajan' + index}</h5>
+                    <div className = "msg-conversation-card__row pr2">
+                        <img src="/images/avatar.png" style = {{width : "56px", height : "56px"}}/>
+                        <div className = "msg-conversation-card__row pr2">
+                        <h5 className = "t-14 t-black--light t-normal">{'Yash Mahajan' + index}</h5></div>
+                        <div className ="msg-conversation-card__convo-utility t-12">May 17</div>
+                    </div>
                 </div>
             );
         });
@@ -54,9 +60,9 @@ class Inbox extends Component {
                 <div class="conversation-list">
                 </div>
                 <div class="input-message">
-                    <textarea rows="6" cols="40" required maxlength="10000" class="form-control" onChange={(event) => { }}
+                    <textarea rows="6" cols="40" required maxlength="10000" className="form-control chat-reply" onChange={(event) => { }}
                         name="message" placeholder="Enter Message"></textarea>
-                    <button className='btn btn-primary' onClick={this.sendMessage.bind(this)}>Send</button>
+                    <button className='btn arteco-btn' onClick={this.sendMessage.bind(this)}>Send</button>
                 </div>
             </div>
         );
