@@ -146,11 +146,10 @@ class Home extends Component{
     submitLogin(event) {
         //prevent page from refresh
         event.preventDefault();
-        const { loginemail, loginpassword } = this.state;
-        if ( loginemail && loginpassword) {
+        if ( this.state.loginemail.value && this.state.loginpassword.value) {
             const data = {
-                email:  loginemail,
-                password: loginpassword
+                email:  this.state.loginemail.value,
+                password: this.state.loginpassword.value
             }
             this.props.applicantlogin(data).then(response => {
                 if(response.payload.status === 200){
