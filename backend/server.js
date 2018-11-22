@@ -22,6 +22,8 @@ let graphUnpopularJobPostings = require('./routes/graphUnpopularJobPostings');
 let graphCitywiseApplication = require('./routes/graphCitywiseApplication');
 let logEvent = require('./routes/logEvent');
 let graphLogEvent = require('./routes/graphLogEvent');
+let sendMessage = require('./routes/sendMessage');
+let getAllMessages = require('./routes/getAllMessages');
 
 let expressValidator = require("express-validator");
 var morgan = require('morgan');
@@ -29,8 +31,11 @@ let cors = require('cors');
 const config = require('./config');
 const app = express()
 app.use(cookieParser());
-var passport = require('passport');
+let passport = require('passport');
 app.use(passport.initialize());
+require('./passport/passport')(passport);
+let requireAuth = passport.authenticate('jwt', {session: false});
+
 const multer = require('multer');
 
 let port = 5000 || process.env.PORT
@@ -58,6 +63,12 @@ app.use("/signup_recruiter/", signupRecruiter);
 app.use("/signup_applicant/", signupApplicant);
 app.use("/signin_recruiter/", signinRecruiter);
 app.use("/signin_applicant/", signinApplicant);
+
+// Add routes above this line if they do not require passport authentication
+// Add passport Authentication code will go here
+app.use("/", requireAuth);
+// Add routes below this line if they require passport authentication
+
 app.use("/post_job/", postJob);
 app.use("/get_jobs_by_recruiter/", getJobsByRecruiter);
 app.use("/post_recruiter_profile/", postRecruiterProfile);
@@ -71,7 +82,8 @@ app.use("/graph_unpopular_job_postings/", graphUnpopularJobPostings);
 app.use("/graph_citywise_applications/", graphCitywiseApplication);
 app.use("/log_event/", logEvent);
 app.use("/graph_log_event/", graphLogEvent);
-
+app.use("/message", sendMessage);
+app.use("/messages", getAllMessages);
 /** start server */
 app.listen(port, () => {
     console.log(`Server started at port: ${port}`);

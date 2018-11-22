@@ -8,6 +8,8 @@ import Profile from './Profile/Profile';
 import SearchJobs from './SearchJobs/Searchjobs';
 import ViewJob from './SearchJobs/Viewjob';
 import ViewSavedJobs from './SearchJobs/Viewsavedjobs';
+import Inbox from './Messages/Inbox'
+import EasyApply from './SearchJobs/Easyapply'
 import PostAJobHome from './PostJobs/PostAJobHome'
 import PostAJobHeader from './PostJobs/PostJobHeader'
 import Jobs from './PostJobs/Jobs'
@@ -24,11 +26,13 @@ class Main extends Component {
                 <Route path="/profilelocation/new" component={ProfileLocation}/>
                 <Route path="/profileedit/new" component={ProfileEdit}/>
                 <Route path="/searchjobs" component={SearchJobs}/>
+                <Route path="/messages" component={Inbox}/>
+                <Route path="/easyapply" component={EasyApply}/>
+                <Route path="/job/view/:jobid" component={ViewJob}/>
+                <Route path="/job/saved" component={ViewSavedJobs}/>
                 <Route path="/postajobhome" component={PostAJobHome}/>
                 <Route path="/postajob" component={PostAJobHeader}/>
                 <Route path="/jobs" component={Jobs}/>
-                <Route path="/jobs/view/:jobid" component={ViewJob}/>
-                <Route path="/jobs/saved/" component={ViewSavedJobs}/>
                 </Switch>
             </div>
         )

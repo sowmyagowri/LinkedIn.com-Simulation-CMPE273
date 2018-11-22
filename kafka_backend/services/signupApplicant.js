@@ -37,7 +37,8 @@ async function handle_request(msg, callback) {
                 degree : msg.degree,
                 schoolfromYear: msg.schoolfromYear,
                 schooltoYear: msg.schooltoYear,
-            }]
+            }],
+            email: msg.email
         });
         console.log("applicant:", user);
         await user.save();

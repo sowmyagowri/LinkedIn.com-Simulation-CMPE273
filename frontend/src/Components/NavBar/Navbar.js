@@ -1,10 +1,10 @@
 import React, { Component } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import './Navbar.css';
-import { withRouter } from 'react-router-dom';
+import { withRouter, Link } from 'react-router-dom';
 
 class Navbar extends Component {
-    constructor(props) { 
+    constructor(props) {
         super(props);
     }
 
@@ -13,7 +13,7 @@ class Navbar extends Component {
             <div className="navbar fixed-top navbar-dark bg-dark" style={{ height: "52px" }}>
                 <div className="home_wrapper">
                     <div className="nav-main__content full-height display-flex align-items-center" role="navigation">
-                        <h1><a className="navbar-brand" href="#" style={{ marginTop: "10px" }}><img src={"/images/linkedin-logo1.jpg"} alt="" /></a></h1>
+                        <h1><a className="navbar-brand" href="#" style={{ marginTop: "10px" }}><img src={"/images/linkedin-logo2.png"} alt="" /></a></h1>
                         <div className="nav-search-bar">
                             <div className="nav-typeahead-wormhole">
                                 <div className="jobs-search-box">
@@ -38,11 +38,15 @@ class Navbar extends Component {
                         <ul className="nav-main nav-container display-flex full-height" role="navigation" aria-label="primary">
                         <span className = "nav-item nav-item__icon">
                             <li className="nav-item--jobs">
+                            <a href="/connections" className= "nav-item__link nav-item__link--underline js-nav-item-link">
+                                <FontAwesomeIcon color="#dee2e6" size="lg" icon="users"></FontAwesomeIcon><small className ="nocolor small" style ={{whiteSpace : "nowrap"}}>My Network</small></a></li></span>
+                        <span className = "nav-item nav-item__icon">
+                            <li className="nav-item--jobs">
                             <a href="/searchjobs" className= "nav-item__link nav-item__link--underline js-nav-item-link">
                                 <FontAwesomeIcon color="#dee2e6" size="lg" icon="suitcase"></FontAwesomeIcon><small className ="nocolor small">Jobs</small></a></li></span>
                         <span className = "nav-item nav-item__icon">
-                            <li className="nav-item--messaging"><a href="/messages" className= "nav-item__link nav-item__link--underline js-nav-item-link">
-                                <FontAwesomeIcon color="#dee2e6" size="lg" icon="comments"></FontAwesomeIcon><small className ="nocolor small">Messaging</small></a></li></span>
+                            <li className="nav-item--messaging"><Link to="/messages" className= "nav-item__link nav-item__link--underline js-nav-item-link">
+                                <FontAwesomeIcon color="#dee2e6" size="lg" icon="comments"></FontAwesomeIcon><small className ="nocolor small">Messaging</small></Link></li></span>
                             <span className = "nav-item nav-item__icon">
                             <li className="nav-item--profile">
                             <div className ="dropdown">
@@ -59,10 +63,10 @@ class Navbar extends Component {
                             </li></span> 
                         </ul>
                         <ul className="nav-side nav-container display-flex full-height" role="navigation" aria-label="primary">
-                        <span className = "nav-item nav-item__icon">
-                            <li className="nav-item--postjobs">
-                            <a href="/searchjobs" className= "nav-item__link nav-item__link--underline js-nav-item-link">
-                                <FontAwesomeIcon color="#dee2e6" size="lg" icon="calendar-alt"></FontAwesomeIcon><small className ="nocolor small" style ={{whiteSpace : "nowrap"}}>Post a Job</small></a></li></span>
+                            <span className="nav-item nav-item__icon">
+                                <li className="nav-item--postjobs">
+                                    <a href="/searchjobs" className="nav-item__link nav-item__link--underline js-nav-item-link">
+                                        <FontAwesomeIcon color="#dee2e6" size="lg" icon="calendar-alt"></FontAwesomeIcon><small className="nocolor small" style={{ whiteSpace: "nowrap" }}>Post a Job</small></a></li></span>
                         </ul>
                     </div>
                 </div>

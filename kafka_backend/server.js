@@ -19,6 +19,8 @@ let graphUnpopularJobPostings = require('./services/graphUnpopularJobPostings');
 let graphCitywiseApplications = require('./services/graphCitywiseApplication');
 let logEventService = require('./services/logEvent');
 let graphLogEvent = require('./services/graphLogEvent');
+let sendMessageService = require('./services/sendMessageService');
+let getAllMessagesService = require('./services/getAllMessagesService');
 
 //import kafka topics
 const {
@@ -28,7 +30,7 @@ const {
     GET_RECRUITER_PROFILE_REQUEST, EDIT_JOB_REQUEST, UPDATE_JOB_VIEWS_REQUEST,
     GRAPHS_CLICK_PER_JOB_REQUEST, GRAPHS_TOP_JOB_POSTINGS_REQUEST, UPDATE_JOB_CLICKS_REQUEST,
     GRAPHS_UNPOPULAR_JOB_POSTINGS_REQUEST, GRAPHS_CITYWISE_APPLICATION_REQUEST, LOG_EVENT_REQUEST,
-    GRAPHS_LOG_EVENT_REQUEST
+    GRAPHS_LOG_EVENT_REQUEST, SEND_MESSAGE_REQUEST, GET_ALL_MESSAGES_REQUEST
 } = require('./kafka/topics');
 
 function handleTopicRequest(topic_name, fname) {
@@ -82,3 +84,6 @@ handleTopicRequest(GRAPHS_UNPOPULAR_JOB_POSTINGS_REQUEST, graphUnpopularJobPosti
 handleTopicRequest(GRAPHS_CITYWISE_APPLICATION_REQUEST, graphCitywiseApplications);
 handleTopicRequest(LOG_EVENT_REQUEST, logEventService);
 handleTopicRequest(GRAPHS_LOG_EVENT_REQUEST, graphLogEvent);
+handleTopicRequest(SEND_MESSAGE_REQUEST, sendMessageService);
+handleTopicRequest(SIGNIN_APPLICANT_REQUEST_TOPIC, signinApplicantService);
+handleTopicRequest(GET_ALL_MESSAGES_REQUEST, getAllMessagesService)

@@ -47,9 +47,9 @@ class ViewSavedJobs extends Component{
             return Object.keys(rows).map(function(i) {
               return <li className = "jobs-activity__list-item jobs-saved-jobs__list-item jobs-job-card-actions-container card-list__item job-card job-card--column ember-view" key={i}>
                     <div className = "media1">
-                     <a href = {`/jobs/view/${rows[i].id}`} className = "pull-left"><img src = {rows[i].company_logo} style = {{height : "50px", width : "50px"}}/></a>
+                     <a href = {`/job/view/${rows[i].id}`} className = "pull-left"><img src = {rows[i].company_logo} style = {{height : "50px", width : "50px"}}/></a>
                       <div className = "artdeco-entity-lockup--size-4 gap1">
-                           <a href = {`/jobs/view/${rows[i].id}`}><div className="job-details__subject1" >
+                           <a href = {`/job/view/${rows[i].id}`}><div className="job-details__subject1" >
                              {rows[i].title}
                             </div></a>
                         <div className="job-details__name">{rows[i].posted_by}</div>
