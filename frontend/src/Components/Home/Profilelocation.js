@@ -84,7 +84,7 @@ class ProfileLocation extends Component{
                 formIsValid = false;
                 zipcode.isValid = false;
                 this.setState({
-                    message: "Please enter a Zipcode"
+                    message: "Please enter a valid Zipcode"
                 });
                 return formIsValid
             }
@@ -120,7 +120,7 @@ class ProfileLocation extends Component{
           <div className = "profilelocation-wrapper">
               <div className="navbar fixed-top">
                 <div className = "home_wrapper">
-                <h1><a className="navbar-brand" href="#"><img src = {"/images/linkedinfulllogo.png"} alt = "LinkedIn"/></a></h1>
+                <h1><a className="navbar-brand"><img src = {"/images/linkedinfulllogo.png"} alt = "LinkedIn"/></a></h1>
                  </div>
               </div>
               <div className = "main1">
@@ -183,6 +183,16 @@ class ProfileLocation extends Component{
                         </select>			
                         <label htmlFor ="reg-zipcode" className = "mb1 required">Postal Code</label>
                         <input className = "form-control" onChange = {this.changeHandler} name = "zipcode" value={zipcode.value} id="reg-zipcode" pattern="[0-9]{5}" placeholder="Five digit zip code" type="text"/>
+                        <div className = "reg-alert1" role = "alert" tabIndex = "-1">
+                            {message &&
+                            (
+                                <div className="wrapper">
+                                    <p className="message">
+                                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span className="alert-content"> {message} </span>
+                                    </p>
+                                </div>
+                            )}
+                            </div>  
                         <input onClick = {this.submitSignup} id ="registration-submit" className = "registration submit-button" type = "submit" value = "Next"></input>
                     </section>
               </div>

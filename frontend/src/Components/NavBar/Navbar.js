@@ -13,7 +13,7 @@ class Navbar extends Component {
             <div className="navbar fixed-top navbar-dark bg-dark" style={{ height: "52px" }}>
                 <div className="home_wrapper">
                     <div className="nav-main__content full-height display-flex align-items-center" role="navigation">
-                        <h1><a className="navbar-brand" href="#" style={{ marginTop: "10px" }}><img src={"/images/linkedin-logo1.jpg"} alt="" /></a></h1>
+                        <h1><a className="navbar-brand" href="#" style={{ marginTop: "10px" }}><img src={"/images/linkedin-logo2.png"} alt="" /></a></h1>
                         <div className="nav-search-bar">
                             <div className="nav-typeahead-wormhole">
                                 <div className="jobs-search-box">
