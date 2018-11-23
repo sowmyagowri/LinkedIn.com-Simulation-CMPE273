@@ -18,22 +18,23 @@ class ProfileEdit extends Component{
             password : "",
             state : "",
             zipcode : "",
-            title : "",
-            company : "",
-            location : "",
-            fromMonth: "",
-            fromYear: "",
-            school : "",
-            degree : "",
-            schoolfromYear: "",
-            schooltoYear: "",
+            title : { value: '', isValid: true },
+            company : { value: '', isValid: true },
+            location : { value: '', isValid: true },
+            fromMonth: { value: '', isValid: true },
+            fromYear: { value: '', isValid: true },
+            school : { value: '', isValid: true },
+            degree : { value: '', isValid: true },
+            schoolfromYear: { value: '', isValid: true },
+            schooltoYear: { value: '', isValid: true },
+            message: "",
             signedUp: false,
         };
 
         //Bind the handlers to this class
         this.submitSignup = this.submitSignup.bind(this);
         this.changeHandler = this.changeHandler.bind(this);
-        //this.handleValidation = this.handleValidation.bind(this);
+        this.handleValidation = this.handleValidation.bind(this);
     }
 
     componentWillMount() {
@@ -47,16 +48,113 @@ class ProfileEdit extends Component{
          })
     }
     
-    changeHandler(e) {
-        const { name, value } = e.target;
-        this.setState({ [name]: value });
+    changeHandler = (e) => {
+        const state = {
+          ...this.state,
+          [e.target.name]: {
+            ...this.state[e.target.name],
+            value: e.target.value,
+            isValid: true,
+          }
+        };
+        this.setState(state);
+    }
+
+    handleValidation() {
+
+        console.log("validation check")
+
+        let formIsValid = true;
+        const { title, company, location, school, degree, schoolfromYear, schooltoYear} = {...this.state};
+
+        this.setState({
+            message: ""
+        });
+
+        //title
+        if(!title.value || title.value === "")
+        {
+            formIsValid = false;
+            title.isValid = false;
+            this.setState({
+                message: "Please enter a Title to your Work Experience"
+            });
+            return formIsValid
+        }
+
+        //company
+        if(!company.value || company.value === ""){
+            formIsValid = false;
+            company.isValid = false;
+            this.setState({
+                message: "Please enter your current Company Name or enter None otherwise"
+            });
+            return formIsValid
+        }
+
+        //location
+        if(!location.value || location.value === ""){
+            formIsValid = false;
+            location.isValid = false;
+            this.setState({
+                message: "Please enter your current Work location or enter None otherwise"
+            });
+            return formIsValid
+        }
+
+        //school
+        if(!school.value || school.value === ""){
+            formIsValid = false;
+            school.isValid = false;
+            this.setState({
+                message: "Please enter the School you last studied in"
+            });
+            return formIsValid
+        }
+
+        //degree
+        if(!degree.value || degree.value === ""){
+            formIsValid = false;
+            degree.isValid = false;
+            this.setState({
+                message: "Please enter the degree you last completed"
+            });
+            return formIsValid
+        }
+
+        //schoolfromYear
+        if(!schoolfromYear.value || schoolfromYear.value === ""){
+            formIsValid = false;
+            schoolfromYear.isValid = false;
+            this.setState({
+                message: "Please enter the FROM year of your education"
+            });
+            return formIsValid
+        }
+
+        //schooltoYear
+        if(!schooltoYear.value || schooltoYear.value === ""){
+            formIsValid = false;
+            schooltoYear.isValid = false;
+            this.setState({
+                message: "Please enter the TO year of your education"
+            });
+            return formIsValid
+        } else {
+            if (schooltoYear.value < schoolfromYear.value){
+                alert('TO Year of School should be greater than FROM year');
+                formIsValid = false;
+            }
+        }
+
+        return formIsValid;
     }
 
     submitSignup(event) {
         //prevent page from refresh
         event.preventDefault();
-    //    if (this.handleValidation()) {
-            const { firstname, lastname, email, password, state, zipcode, title, company, location, fromMonth, fromYear, school, degree, schoolfromYear, schooltoYear} = this.state;
+        if (this.handleValidation()) {
+            const { firstname, lastname, email, password, state, zipcode, title, company, location, fromMonth, fromYear, school, degree, schoolfromYear, schooltoYear} = {...this.state};
             const data = {
                 firstname : firstname,
                 lastname : lastname,
@@ -64,30 +162,31 @@ class ProfileEdit extends Component{
                 password : password,
                 state : state,
                 zipcode : zipcode,
-                title : title,
-                company : company,
-                location : location,
-                fromMonth: fromMonth,
-                fromYear: fromYear,
-                school : school,
-                degree : degree,
-                schoolfromYear: schoolfromYear,
-                schooltoYear: schooltoYear,
+                title : title.value,
+                company : company.value,
+                location : location.value,
+                fromMonth: fromMonth.value,
+                fromYear: fromYear.value,
+                school : school.value,
+                degree : degree.value,
+                schoolfromYear: schoolfromYear.value,
+                schooltoYear: schooltoYear.value,
             }
-            this.props.applicantsignup(data).then(response => {
-            if(response.payload.status === 200){
-                this.setState({
-                    signedUp: true
-                });
-            }
-            }).catch (error => {
-            console.log("Error is", error);
-            })
-        //  } 
+            console.log(data);
+            // this.props.applicantsignup(data).then(response => {
+            //     if(response.payload.status === 200){
+            //         this.setState({
+            //             signedUp: true
+            //         });
+            //     }
+            // }).catch (error => {
+            //     console.log("Error is", error);
+            // })
+        } 
     }
 
     render(){
-        const { title, company, location, fromMonth, fromYear, school, degree, schoolfromYear, schooltoYear} = this.state;
+        const { title, company, location, fromMonth, fromYear, school, degree, schoolfromYear, schooltoYear} = {...this.state};
         let redirectVar = null;
         if( this.state.signedUp ){
             redirectVar = <Redirect to= "/profile"/>
@@ -109,16 +208,16 @@ class ProfileEdit extends Component{
                     <section className = "form-body" style ={{marginBottom : "50px"}}>
                     <h2 className = "pv-profile-section__card-heading t-20 t-black t-normal">Experience</h2>
                     <label htmlFor="position-title-typeahead" className="mb1 required">Title</label>
-                            <input className = "form-control" onChange = {this.changeHandler} name = "title" value={title} id="position-title-typeahead" placeholder="Ex: Manager" maxLength="100" type="text"/>
+                            <input className = "form-control" onChange = {this.changeHandler} name = "title" value={title.value} id="position-title-typeahead" placeholder="Ex: Manager" maxLength="100" type="text"/>
 
                             <label htmlFor="position-company-typeahead" className="mb1 required">Company</label>
-                            <input className = "form-control" onChange = {this.changeHandler} name = "company" value={company} id="position-company-typeahead" placeholder="Ex: Microsoft" maxLength="100" type="text"/>
+                            <input className = "form-control" onChange = {this.changeHandler} name = "company" value={company.value} id="position-company-typeahead" placeholder="Ex: Microsoft" maxLength="100" type="text"/>
 
                             <label htmlFor="position-location-typeahead" className="mb1 required">Location</label>
-                            <input className = "form-control" onChange = {this.changeHandler} name = "location" value={location} id="position-location-typeahead" placeholder="Ex: London, United Kingdom" maxLength="100" type="text"/>
+                            <input className = "form-control" onChange = {this.changeHandler} name = "location" value={location.value} id="position-location-typeahead" placeholder="Ex: London, United Kingdom" maxLength="100" type="text"/>
 
-                            <label htmlFor="position-date-typeahead" className="mb1 required">From</label>
-                            <select className = "form-control edit-date" onChange = {this.changeHandler} name = "fromMonth" value={fromMonth} id="position-date-typeahead">
+                            <label htmlFor="position-date-typeahead" className="mb1 required">From (Select a Month & Year only if applicable) </label>
+                            <select className = "form-control edit-date" onChange = {this.changeHandler} name = "fromMonth" value={fromMonth.value} id="position-date-typeahead">
                             <option value="">Month</option>
                             <option value="1">January</option>
                             <option value="2">February</option>
@@ -134,7 +233,7 @@ class ProfileEdit extends Component{
                             <option value="12">December</option>
                             </select>
 
-                            <select name="startYear" id="position-start-typeahead" onChange = {this.changeHandler} name = "fromYear" value={fromYear} className = "form-control edit-year">  
+                            <select name="startYear" id="position-start-typeahead" onChange = {this.changeHandler} name = "fromYear" value={fromYear.value} className = "form-control edit-year">  
                             <option value="">Year</option>
                             <option value="2018">2018</option>
                             <option value="2017">2017</option>
@@ -150,13 +249,13 @@ class ProfileEdit extends Component{
                     <hr/>
                     <h2 className = "pv-profile-section__card-heading t-20 t-black t-normal">Education</h2>
                     <label htmlFor="position-school-typeahead" className="mb1 required">School</label>
-                            <input className = "form-control" onChange = {this.changeHandler} name = "school" value={school} id="position-school-typeahead" placeholder="Ex: Boston University" maxLength="100" type="text"/>
+                            <input className = "form-control" onChange = {this.changeHandler} name = "school" value={school.value} id="position-school-typeahead" placeholder="Ex: Boston University" maxLength="100" type="text"/>
 
                             <label htmlFor="position-degree-typeahead" className="mb1 required">Degree</label>
-                            <input className = "form-control" onChange = {this.changeHandler} name = "degree" value={degree} id="position-degree-typeahead" placeholder="Ex: Bachelor's" maxLength="100" type="text"/>
+                            <input className = "form-control" onChange = {this.changeHandler} name = "degree" value={degree.value} id="position-degree-typeahead" placeholder="Ex: Bachelor's" maxLength="100" type="text"/>
 
                             <label htmlFor="position-date-typeahead" className="mb1 required">From - To</label>
-                            <select name="startYear" id="position-start-typeahead" onChange = {this.changeHandler} name = "schoolfromYear" value={schoolfromYear} className = "form-control edit-year">  
+                            <select name="startYear" id="position-start-typeahead" onChange = {this.changeHandler} name = "schoolfromYear" value={schoolfromYear.value} className = "form-control edit-year">  
                             <option value="">Year</option>
                             <option value="2018">2018</option>
                             <option value="2017">2017</option>
@@ -170,7 +269,7 @@ class ProfileEdit extends Component{
                             <option value="2009">2009</option>
                             </select>
 
-                            <select name="endYear" id="position-end-typeahead"  onChange = {this.changeHandler} name = "schooltoYear" value={schooltoYear} className = "form-control edit-year">  
+                            <select name="endYear" id="position-end-typeahead"  onChange = {this.changeHandler} name = "schooltoYear" value={schooltoYear.value} className = "form-control edit-year">  
                             <option value="">Year</option>
                             <option value="2018">2018</option>
                             <option value="2017">2017</option>

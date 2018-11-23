@@ -115,7 +115,7 @@ class ProfileLocation extends Component{
     }
 
     render(){
-        const { state, zipcode, message} = this.state;
+        const { state, zipcode, message} = {...this.state};
         return(
           <div className = "profilelocation-wrapper">
               <div className="navbar fixed-top">
