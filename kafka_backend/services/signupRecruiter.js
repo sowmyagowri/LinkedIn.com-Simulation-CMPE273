@@ -18,7 +18,6 @@ async function handle_request(msg, callback) {
             password: hash,
             role: 'R'
         }
-        let result = await db.insertQuery('INSERT INTO user_profile SET ?', post);
         await db.insertQuery('INSERT INTO user_profile SET ?', post);
         var user = new Users({
             firstName : msg.firstname,
