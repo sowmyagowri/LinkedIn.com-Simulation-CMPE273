@@ -13,11 +13,9 @@ module.exports =  function (passport) {
     passport.use(new JwtStrategy(opts, async function (jwt_payload, callback) {
         try{
             let result = null;
-            if(jwt_payload.role === "applicant"){
-                result = await db.selectQuery('SELECT email FROM applicant_profile WHERE email= ?', [jwt_payload.email]);
-            }else{
-                result = await db.selectQuery('SELECT email FROM recruiter_profile WHERE email= ?', [jwt_payload.email]);
-            }
+
+            result = await db.selectQuery('SELECT * FROM user_profile WHERE email= ?', [jwt_payload.email]);
+            
             if (result && result.length !== 0) {
                 return callback(null, result);
             }else{

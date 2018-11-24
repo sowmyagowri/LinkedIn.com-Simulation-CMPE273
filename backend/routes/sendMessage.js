@@ -9,8 +9,8 @@ router.post("/", (req, res) => {
     const jwtDecoded = jwtDecode(req.headers.authorization.substring(4, req.headers.authorization.length));
     req.body.sender = {
         username: jwtDecoded.email,
-        firstname: jwtDecoded.first_name,
-        lastname: jwtDecoded.last_name
+        firstname: jwtDecoded.firstName,
+        lastname: jwtDecoded.lastName
     }
 
     let errors = validateInputForAddingMessage(req);

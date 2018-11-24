@@ -42,7 +42,12 @@ async function handle_request(msg, callback) {
         });
         console.log("applicant:", user);
         await user.save();
-        resp = prepareSuccess({ "result": "Applicant Profile created Sucessfully" });
+        resp = prepareSuccess({ 
+            "result": "Applicant Profile created Sucessfully",
+            email: user.email,
+            firstName: user.firstName,
+            lastName: user.lastName
+         });
     }
     catch (error) {
         if (error.errno === 1062) { //1062 is for primary key violation 
