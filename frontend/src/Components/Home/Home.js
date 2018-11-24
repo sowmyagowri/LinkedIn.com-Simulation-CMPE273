@@ -7,6 +7,7 @@ import { withRouter } from 'react-router-dom';
 import { connect } from "react-redux";
 import { applicantlogin } from '../../Actions';
 import validator from 'validator';
+import { userConstants } from '../../constants';
 
 class Home extends Component{
     constructor(props){
@@ -153,6 +154,9 @@ class Home extends Component{
             }
             this.props.applicantlogin(data).then(response => {
                 if(response.payload.status === 200){
+                    // Temporary Change to be should be handled in action instead of returning promise use redux.
+                    localStorage.setItem(userConstants.USER_DETAILS, JSON.stringify(response.payload.data));
+                    localStorage.setItem(userConstants.AUTH_TOKEN, JSON.stringify(response.payload.data.token)); 
                     this.setState({
                         islogged: true
                     });

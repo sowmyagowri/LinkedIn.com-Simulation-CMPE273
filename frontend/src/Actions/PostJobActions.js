@@ -1,5 +1,6 @@
 import axios from "axios";
-const ROOT_URL = "http://localhost:5000";
+import URI from "../constants/URI"
+const ROOT_URL = URI.ROOT_URL;
 
 export const CREATE_JOB_SUCCESS = "create_job_successfully";
 export const CREATE_JOB_FAILURE = "create_job_error";
