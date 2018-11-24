@@ -31,8 +31,11 @@ let cors = require('cors');
 const config = require('./config');
 const app = express()
 app.use(cookieParser());
-var passport = require('passport');
+let passport = require('passport');
 app.use(passport.initialize());
+require('./passport/passport')(passport);
+let requireAuth = passport.authenticate('jwt', {session: false});
+
 const multer = require('multer');
 
 let port = 5000 || process.env.PORT
@@ -63,6 +66,7 @@ app.use("/signin_applicant/", signinApplicant);
 
 // Add routes above this line if they do not require passport authentication
 // Add passport Authentication code will go here
+app.use("/", requireAuth);
 // Add routes below this line if they require passport authentication
 
 app.use("/post_job/", postJob);

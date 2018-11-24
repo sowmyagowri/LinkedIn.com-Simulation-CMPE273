@@ -14,8 +14,8 @@ class ProfileLocation extends Component{
             lastname : "",
             email : "",
             password : "",
-            state : "",
-            zipcode : "",
+            state : { value: '', isValid: true },
+            zipcode : { value: '', isValid: true },
             message: "",
         };
 
@@ -23,11 +23,6 @@ class ProfileLocation extends Component{
         this.changeHandler = this.changeHandler.bind(this);
         this.handleValidation = this.handleValidation.bind(this);
         this.submitSignup = this.submitSignup.bind(this);
-    }
-
-    
-    componentDidMount() {
-        
     }
 
     componentWillMount() {
@@ -39,13 +34,62 @@ class ProfileLocation extends Component{
          })
     }
 
-    changeHandler(e) {
-        const { name, value } = e.target;
-        this.setState({ [name]: value });
+    changeHandler = (e) => {
+        const state = {
+          ...this.state,
+          [e.target.name]: {
+            ...this.state[e.target.name],
+            value: e.target.value,
+            isValid: true,
+          }
+        };
+        this.setState(state);
     }
 
     handleValidation() {
-        return (this.state.zipcode.match(/(^[0-9]{5}(?:-[0-9]{4})?$)/));
+
+        console.log("validation check")
+
+        let formIsValid = true;
+        const state = { ...this.state.state };
+        const zipcode = { ...this.state.zipcode };
+
+        this.setState({
+            message: ""
+        });
+
+        //state
+        if(!state.value || state.value === "")
+        {
+            formIsValid = false;
+            state.isValid = false;
+            this.setState({
+                message: "Please select a State"
+            });
+            return formIsValid
+        }
+
+        //zipcode
+        if(!zipcode.value || zipcode.value === ""){
+            formIsValid = false;
+            zipcode.isValid = false;
+            this.setState({
+                message: "Please enter a Zipcode"
+            });
+            return formIsValid
+        }
+
+        if(typeof zipcode.value !== "undefined"){
+            if (! zipcode.value.match(/(^[0-9]{5}(?:-[0-9]{4})?$)/)){
+                formIsValid = false;
+                zipcode.isValid = false;
+                this.setState({
+                    message: "Please enter a valid Zipcode"
+                });
+                return formIsValid
+            }
+        }
+        return formIsValid;
     }
 
     submitSignup(event) {
@@ -67,10 +111,6 @@ class ProfileLocation extends Component{
                     zipcode : zipcode
                 }
             });
-        } else {
-            this.setState({
-                message: "This is not a valid zipcode"
-            })
         }
     }
 
@@ -80,14 +120,14 @@ class ProfileLocation extends Component{
           <div className = "profilelocation-wrapper">
               <div className="navbar fixed-top">
                 <div className = "home_wrapper">
-                <h1><a className="navbar-brand" href="#"><img src = {"/images/linkedinfulllogo.png"} alt = "LinkedIn"/></a></h1>
+                <h1><a className="navbar-brand"><img src = {"/images/linkedinfulllogo.png"} alt = "LinkedIn"/></a></h1>
                  </div>
               </div>
               <div className = "main1">
                     <h3 className = "subtitle" style = {{fontSize : "1.4rem", fontWeight: "300"}}>Let's start your profile, connect to people you know, and engage with them on topics you care about.</h3>
                     <section className = "form-body">
                         <label htmlFor ="reg-location" className = "mb1 required">Country/Region</label>
-                        <select className = "form-control" onChange = {this.changeHandler} name = "state" value={state} style = {{width : "500px"}} id="reg-location" maxLength="100" type="text">
+                        <select className = "form-control" onChange = {this.changeHandler} name = "state" value={state.value} style = {{width : "500px"}} id="reg-location" maxLength="100" type="text">
                             <option value="">United States</option>
                             <option value="AL">Alabama</option>
                             <option value="AK">Alaska</option>
@@ -142,7 +182,17 @@ class ProfileLocation extends Component{
                             <option value="WY">Wyoming</option>
                         </select>			
                         <label htmlFor ="reg-zipcode" className = "mb1 required">Postal Code</label>
-                        <input className = "form-control" onChange = {this.changeHandler} name = "zipcode" value={zipcode} id="reg-zipcode" pattern="[0-9]{5}" placeholder="Five digit zip code" type="text"/>
+                        <input className = "form-control" onChange = {this.changeHandler} name = "zipcode" value={zipcode.value} id="reg-zipcode" pattern="[0-9]{5}" placeholder="Five digit zip code" type="text"/>
+                        <div className = "reg-alert1" role = "alert" tabIndex = "-1">
+                            {message &&
+                            (
+                                <div className="wrapper">
+                                    <p className="message">
+                                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span className="alert-content"> {message} </span>
+                                    </p>
+                                </div>
+                            )}
+                            </div>  
                         <input onClick = {this.submitSignup} id ="registration-submit" className = "registration submit-button" type = "submit" value = "Next"></input>
                     </section>
               </div>

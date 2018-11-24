@@ -35,11 +35,19 @@ async function handle_request(msg, callback) {
                 degree : msg.degree,
                 schoolfromYear: msg.schoolfromYear,
                 schooltoYear: msg.schooltoYear,
-            }]
+            }],
+            email: msg.email
         });
         console.log("applicant:", applicant);
         await applicant.save();
-        resp = prepareSuccess({ "result": "Applicant Profile created Sucessfully" });
+        resp = prepareSuccess({ 
+            result: "Applicant Profile created Sucessfully",
+            email: applicant.email,
+            first_name: applicant.firstName,
+            last_name: applicant.lastName,
+            //role is needed to create JWT so that we can call appropriate SQL user table in passport
+            role: "applicant"
+         });
     }
     catch (error) {
         if (error.errno === 1062) { //1062 is for primary key violation 
