@@ -262,7 +262,7 @@ const JobListItem = ({ job, openJob, selectedJob}) => {
             <div className = "media">
             <a className = "pull-left"><img src = {job.company_logo} style = {{height : "56px", width : "56px"}}></img></a>
             <div className = "artdeco-entity-lockup--size-4 gap1">
-            <a href = {`/jobs/view/${job.id}`}><div className="job-item__subject" >
+            <a href = {`/job/view/${job.id}`}><div className="job-item__subject" >
             {job.title}
             </div></a>
             <div className="job-item__name">{job.posted_by}</div>
@@ -292,7 +292,7 @@ const JobDetails = ({jobs}) =>{
                 <div className = "media">
                     <a className = "pull-left"><img src = {jobs.company_logo} style = {{height : "150px", width : "150px"}}></img></a>
                     <div className = "artdeco-entity-lockup--size-4 gap1">
-                    <a href = {`/jobs/view/${jobs.id}`}><div className="job-details__subject" >
+                    <a href = {`/job/view/${jobs.id}`}><div className="job-details__subject" >
                     {jobs.title}
                     </div></a>
                     <div className="job-details__name">{jobs.posted_by}</div>

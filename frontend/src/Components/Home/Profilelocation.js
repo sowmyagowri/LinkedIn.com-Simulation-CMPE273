@@ -107,15 +107,15 @@ class ProfileLocation extends Component{
                     lastname : lastname,
                     email : email,
                     password : password,
-                    state : state,
-                    zipcode : zipcode
+                    state : state.value,
+                    zipcode : zipcode.value
                 }
             });
         }
     }
 
     render(){
-        const { state, zipcode, message} = this.state;
+        const { state, zipcode, message} = {...this.state};
         return(
           <div className = "profilelocation-wrapper">
               <div className="navbar fixed-top">

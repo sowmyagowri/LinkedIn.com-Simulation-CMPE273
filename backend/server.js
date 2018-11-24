@@ -5,7 +5,8 @@ const bodyParser = require('body-parser');
 
 var cookieParser = require('cookie-parser');
 
-let signupRecruiter = require('./routes/signupRecruiter');
+let signupRecruiter = require('./routes/signupRecruiter')
+let addRecruiterRole = require('./routes/addRecruiterRole');
 let signupApplicant = require('./routes/signupApplicant');
 let signinRecruiter = require('./routes/signinRecruiter');
 let signinApplicant = require('./routes/signinApplicant');
@@ -69,6 +70,7 @@ app.use("/signin_applicant/", signinApplicant);
 app.use("/", requireAuth);
 // Add routes below this line if they require passport authentication
 
+app.use("/add_recruiter_role/", addRecruiterRole);
 app.use("/post_job/", postJob);
 app.use("/get_jobs_by_recruiter/", getJobsByRecruiter);
 app.use("/post_recruiter_profile/", postRecruiterProfile);

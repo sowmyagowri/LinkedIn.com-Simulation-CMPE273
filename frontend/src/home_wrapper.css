@@ -429,7 +429,7 @@ main .reg-form label, .main .reg-form input {
 }
 
 
-.main2 .reg-alert1:before {
+.main1 .reg-alert1:before, .main2 .reg-alert1:before {
     background: #fff;
     border-radius: 3px;
     content: "";
@@ -447,7 +447,7 @@ main .reg-form label, .main .reg-form input {
     transition-timing-function: cubic-bezier(0, 0, 0.2, 1);
 }
 
-.main2 .reg-alert1 {
+.main1 .reg-alert1, .main2 .reg-alert1 {
     -webkit-box-sizing: border-box;
     box-sizing: border-box;
     border-radius: 3px;
@@ -461,7 +461,7 @@ main .reg-form label, .main .reg-form input {
     margin-bottom: 10px;
 }
 
-.main2 .reg-alert1>div {
+.main1 .reg-alert1>div, .main2 .reg-alert1>div {
     -webkit-box-sizing: border-box;
     box-sizing: border-box;
     margin: 0 auto;
@@ -472,7 +472,7 @@ main .reg-form label, .main .reg-form input {
     width: 100%;
 }
 
-.main2 .reg-alert1>div:before {
+.main1 .reg-alert1>div:before, .main2 .reg-alert1>div:before {
     background-image: url(images/cwn0a0e7hog2i33c88ucrvot5.svg);
     background-position: 50px -190px;
     content: "";

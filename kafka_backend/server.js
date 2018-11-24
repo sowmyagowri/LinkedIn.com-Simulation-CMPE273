@@ -3,6 +3,7 @@ var { mongoose } = require('./config/mongoose');
 
 //import kafka services
 var signupRecruiterService = require('./services/signupRecruiter');
+var addRecruiterRoleService = require('./services/addRecruiterRole');
 var signupApplicantService = require('./services/signupApplicant');
 var signinRecruiterService = require('./services/signinRecruiter');
 var signinApplicantService = require('./services/signinApplicant');
@@ -25,6 +26,7 @@ let getAllMessagesService = require('./services/getAllMessagesService');
 //import kafka topics
 const {
     SIGNUP_RECRUITER_REQUEST_TOPIC, SIGNUP_APPLICANT_REQUEST_TOPIC, POST_JOB_REQUEST, 
+    ADD_RECRUITER_ROLE_REQUEST,
     SIGNIN_RECRUITER_REQUEST_TOPIC,SIGNIN_APPLICANT_REQUEST_TOPIC,
     GET_JOBS_BY_RECRUITER_REQUEST, POST_RECRUITER_PROFILE_REQUEST,
     GET_RECRUITER_PROFILE_REQUEST, EDIT_JOB_REQUEST, UPDATE_JOB_VIEWS_REQUEST,
@@ -68,6 +70,7 @@ function handleTopicRequest(topic_name, fname) {
 //second argument is a function that will handle this topic request
 
 handleTopicRequest(SIGNUP_RECRUITER_REQUEST_TOPIC, signupRecruiterService);
+handleTopicRequest(ADD_RECRUITER_ROLE_REQUEST, addRecruiterRoleService);
 handleTopicRequest(SIGNUP_APPLICANT_REQUEST_TOPIC, signupApplicantService);
 handleTopicRequest(SIGNIN_RECRUITER_REQUEST_TOPIC, signinRecruiterService);
 handleTopicRequest(SIGNIN_APPLICANT_REQUEST_TOPIC, signinApplicantService);

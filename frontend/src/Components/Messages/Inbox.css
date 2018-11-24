@@ -1,7 +1,3 @@
-.user-inbox{
-
-}
-
 .user-inbox .content{
     display: flex;
     height: 100vh;
@@ -55,6 +51,7 @@
 
 .user-inbox .message:hover{
     background-color: #f6f7f8;
+    box-shadow: rgb(0, 115, 177) 4px 0px 0px inset, rgb(243, 246, 248) 0px -1px 0px inset;
 }
 
 .user-inbox .message img{
@@ -99,13 +96,19 @@
     max-width: 100%;
 }
 
-.user-inbox .input-message{
+.conversation .input-message{
     display: flex;
     flex: 2;
     align-items: flex-end;
     width: inherit;
+    height:auto;
+    justify-content: space-around;
     padding: 10px;
     border-top: 1px solid #cccccc;
+}
+
+.conversation {
+    overflow-y: auto;
 }
 
 .user-inbox textarea{
@@ -174,5 +177,43 @@
 	border-right: 0;
 	border-bottom: 0;
 	margin-top: -0.719em;
-	margin-right: -1.437em;
+    margin-right: -1.437em;
+}
+
+.msg-conversation-card__row {
+    display: flex;
+    flex-wrap: wrap;
+    padding-left: 8px;
+}
+.ph2, .pr2 {
+    padding-right: 8px;
+}
+
+.t-14 {
+    font-size: 1rem;
+    line-height: 1.5;
+}
+
+.t-black--light {
+    color: rgba(0,0,0,.6);
+}
+
+.t1-bold {
+    font-weight: 600;
+}
+.msg-conversation-card__convo-utility {
+    white-space: nowrap;
+}
+
+.t-12{
+    font-size: 0.9rem;
+    line-height: 1.5;
+    color: rgba(0,0,0,.6);
+}
+
+.msg-conversations-container__title-row {
+    height: 44px;
+    display: flex;
+    align-items: center;
+    border-bottom: 1px solid rgb(205, 207, 210);
 }

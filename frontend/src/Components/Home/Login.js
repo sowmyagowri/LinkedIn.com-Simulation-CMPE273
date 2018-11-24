@@ -3,6 +3,7 @@ import '../../App.css';
 import '../../home_wrapper.css';
 import '../../profile_wrapper.css';
 import { reduxForm } from "redux-form";
+import {Redirect} from 'react-router';
 import { withRouter } from 'react-router-dom';
 import { connect } from "react-redux";
 import { applicantlogin } from '../../Actions';
@@ -122,12 +123,12 @@ class Login extends Component{
     submitLogin(event) {
         //prevent page from refresh
         event.preventDefault();
-        if(this.handleValidation) {
+        if(this.handleValidation()) {
             const { email, password } = this.state;
             if ( email && password) {
                 const data = {
-                    email:  email,
-                    password: password
+                    email:  email.value,
+                    password: password.value
                 }
                 this.props.applicantlogin(data).then(response => {
                     if(response.payload.status === 200){
@@ -147,9 +148,14 @@ class Login extends Component{
 
 
     render(){
-        const {email, password, message} = {...this.state};
+        const {email, password, message, islogged} = {...this.state};
+        let redirectVar = null;
+        if( islogged ){
+            redirectVar = <Redirect to= "/profile"/>
+        }
         return(
           <div className = "profilelocation-wrapper">
+            {redirectVar}
               <div className="navbar fixed-top">
                 <div className = "home_wrapper">
                 <h1><a className="navbar-brand" href="#"><img src = {"/images/linkedinfulllogo.png"} alt = "LinkedIn"/></a></h1>
@@ -165,7 +171,7 @@ class Login extends Component{
                         styles={inputStyle}
                         onChange = {this.changeHandler}
                         type='email'
-                        defaultValue = {email}
+                        defaultValue = {email.value}
                         required
                         />
                     <FloatingLabel
@@ -175,7 +181,7 @@ class Login extends Component{
                         styles={inputStyle}
                         onChange = {this.changeHandler}
                         type='password'
-                        defaultValue = {password}
+                        defaultValue = {password.value}
                         required
                         /> 
                     <div className = "reg-alert1" role = "alert" tabIndex = "-1">

@@ -44,22 +44,22 @@ class Profile extends Component{
                             <div className="modal-body">
                             <div className="row form-group">
                                 <div className = "col-xs-6 col-md-6">
-                                <label htmlFor="position-firstname-typeahead" class="mb1 required">First Name</label>
+                                <label htmlFor="position-firstname-typeahead" className="mb1 required">First Name</label>
                                 <input className = "form-control" id="position-firstname-typeahead" maxLength="100" type="text"/>
                                 </div>
 
                                 <div className = "col-xs-6 col-md-6">
-                                <label htmlFor="position-lastname-typeahead" class="mb1 required">Last Name</label>
+                                <label htmlFor="position-lastname-typeahead" className="mb1 required">Last Name</label>
                                 <input className = "form-control" id="position-lastname-typeahead" maxLength="100" type="text"/>
                                 </div>
                             </div>
 
-                            <label htmlFor="position-profilesummary-typeahead" class="mb1 required">Profile Summary</label>
+                            <label htmlFor="position-profilesummary-typeahead" className="mb1 required">Profile Summary</label>
                             <textarea className = "form-control" id="position-profilesummary-typeahead"/>
 
                             <div className="row form-group">
                                 <div className = "col-xs-6 col-md-6">
-                                <label htmlFor="position-state-typeahead" class="mb1 required">State</label>
+                                <label htmlFor="position-state-typeahead" className="mb1 required">State</label>
                                 <select className = "form-control" id="position-state-typeahead" maxLength="100" type="text">
                                      <option value="">United States</option>
                                     <option value="AL">Alabama</option>
@@ -118,18 +118,18 @@ class Profile extends Component{
                                 </div>
 
                                 <div className = "col-xs-6 col-md-6">
-                                <label htmlFor="position-zip-typeahead" class="mb1 required">Zip Code</label>
+                                <label htmlFor="position-zip-typeahead" className="mb1 required">Zip Code</label>
                                 <input className = "form-control" id="position-lastname-typeahead" pattern="[0-9]{5}" placeholder="Five digit zip code" type="text"/>
                                 </div>
                             </div>
 
-                            <label htmlFor="position-phone-typeahead" class="mb1 required">Phone Number</label>
+                            <label htmlFor="position-phone-typeahead" className="mb1 required">Phone Number</label>
                             <input className = "form-control" id="position-phone-typeahead"  pattern="[0-9]{10}" placeholder="1234567890" type="text"/>
                             
-                            <label htmlFor="position-address-typeahead" class="mb1 required">Address</label>
+                            <label htmlFor="position-address-typeahead" className="mb1 required">Address</label>
                             <textarea className = "form-control" id="position-address-typeahead"/>
 
-                            <label htmlFor="position-resume-typeahead" class="mb1 required">Add your Resume</label>
+                            <label htmlFor="position-resume-typeahead" className="mb1 required">Add your Resume</label>
                             <div className="form-group">
                             <button type="button" className="btn btn-outline-primary" id="position-resume-typeahead">Upload</button>
                             </div>
@@ -177,16 +177,16 @@ class Profile extends Component{
                                 </button>
                             </div>
                             <div className="modal-body">
-                            <label htmlFor="position-title-typeahead" class="mb1 required">Title</label>
+                            <label htmlFor="position-title-typeahead" className="mb1 required">Title</label>
                             <input className = "form-control" id="position-title-typeahead" placeholder="Ex: Manager" maxLength="100" type="text"/>
 
-                            <label htmlFor="position-company-typeahead" class="mb1 required">Company</label>
+                            <label htmlFor="position-company-typeahead" className="mb1 required">Company</label>
                             <input className = "form-control" id="position-company-typeahead" placeholder="Ex: Microsoft" maxLength="100" type="text"/>
 
-                            <label htmlFor="position-location-typeahead" class="mb1 required">Location</label>
+                            <label htmlFor="position-location-typeahead" className="mb1 required">Location</label>
                             <input className = "form-control" id="position-location-typeahead" placeholder="Ex: London, United Kingdom" maxLength="100" type="text"/>
 
-                            <label htmlFor="position-date-typeahead" class="mb1 required">From</label>
+                            <label htmlFor="position-date-typeahead" className="mb1 required">From</label>
                             <select className = "form-control edit-date" id="position-date-typeahead" name="startMonth">
                             <option value="">Month</option>
                             <option value="1">January</option>
@@ -217,7 +217,7 @@ class Profile extends Component{
                             <option value="2009">2009</option>
                             </select>
 
-                            <label htmlFor="position-description-typeahead" class="mb1 required">Description</label>
+                            <label htmlFor="position-description-typeahead" className="mb1 required">Description</label>
                             <textarea className = "form-control" id="position-description-typeahead"/>
                             
                             </div>
@@ -260,13 +260,13 @@ class Profile extends Component{
                                     </button>
                                 </div>
                                 <div className="modal-body">
-                            <label htmlFor="position-school-typeahead" class="mb1 required">School</label>
+                            <label htmlFor="position-school-typeahead" className="mb1 required">School</label>
                             <input className = "form-control" id="position-school-typeahead" placeholder="Ex: Boston University" maxLength="100" type="text"/>
 
-                            <label htmlFor="position-degree-typeahead" class="mb1 required">Degree</label>
+                            <label htmlFor="position-degree-typeahead" className="mb1 required">Degree</label>
                             <input className = "form-control" id="position-degree-typeahead" placeholder="Ex: Bachelor's" maxLength="100" type="text"/>
 
-                            <label htmlFor="position-date-typeahead" class="mb1 required">From - To</label>
+                            <label htmlFor="position-date-typeahead" className="mb1 required">From - To</label>
                             <select name="startYear" id="position-start-typeahead"  className = "form-control edit-year">  
                             <option value="">Year</option>
                             <option value="2018">2018</option>
@@ -295,7 +295,7 @@ class Profile extends Component{
                             <option value="2009">2009</option>
                             </select>
 
-                            <label htmlFor="position-description-typeahead" class="mb1 required">Description</label>
+                            <label htmlFor="position-description-typeahead" className="mb1 required">Description</label>
                             <textarea className = "form-control" id="position-description-typeahead"/>
                                 </div>
                                 <div className="modal-footer">
@@ -338,7 +338,7 @@ class Profile extends Component{
                                 </div>
                                 <div className="modal-body">
                                     <div className="form-check">
-                                    <label class="form-check-label" htmlFor="check1">
+                                    <label className="form-check-label" htmlFor="check1">
                                         <input type="checkbox" className="form-check-input" id="check1" name="Testing" />Testing
                                     </label>
                                     </div>
