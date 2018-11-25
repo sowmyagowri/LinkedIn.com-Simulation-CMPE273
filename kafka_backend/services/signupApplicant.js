@@ -26,11 +26,11 @@ async function handle_request(msg, callback) {
             zipcode : msg.zipcode,
             role: 'A',
             experience : [{
-            title : msg.title,
-            company : msg.company,
-            location : msg.location,
-            fromMonth: msg.fromMonth,
-            fromYear: msg.fromYear,
+                title : msg.title,
+                company : msg.company,
+                location : msg.location,
+                fromMonth: msg.fromMonth,
+                fromYear: msg.fromYear,
             }],
             education : [{
                 school : msg.school,
@@ -40,7 +40,7 @@ async function handle_request(msg, callback) {
             }],
             email: msg.email
         });
-        console.log("applicant:", user);
+        console.log("user:", user);
         await user.save();
         resp = prepareSuccess({ 
             "result": "Applicant Profile created Sucessfully",

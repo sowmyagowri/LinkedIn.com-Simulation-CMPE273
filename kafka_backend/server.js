@@ -1,4 +1,5 @@
 var connection = new require('./kafka/Connection');
+var { mongoose } = new require('./config/mongoose');
 
 //import kafka services
 var signupRecruiterService = require('./services/signupRecruiter');

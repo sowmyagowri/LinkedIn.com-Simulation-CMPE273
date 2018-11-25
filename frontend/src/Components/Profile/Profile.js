@@ -7,7 +7,7 @@ import { withRouter } from 'react-router-dom';
 import { connect } from "react-redux";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { userConstants } from '../../constants';
-import { getapplicantprofile } from '../../Actions';
+import { getapplicantprofile } from '../../Actions/applicant_login_profile_actions';
 
 class Profile extends Component{
     constructor(props){
@@ -18,26 +18,21 @@ class Profile extends Component{
     }
 
     componentDidMount() {
-        console.log(localStorage.getItem(userConstants.USER_DETAILS));
-        // if(sessionStorage.getItem('cookie1')){
-        //     var input_email = sessionStorage.getItem('cookie2');
-        //     console.log(input_email);
-        //     const data = { email : input_email }
-        //     this.props.profilefetch(data, sessionStorage.getItem('jwtToken')).then(response => {
-        //         console.log("response:", response);
-        //         if(response.payload.status === 200){
-        //             this.setState({ profiledata: response.payload.data });
-        //         }
-        //     })
-        //     .catch(err => {
-        //         console.log(err);
-        //         alert("Cannot fetch details");
-        //     });
-        // }
-    }
+        const data = JSON.parse(localStorage.getItem(userConstants.USER_DETAILS)).email;
+        this.props.getapplicantprofile(data, localStorage.getItem(userConstants.AUTH_TOKEN)).then(response => {
+            if(response.payload.status === 200){
+                this.setState({ profiledata: response.payload.data.profile });
+            }
+        })
+        .catch(err => {
+            console.log(err);
+            alert("Cannot fetch details");
+        });
+    }  
     
-
     render() {
+        const {profiledata} = this.state;
+        console.log(profiledata);
         return (
             <div className="profile-wrapper">
                 <Navbar></Navbar>

@@ -1,10 +1,17 @@
 var mongoose = require('mongoose');
 
 var Users = mongoose.model('Users',{
+    
     firstName : {
         type : String
     },
     lastName : {
+        type : String
+    },
+    profilePicture : {
+        type : String
+    },
+    profileSummary : {
         type : String
     },
     email : {
@@ -14,6 +21,12 @@ var Users = mongoose.model('Users',{
         type: String
     },
     zipcode : {
+        type: String
+    },
+    phoneNumber : {
+        type: Number
+    },
+    address : {
         type: String
     },
     role : {
@@ -29,9 +42,17 @@ var Users = mongoose.model('Users',{
     education : [{
         school : String,
         degree : String,
-        fromYear: Number,
-        toYear: Number,
+        schoolfromYear: Number,
+        schooltoYear: Number,
+        description : String,
     }],
+    skills : {
+        type : String 
+    },
+    resume : {
+        type : String,
+        data : Buffer
+    },
     connectionsIncoming:[{
         email : String,
     }],

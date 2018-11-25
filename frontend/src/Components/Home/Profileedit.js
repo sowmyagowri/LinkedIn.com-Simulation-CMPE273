@@ -173,15 +173,15 @@ class ProfileEdit extends Component{
                 schooltoYear: schooltoYear.value,
             }
             console.log(data);
-            // this.props.applicantsignup(data).then(response => {
-            //     if(response.payload.status === 200){
-            //         this.setState({
-            //             signedUp: true
-            //         });
-            //     }
-            // }).catch (error => {
-            //     console.log("Error is", error);
-            // })
+            this.props.applicantsignup(data).then(response => {
+                if(response.payload.status === 200){
+                    this.setState({
+                        signedUp: true
+                    });
+                }
+            }).catch (error => {
+                console.log("Error is", error);
+            })
         } 
     }
 
