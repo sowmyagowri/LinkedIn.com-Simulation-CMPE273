@@ -10,10 +10,8 @@ module.exports =  function (passport) {
         jwtFromRequest: ExtractJwt.fromAuthHeaderWithScheme("jwt"),
         secretOrKey: config.secret
     };
-    console.log(opts);
     passport.use(new JwtStrategy(opts, async function (jwt_payload, callback) {
         try{
-            console.log(jwt_payload);
             let result = null;
             result = await db.selectQuery('SELECT * FROM user_profile WHERE email= ?', [jwt_payload.email]);
             
