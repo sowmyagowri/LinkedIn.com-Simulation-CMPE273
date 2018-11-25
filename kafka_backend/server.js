@@ -1,5 +1,4 @@
 var connection = new require('./kafka/Connection');
-var { mongoose } = require('./config/mongoose');
 
 //import kafka services
 var signupRecruiterService = require('./services/signupRecruiter');
@@ -11,6 +10,7 @@ var postJobService = require('./services/postJob');
 var getJobsByRecruiterService = require('./services/getJobsByRecruiter');
 var postRecruiterProfileService = require('./services/postRecruiterProfile');
 var getRecruiterProfileService = require('./services/getRecruiterProfile');
+var getApplicantProfileService = require('./services/getApplicantProfile');
 var editJobService =  require('./services/editJob');
 var updateJobViewsService = require('./services/updateJobViews');
 var graphClicksPerJobServce = require('./services/graphClicksPerJob');
@@ -29,7 +29,8 @@ const {
     ADD_RECRUITER_ROLE_REQUEST,
     SIGNIN_RECRUITER_REQUEST_TOPIC,SIGNIN_APPLICANT_REQUEST_TOPIC,
     GET_JOBS_BY_RECRUITER_REQUEST, POST_RECRUITER_PROFILE_REQUEST,
-    GET_RECRUITER_PROFILE_REQUEST, EDIT_JOB_REQUEST, UPDATE_JOB_VIEWS_REQUEST,
+    GET_RECRUITER_PROFILE_REQUEST, GET_APPLICANT_PROFILE_REQUEST, 
+    EDIT_JOB_REQUEST, UPDATE_JOB_VIEWS_REQUEST,
     GRAPHS_CLICK_PER_JOB_REQUEST, GRAPHS_TOP_JOB_POSTINGS_REQUEST, UPDATE_JOB_CLICKS_REQUEST,
     GRAPHS_UNPOPULAR_JOB_POSTINGS_REQUEST, GRAPHS_CITYWISE_APPLICATION_REQUEST, LOG_EVENT_REQUEST,
     GRAPHS_LOG_EVENT_REQUEST, SEND_MESSAGE_REQUEST, GET_ALL_MESSAGES_REQUEST
@@ -78,6 +79,7 @@ handleTopicRequest(POST_JOB_REQUEST, postJobService);
 handleTopicRequest(GET_JOBS_BY_RECRUITER_REQUEST, getJobsByRecruiterService);
 handleTopicRequest(POST_RECRUITER_PROFILE_REQUEST, postRecruiterProfileService);
 handleTopicRequest(GET_RECRUITER_PROFILE_REQUEST, getRecruiterProfileService);
+handleTopicRequest(GET_APPLICANT_PROFILE_REQUEST, getApplicantProfileService);
 handleTopicRequest(EDIT_JOB_REQUEST, editJobService);
 handleTopicRequest(UPDATE_JOB_VIEWS_REQUEST, updateJobViewsService);
 handleTopicRequest(GRAPHS_CLICK_PER_JOB_REQUEST, graphClicksPerJobServce);

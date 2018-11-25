@@ -2,22 +2,38 @@ import React, {Component} from 'react';
 import '../../App.css';
 import '../../profile_wrapper.css';
 import Navbar from '../NavBar/Navbar';
-import { Field, reduxForm } from "redux-form";
-import {Redirect, withRouter} from 'react-router-dom';
+import { reduxForm } from "redux-form";
+import { withRouter } from 'react-router-dom';
 import { connect } from "react-redux";
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { userConstants } from '../../constants';
+import { getapplicantprofile } from '../../Actions';
 
 class Profile extends Component{
     constructor(props){
         super(props);
         this.state = {
-          
+            profiledata : [],
         };
     }
 
     componentDidMount() {
-        //call to action
+        console.log(localStorage.getItem(userConstants.USER_DETAILS));
+        // if(sessionStorage.getItem('cookie1')){
+        //     var input_email = sessionStorage.getItem('cookie2');
+        //     console.log(input_email);
+        //     const data = { email : input_email }
+        //     this.props.profilefetch(data, sessionStorage.getItem('jwtToken')).then(response => {
+        //         console.log("response:", response);
+        //         if(response.payload.status === 200){
+        //             this.setState({ profiledata: response.payload.data });
+        //         }
+        //     })
+        //     .catch(err => {
+        //         console.log(err);
+        //         alert("Cannot fetch details");
+        //     });
+        // }
     }
     
 
@@ -381,4 +397,11 @@ class Profile extends Component{
     }
 }
 
-export default Profile;
+function mapStateToProps(state) {
+    return {
+        getapplicantprofile: state.getapplicantprofile
+    };
+  }
+  export default withRouter(reduxForm({
+    form: "Applicant_profile"
+  })(connect(mapStateToProps, { getapplicantprofile })(Profile)));

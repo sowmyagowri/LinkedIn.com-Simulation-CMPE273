@@ -27,3 +27,16 @@ export function applicantlogin(data) {
     payload: response
   };  
 }
+
+//target action for applicant profile fetch
+export function getapplicantprofile(data) {
+  console.log("inside applicant profile fetch action")
+  console.log(data)
+  axios.defaults.withCredentials = true;
+  const response =  axios.post(URI.ROOT_URL + '/getApplicantProfile/', data);
+  console.log("Response", response);
+  return {
+    type: userConstants.APPLICANT_PROFILE_FETCH,
+    payload: response
+  };  
+}
