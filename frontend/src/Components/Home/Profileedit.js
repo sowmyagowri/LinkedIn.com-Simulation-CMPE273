@@ -186,7 +186,7 @@ class ProfileEdit extends Component{
     }
 
     render(){
-        const { title, company, location, fromMonth, fromYear, school, degree, schoolfromYear, schooltoYear} = {...this.state};
+        const { title, company, location, fromMonth, fromYear, school, degree, schoolfromYear, schooltoYear, message} = {...this.state};
         let redirectVar = null;
         if( this.state.signedUp ){
             redirectVar = <Redirect to= "/profile"/>
@@ -205,6 +205,16 @@ class ProfileEdit extends Component{
               </div>
               <div className = "main1">
                     <h3 className = "subtitle" style = {{fontSize : "1.4rem", fontWeight: "300"}}>Your Profile helps you discover the right people and opportunities</h3>
+                    <div className = "reg-alert2" role = "alert" tabIndex = "-1">
+                            {message &&
+                            (
+                                <div className="wrapper" >
+                                    <p className="message">
+                                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span className="alert-content"> {message} </span>
+                                    </p>
+                                </div>
+                            )}
+                    </div>  
                     <section className = "form-body" style ={{marginBottom : "50px"}}>
                     <h2 className = "pv-profile-section__card-heading t-20 t-black t-normal">Experience</h2>
                     <label htmlFor="position-title-typeahead" className="mb1 required">Title</label>

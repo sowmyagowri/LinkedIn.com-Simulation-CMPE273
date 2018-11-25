@@ -7,12 +7,21 @@
     padding-bottom: 50px;
 }
 
+/*.master{
+    width : 300px;
+}
+*/
 .user-inbox .master{
     display: flex;
     flex-direction: column;
     flex:1;
     border: 1px solid #cccccc;
     border-right-width: 0px;
+}
+
+.content-ctr {
+    margin-left : 20px;
+    margin-top : 20px;
 }
 
 .user-inbox .master-header{

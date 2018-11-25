@@ -46,7 +46,7 @@ class Inbox extends Component {
                 <div class="content">
                     <div class="master">
                         <div class="master-header">
-                            <h4>Messaging</h4>
+                            <h4 className = "t-16 t-black t-normal">Messaging</h4>
                         </div>
                         <div class="master-content">
                             {this.renderMessageList()}
@@ -69,7 +69,7 @@ class Inbox extends Component {
                 conversations.push(
                     <div class="message" key={index} onClick={this.viewConversation.bind(this, conversation)}>
                         <img src="/images/avatar.png" />
-                        <h5>{sender.firstname + ' ' + sender.lastname}</h5>
+                        <h5 className = "t-14 t-black-light t-normal">{sender.firstname + ' ' + sender.lastname}</h5>
                     </div>
                 );
             });
@@ -77,7 +77,9 @@ class Inbox extends Component {
         }
         else {
             return (
-                <h4>No Messages Yet !</h4>
+                <div class="conversation content-ctr" >
+                    <h4 className = "t-14 t-black t-normal">No Messages Yet !</h4>
+                </div>
             );
         }
     }
@@ -97,7 +99,7 @@ class Inbox extends Component {
                     <div class="conversation-list">
                         <div class="conversation-header">
                             <img src="/images/avatar.png" width="40px" height="40px" />
-                            <h6>{headerName}</h6>
+                            <h6 className = "t-14 t-black-light t-normal">{headerName}</h6>
                         </div>
                         <div class="conversation-content">
                             {this.renderMessage()}
@@ -109,14 +111,16 @@ class Inbox extends Component {
                     <div class="input-message">
                         <textarea rows="6" cols="40" required maxlength="10000" class="form-control" value={this.state.messageDraft} onChange={(event) => { this.setState({ messageDraft: event.target.value }) }}
                             name="message" placeholder="Enter Message"></textarea>
-                        <button className='btn btn-primary btn-lg' onClick={this.sendMessage.bind(this)}>Send</button>
+                        <button className='btn arteco-btn' onClick={this.sendMessage.bind(this)}>Send</button>
                     </div>
                 </div>
             );
         }
         else {
             return (
-                <h4>No Messages Yet !</h4>
+                <div class="conversation content-ctr" >
+                    <h4 className = "t-14 t-black t-normal">No Messages Yet !</h4>
+                </div>
             );
         }
     }

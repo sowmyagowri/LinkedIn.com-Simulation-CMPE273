@@ -135,8 +135,8 @@ class Profile extends Component{
                             </div>
 
                             <div className="modal-footer">
-                                <button type="button" className="btn btn-secondary" data-dismiss="modal">Close</button>
-                                <button type="button" className="btn btn-primary">Save changes</button>
+                                <button type="button" className="btn arteco-btn-save" data-dismiss="modal">Close</button>
+                                <button type="button" className="btn arteco-btn" style = {{width : "150px"}}>Save changes</button>
                             </div>
                             </div>
                             </div>
@@ -222,8 +222,8 @@ class Profile extends Component{
                             
                             </div>
                             <div className="modal-footer">
-                                <button type="button" className="btn btn-secondary" data-dismiss="modal">Close</button>
-                                <button type="button" className="btn btn-primary">Save changes</button>
+                                <button type="button" className="btn arteco-btn-save" data-dismiss="modal">Close</button>
+                                <button type="button" className="btn arteco-btn" style = {{width : "150px"}}>Save changes</button>
                             </div>
                             </div>
                         </div>
@@ -354,8 +354,8 @@ class Profile extends Component{
                                     </div>
                                 </div>
                                 <div className="modal-footer">
-                                    <button type="button" className="btn btn-secondary" data-dismiss="modal">Close</button>
-                                    <button type="button" className="btn btn-primary">Save changes</button>
+                                    <button type="button" className="btn arteco-btn-save" data-dismiss="modal">Close</button>
+                                    <button type="button" className="btn arteco-btn" style = {{width : "150px"}}>Save changes</button>
                                 </div>
                                 </div>
                             </div>

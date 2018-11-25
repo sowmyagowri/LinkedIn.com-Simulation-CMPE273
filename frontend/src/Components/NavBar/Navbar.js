@@ -4,7 +4,7 @@ import './Navbar.css';
 import { withRouter, Link } from 'react-router-dom';
 
 class Navbar extends Component {
-    constructor(props) {
+    constructor(props) { 
         super(props);
     }
 
@@ -38,7 +38,7 @@ class Navbar extends Component {
                         <ul className="nav-main nav-container display-flex full-height" role="navigation" aria-label="primary">
                         <span className = "nav-item nav-item__icon">
                             <li className="nav-item--jobs">
-                            <a href="/connections" className= "nav-item__link nav-item__link--underline js-nav-item-link">
+                            <a href="/mynetwork" className= "nav-item__link nav-item__link--underline js-nav-item-link">
                                 <FontAwesomeIcon color="#dee2e6" size="lg" icon="users"></FontAwesomeIcon><small className ="nocolor small" style ={{whiteSpace : "nowrap"}}>My Network</small></a></li></span>
                         <span className = "nav-item nav-item__icon">
                             <li className="nav-item--jobs">
@@ -56,17 +56,17 @@ class Navbar extends Component {
                                 <a className="dropdown-item" href="/profile">Profile</a>
                                 <div className="dropdown-divider"></div>
                                 <a className="dropdown-item" href="/searchjobs">Job Postings</a>
-                                <a className="dropdown-item" href="/jobs/saved">Saved Jobs</a>
+                                <a className="dropdown-item" href="/job/saved">Saved Jobs</a>
                                 <div className="dropdown-divider"></div>
                                 <a className="dropdown-item" href="#">Sign Out</a></div>
                             </div>
                             </li></span> 
                         </ul>
                         <ul className="nav-side nav-container display-flex full-height" role="navigation" aria-label="primary">
-                            <span className="nav-item nav-item__icon">
-                                <li className="nav-item--postjobs">
-                                    <a href="/searchjobs" className="nav-item__link nav-item__link--underline js-nav-item-link">
-                                        <FontAwesomeIcon color="#dee2e6" size="lg" icon="calendar-alt"></FontAwesomeIcon><small className="nocolor small" style={{ whiteSpace: "nowrap" }}>Post a Job</small></a></li></span>
+                        <span className = "nav-item nav-item__icon">
+                            <li className="nav-item--postjobs">
+                            <a href="/jobs" className= "nav-item__link nav-item__link--underline js-nav-item-link">
+                                <FontAwesomeIcon color="#dee2e6" size="lg" icon="calendar-alt"></FontAwesomeIcon><small className ="nocolor small" style ={{whiteSpace : "nowrap"}}>Post a Job</small></a></li></span>
                         </ul>
                     </div>
                 </div>
