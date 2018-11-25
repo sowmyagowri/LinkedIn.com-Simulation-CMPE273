@@ -6,8 +6,14 @@ import { withRouter, Link } from 'react-router-dom';
 class Navbar extends Component {
     constructor(props) { 
         super(props);
+        this.signout = this.signout.bind(this);
     }
 
+    signout = () => {
+        localStorage.clear();
+        window.location = "/"
+    }
+    
     render() {
         return (
             <div className="navbar fixed-top navbar-dark bg-dark" style={{ height: "52px" }}>
@@ -58,7 +64,7 @@ class Navbar extends Component {
                                 <a className="dropdown-item" href="/searchjobs">Job Postings</a>
                                 <a className="dropdown-item" href="/job/saved">Saved Jobs</a>
                                 <div className="dropdown-divider"></div>
-                                <a className="dropdown-item" href="#">Sign Out</a></div>
+                                <a className="dropdown-item" onClick= {this.signout} href="#">Sign Out</a></div>
                             </div>
                             </li></span> 
                         </ul>
