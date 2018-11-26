@@ -542,7 +542,6 @@ submitExperience = () => {
             description : this.state.description
         }
         var experiencelist = this.props.experiencelist;
-        console.log(experiencelist);
         experiencelist[this.state.id] = editedExperience;
         var data = {
             email: email,
@@ -694,6 +693,7 @@ class EditEducation extends Component {
     submitEducation = () => {
         if (this.handleValidationEducation()) {
             const email = JSON.parse(localStorage.getItem(userConstants.USER_DETAILS)).email;
+            const token =  JSON.parse(localStorage.getItem(userConstants.AUTH_TOKEN));
             var editedEducation = {
                 school : this.state.school,
                 degree : this.state.degree,
@@ -703,9 +703,11 @@ class EditEducation extends Component {
             }
             var educationlist = this.props.educationlist
             educationlist[this.state.id] = editedEducation
-            var data = educationlist
-            console.log(localStorage.getItem(userConstants.USER_DETAILS));
-            this.props.applicantprofileeducation(email, localStorage.getItem(userConstants.AUTH_TOKEN, data)).then(response => {
+            var data = {
+                email: email,
+                educationlist : educationlist
+            }
+            this.props.applicantprofileeducation(data, token).then(response => {
                 console.log("response:", response);
                 if(response.payload.status === 200){
                     console.log("Profile Education Updated Successfully")
@@ -856,7 +858,6 @@ class Experience extends Component {
             var experiencelist = this.props.experiencelist
             experiencelist.push(newExperience)
             var data = experiencelist
-            console.log(data);
             var userData = {
                 email: email,
                 experiencelist : data
@@ -1005,6 +1006,7 @@ class Education extends Component {
     submitEducation = () => {
         if (this.handleValidationEducation()) {
             const email = JSON.parse(localStorage.getItem(userConstants.USER_DETAILS)).email;
+            const token =  JSON.parse(localStorage.getItem(userConstants.AUTH_TOKEN));
             var newEducation = {
                 school : this.state.school,
                 degree : this.state.degree,
@@ -1013,9 +1015,13 @@ class Education extends Component {
                 description : this.state.description
             }
             var educationlist = this.props.educationlist
-            var data = educationlist.push(newEducation)
-            console.log(localStorage.getItem(userConstants.USER_DETAILS));
-            this.props.applicantprofileeducation(email, localStorage.getItem(userConstants.AUTH_TOKEN, data)).then(response => {
+            educationlist.push(newEducation)
+            var data = educationlist
+            var userData = {
+                email: email,
+                educationlist : data
+            }
+            this.props.applicantprofileeducation(userData, token).then(response => {
                 console.log("response:", response);
                 if(response.payload.status === 200){
                     console.log("Profile Education Updated Successfully")
