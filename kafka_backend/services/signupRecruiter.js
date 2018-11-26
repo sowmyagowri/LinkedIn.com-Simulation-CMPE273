@@ -18,7 +18,7 @@ async function handle_request(msg, callback) {
             password: hash,
             role: 'R'
         }
-        await db.insertQuery('INSERT INTO user_profile SET ?', post);
+         db.insertQuery('INSERT INTO user_profile SET ?', post);
         var user = new Users({
             firstName : msg.firstname,
             lastName : msg.lastname,
@@ -26,7 +26,7 @@ async function handle_request(msg, callback) {
             role : 'R'
         });
         console.log("applicant:", user);
-        await user.save();
+         user.save();
         resp = prepareSuccess({ 
             "result": "Recruiter Profile created Sucessfully",
             email: post.email,

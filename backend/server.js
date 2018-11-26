@@ -13,6 +13,9 @@ let getJobsByRecruiter = require('./routes/getJobsByRecruiter');
 let postRecruiterProfile = require('./routes/postRecruiterProfile');
 let getRecruiterProfile = require('./routes/getRecruiterProfile');
 let getApplicantProfile = require('./routes/getApplicantProfile');
+let postApplicantProfileSummary = require('./routes/postApplicantProfileSummary');
+let postApplicantProfileExperience = require('./routes/postApplicantProfileExperience');
+
 let editJob = require('./routes/editJob');
 let updateJobViews = require('./routes/updateJobViews');
 let graphClicksPerJob = require('./routes/graphClicksPerJob');
@@ -63,11 +66,10 @@ app.use("/signup_recruiter/", signupRecruiter);
 app.use("/signup_applicant/", signupApplicant);
 app.use("/signin_recruiter/", signinRecruiter);
 app.use("/signin_applicant/", signinApplicant);
-app.use("/get_applicant_profile/", getApplicantProfile);
 
 // Add routes above this line if they do not require passport authentication
 // Add passport Authentication code will go here
-// app.use("/", requireAuth);
+app.use("/", requireAuth);
 // Add routes below this line if they require passport authentication
 
 app.use("/add_recruiter_role/", addRecruiterRole);
@@ -75,6 +77,10 @@ app.use("/post_job/", postJob);
 app.use("/get_jobs_by_recruiter/", getJobsByRecruiter);
 app.use("/post_recruiter_profile/", postRecruiterProfile);
 app.use("/get_recruiter_profile/", getRecruiterProfile);
+
+app.use("/get_applicant_profile/", getApplicantProfile);
+app.use("/post_applicant_profile_summary/", postApplicantProfileSummary);
+app.use("/post_applicant_profile_experience/", postApplicantProfileExperience);
 
 app.use("/edit_job/", editJob);
 app.use("/update_job_views/", updateJobViews);

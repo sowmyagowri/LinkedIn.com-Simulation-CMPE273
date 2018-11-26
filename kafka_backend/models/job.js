@@ -7,6 +7,9 @@ var Jobs = mongoose.model('Jobs',{
     title : {
         type : String
     },
+    company : {
+        type : String
+    },
     job_description : {
         type : String
     },

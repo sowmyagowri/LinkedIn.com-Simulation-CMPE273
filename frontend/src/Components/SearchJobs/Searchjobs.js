@@ -2,9 +2,6 @@ import React, {Component} from 'react';
 import '../../App.css';
 import '../../jobsearch_wrapper.css';
 import Navbar from '../NavBar/Navbar';
-import { Field, reduxForm } from "redux-form";
-import {Redirect, withRouter} from 'react-router-dom';
-import { connect } from "react-redux";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 
 class SearchJobs extends Component{
@@ -260,7 +257,7 @@ const JobListItem = ({ job, openJob, selectedJob}) => {
     return (
         <div className={classes} onClick={() => openJob(job.id)}>
             <div className = "media">
-            <a className = "pull-left"><img src = {job.company_logo} style = {{height : "56px", width : "56px"}}></img></a>
+            <a href=" "className = "pull-left"><img alt=""src = {job.company_logo} style = {{height : "56px", width : "56px"}}></img></a>
             <div className = "artdeco-entity-lockup--size-4 gap1">
             <a href = {`/job/view/${job.id}`}><div className="job-item__subject" >
             {job.title}
@@ -290,7 +287,7 @@ const JobDetails = ({jobs}) =>{
         <div className="jobs-details__main-content--single-pane full-width relative">
             <div className="jobs-box jobs-box--fadein jobs-box--full-width jobs-details-top-card jobs-box--no-bottom-offset ember-view">
                 <div className = "media">
-                    <a className = "pull-left"><img src = {jobs.company_logo} style = {{height : "150px", width : "150px"}}></img></a>
+                    <a href=" "className = "pull-left"><img src = {jobs.company_logo} alt=" "style = {{height : "150px", width : "150px"}}></img></a>
                     <div className = "artdeco-entity-lockup--size-4 gap1">
                     <a href = {`/job/view/${jobs.id}`}><div className="job-details__subject" >
                     {jobs.title}
