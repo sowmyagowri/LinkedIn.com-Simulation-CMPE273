@@ -2,12 +2,12 @@ import React, {Component} from 'react';
 import '../../App.css';
 import '../../profile_wrapper.css';
 import Navbar from '../NavBar/Navbar';
-import { Field, reduxForm } from "redux-form";
-import {Redirect, withRouter} from 'react-router-dom';
+import {  reduxForm } from "redux-form";
+import { withRouter} from 'react-router-dom';
 import { connect } from "react-redux";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { userConstants } from '../../constants';
-import { getapplicantprofile } from '../../Actions/applicant_login_profile_actions';
+import { getapplicantprofile, applicantprofilesummary, applicantprofileexperience, applicantprofileeducation, applicantprofileskills } from '../../Actions/applicant_login_profile_actions';
 
 class Profile extends Component{
     constructor(props){
@@ -17,9 +17,12 @@ class Profile extends Component{
             lastname : "",
             state : "",
             zipcode : "",
+            sskills :"",
+            profilePicture : "",
             experience : [{}],
             education : [{}],
-            skills : "",
+            skills : "",  
+            resume : "",          
             touchedprofile : {
                 firstname: false,
                 lastname: false,
@@ -30,14 +33,18 @@ class Profile extends Component{
             isLoading : true
         };
         this.changeHandler = this.changeHandler.bind(this);
-        this.profileinfochangeHandler = this.changeHandler.bind(this);
+        this.profilephotochangeHandler = this.profilephotochangeHandler.bind(this);
+        this.openFileDialog = this.openFileDialog.bind(this)
+        this.updateSkills = this.updateSkills.bind(this)
+        this.submitProfile = this.submitProfile.bind(this)
+        this.uploadresume = this.uploadresume.bind(this)
     }
 
     componentDidMount() {
         //call to action
         const data = JSON.parse(localStorage.getItem(userConstants.USER_DETAILS)).email;
-        console.log(localStorage.getItem(userConstants.USER_DETAILS));
-        this.props.getapplicantprofile(data, localStorage.getItem(userConstants.AUTH_TOKEN)).then(response => {
+        const token =  JSON.parse(localStorage.getItem(userConstants.AUTH_TOKEN));
+        this.props.getapplicantprofile(data, token).then(response => {
             console.log("response:", response);
             if(response.payload.status === 200){
                 this.setState({ 
@@ -57,8 +64,10 @@ class Profile extends Component{
                         education : response.payload.data.profile.education,
                         skills : response.payload.data.profile.skills === undefined || ""  ? "" : response.payload.data.profile.skills,
                         sskills : response.payload.data.profile.skills === undefined || ""  ? "" : response.payload.data.profile.skills,
-                        isLoading : false 
-                });
+                        profilePicture : response.payload.data.profile.profilePicture === undefined || ""  ? "/images/avatar.png" : response.payload.data.profile.skills,
+                        isLoading : false
+                });                
+            }
                 this.refs.myfirstname.value = this.state.fname;
                 this.refs.mylastname.value = this.state.lname;
                 this.refs.myprofilesummary.value = this.state.profilesummary;
@@ -67,13 +76,57 @@ class Profile extends Component{
                 this.refs.myphonenumber.value = this.state.phonenumber
                 this.refs.myaddress.value = this.state.address;
                 this.refs.myskills.value = this.state.sskills;
-            }
-        }).catch(err => {
-            console.log(err);
-            alert("Cannot fetch details");
-        });
+        })
     }   
-    
+
+    updateSkills () {
+        const email = JSON.parse(localStorage.getItem(userConstants.USER_DETAILS)).email;
+        const token =  JSON.parse(localStorage.getItem(userConstants.AUTH_TOKEN));
+        
+        this.props.applicantprofileskills(email, token).then(response => {
+            console.log("response:", response);
+            if(response.payload.status === 200){
+                console.log("Profile Skills Updated Successfully")
+            }
+        })
+    }
+
+    openFileDialog = (e) => {
+        document.getElementById('fileid').click();
+    }
+
+    openResumeDialog = (e) => {
+        document.getElementById('resume').click();
+    }
+
+
+    uploadresume = (event) => {
+        event.preventDefault();
+        var file = event.target.files[0]
+        console.log(file)
+        var formData = new FormData();
+        formData.append("description", 'selectedFile')
+        formData.append("selectedFile", file);
+        console.log(formData);
+        this.setState ({
+            resume : event.target.files[0].name
+        })
+    }
+
+    profilephotochangeHandler = (event) => {
+        event.preventDefault();
+        var file = event.target.files[0]
+        console.log(file)
+        var formData = new FormData();
+
+        formData.append("description", 'selectedFile')
+        formData.append("selectedFile", file);
+        console.log(formData);
+        this.setState ({
+            profilePicture : event.target.files[0].name
+        })
+    }
+     
     changeHandler = (e) => {
         const state = {
           ...this.state,
@@ -84,7 +137,27 @@ class Profile extends Component{
 
     submitProfile = () => {
         if (this.handleValidationProfile()) {
-            
+            const email = JSON.parse(localStorage.getItem(userConstants.USER_DETAILS)).email;
+            const token =  JSON.parse(localStorage.getItem(userConstants.AUTH_TOKEN));
+            const data = {
+                email: email,
+                firstName : this.state.firstname,
+                lastName : this.state.lastname,
+                state : this.state.state,
+                zipcode : this.state.zipcode,
+                address : this.state.address,
+                profileSummary : this.state.profilesummary,
+                phoneNumber : this.state.phonenumber,
+                resume : this.state.resume,
+                profilePicture : this.state.profilePicture,
+            }
+            console.log(data);
+            this.props.applicantprofilesummary(data, token, ).then(response => {
+                console.log("response:", response);
+                if(response.payload.status === 200){
+                    console.log("Profile Summary Updated Successfully")
+                }
+            })
         }
     } 
 
@@ -116,25 +189,23 @@ class Profile extends Component{
     }
 
 
-    handleValidationProfile(){
+    handleValidationProfile () {
         let formIsValid = false;
         const errors = validateprofile(this.state.firstname,  this.state.lastname, this.state.state, this.state.zipcode);
-        if(!errors.firstname && !errors.lastname, !errors.lastname, !errors.state, !errors.zipcode){
+        if(!errors.firstname && !errors.lastname && !errors.lastname && !errors.state && !errors.zipcode){
           formIsValid = true
         }
         return formIsValid;
     }
 
-
-
     getExperienceContents () {
-        var self = this;
         const {experience,isLoading} = this.state;
+        var self=this;
         if(!isLoading) {
             return Object.keys(experience).map(function(i) {
                 return <li className ="pv-profile-section__card-item-v2 pv-profile-section pv-position-entity ember-view" key ={i}>
                     {/* <div className = "pv-entity__actions"><FontAwesomeIcon icon="pencil-alt" color="#0073b1" size ="lg"/> </div> */}
-                    <EditExperience experience={experience[i]} id = {i}/>
+                    <EditExperience experience={experience[i]} experiencelist = {self.state.experience} id = {i} applicantprofileexperience = {self.props.applicantprofileexperience}/>
                     <div className ="pv-entity__summary-info pv-entity__summary-info--background-section mb2">
                     <h3 className = "t-16 t-black t-bold">{experience[i].title}</h3> 
                     <h4 className = "t-16 t-black-light t-normal">{experience[i].company}</h4>
@@ -149,13 +220,13 @@ class Profile extends Component{
     }
 
     getEducationContents () {
-        var self = this;
         const {education, isLoading} = this.state;
+        var self=this;
         if(!isLoading) {
             return Object.keys(education).map(function(i) {
                 return <li className ="pv-profile-section__card-item-v2 pv-profile-section pv-position-entity ember-view" key ={i}>
                 {/* <div className = "pv-entity__actions"><FontAwesomeIcon icon="pencil-alt" color="#0073b1" size ="lg"/> </div> */}
-                <EditEducation education={education[i]} id = {i}/>
+                <EditEducation education={education[i]} id = {i} educationlist = {self.state.education} applicantprofileeducation = {self.props.applicantprofileeducation}/>
                 <div className ="pv-entity__summary-info pv-entity__summary-info--background-section mb2">
                 <h3 className = "t-16 t-black t-bold">{education[i].school}</h3> 
                 <h4 className = "t-16 t-black-light t-normal">{education[i].degree}</h4>
@@ -193,7 +264,7 @@ class Profile extends Component{
                         <div className="modal-dialog modal-dialog-centered modal-lg">
                             <div className="modal-content">
                             <div className="modal-header">
-                                <h5 className="modal-title" id="profilemodallabel">Edit intro</h5>
+                                <h5 className="modal-title" id="profilemodallabel">Edit Intro</h5>
                                 <button type="button" className="close" data-dismiss="modal" aria-label="Close">
                                 &times;
                                 </button>
@@ -306,12 +377,15 @@ class Profile extends Component{
 
                             <label htmlFor="position-resume-typeahead" className="mb1 required">Add your Resume</label>
                             <div className="form-group">
-                            <button type="button" className="btn btn-outline-primary" id="position-resume-typeahead">Upload</button>
+                                <input type="file" id="resume" onChange={this.uploadresume} style = {{display : "none"}}/>
+                                <button type="file" className="btn arteco-btn-save" id="position-resume-typeahead" onClick = {this.openResumeDialog}>Upload
+                                </button>&nbsp;&nbsp;{this.state.resume}
+                                
                             </div>
 
                             <div className="modal-footer">
                                 <button type="button" className="btn arteco-btn-save" data-dismiss="modal">Close</button>
-                                <button type="button" className="btn arteco-btn"  onClick = {this.submitProfile} style = {{width : "150px"}}>Save changes</button>
+                                <button type="submit" className="btn arteco-btn"  onClick = {this.submitProfile} style = {{width : "150px"}}>Save changes</button>
                             </div>
                             </div>
                             </div>
@@ -322,8 +396,14 @@ class Profile extends Component{
                     <div className="row">
                       <div className="col-md-12">
                         <div className="row">
-                        <div className="col-xs-12 col-sm-4 text-center"> <img src="/images/avatar.png" alt="" className="center-block img-circle rounded-circle img-thumbnail img-responsive"/> 
-                        </div>
+                            <div className="col-xs-12 col-sm-4 text-center"> 
+                                <img src= {this.state.profilePicture} alt="" className="center-block img-circle rounded-circle img-thumbnail img-responsive"/> 
+                                <div className="rank-label-container">
+                                  <input id='fileid' type='file' onChange={this.profilephotochangeHandler} hidden/>
+                                  <button type="file" className ="btn btn-default btn-icon-circle" onClick={this.openFileDialog}>
+                                  <FontAwesomeIcon icon="pencil-alt" color="black" size ="lg"/></button>
+                                </div>
+                           </div>
                           <div className="col-xs-12 col-sm-8">
                             <h3>{this.state.fname}&nbsp;{this.state.lname}</h3>
                             <p>{this.state.sstate}</p>
@@ -342,8 +422,8 @@ class Profile extends Component{
 
               <div className = "pv-profile-section artdeco-container-card ember-view gap">
                     <header className = "pv-profile-section__card-header">
-                    <Experience></Experience>
-                    <h2 className = "pv-profile-section__card-heading t-20 t-black t-normal">Experience</h2>
+                    <Experience experiencelist = {this.state.experience} applicantprofileexperience = {this.props.applicantprofileexperience}></Experience>
+                        <h2 className = "pv-profile-section__card-heading t-20 t-black t-normal">Experience</h2>
                     </header>   
                     <div className = "pv-entity__position-group-pager pv-profile-section__list-item ember-view">
                         {this.getExperienceContents()}
@@ -352,7 +432,7 @@ class Profile extends Component{
 
               <div className = "pv-profile-section artdeco-container-card ember-view gap">
                     <header className = "pv-profile-section__card-header">
-                    <Education></Education>
+                    <Education educationlist = {this.state.education} applicantprofileeducation = {this.props.applicantprofileeducation}></Education>
                         <h2 className = "pv-profile-section__card-heading t-20 t-black t-normal">Education</h2>
                     </header>   
                     <div className = "pv-entity__position-group-pager pv-profile-section__list-item ember-view">
@@ -388,12 +468,12 @@ class Profile extends Component{
                                         <input type="checkbox" className="form-check-input"  id="check3" name="Java"/>Java
                                     </label>
                                     </div> */}
-                                    <textarea className = "form-control" refs = "myskills" name = "skills" onChange = {this.changeHandler} id="position-description-typeahead"/>
+                                    <textarea className = "form-control" ref = "myskills" name = "skills" onChange = {this.changeHandler} id="position-description-typeahead"/>
 
                                 </div>
                                 <div className="modal-footer">
                                     <button type="button" className="btn arteco-btn-save" data-dismiss="modal">Close</button>
-                                    <button type="button" className="btn arteco-btn" style = {{width : "150px"}}>Save changes</button>
+                                    <button type="submit" className="btn arteco-btn" onClick = {this.updateSkills} style = {{width : "150px"}}>Save changes</button>
                                 </div>
                                 </div>
                             </div>
@@ -445,7 +525,29 @@ constructor(props){
 
 submitExperience = () => {
     if (this.handleValidationExperience()) {
-        
+        const email = JSON.parse(localStorage.getItem(userConstants.USER_DETAILS)).email;
+        const token =  JSON.parse(localStorage.getItem(userConstants.AUTH_TOKEN));
+        var editedExperience = {
+            title : this.state.title,
+            company : this.state.company,
+            location : this.state.location,
+            fromMonth : this.state.fromMonth,
+            fromYear : this.state.fromYear,
+            description : this.state.description
+        }
+        var experiencelist = this.props.experiencelist;
+        console.log(experiencelist);
+        experiencelist[this.state.id] = editedExperience;
+        var data = {
+            email: email,
+            experiencelist : experiencelist
+        }
+        this.props.applicantprofileexperience(data, token).then(response => {
+            console.log("response:", response);
+            if(response.payload.status === 200){
+                console.log("Profile Experience Updated Successfully")
+            }
+        })
     }
 } 
 
@@ -466,7 +568,7 @@ handleBlur = (field) => (evt) => {
 handleValidationExperience(){
     let formIsValid = false;
     const errors = validateExperience(this.state.title,  this.state.company, this.state.location, this.state.fromMonth, this.state.fromYear);
-    if(!errors.title && !errors.company, !errors.location, !errors.fromMonth, !errors.fromYear){
+    if(!errors.title && !errors.company && !errors.location && !errors.fromMonth && !errors.fromYear){
       formIsValid = true
     }
     return formIsValid;
@@ -485,12 +587,12 @@ render() {
 
     return (
         <div>
-         <div className = "pv-entity__actions" data-toggle="modal" data-target={'#experienceeditmodal'+`${id}`}><FontAwesomeIcon icon="pencil-alt" color="#0073b1" size ="lg"/></div>
-           <div className="modal fade  bd-example-modal-lg" id={'experienceeditmodal'+`${id}`} tabIndex="-1" role="dialog" aria-labelledby={'experiencemodallabel'+`${id}`} aria-hidden="true"  style = {{marginTop : "40px"}}>
+         <div className = "pv-entity__actions" data-toggle="modal" data-target={'#experienceeditmodal'+id}><FontAwesomeIcon icon="pencil-alt" color="#0073b1" size ="lg"/></div>
+           <div className="modal fade  bd-example-modal-lg" id={'experienceeditmodal'+id} tabIndex="-1" role="dialog" aria-labelledby={'experiencemodallabel'+id} aria-hidden="true"  style = {{marginTop : "40px"}}>
                 <div className="modal-dialog modal-dialog-centered modal-lg">
                     <div className="modal-content">
                         <div className="modal-header">
-                            <h5 className="modal-title" id={'experiencemodallabel'+`${id}`}>Edit Experience</h5>
+                            <h5 className="modal-title" id={'experiencemodallabel'+id}>Edit Experience</h5>
                             <button type="button" className="close" data-dismiss="modal" aria-label="Close">
                             &times;
                             </button>
@@ -511,22 +613,22 @@ render() {
                         <label htmlFor="position-date-typeahead" className="mb1 required">From</label>
                         <select className = "form-control edit-date" id="position-date-typeahead" value = {fromMonth}  onChange = {this.changeHandler}  onBlur={this.handleBlur('fromMonth')}  name="fromMonth">
                         <option value="">Month</option>
-                        <option value="1">January</option>
-                        <option value="2">February</option>
-                        <option value="3">March</option>
-                        <option value="4">April</option>
-                        <option value="5">May</option>
-                        <option value="6">June</option>
-                        <option value="7">July</option>
-                        <option value="8">August</option>
-                        <option value="9">September</option>
-                        <option value="10">October</option>
-                        <option value="11">November</option>
-                        <option value="12">December</option>
+                        <option value="January">January</option>
+                        <option value="February">February</option>
+                        <option value="March">March</option>
+                        <option value="April">April</option>
+                        <option value="May">May</option>
+                        <option value="June">June</option>
+                        <option value="July">July</option>
+                        <option value="August">August</option>
+                        <option value="September">September</option>
+                        <option value="October">October</option>
+                        <option value="November">November</option>
+                        <option value="December">December</option>
                         </select>
                         {shouldMarkError('fromMonth') ? <div className = "col-xs-6 col-md-6" style = {{color: "red"}}>&nbsp;Month is a required field</div> : (null)}
 
-                        <select name="fromYear" id="position-start-typeahead" name = "fromYear"   onBlur={this.handleBlur('fromYear')} value = {fromYear} onChange = {this.changeHandler} className = "form-control edit-year">  
+                        <select  id="position-start-typeahead" name = "fromYear"   onBlur={this.handleBlur('fromYear')} value = {fromYear} onChange = {this.changeHandler} className = "form-control edit-year">  
                         <option value="">Year</option>
                         <option value="2018">2018</option>
                         <option value="2017">2017</option>
@@ -547,7 +649,7 @@ render() {
                         </div>
                         <div className="modal-footer">
                             <button type="button" className="btn arteco-btn-save" data-dismiss="modal">Close</button>
-                            <button type="button" className="btn arteco-btn" style = {{width : "150px"}}>Save changes</button>
+                            <button type="submit" className="btn arteco-btn" onClick = {this.submitExperience} style = {{width : "150px"}}>Save changes</button>
                         </div>
                         </div>
                     </div>
@@ -581,7 +683,24 @@ class EditEducation extends Component {
     
     submitEducation = () => {
         if (this.handleValidationEducation()) {
-            
+            const email = JSON.parse(localStorage.getItem(userConstants.USER_DETAILS)).email;
+            var editedEducation = {
+                school : this.state.school,
+                degree : this.state.degree,
+                schoolfromYear : this.state.schoolfromYear,
+                schooltoYear : this.state.schooltoYear,
+                description : this.state.description
+            }
+            var educationlist = this.props.educationlist
+            educationlist[this.state.id] = editedEducation
+            var data = educationlist
+            console.log(localStorage.getItem(userConstants.USER_DETAILS));
+            this.props.applicantprofileeducation(email, localStorage.getItem(userConstants.AUTH_TOKEN, data)).then(response => {
+                console.log("response:", response);
+                if(response.payload.status === 200){
+                    console.log("Profile Education Updated Successfully")
+                }
+            })
         }
     } 
     
@@ -602,7 +721,7 @@ class EditEducation extends Component {
     handleValidationEducation(){
         let formIsValid = false;
         const errors = validateEducation(this.state.school, this.state.degree, this.state.schoolfromYear, this.state.schooltoYear);
-        if(!errors.school && !errors.degree, !errors.schoolfromYear, !errors.schooltoYear){
+        if(!errors.school && !errors.degree && !errors.schoolfromYear && !errors.schooltoYear){
           formIsValid = true
         }
         return formIsValid;
@@ -621,12 +740,12 @@ class EditEducation extends Component {
     
         return (
             <div>
-             <div className = "pv-entity__actions" data-toggle="modal" data-target={'#educationeditmodal'+`${id}`}><FontAwesomeIcon icon="pencil-alt" color="#0073b1" size ="lg"/></div>
-               <div className="modal fade  bd-example-modal-lg" id={'educationeditmodal'+`${id}`} tabIndex="-1" role="dialog" aria-labelledby={'educationmodallabel'+`${id}`} aria-hidden="true"  style = {{marginTop : "40px"}}>
+             <div className = "pv-entity__actions" data-toggle="modal" data-target={'#educationeditmodal'+id}><FontAwesomeIcon icon="pencil-alt" color="#0073b1" size ="lg"/></div>
+               <div className="modal fade  bd-example-modal-lg" id={'educationeditmodal'+id} tabIndex="-1" role="dialog" aria-labelledby={'educationmodallabel'+id} aria-hidden="true"  style = {{marginTop : "40px"}}>
                     <div className="modal-dialog modal-dialog-centered modal-lg">
                 <div className="modal-content">
                     <div className="modal-header">
-                        <h5 className="modal-title" id={'educationmodallabel'+`${id}`}>Edit Education</h5>
+                        <h5 className="modal-title" id={'educationmodallabel'+id}>Edit Education</h5>
                         <button type="button" className="close" data-dismiss="modal" aria-label="Close">
                         &times;
                         </button>
@@ -641,7 +760,7 @@ class EditEducation extends Component {
                 {shouldMarkError('degree') ? <div className = "col-xs-6 col-md-6" style = {{color: "red"}}>&nbsp;Degree is a required field</div> : (null)}
 
                 <label htmlFor="position-date-typeahead" className="mb1 required">From - To</label>
-                <select name="startYear" id="position-start-typeahead" name = "schoolfromYear"  value = {this.state.schoolfromYear} onChange = {this.changeHandler}  onBlur={this.handleBlur('schoolfromYear')}   className = "form-control edit-year">  
+                <select  id="position-start-typeahead" name = "schoolfromYear"  value = {this.state.schoolfromYear} onChange = {this.changeHandler}  onBlur={this.handleBlur('schoolfromYear')}   className = "form-control edit-year">  
                 <option value="">Year</option>
                 <option value="2018">2018</option>
                 <option value="2017">2017</option>
@@ -656,7 +775,7 @@ class EditEducation extends Component {
                 </select>
                 {shouldMarkError('schoolfromYear') ? <div className = "col-xs-6 col-md-6" style = {{color: "red"}}>&nbsp;Start Year is a required field</div> : (null)}
 
-                <select name="endYear" id="position-end-typeahead" name = "schooltoYear" value = {this.state.schooltoYear}  onBlur={this.handleBlur('schooltoYear')}  onChange = {this.changeHandler} className = "form-control edit-year">  
+                <select  id="position-end-typeahead" name = "schooltoYear" value = {this.state.schooltoYear}  onBlur={this.handleBlur('schooltoYear')}  onChange = {this.changeHandler} className = "form-control edit-year">  
                 <option value="">Year</option>
                 <option value="2018">2018</option>
                 <option value="2017">2017</option>
@@ -676,7 +795,7 @@ class EditEducation extends Component {
                     </div>
                     <div className="modal-footer">
                     <button type="button" className="btn arteco-btn-save" data-dismiss="modal">Close</button>
-                    <button type="button" className="btn arteco-btn" style = {{width : "150px"}} onClick = {this.submitEducation}>Save changes</button>
+                    <button type="submit" className="btn arteco-btn" style = {{width : "150px"}} onClick = {this.submitEducation}>Save changes</button>
                     </div>
                     </div>
                 </div>
@@ -710,7 +829,28 @@ class Experience extends Component {
 
     submitExperience = () => {
         if (this.handleValidationExperience()) {
-            
+            const email = JSON.parse(localStorage.getItem(userConstants.USER_DETAILS)).email;
+            const token =  JSON.parse(localStorage.getItem(userConstants.AUTH_TOKEN));
+            var newExperience = {
+                title : this.state.title,
+                company : this.state.company,
+                location : this.state.location,
+                fromMonth : this.state.fromMonth,
+                fromYear : this.state.fromYear,
+                description : this.state.description
+            }
+            var experiencelist = this.props.experiencelist
+            var data = {
+                email: email,
+                experiencelist : experiencelist.push(newExperience)
+            }
+            console.log(localStorage.getItem(userConstants.USER_DETAILS));
+            this.props.applicantprofileexperience(data, token).then(response => {
+                console.log("response:", response);
+                if(response.payload.status === 200){
+                    console.log("Profile Experience Updated Successfully")
+                }
+            })
         }
     } 
 
@@ -732,7 +872,7 @@ class Experience extends Component {
     handleValidationExperience(){
         let formIsValid = false;
         const errors = validateExperience(this.state.title,  this.state.company, this.state.location, this.state.fromMonth, this.state.fromYear);
-        if(!errors.title && !errors.company, !errors.location, !errors.fromMonth, !errors.fromYear){
+        if(!errors.title && !errors.company && !errors.location && !errors.fromMonth && !errors.fromYear){
           formIsValid = true
         }
         return formIsValid;
@@ -775,22 +915,22 @@ class Experience extends Component {
                         <label htmlFor="position-date-typeahead" className="mb1 required">From</label>
                         <select className = "form-control edit-date" id="position-date-typeahead" value = {this.state.fromMonth} onChange = {this.changeHandler}   onBlur={this.handleBlur('fromMonth')} name="fromMonth">
                         <option value="">Month</option>
-                        <option value="1">January</option>
-                        <option value="2">February</option>
-                        <option value="3">March</option>
-                        <option value="4">April</option>
-                        <option value="5">May</option>
-                        <option value="6">June</option>
-                        <option value="7">July</option>
-                        <option value="8">August</option>
-                        <option value="9">September</option>
-                        <option value="10">October</option>
-                        <option value="11">November</option>
-                        <option value="12">December</option>
+                        <option value="January">January</option>
+                        <option value="February">February</option>
+                        <option value="March">March</option>
+                        <option value="April">April</option>
+                        <option value="May">May</option>
+                        <option value="June">June</option>
+                        <option value="July">July</option>
+                        <option value="August">August</option>
+                        <option value="September">September</option>
+                        <option value="October">October</option>
+                        <option value="November">November</option>
+                        <option value="December">December</option>
                         </select>
                         {shouldMarkError('fromMonth') ? <div className = "col-xs-6 col-md-6" style = {{color: "red"}}>&nbsp;Month is a required field</div> : (null)}
 
-                        <select name="fromYear" id="position-start-typeahead" name = "fromYear"  value = {this.state.fromYear} onChange = {this.changeHandler}  onBlur={this.handleBlur('fromYear')} className = "form-control edit-year">  
+                        <select  id="position-start-typeahead" name = "fromYear"  value = {this.state.fromYear} onChange = {this.changeHandler}  onBlur={this.handleBlur('fromYear')} className = "form-control edit-year">  
                         <option value="">Year</option>
                         <option value="2018">2018</option>
                         <option value="2017">2017</option>
@@ -811,7 +951,7 @@ class Experience extends Component {
                         </div>
                         <div className="modal-footer">
                             <button type="button" className="btn arteco-btn-save" data-dismiss="modal">Close</button>
-                            <button type="button" className="btn arteco-btn" style = {{width : "150px"}} onClick = {this.submitExperience}>Save changes</button>
+                            <button type="submit" className="btn arteco-btn" style = {{width : "150px"}} onClick = {this.submitExperience}>Save changes</button>
                         </div>
                         </div>
                     </div>
@@ -844,7 +984,23 @@ class Education extends Component {
 
     submitEducation = () => {
         if (this.handleValidationEducation()) {
-            
+            const email = JSON.parse(localStorage.getItem(userConstants.USER_DETAILS)).email;
+            var newEducation = {
+                school : this.state.school,
+                degree : this.state.degree,
+                schoolfromYear : this.state.schoolfromYear,
+                schooltoYear : this.state.schooltoYear,
+                description : this.state.description
+            }
+            var educationlist = this.props.educationlist
+            var data = educationlist.push(newEducation)
+            console.log(localStorage.getItem(userConstants.USER_DETAILS));
+            this.props.applicantprofileeducation(email, localStorage.getItem(userConstants.AUTH_TOKEN, data)).then(response => {
+                console.log("response:", response);
+                if(response.payload.status === 200){
+                    console.log("Profile Education Updated Successfully")
+                }
+            })
         }
     } 
 
@@ -866,7 +1022,7 @@ class Education extends Component {
     handleValidationEducation(){
         let formIsValid = false;
         const errors = validateEducation(this.state.school, this.state.degree, this.state.schoolfromYear, this.state.schooltoYear);
-        if(!errors.school && !errors.degree, !errors.schoolfromYear, !errors.schooltoYear){
+        if(!errors.school && !errors.degree && !errors.schoolfromYear && !errors.schooltoYear){
           formIsValid = true
         }
         return formIsValid;
@@ -902,7 +1058,7 @@ class Education extends Component {
                 {shouldMarkError('degree') ? <div className = "col-xs-6 col-md-6" style = {{color: "red"}}>&nbsp;Degree is a required field</div> : (null)}
 
                 <label htmlFor="position-date-typeahead" className="mb1 required">From - To</label>
-                <select name="startYear" id="position-start-typeahead" name = "schoolfromYear"  value = {this.state.schoolfromYear} onChange = {this.changeHandler}  onBlur={this.handleBlur('schoolfromYear')}   className = "form-control edit-year">  
+                <select  id="position-start-typeahead" name = "schoolfromYear"  value = {this.state.schoolfromYear} onChange = {this.changeHandler}  onBlur={this.handleBlur('schoolfromYear')}   className = "form-control edit-year">  
                 <option value="">Year</option>
                 <option value="2018">2018</option>
                 <option value="2017">2017</option>
@@ -917,7 +1073,7 @@ class Education extends Component {
                 </select>
                 {shouldMarkError('schoolfromYear') ? <div className = "col-xs-6 col-md-6" style = {{color: "red"}}>&nbsp;Start Year is a required field</div> : (null)}
 
-                <select name="endYear" id="position-end-typeahead" name = "schooltoYear" value = {this.state.schooltoYear}  onBlur={this.handleBlur('schooltoYear')}  onChange = {this.changeHandler} className = "form-control edit-year">  
+                <select  id="position-end-typeahead" name = "schooltoYear" value = {this.state.schooltoYear}  onBlur={this.handleBlur('schooltoYear')}  onChange = {this.changeHandler} className = "form-control edit-year">  
                 <option value="">Year</option>
                 <option value="2018">2018</option>
                 <option value="2017">2017</option>
@@ -937,7 +1093,7 @@ class Education extends Component {
                     </div>
                     <div className="modal-footer">
                     <button type="button" className="btn arteco-btn-save" data-dismiss="modal">Close</button>
-                    <button type="button" className="btn arteco-btn" style = {{width : "150px"}} onClick = {this.submitEducation}>Save changes</button>
+                    <button type="submit" className="btn arteco-btn" style = {{width : "150px"}} onClick = {this.submitEducation}>Save changes</button>
                     </div>
                     </div>
                 </div>
@@ -981,10 +1137,14 @@ function validateEducation(school, degree, schoolfromYear, schooltoYear) {
 
 function mapStateToProps(state) {
     return {
-        getapplicantprofile: state.getapplicantprofile
+        getapplicantprofile: state.getapplicantprofile,
+        applicantprofilesummary : state.applicantprofilesummary, 
+        applicantprofileexperience : state.applicantprofileexperience, 
+        applicantprofileeducation :  state.applicantprofileeducation, 
+        applicantprofileskills : state.applicantprofileskills
     };
 }
 
 export default withRouter(reduxForm({
 form: "Applicant_profile"
-})(connect(mapStateToProps, { getapplicantprofile })(Profile)));
+})(connect(mapStateToProps, { getapplicantprofile, applicantprofilesummary, applicantprofileexperience, applicantprofileeducation, applicantprofileskills })(Profile)));

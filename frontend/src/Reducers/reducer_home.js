@@ -3,13 +3,19 @@ import { userConstants } from '../constants';
 //Reducer listening to different action types
 export function HomeReducer(state = {}, action) {
   switch (action.type) {
-    case userConstants.DO_APPLICANT_LOGIN:
+    case userConstants.APPLICANT_LOGIN:
       return action.payload;
-    case userConstants.DO_APPLICANT_SIGNUP:
+    case userConstants.APPLICANT_SIGNUP:
       return action.payload;
-    case userConstants.DO_APPLICANT_PROFILE_FETCH:
+    case userConstants.APPLICANT_PROFILE_FETCH:
       return action.payload;
-    case userConstants.DO_APPLICANT_PROFILE_SAVE:
+    case userConstants.APPLICANT_PROFILE_SUMMARY_POST:
+      return action.payload;
+    case userConstants.APPLICANT_PROFILE_EXPERIENCE_POST:
+      return action.payload;
+    case userConstants.APPLICANT_PROFILE_EDUCATION_POST:
+      return action.payload;
+    case userConstants.APPLICANT_PROFILE_SKILLS_POST:
       return action.payload;
     default:
       return state;

@@ -4,14 +4,10 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { withRouter } from "react-router-dom";
 import { connect } from "react-redux";
 import { getRecruiterJobs } from "../../Actions/PostJobActions";
+import { v4 } from "node-uuid";
 
 class Jobs extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {};
-  }
-
-  componentDidMount() {
+  componentWillMount() {
     this.props.getRecruiterJobs();
   }
 
@@ -19,46 +15,48 @@ class Jobs extends Component {
     let jobs = null;
     if (this.props.jobsState.jobs.length) {
       jobs = this.props.jobsState.jobs.map(job => {
-        
         return (
-          <div className="row">
-            <div className="col-4">
-              <img className="img-thumbnail" src="images/nojobs.png" />
+          <div key={v4()} className="card shadow-lg">
+            <div className="row">
+              <div className="col-4">
+                <img
+                  className="img-thumbnail"
+                  alt=""
+                  style={{ border: "none" }}
+                />
+              </div>
+              <div className="col-8">
+                <h4>{job.title}</h4>
+                &nbsp;&nbsp;&nbsp;&nbsp;Company <br />
+                &nbsp;&nbsp;&nbsp;&nbsp;Expiry <br />
+                <FontAwesomeIcon
+                  color="#dee2e6"
+                  size="sm"
+                  icon="location-arrow"
+                />
+                Place <br />
+                <br />
+              </div>
+              <hr />
             </div>
-            <div className="col-8">
-              <h4>{job.title}</h4>
-              &nbsp;&nbsp;&nbsp;&nbsp;Company <br />
-              &nbsp;&nbsp;&nbsp;&nbsp;Expiry <br />
-              <FontAwesomeIcon
-                color="#dee2e6"
-                size="sm"
-                icon="location-arrow"
-              />
-              Place <br />
-              <br />
-            </div>
-            <hr />
           </div>
-          
         );
       });
     } else {
       jobs = (
-
-          <div className="col-6 offset-3 text-center">
-            <br />
-            <br />
-            <img src="images/nojobs.png" />
-            <br />
-            <br />
-            <span style={{ fontSize: "150%" }}>
-              Sorry, there are no jobs to display.
-            </span>
-            <br />
-            <br /> <br />
-            <br />
-            
-          </div>
+        <div className="col-6 offset-3 text-center">
+          <br />
+          <br />
+          <img alt="" src="images/nojobs.png" />
+          <br />
+          <br />
+          <span style={{ fontSize: "150%" }}>
+            Sorry, there are no jobs to display.
+          </span>
+          <br />
+          <br /> <br />
+          <br />
+        </div>
       );
     }
 
@@ -70,47 +68,10 @@ class Jobs extends Component {
         <br />
         <div className="container">
           <div className="row">
-            <div className="col-8">
+            <div className="col-12">
               <br />
               <br />
-              <div className="card shadow-lg">
-                <div className="container">
-                  <br />
-                  <br />
-                  <span style={{ fontSize: "150%" }}>Jobs</span>
-                  <br />
-                  <hr />
-                  {jobs}
-                  <br />
-                </div>
-
-                <br />
-                <br />
-              </div>
-            </div>
-
-            <div className="col-4" style={{ fontSize: "90%" }}>
-              <br />
-              <br />
-
-              <div className="card shadow-lg">
-                <div className="container text-center">
-                  <br />
-                  <button
-                    type="button"
-                    className="btn blueBackground btn-lg btn-block text-white"
-                  >
-                    Post a Job
-                  </button>
-
-                  <hr />
-                  <a className="text-muted" href="">
-                    Manage account
-                  </a>
-                  <br />
-                  <br />
-                </div>
-              </div>
+              {jobs}
             </div>
           </div>
         </div>

@@ -3,10 +3,6 @@ import '../../App.css';
 import '../../jobsearch_wrapper.css';
 import './connections.css';
 import Navbar from '../NavBar/Navbar';
-import { Field, reduxForm } from "redux-form";
-import {Redirect, withRouter} from 'react-router-dom';
-import { connect } from "react-redux";
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 
 class Mynetwork extends Component{
     constructor(props){
@@ -46,7 +42,7 @@ class Mynetwork extends Component{
                                         <div className = "invitation-card__details">
                                             <div className = "details-view">
                                             <div className = "msg-conversation-card__row pr2">
-                                                <img src="/images/avatar.png" style = {{width : "56px", height : "56px"}}/>
+                                                <img alt="" src="/images/avatar.png" style = {{width : "56px", height : "56px"}}/>
                                                 <div className = "row" style = {{marginLeft : "15px"}}>
                                                     <div className = "form-group">
                                                         <h5 className = "t-14 t-black t-normal">Vince Denver</h5>
@@ -68,7 +64,7 @@ class Mynetwork extends Component{
                                         <div className = "invitation-card__details">
                                             <div className = "details-view">
                                             <div className = "msg-conversation-card__row pr2">
-                                                <img src="/images/avatar.png" style = {{width : "56px", height : "56px"}}/>
+                                                <img alt="" src="/images/avatar.png" style = {{width : "56px", height : "56px"}}/>
                                                 <div className = "row" style = {{marginLeft : "15px"}}>
                                                     <div className = "form-group">
                                                         <h5 className = "t-14 t-black t-normal">Vince Denver</h5>
