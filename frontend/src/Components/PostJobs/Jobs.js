@@ -19,46 +19,44 @@ class Jobs extends Component {
     let jobs = null;
     if (this.props.jobsState.jobs.length) {
       jobs = this.props.jobsState.jobs.map(job => {
-        
         return (
-          <div className="row">
-            <div className="col-4">
-              <img className="img-thumbnail" src="images/nojobs.png" />
+          <div className="card shadow-lg">
+            <div className="row">
+              <div className="col-4">
+                <img className="img-thumbnail" style={{border:"none"}} />
+              </div>
+              <div className="col-8">
+                <h4>{job.title}</h4>
+                &nbsp;&nbsp;&nbsp;&nbsp;Company <br />
+                &nbsp;&nbsp;&nbsp;&nbsp;Expiry <br />
+                <FontAwesomeIcon
+                  color="#dee2e6"
+                  size="sm"
+                  icon="location-arrow"
+                />
+                Place <br />
+                <br />
+              </div>
+              <hr />
             </div>
-            <div className="col-8">
-              <h4>{job.title}</h4>
-              &nbsp;&nbsp;&nbsp;&nbsp;Company <br />
-              &nbsp;&nbsp;&nbsp;&nbsp;Expiry <br />
-              <FontAwesomeIcon
-                color="#dee2e6"
-                size="sm"
-                icon="location-arrow"
-              />
-              Place <br />
-              <br />
-            </div>
-            <hr />
           </div>
-          
         );
       });
     } else {
       jobs = (
-
-          <div className="col-6 offset-3 text-center">
-            <br />
-            <br />
-            <img src="images/nojobs.png" />
-            <br />
-            <br />
-            <span style={{ fontSize: "150%" }}>
-              Sorry, there are no jobs to display.
-            </span>
-            <br />
-            <br /> <br />
-            <br />
-            
-          </div>
+        <div className="col-6 offset-3 text-center">
+          <br />
+          <br />
+          <img src="images/nojobs.png" />
+          <br />
+          <br />
+          <span style={{ fontSize: "150%" }}>
+            Sorry, there are no jobs to display.
+          </span>
+          <br />
+          <br /> <br />
+          <br />
+        </div>
       );
     }
 
@@ -73,20 +71,7 @@ class Jobs extends Component {
             <div className="col-8">
               <br />
               <br />
-              <div className="card shadow-lg">
-                <div className="container">
-                  <br />
-                  <br />
-                  <span style={{ fontSize: "150%" }}>Jobs</span>
-                  <br />
-                  <hr />
-                  {jobs}
-                  <br />
-                </div>
-
-                <br />
-                <br />
-              </div>
+              {jobs}
             </div>
 
             <div className="col-4" style={{ fontSize: "90%" }}>

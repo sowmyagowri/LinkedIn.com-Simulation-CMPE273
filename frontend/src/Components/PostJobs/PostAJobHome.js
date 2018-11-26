@@ -16,7 +16,7 @@ class PostAJobHome extends Component {
             <br />
             <br />
             <br />
-            <h2 style={{ opacity: ".7" }} className="text-white">
+            <h2 style={{ opacity: ".7" }} className="text-white" style={{fontWeight:"200"}}>
               Reach the quality candidates you can’t find anywhere else.
             </h2>
             <br />
