@@ -48,5 +48,81 @@ export function getapplicantprofile(email, tokenFromStorage) {
   return {
     type: userConstants.APPLICANT_PROFILE_FETCH,
     payload: response
+  };  
+}
+
+//target action for applicant profile summary update
+export function applicantprofilesummary(email, tokenFromStorage, data) {
+  console.log("inside applicant profile summary update action")
+  console.log(email)
+  console.log(tokenFromStorage);
+  var config = {
+    headers: {'Authorization': tokenFromStorage,
+              'Content-Type': 'application/json'
+    }
   };
+  axios.defaults.withCredentials = true;
+  const response =  axios.get(URI.ROOT_URL + '/post_applicant_profile_summary/' , data);
+  console.log("Response", response);
+  return {
+    type: userConstants.APPLICANT_PROFILE_SUMMARY_POST,
+    payload: response
+  };  
+}
+
+//target action for applicant profile experience update
+export function applicantprofileexperience(email, tokenFromStorage, data) {
+  console.log("inside applicant profile experience update action")
+  console.log(email)
+  console.log(tokenFromStorage);
+  var config = {
+    headers: {'Authorization': tokenFromStorage,
+              'Content-Type': 'application/json'
+    }
+  };
+  axios.defaults.withCredentials = true;
+  const response =  axios.get(URI.ROOT_URL + '/post_applicant_profile_experience/' , data);
+  console.log("Response", response);
+  return {
+    type: userConstants.APPLICANT_PROFILE_EXPERIENCE_POST,
+    payload: response
+  };  
+}
+
+//target action for applicant profile education update
+export function applicantprofileeducation(email, tokenFromStorage, data) {
+  console.log("inside applicant profile education update action")
+  console.log(email)
+  console.log(tokenFromStorage);
+  var config = {
+    headers: {'Authorization': tokenFromStorage,
+              'Content-Type': 'application/json'
+    }
+  };
+  axios.defaults.withCredentials = true;
+  const response =  axios.get(URI.ROOT_URL + '/post_applicant_profile_education/' , data);
+  console.log("Response", response);
+  return {
+    type: userConstants.APPLICANT_PROFILE_EDUCATION_POST,
+    payload: response
+  };  
+}
+
+//target action for applicant profile skills update
+export function applicantprofileskills(email, tokenFromStorage, data) {
+  console.log("inside applicant profile skills update action")
+  console.log(email)
+  console.log(tokenFromStorage);
+  var config = {
+    headers: {'Authorization': tokenFromStorage,
+              'Content-Type': 'application/json'
+    }
+  };
+  axios.defaults.withCredentials = true;
+  const response =  axios.get(URI.ROOT_URL + '/post_applicant_profile_skills/' , data);
+  console.log("Response", response);
+  return {
+    type: userConstants.APPLICANT_PROFILE_SKILLS_POST,
+    payload: response
+  };  
 }
