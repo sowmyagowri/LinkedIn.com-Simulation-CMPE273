@@ -10,11 +10,13 @@ import ViewSavedJobs from './SearchJobs/Viewsavedjobs';
 import PostAJobHome from './PostJobs/PostAJobHome'
 import PostAJobHeader from './PostJobs/PostJobHeader'
 import Jobs from './PostJobs/Jobs'
+import RecruiterGraphs from './Dashboard/Graphs'
+import RecruiterDashboard from './Dashboard/Dashboard'
 
 class Main extends Component {
     render(){
         return(
-            <div         
+            <div>        
                 <Switch>
                 <Route path="/" component={Home} exact/>
                 <Route path="/profile" component={Profile}/>
@@ -26,6 +28,9 @@ class Main extends Component {
                 <Route path="/jobs" component={Jobs}/>
                 <Route path="/jobs/view/:jobid" component={ViewJob}/>
                 <Route path="/jobs/saved/" component={ViewSavedJobs}/>
+                <Route path="/graphs/" component={RecruiterGraphs}/>
+                <Route path="/recruiterdash/" component={RecruiterDashboard}/>
+
                 </Switch>
             </div>
         )
