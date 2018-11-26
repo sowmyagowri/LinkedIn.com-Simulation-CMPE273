@@ -12,7 +12,6 @@ let postJob = require('./routes/postJob');
 let getJobsByRecruiter = require('./routes/getJobsByRecruiter');
 let postRecruiterProfile = require('./routes/postRecruiterProfile');
 let getRecruiterProfile = require('./routes/getRecruiterProfile');
-
 let getApplicantProfile = require('./routes/getApplicantProfile');
 let postApplicantProfileSummary = require('./routes/postApplicantProfileSummary');
 let postApplicantProfileExperience = require('./routes/postApplicantProfileExperience');

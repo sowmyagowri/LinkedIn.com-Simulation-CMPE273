@@ -11,9 +11,6 @@ class Inbox extends Component {
         currentConversation: null,
         messageDraft: ''
     }
-
- 
-
     componentWillMount() {
         this.props.fetchConversations();
     }

@@ -31,7 +31,7 @@ class Main extends Component {
                 <Route path="/searchjobs" component={SearchJobs}/>
                 <Route path="/messages" component={Inbox}/>
                 <Route path="/mynetwork" component={MyNetwork}/>
-                <Route path="/easyapply" component={EasyApply}/>
+                <Route path="/easyapply/:jobid" component={EasyApply}/>
                 <Route path="/job/view/:jobid" component={ViewJob}/>
                 <Route path="/job/saved" component={ViewSavedJobs}/>
                 <Route path="/postajobhome" component={PostAJobHome}/>

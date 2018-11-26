@@ -64,7 +64,7 @@ class Profile extends Component{
                         education : response.payload.data.profile.education,
                         skills : response.payload.data.profile.skills === undefined || ""  ? "" : response.payload.data.profile.skills,
                         sskills : response.payload.data.profile.skills === undefined || ""  ? "" : response.payload.data.profile.skills,
-                        profilePicture : response.payload.data.profile.profilePicture === undefined || ""  ? "/images/avatar.png" : response.payload.data.profile.skills,
+                        profilePicture : response.payload.data.profile.profilePicture,
                         isLoading : false
                 });                
             }
@@ -82,8 +82,9 @@ class Profile extends Component{
     updateSkills () {
         const email = JSON.parse(localStorage.getItem(userConstants.USER_DETAILS)).email;
         const token =  JSON.parse(localStorage.getItem(userConstants.AUTH_TOKEN));
+        var data = this.state.skills
         
-        this.props.applicantprofileskills(email, token).then(response => {
+        this.props.applicantprofileskills(email, token, data).then(response => {
             console.log("response:", response);
             if(response.payload.status === 200){
                 console.log("Profile Skills Updated Successfully")
@@ -151,12 +152,12 @@ class Profile extends Component{
                 profilePicture : this.state.profilePicture,
             }
             console.log(data);
-            // this.props.applicantprofilesummary(data, token, ).then(response => {
-            //     console.log("response:", response);
-            //     if(response.payload.status === 200){
-            //         console.log("Profile Summary Updated Successfully")
-            //     }
-            // })
+            this.props.applicantprofilesummary(data, token, ).then(response => {
+                console.log("response:", response);
+                if(response.payload.status === 200){
+                    console.log("Profile Summary Updated Successfully")
+                }
+            })
         }
     } 
 
@@ -198,6 +199,7 @@ class Profile extends Component{
     }
 
     getExperienceContents () {
+        var self = this;
         const {experience,isLoading} = this.state;
         if(!isLoading) {
             return Object.keys(experience).map(function(i) {
@@ -218,12 +220,13 @@ class Profile extends Component{
     }
 
     getEducationContents () {
+        var self = this;
         const {education, isLoading} = this.state;
         if(!isLoading) {
             return Object.keys(education).map(function(i) {
                 return <li className ="pv-profile-section__card-item-v2 pv-profile-section pv-position-entity ember-view" key ={i}>
                 {/* <div className = "pv-entity__actions"><FontAwesomeIcon icon="pencil-alt" color="#0073b1" size ="lg"/> </div> */}
-                <EditEducation education={education[i]} id = {i} applicantprofileeducation = {this.props.applicantprofileeducation}/>
+                <EditEducation education={education[i]} id = {i} educationlist = {self.state.education} applicantprofileeducation = {self.props.applicantprofileeducation}/>
                 <div className ="pv-entity__summary-info pv-entity__summary-info--background-section mb2">
                 <h3 className = "t-16 t-black t-bold">{education[i].school}</h3> 
                 <h4 className = "t-16 t-black-light t-normal">{education[i].degree}</h4>
@@ -295,57 +298,57 @@ class Profile extends Component{
                                 <label htmlFor="position-state-typeahead" className="mb1 required">State</label>
                                 <select className = "form-control" name = "state" ref = "mystate" onChange = {this.changeHandler} onBlur={this.handleBlur('state')} id="position-state-typeahead" maxLength="100" type="text">
                                     <option value="">United States</option>
-                                    <option value="AL">Alabama</option>
-                                    <option value="AK">Alaska</option>
-                                    <option value="AZ">Arizona</option>
-                                    <option value="AR">Arkansas</option>
-                                    <option value="CA">California</option>
-                                    <option value="CO">Colorado</option>
-                                    <option value="CT">Connecticut</option>
-                                    <option value="DE">Delaware</option>
-                                    <option value="DC">District Of Columbia</option>
-                                    <option value="FL">Florida</option>
-                                    <option value="GA">Georgia</option>
-                                    <option value="HI">Hawaii</option>
-                                    <option value="ID">Idaho</option>
-                                    <option value="IL">Illinois</option>
-                                    <option value="IN">Indiana</option>
-                                    <option value="IA">Iowa</option>
-                                    <option value="KS">Kansas</option>
-                                    <option value="KY">Kentucky</option>
-                                    <option value="LA">Louisiana</option>
-                                    <option value="ME">Maine</option>
-                                    <option value="MD">Maryland</option>
-                                    <option value="MA">Massachusetts</option>
-                                    <option value="MI">Michigan</option>
-                                    <option value="MN">Minnesota</option>
-                                    <option value="MS">Mississippi</option>
-                                    <option value="MO">Missouri</option>
-                                    <option value="MT">Montana</option>
-                                    <option value="NE">Nebraska</option>
-                                    <option value="NV">Nevada</option>
-                                    <option value="NH">New Hampshire</option>
-                                    <option value="NJ">New Jersey</option>
-                                    <option value="NM">New Mexico</option>
-                                    <option value="NY">New York</option>
-                                    <option value="NC">North Carolina</option>
-                                    <option value="ND">North Dakota</option>
-                                    <option value="OH">Ohio</option>
-                                    <option value="OK">Oklahoma</option>
-                                    <option value="OR">Oregon</option>
-                                    <option value="PA">Pennsylvania</option>
-                                    <option value="RI">Rhode Island</option>
-                                    <option value="SC">South Carolina</option>
-                                    <option value="SD">South Dakota</option>
-                                    <option value="TN">Tennessee</option>
-                                    <option value="TX">Texas</option>
-                                    <option value="UT">Utah</option>
-                                    <option value="VT">Vermont</option>
-                                    <option value="VA">Virginia</option>
-                                    <option value="WA">Washington</option>
-                                    <option value="WV">West Virginia</option>
-                                    <option value="WI">Wisconsin</option>
-                                    <option value="WY">Wyoming</option>
+                                    <option value="Alabama">Alabama</option>
+                                    <option value="Alaska">Alaska</option>
+                                    <option value="Arizona">Arizona</option>
+                                    <option value="Arkansas">Arkansas</option>
+                                    <option value="California">California</option>
+                                    <option value="Colorado">Colorado</option>
+                                    <option value="Connecticut">Connecticut</option>
+                                    <option value="Delaware">Delaware</option>
+                                    <option value="District Of Columbia">District Of Columbia</option>
+                                    <option value="Florida">Florida</option>
+                                    <option value="Georgia">Georgia</option>
+                                    <option value="Hawaii">Hawaii</option>
+                                    <option value="Idaho">Idaho</option>
+                                    <option value="Illinois">Illinois</option>
+                                    <option value="Indiana">Indiana</option>
+                                    <option value="Iowa">Iowa</option>
+                                    <option value="Kansas">Kansas</option>
+                                    <option value="Kentucky">Kentucky</option>
+                                    <option value="Louisiana">Louisiana</option>
+                                    <option value="Maine">Maine</option>
+                                    <option value="Maryland">Maryland</option>
+                                    <option value="Massachusetts">Massachusetts</option>
+                                    <option value="Michigan">Michigan</option>
+                                    <option value="Minnesota">Minnesota</option>
+                                    <option value="Mississippi">Mississippi</option>
+                                    <option value="Missouri">Missouri</option>
+                                    <option value="Montana">Montana</option>
+                                    <option value="Nebraska">Nebraska</option>
+                                    <option value="Nevada">Nevada</option>
+                                    <option value="New Hampshire">New Hampshire</option>
+                                    <option value="New Jersey">New Jersey</option>
+                                    <option value="New Mexico">New Mexico</option>
+                                    <option value="New York">New York</option>
+                                    <option value="North Carolina">North Carolina</option>
+                                    <option value="North Dakota">North Dakota</option>
+                                    <option value="Ohio">Ohio</option>
+                                    <option value="Oklahoma">Oklahoma</option>
+                                    <option value="Oregon">Oregon</option>
+                                    <option value="Pennsylvania">Pennsylvania</option>
+                                    <option value="Rhode Island">Rhode Island</option>
+                                    <option value="South Carolina">South Carolina</option>
+                                    <option value="South Dakota">South Dakota</option>
+                                    <option value="Tennessee">Tennessee</option>
+                                    <option value="Texas">Texas</option>
+                                    <option value="Utah">Utah</option>
+                                    <option value="Vermont">Vermont</option>
+                                    <option value="Virginia">Virginia</option>
+                                    <option value="Washington">Washington</option>
+                                    <option value="West Virginia">West Virginia</option>
+                                    <option value="Wisconsin">Wisconsin</option>
+                                    <option value="Wyoming">Wyoming</option>
                                 </select>				
 	
                                 </div>
@@ -381,8 +384,12 @@ class Profile extends Component{
                             </div>
 
                             <div className="modal-footer">
+                                {!this.handleValidationProfile() ?
+                                <div className=""  style = {{color: "red"}}>&nbsp;Please enter all fields</div> : (null)}
                                 <button type="button" className="btn arteco-btn-save" data-dismiss="modal">Close</button>
-                                <button type="submit" className="btn arteco-btn"  onClick = {this.submitProfile} style = {{width : "150px"}}>Save changes</button>
+                                {!this.handleValidationProfile() ?
+                                <button type="submit" className="btn arteco-btn"  style = {{width : "150px"}}>Save changes</button> :
+                                <button type="submit" className="btn arteco-btn"  data-dismiss="modal" onClick = {this.submitProfile} style = {{width : "150px"}}>Save changes</button> }
                             </div>
                             </div>
                             </div>
@@ -394,7 +401,8 @@ class Profile extends Component{
                       <div className="col-md-12">
                         <div className="row">
                             <div className="col-xs-12 col-sm-4 text-center"> 
-                                <img src= {this.state.profilePicture} alt="" className="center-block img-circle rounded-circle img-thumbnail img-responsive"/> 
+                            {this.state.profilePicture === "" || undefined ?
+                                <img src= "/images/avatar.png" alt="" className="center-block img-circle rounded-circle img-thumbnail img-responsive"/> : <img src = {this.state.profilePicture} alt="" className="center-block img-circle rounded-circle img-thumbnail img-responsive"/>}
                                 <div className="rank-label-container">
                                   <input id='fileid' type='file' onChange={this.profilephotochangeHandler} hidden/>
                                   <button type="file" className ="btn btn-default btn-icon-circle" onClick={this.openFileDialog}>
@@ -468,9 +476,9 @@ class Profile extends Component{
                                     <textarea className = "form-control" ref = "myskills" name = "skills" onChange = {this.changeHandler} id="position-description-typeahead"/>
 
                                 </div>
-                                <div className="modal-footer">
+                                <div className="modal-footer">  
                                     <button type="button" className="btn arteco-btn-save" data-dismiss="modal">Close</button>
-                                    <button type="submit" className="btn arteco-btn" onClick = {this.updateSkills} style = {{width : "150px"}}>Save changes</button>
+                                    <button type="submit" className="btn arteco-btn" data-dismiss="modal" onClick = {this.updateSkills} style = {{width : "150px"}}>Save changes</button>
                                 </div>
                                 </div>
                             </div>
@@ -530,7 +538,7 @@ submitExperience = () => {
             location : this.state.location,
             fromMonth : this.state.fromMonth,
             fromYear : this.state.fromYear,
-            description : this.state.profilesummary
+            description : this.state.description
         }
         var experiencelist = this.props.experiencelist;
         console.log(experiencelist);
@@ -610,18 +618,18 @@ render() {
                         <label htmlFor="position-date-typeahead" className="mb1 required">From</label>
                         <select className = "form-control edit-date" id="position-date-typeahead" value = {fromMonth}  onChange = {this.changeHandler}  onBlur={this.handleBlur('fromMonth')}  name="fromMonth">
                         <option value="">Month</option>
-                        <option value="1">January</option>
-                        <option value="2">February</option>
-                        <option value="3">March</option>
-                        <option value="4">April</option>
-                        <option value="5">May</option>
-                        <option value="6">June</option>
-                        <option value="7">July</option>
-                        <option value="8">August</option>
-                        <option value="9">September</option>
-                        <option value="10">October</option>
-                        <option value="11">November</option>
-                        <option value="12">December</option>
+                        <option value="January">January</option>
+                        <option value="February">February</option>
+                        <option value="March">March</option>
+                        <option value="April">April</option>
+                        <option value="May">May</option>
+                        <option value="June">June</option>
+                        <option value="July">July</option>
+                        <option value="August">August</option>
+                        <option value="September">September</option>
+                        <option value="October">October</option>
+                        <option value="November">November</option>
+                        <option value="December">December</option>
                         </select>
                         {shouldMarkError('fromMonth') ? <div className = "col-xs-6 col-md-6" style = {{color: "red"}}>&nbsp;Month is a required field</div> : (null)}
 
@@ -645,8 +653,12 @@ render() {
                         
                         </div>
                         <div className="modal-footer">
-                            <button type="button" className="btn arteco-btn-save" data-dismiss="modal">Close</button>
-                            <button type="submit" className="btn arteco-btn" onClick = {this.submitExperience} style = {{width : "150px"}}>Save changes</button>
+                                {!this.handleValidationExperience() ?
+                                <div className=""  style = {{color: "red"}}>&nbsp;Please enter all fields</div> : (null)}
+                                <button type="button" className="btn arteco-btn-save" data-dismiss="modal">Close</button>
+                                {!this.handleValidationExperience() ?
+                                <button type="submit" className="btn arteco-btn"  style = {{width : "150px"}}>Save changes</button> :
+                                <button type="submit" className="btn arteco-btn"  data-dismiss="modal"  onClick = {this.submitExperience} style = {{width : "150px"}}>Save changes</button> }
                         </div>
                         </div>
                     </div>
@@ -757,7 +769,7 @@ class EditEducation extends Component {
                 {shouldMarkError('degree') ? <div className = "col-xs-6 col-md-6" style = {{color: "red"}}>&nbsp;Degree is a required field</div> : (null)}
 
                 <label htmlFor="position-date-typeahead" className="mb1 required">From - To</label>
-                <select  id="position-start-typeahead" name = "schoolfromYear"  value = {this.state.schoolfromYear} onChange = {this.changeHandler}  onBlur={this.handleBlur('schoolfromYear')}   className = "form-control edit-year">  
+                <select id="position-start-typeahead" name = "schoolfromYear"  value = {this.state.schoolfromYear} onChange = {this.changeHandler}  onBlur={this.handleBlur('schoolfromYear')}   className = "form-control edit-year">  
                 <option value="">Year</option>
                 <option value="2018">2018</option>
                 <option value="2017">2017</option>
@@ -772,7 +784,7 @@ class EditEducation extends Component {
                 </select>
                 {shouldMarkError('schoolfromYear') ? <div className = "col-xs-6 col-md-6" style = {{color: "red"}}>&nbsp;Start Year is a required field</div> : (null)}
 
-                <select  id="position-end-typeahead" name = "schooltoYear" value = {this.state.schooltoYear}  onBlur={this.handleBlur('schooltoYear')}  onChange = {this.changeHandler} className = "form-control edit-year">  
+                <select id="position-end-typeahead" name = "schooltoYear" value = {this.state.schooltoYear}  onBlur={this.handleBlur('schooltoYear')}  onChange = {this.changeHandler} className = "form-control edit-year">  
                 <option value="">Year</option>
                 <option value="2018">2018</option>
                 <option value="2017">2017</option>
@@ -791,8 +803,12 @@ class EditEducation extends Component {
                 <textarea className = "form-control" name = "description" value = {this.state.description} onChange = {this.changeHandler} id="position-description-typeahead"/>
                     </div>
                     <div className="modal-footer">
-                    <button type="button" className="btn arteco-btn-save" data-dismiss="modal">Close</button>
-                    <button type="submit" className="btn arteco-btn" style = {{width : "150px"}} onClick = {this.submitEducation}>Save changes</button>
+                       {!this.handleValidationEducation() ?
+                        <div className=""  style = {{color: "red"}}>&nbsp;Please enter all fields</div> : (null)}
+                        <button type="button" className="btn arteco-btn-save" data-dismiss="modal">Close</button>
+                        {!this.handleValidationEducation() ?
+                        <button type="submit" className="btn arteco-btn"  style = {{width : "150px"}}>Save changes</button> :
+                        <button type="submit" className="btn arteco-btn"  data-dismiss="modal"  onClick = {this.submitEducation} style = {{width : "150px"}}>Save changes</button> }
                     </div>
                     </div>
                 </div>
@@ -837,13 +853,14 @@ class Experience extends Component {
                 description : this.state.description
             }
             var experiencelist = this.props.experiencelist
-            //var data = experiencelist.push(newExperience)
-            var data = {
+            experiencelist.push(newExperience)
+            var data = experiencelist
+            console.log(data);
+            var userData = {
                 email: email,
-                experiencelist : experiencelist.push(newExperience)
+                experiencelist : data
             }
-            console.log(localStorage.getItem(userConstants.USER_DETAILS));
-            this.props.applicantprofileexperience(data, token).then(response => {
+            this.props.applicantprofileexperience(userData, token).then(response => {
                 console.log("response:", response);
                 if(response.payload.status === 200){
                     console.log("Profile Experience Updated Successfully")
@@ -913,18 +930,18 @@ class Experience extends Component {
                         <label htmlFor="position-date-typeahead" className="mb1 required">From</label>
                         <select className = "form-control edit-date" id="position-date-typeahead" value = {this.state.fromMonth} onChange = {this.changeHandler}   onBlur={this.handleBlur('fromMonth')} name="fromMonth">
                         <option value="">Month</option>
-                        <option value="1">January</option>
-                        <option value="2">February</option>
-                        <option value="3">March</option>
-                        <option value="4">April</option>
-                        <option value="5">May</option>
-                        <option value="6">June</option>
-                        <option value="7">July</option>
-                        <option value="8">August</option>
-                        <option value="9">September</option>
-                        <option value="10">October</option>
-                        <option value="11">November</option>
-                        <option value="12">December</option>
+                        <option value="January">January</option>
+                        <option value="February">February</option>
+                        <option value="March">March</option>
+                        <option value="April">April</option>
+                        <option value="May">May</option>
+                        <option value="June">June</option>
+                        <option value="July">July</option>
+                        <option value="August">August</option>
+                        <option value="September">September</option>
+                        <option value="October">October</option>
+                        <option value="November">November</option>
+                        <option value="December">December</option>
                         </select>
                         {shouldMarkError('fromMonth') ? <div className = "col-xs-6 col-md-6" style = {{color: "red"}}>&nbsp;Month is a required field</div> : (null)}
 
@@ -948,8 +965,12 @@ class Experience extends Component {
                         
                         </div>
                         <div className="modal-footer">
-                            <button type="button" className="btn arteco-btn-save" data-dismiss="modal">Close</button>
-                            <button type="submit" className="btn arteco-btn" style = {{width : "150px"}} onClick = {this.submitExperience}>Save changes</button>
+                                {!this.handleValidationExperience() ?
+                                <div className=""  style = {{color: "red"}}>&nbsp;Please enter all fields</div> : (null)}
+                                <button type="button" className="btn arteco-btn-save" data-dismiss="modal">Close</button>
+                                {!this.handleValidationExperience() ?
+                                <button type="submit" className="btn arteco-btn"  style = {{width : "150px"}}>Save changes</button> :
+                                <button type="submit" className="btn arteco-btn"  data-dismiss="modal"  onClick = {this.submitExperience} style = {{width : "150px"}}>Save changes</button> }
                         </div>
                         </div>
                     </div>
@@ -1035,7 +1056,7 @@ class Education extends Component {
             return hasError ? shouldShow : false;
         };
 
-        return (
+    return (
         <div>
          <div className="modal fade  bd-example-modal-lg" id="educationmodal" tabIndex="-1" role="dialog" aria-labelledby="educationmodallabel" aria-hidden="true" style = {{marginTop : "40px"}}>
                 <div className="modal-dialog modal-dialog-centered modal-lg">
@@ -1090,8 +1111,12 @@ class Education extends Component {
                 <textarea className = "form-control" name = "description" value = {this.state.description} onChange = {this.changeHandler} id="position-description-typeahead"/>
                     </div>
                     <div className="modal-footer">
-                    <button type="button" className="btn arteco-btn-save" data-dismiss="modal">Close</button>
-                    <button type="submit" className="btn arteco-btn" style = {{width : "150px"}} onClick = {this.submitEducation}>Save changes</button>
+                    {!this.handleValidationEducation() ?
+                        <div className=""  style = {{color: "red"}}>&nbsp;Please enter all fields</div> : (null)}
+                        <button type="button" className="btn arteco-btn-save" data-dismiss="modal">Close</button>
+                        {!this.handleValidationEducation() ?
+                        <button type="submit" className="btn arteco-btn"  style = {{width : "150px"}}>Save changes</button> :
+                        <button type="submit" className="btn arteco-btn"  data-dismiss="modal"  onClick = {this.submitEducation} style = {{width : "150px"}}>Save changes</button> }
                     </div>
                     </div>
                 </div>

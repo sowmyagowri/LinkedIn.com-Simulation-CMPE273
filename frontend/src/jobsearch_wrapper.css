@@ -447,7 +447,7 @@
 .jobs-job-card-actions-container {
     display: flex;
     flex: 1 1 auto;
-    max-height: 00px;
+    max-height: 500px;
     overflow: hidden;
 }
 .card-list__item {
