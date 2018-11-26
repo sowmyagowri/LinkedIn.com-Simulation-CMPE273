@@ -139,6 +139,7 @@ class Profile extends Component{
     submitProfile = () => {
         if (this.handleValidationProfile()) {
             const email = JSON.parse(localStorage.getItem(userConstants.USER_DETAILS)).email;
+            const token =  JSON.parse(localStorage.getItem(userConstants.AUTH_TOKEN));
             const data = {
                 email: email,
                 firstName : this.state.firstname,
@@ -152,7 +153,6 @@ class Profile extends Component{
                 profilePicture : this.state.profilePicture,
             }
             console.log(data);
-            const token =  JSON.parse(localStorage.getItem(userConstants.AUTH_TOKEN));
             this.props.applicantprofilesummary(data, token).then(response => {
                 console.log("response:", response);
                 if(response.payload.status === 200){
@@ -206,7 +206,7 @@ class Profile extends Component{
             return Object.keys(experience).map(function(i) {
                 return <li className ="pv-profile-section__card-item-v2 pv-profile-section pv-position-entity ember-view" key ={i}>
                     {/* <div className = "pv-entity__actions"><FontAwesomeIcon icon="pencil-alt" color="#0073b1" size ="lg"/> </div> */}
-                    <EditExperience experience={experience[i]} experiencelist = {this.state.experience} id = {i} applicantprofileexperience = {this.props.applicantprofileexperience}/>
+                    <EditExperience experience={experience[i]} experiencelist = {self.state.experience} id = {i} applicantprofileexperience = {self.props.applicantprofileexperience}/>
                     <div className ="pv-entity__summary-info pv-entity__summary-info--background-section mb2">
                     <h3 className = "t-16 t-black t-bold">{experience[i].title}</h3> 
                     <h4 className = "t-16 t-black-light t-normal">{experience[i].company}</h4>
@@ -242,6 +242,7 @@ class Profile extends Component{
    }
 
     render() {
+        console.log(this.state.profilePicture)
         const {isLoading} = this.state;
         if(!isLoading){
             const errors = validateprofile(this.state.firstname,  this.state.lastname, this.state.state, this.state.zipcode);
@@ -854,14 +855,12 @@ class Experience extends Component {
                 description : this.state.description
             }
             var experiencelist = this.props.experiencelist
-            experiencelist.push(newExperience)
-            var data = experiencelist
-            console.log(data);
-            var userData = {
+            var data = {
                 email: email,
-                experiencelist : data
+                experiencelist : experiencelist.push(newExperience)
             }
-            this.props.applicantprofileexperience(userData, token).then(response => {
+            console.log(localStorage.getItem(userConstants.USER_DETAILS));
+            this.props.applicantprofileexperience(data, token).then(response => {
                 console.log("response:", response);
                 if(response.payload.status === 200){
                     console.log("Profile Experience Updated Successfully")
