@@ -226,7 +226,7 @@ class Profile extends Component{
             return Object.keys(education).map(function(i) {
                 return <li className ="pv-profile-section__card-item-v2 pv-profile-section pv-position-entity ember-view" key ={i}>
                 {/* <div className = "pv-entity__actions"><FontAwesomeIcon icon="pencil-alt" color="#0073b1" size ="lg"/> </div> */}
-                <EditEducation education={education[i]} id = {i} applicantprofileeducation = {self.props.applicantprofileeducation}/>
+                <EditEducation education={education[i]} id = {i} educationlist = {self.state.education} applicantprofileeducation = {self.props.applicantprofileeducation}/>
                 <div className ="pv-entity__summary-info pv-entity__summary-info--background-section mb2">
                 <h3 className = "t-16 t-black t-bold">{education[i].school}</h3> 
                 <h4 className = "t-16 t-black-light t-normal">{education[i].degree}</h4>
@@ -840,7 +840,6 @@ class Experience extends Component {
                 description : this.state.description
             }
             var experiencelist = this.props.experiencelist
-            //var data = experiencelist.push(newExperience)
             var data = {
                 email: email,
                 experiencelist : experiencelist.push(newExperience)
