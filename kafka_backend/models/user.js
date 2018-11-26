@@ -1,7 +1,6 @@
 var mongoose = require('mongoose');
 
 var Users = mongoose.model('Users',{
-    
     firstName : {
         type : String
     },
@@ -29,8 +28,14 @@ var Users = mongoose.model('Users',{
     address : {
         type: String
     },
+    city : {
+        type : String
+    },
     role : {
         type: String
+    },
+    companyName : {
+        type : String
     },
     experience : [{
         title : String,
@@ -38,6 +43,7 @@ var Users = mongoose.model('Users',{
         location : String,
         fromMonth: String,
         fromYear: Number,
+        description : String,
     }],
     education : [{
         school : String,

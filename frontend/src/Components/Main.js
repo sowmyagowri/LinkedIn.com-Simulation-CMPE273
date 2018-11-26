@@ -14,6 +14,8 @@ import EasyApply from './SearchJobs/Easyapply'
 import PostAJobHome from './PostJobs/PostAJobHome'
 import PostAJobHeader from './PostJobs/PostJobHeader'
 import Jobs from './PostJobs/Jobs'
+import RecruiterGraphs from './Dashboard/Graphs'
+import RecruiterDashboard from './Dashboard/Dashboard'
 
 class Main extends Component {
     render(){
@@ -35,6 +37,8 @@ class Main extends Component {
                 <Route path="/postajobhome" component={PostAJobHome}/>
                 <Route path="/postajob" component={PostAJobHeader}/>
                 <Route path="/jobs" component={Jobs}/>
+                <Route path="/graphs/" component={RecruiterGraphs}/>
+                <Route path="/recruiterdash/" component={RecruiterDashboard}/>
                 </Switch>
             </div>
         )

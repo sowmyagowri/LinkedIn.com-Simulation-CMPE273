@@ -1,14 +1,16 @@
-const db = require('./../config/mysql');
+var { Users } = require('../models/user');
 const { prepareInternalServerError, prepareSuccess } = require('./responses')
 
 async function handle_request(msg, callback) {
     console.log("Inside kafka get Recruiter profile backend");
     console.log("In handle request:" + JSON.stringify(msg));
 
-    let id = parseInt(msg.recruiterID);
+    let email = msg.email;
     let resp = {};
     try {
-        let profile = await db.selectQuery('SELECT first_name, last_name, address, city, state, zipcode, company, phone_number, email FROM recruiter_profile WHERE id = ?',[ id ]);
+        let profile = await Users.findOne({
+            email : email
+        });
         resp = prepareSuccess({ "profile": profile });
     }
     catch (error) {

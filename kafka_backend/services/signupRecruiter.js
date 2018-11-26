@@ -22,6 +22,7 @@ async function handle_request(msg, callback) {
         var user = new Users({
             firstName : msg.firstname,
             lastName : msg.lastname,
+            email : msg.email,
             role : 'R'
         });
         console.log("applicant:", user);

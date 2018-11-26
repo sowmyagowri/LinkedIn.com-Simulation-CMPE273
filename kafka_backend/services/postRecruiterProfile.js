@@ -1,20 +1,32 @@
-const db = require('./../config/mysql');
+var { Users } = require('../models/user');
 const { prepareInternalServerError, prepareSuccess } = require('./responses')
 
 async function handle_request(msg, callback) {
     console.log("Inside kafka post Recruiter profile backend");
     console.log("In handle request:" + JSON.stringify(msg));
 
-    let id = parseInt(msg.recruiterID);
+    let email = msg.email;
     let address = msg.address;
     let city = msg.city;
     let state = msg.state;
     let zipcode = msg.zipcode;
-    let phone_number = msg.phoneNumber;
-    let company = msg.company;
+    let phoneNumber = msg.phoneNumber;
+    let companyName = msg.companyName;
     let resp = {};
     try {
-        await db.updateQuery('UPDATE recruiter_profile SET address = ?, city = ?, state = ?, zipcode = ?, company = ?, phone_number = ?  WHERE id = ?', [address, city, state, zipcode, company, phone_number, id]);
+        await Users.updateOne(
+            { email: email },
+            {
+                $set: {
+                    address : address,
+                    city : city,
+                    state : state,
+                    zipcode : zipcode,
+                    phoneNumber : phoneNumber,
+                    companyName : companyName
+                }
+            }
+        );
         resp = prepareSuccess({ "result": "Profile Updated Sucessfully" });
     }
     catch (error) {
