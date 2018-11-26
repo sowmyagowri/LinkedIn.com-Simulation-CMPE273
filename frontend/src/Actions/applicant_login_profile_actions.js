@@ -31,8 +31,6 @@ export function applicantlogin(data) {
 //target action for applicant profile fetch
 export async function getapplicantprofile(email, tokenFromStorage) {
   console.log("inside applicant profile fetch action")
-  console.log(email)
-  console.log(tokenFromStorage);
   var config = {
     headers: {
       'Authorization': tokenFromStorage,
@@ -55,22 +53,23 @@ export async function getapplicantprofile(email, tokenFromStorage) {
 }
 
 //target action for applicant profile summary update
-export function applicantprofilesummary(email, tokenFromStorage, data) {
+export async function applicantprofilesummary(data, tokenFromStorage, ) {
   console.log("inside applicant profile summary update action")
-  console.log(email)
+  console.log(data)
   console.log(tokenFromStorage);
   var config = {
     headers: {'Authorization': tokenFromStorage,
-              'Content-Type': 'application/json'
+              'Content-Type': 'application/json',
+              withCredentials : true
     }
   };
   axios.defaults.withCredentials = true;
-  const response =  axios.get(URI.ROOT_URL + '/post_applicant_profile_summary/' , data);
+  const response = await axios.post(URI.ROOT_URL + '/post_applicant_profile_summary/' , data, config);
   console.log("Response", response);
   return {
     type: userConstants.APPLICANT_PROFILE_SUMMARY_POST,
     payload: response
-  };  
+  };
 }
 
 //target action for applicant profile experience update
@@ -84,7 +83,12 @@ export function applicantprofileexperience(email, tokenFromStorage, data) {
     }
   };
   axios.defaults.withCredentials = true;
-  const response =  axios.get(URI.ROOT_URL + '/post_applicant_profile_experience/' , data);
+  const response =  axios.get(URI.ROOT_URL + '/post_applicant_profile_experience/' , {
+    params: {
+      email
+    } , 
+    ...config
+  });
   console.log("Response", response);
   return {
     type: userConstants.APPLICANT_PROFILE_EXPERIENCE_POST,
@@ -103,7 +107,12 @@ export function applicantprofileeducation(email, tokenFromStorage, data) {
     }
   };
   axios.defaults.withCredentials = true;
-  const response =  axios.get(URI.ROOT_URL + '/post_applicant_profile_education/' , data);
+  const response =  axios.get(URI.ROOT_URL + '/post_applicant_profile_education/' , {
+    params: {
+      email
+    } , 
+    ...config
+  });
   console.log("Response", response);
   return {
     type: userConstants.APPLICANT_PROFILE_EDUCATION_POST,
@@ -122,7 +131,12 @@ export function applicantprofileskills(email, tokenFromStorage, data) {
     }
   };
   axios.defaults.withCredentials = true;
-  const response =  axios.get(URI.ROOT_URL + '/post_applicant_profile_skills/' , data);
+  const response =  axios.get(URI.ROOT_URL + '/post_applicant_profile_skills/' , {
+    params: {
+      email
+    } , 
+    ...config
+  });
   console.log("Response", response);
   return {
     type: userConstants.APPLICANT_PROFILE_SKILLS_POST,

@@ -45,7 +45,7 @@ class Profile extends Component{
         //call to action
         const data = JSON.parse(localStorage.getItem(userConstants.USER_DETAILS)).email;
         console.log(localStorage.getItem(userConstants.USER_DETAILS));
-        let token =  JSON.parse(localStorage.getItem(userConstants.AUTH_TOKEN));
+        const token =  JSON.parse(localStorage.getItem(userConstants.AUTH_TOKEN));
         this.props.getapplicantprofile(data, token).then(response => {
             console.log("response:", response);
             if(response.payload.status === 200){
@@ -83,9 +83,10 @@ class Profile extends Component{
 
     updateSkills () {
         const email = JSON.parse(localStorage.getItem(userConstants.USER_DETAILS)).email;
+        const token =  JSON.parse(localStorage.getItem(userConstants.AUTH_TOKEN));
         var data = this.state.skills
-        console.log(localStorage.getItem(userConstants.USER_DETAILS));
-        this.props.applicantprofileskills(email, localStorage.getItem(userConstants.AUTH_TOKEN, data)).then(response => {
+        
+        this.props.applicantprofileskills(email, token).then(response => {
             console.log("response:", response);
             if(response.payload.status === 200){
                 console.log("Profile Skills Updated Successfully")
@@ -140,7 +141,9 @@ class Profile extends Component{
     submitProfile = () => {
         if (this.handleValidationProfile()) {
             const email = JSON.parse(localStorage.getItem(userConstants.USER_DETAILS)).email;
+            const token =  JSON.parse(localStorage.getItem(userConstants.AUTH_TOKEN));
             const data = {
+                email: email,
                 firstName : this.state.firstname,
                 lastName : this.state.lastname,
                 state : this.state.state,
@@ -151,8 +154,7 @@ class Profile extends Component{
                 resume : this.state.resume,
                 profilePicture : this.state.profilePicture,
             }
-            console.log(localStorage.getItem(userConstants.USER_DETAILS));
-            this.props.applicantprofilesummary(email, localStorage.getItem(userConstants.AUTH_TOKEN, data)).then(response => {
+            this.props.applicantprofilesummary(data, token, ).then(response => {
                 console.log("response:", response);
                 if(response.payload.status === 200){
                     console.log("Profile Summary Updated Successfully")
