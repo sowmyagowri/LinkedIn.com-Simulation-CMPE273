@@ -1,12 +1,12 @@
-# Lab 1 - HomeAway - Backend
+# LinkedIn Simulation - Backend
 
-How to run HomeAway backend?
+How to run backend?
   - Navigate to backend directory in cmd
   - Install required dependencies using npm install
-  - Import the DB structures and data from the file SQLDBDump.sql
-  - Run HomeAway back end using npm start
+  - Run back end using npm start
   - Test API calls with Mocha using npm test
 
-How can I change port, if 3001 port is occupied?
+How can I change port, if 5000 port is occupied?
   - Open app.js file in the backend directory
-  - Change '3001' to currently available port number in line 13 (var port = 3001;)
+  - Change '5000' to currently available port number in line 41 (let port = 5000;)
+  - Also change the variable ROOT_URL in URI.js file in frontend/src/constants folder
