@@ -840,12 +840,14 @@ class Experience extends Component {
                 description : this.state.description
             }
             var experiencelist = this.props.experiencelist
-            var data = {
+            experiencelist.push(newExperience)
+            var data = experiencelist
+            console.log(data);
+            var userData = {
                 email: email,
-                experiencelist : experiencelist.push(newExperience)
+                experiencelist : data
             }
-            console.log(localStorage.getItem(userConstants.USER_DETAILS));
-            this.props.applicantprofileexperience(data, token).then(response => {
+            this.props.applicantprofileexperience(userData, token).then(response => {
                 console.log("response:", response);
                 if(response.payload.status === 200){
                     console.log("Profile Experience Updated Successfully")
