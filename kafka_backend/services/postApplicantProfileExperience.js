@@ -2,7 +2,7 @@ var { Users } = require('../models/user');
 const { prepareInternalServerError, prepareSuccess } = require('./responses')
 
 async function handle_request(msg, callback) {
-    console.log("Inside kafka post Applicant profile Summary backend");
+    console.log("Inside kafka post Applicant profile Experience backend");
     console.log("In handle request:" + JSON.stringify(msg));
 
     console.log(msg);
@@ -13,15 +13,7 @@ async function handle_request(msg, callback) {
             { email: msg.email },
             {
                 $set: {
-                    firstName : msg.firstName,
-                    lastName : msg.lastName,
-                    state : msg.state,
-                    zipcode : msg.zipcode,
-                    address : msg.address,
-                    profileSummary : msg.profileSummary,
-                    phoneNumber : msg.phoneNumber,
-                    resume : msg.resume,
-                    profilePicture : msg.profilePicture,
+                    experience : msg.experiencelist
                 }
             },
             {new: true}

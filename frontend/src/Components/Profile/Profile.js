@@ -152,12 +152,12 @@ class Profile extends Component{
                 profilePicture : this.state.profilePicture,
             }
             console.log(data);
-            // this.props.applicantprofilesummary(data, token, ).then(response => {
-            //     console.log("response:", response);
-            //     if(response.payload.status === 200){
-            //         console.log("Profile Summary Updated Successfully")
-            //     }
-            // })
+            this.props.applicantprofilesummary(data, token, ).then(response => {
+                console.log("response:", response);
+                if(response.payload.status === 200){
+                    console.log("Profile Summary Updated Successfully")
+                }
+            })
         }
     } 
 
@@ -200,6 +200,7 @@ class Profile extends Component{
 
     getExperienceContents () {
         const {experience,isLoading} = this.state;
+        var self=this;
         if(!isLoading) {
             return Object.keys(experience).map(function(i) {
                 return <li className ="pv-profile-section__card-item-v2 pv-profile-section pv-position-entity ember-view" key ={i}>
@@ -220,6 +221,7 @@ class Profile extends Component{
 
     getEducationContents () {
         const {education, isLoading} = this.state;
+        var self=this;
         if(!isLoading) {
             return Object.keys(education).map(function(i) {
                 return <li className ="pv-profile-section__card-item-v2 pv-profile-section pv-position-entity ember-view" key ={i}>
@@ -531,7 +533,7 @@ submitExperience = () => {
             location : this.state.location,
             fromMonth : this.state.fromMonth,
             fromYear : this.state.fromYear,
-            description : this.state.profilesummary
+            description : this.state.description
         }
         var experiencelist = this.props.experiencelist;
         console.log(experiencelist);
