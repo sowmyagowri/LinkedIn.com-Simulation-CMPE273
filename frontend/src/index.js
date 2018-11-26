@@ -10,8 +10,6 @@ import RootReducer from "./Reducers";
 import * as serviceWorker from './serviceWorker';
 import thunkMiddleware from 'redux-thunk'
 
-
-
 const composePlugin = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 const store = createStore(RootReducer, composePlugin(applyMiddleware(thunkMiddleware,promise)));
 

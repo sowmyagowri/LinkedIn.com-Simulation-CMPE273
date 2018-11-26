@@ -1,30 +1,29 @@
-import React, { Component } from 'react';
+import React, {Component} from 'react';
 import '../../App.css';
 import Navbar from '../NavBar/Navbar';
 import '../../profile_wrapper.css';
 import { Field, reduxForm } from "redux-form";
-import { Redirect, withRouter } from 'react-router-dom';
+import {Redirect, withRouter} from 'react-router-dom';
 import { connect } from "react-redux";
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 
-class Viewjob extends Component {
-    constructor(props) {
+class Viewjob extends Component{
+    constructor(props){
         super(props);
         this.state = {
-            jobs: [
+            jobs : [
                 {
-                    id: 1,
-                    posted_by: "CISCO",
-                    title: "Security and Incident Manager",
-                    job_description: "Upwork1 is the world's largest freelancing website. Each year $1.5 billion of work happens through Upwork, allowing businesses to get more done and helping professionals break free of traditional time and place boundaries and work anytime, anywhere on projects they love. At Upwork, you'll help build on this momentum. Together, well create economic and social value on a global scale, providing a trusted online workplace for businesses to connect with extraordinary talent and work without limits.Are you a superstar security defender? Would you like to work with advanced tools and lead a team? We can use your skills and experience to defend against sophisticated attacks and keep our platform secure. We need your disciplined, methodical approach towards incident response and security investigations. \n\n Upwork1 is the world's largest freelancing website. Each year $1.5 billion of work happens through Upwork, allowing businesses to get more done and helping professionals break free of traditional time and place boundaries and work anytime, anywhere on projects they love. At Upwork, you'll help build on this momentum. Together, well create economic and social value on a global scale, providing a trusted online workplace for businesses to connect with extraordinary talent and work without limits.Are you a superstar security defender? Would you like to work with advanced tools and lead a team? We can use your skills and experience to defend against sophisticated attacks and keep our platform secure. We need your disciplined, methodical approach towards incident response and security investigations",
-                    industry: "industry",
-                    employment_type: "fulltime",
-                    location: "Sanjose",
-                    job_function: "adadawdfw",
-                    company_logo: "/images/cisco.png",
-                    posted_date: "ssdsd",
-                    expiry_date: "sdfcsdf"
-                }]
+                id : 1,
+                posted_by : "CISCO",
+                title : "Security and Incident Manager" ,
+                job_description : "Upwork1 is the world's largest freelancing website. Each year $1.5 billion of work happens through Upwork, allowing businesses to get more done and helping professionals break free of traditional time and place boundaries and work anytime, anywhere on projects they love. At Upwork, you'll help build on this momentum. Together, well create economic and social value on a global scale, providing a trusted online workplace for businesses to connect with extraordinary talent and work without limits.Are you a superstar security defender? Would you like to work with advanced tools and lead a team? We can use your skills and experience to defend against sophisticated attacks and keep our platform secure. We need your disciplined, methodical approach towards incident response and security investigations. \n\n Upwork1 is the world's largest freelancing website. Each year $1.5 billion of work happens through Upwork, allowing businesses to get more done and helping professionals break free of traditional time and place boundaries and work anytime, anywhere on projects they love. At Upwork, you'll help build on this momentum. Together, well create economic and social value on a global scale, providing a trusted online workplace for businesses to connect with extraordinary talent and work without limits.Are you a superstar security defender? Would you like to work with advanced tools and lead a team? We can use your skills and experience to defend against sophisticated attacks and keep our platform secure. We need your disciplined, methodical approach towards incident response and security investigations",
+               industry : "industry",
+               employment_type : "fulltime",
+               location : "Sanjose",
+               job_function : "adadawdfw",
+               company_logo : "/images/cisco.png",
+               posted_date : "ssdsd",
+               expiry_date : "sdfcsdf" }]
         };
     }
 
@@ -32,9 +31,9 @@ class Viewjob extends Component {
     componentDidMount() {
         //call to action
     }
+    
 
-
-    render() {
+    render(){
         var jobs = this.state.jobs;
         return (
             <div className="jobsearch-wrapper">
@@ -63,27 +62,27 @@ class Viewjob extends Component {
                             </div>
                         </div>
 
-                        <div className="pv-profile-section artdeco-container-card ember-view gap">
-                            <header className="pv-profile-section__card-header">
-                                <h2 className=" t-20 t-black t-bold ">Job Description</h2>
-                            </header>
-                            <div className="pv-entity__position-group-pager pv-profile-section__list-item ember-view">
-                                <li className="pv-profile-section__card-item-v2 pv-profile-section pv-position-entity ember-view">
-                                    <div className="pv-entity__actions"></div>
-                                    <div className="ember-view">
-                                        <p className="pv-entity__description t-14 t-black t-normal ember-view">{jobs[0].job_description}</p>
-                                    </div>
-                                    <div className="pv-entity__summary-info pv-entity__summary-info--background-section mb2">
-                                        <h5 className="pv-profile-section__card-heading t-black t-normal">Job Functions</h5>
-                                        <h5 className="t-black t-normal" style={{ fontSize: "1rem" }}>{jobs[0].job_function}</h5>
-                                    </div>
-                                </li>
+              <div className = "pv-profile-section artdeco-container-card ember-view gap">
+                    <header className = "pv-profile-section__card-header">
+                    <h2 className = " t-20 t-black t-bold ">Job Description</h2>
+                    </header>   
+                    <div className = "pv-entity__position-group-pager pv-profile-section__list-item ember-view">
+                        <li className ="pv-profile-section__card-item-v2 pv-profile-section pv-position-entity ember-view">
+                            <div className = "pv-entity__actions"></div>
+                            <div className = "ember-view">
+                            <p className ="pv-entity__description t-14 t-black t-normal ember-view">{jobs[0].job_description}</p>
                             </div>
-                        </div>
-                    </div>
-                </div>
+                            <div className ="pv-entity__summary-info pv-entity__summary-info--background-section mb2">
+                            <h5 className = "pv-profile-section__card-heading t-black t-normal">Job Functions</h5> 
+                            <h5 className = "t-black t-normal" style = {{fontSize : "1rem"}}>{jobs[0].job_function}</h5>
+                            </div>
+                        </li>
+                    </div>                   
+              </div>
             </div>
-        )
+        </div>
+      </div>   
+      )
     }
 }
 

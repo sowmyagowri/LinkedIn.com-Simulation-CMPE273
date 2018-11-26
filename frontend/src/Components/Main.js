@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {Route, Switch} from 'react-router-dom';
+import {Route, Redirect, Switch} from 'react-router-dom';
 import Home from './Home/Home';
 import Login from './Home/Login';
 import ProfileLocation from './Home/Profilelocation';
@@ -20,7 +20,8 @@ import RecruiterDashboard from './Dashboard/Dashboard'
 class Main extends Component {
     render(){
         return(
-            <div>        
+            <div>
+                {/* Render Different Component based on Route */}
                 <Switch>
                 <Route path="/" component={Home} exact/>
                 <Route path="/login" component={Login}/>
@@ -45,7 +46,3 @@ class Main extends Component {
 }
 
 export default Main;
-
-
-
-

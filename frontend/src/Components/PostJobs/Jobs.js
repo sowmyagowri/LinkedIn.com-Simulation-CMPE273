@@ -83,7 +83,7 @@ class Jobs extends Component {
                   <br />
                   <button
                     type="button"
-                    class="btn blueBackground btn-lg btn-block text-white"
+                    className="btn blueBackground btn-lg btn-block text-white"
                   >
                     Post a Job
                   </button>
