@@ -153,7 +153,7 @@ class Profile extends Component{
                 profilePicture : this.state.profilePicture,
             }
             console.log(data);
-            this.props.applicantprofilesummary(data, token, ).then(response => {
+            this.props.applicantprofilesummary(data, token).then(response => {
                 console.log("response:", response);
                 if(response.payload.status === 200){
                     console.log("Profile Summary Updated Successfully")
@@ -242,6 +242,7 @@ class Profile extends Component{
    }
 
     render() {
+        console.log(this.state.profilePicture)
         const {isLoading} = this.state;
         if(!isLoading){
             const errors = validateprofile(this.state.firstname,  this.state.lastname, this.state.state, this.state.zipcode);
@@ -860,7 +861,7 @@ class Experience extends Component {
             var data = experiencelist
             var userData = {
                 email: email,
-                experiencelist : data
+                experiencelist : experiencelist
             }
             this.props.applicantprofileexperience(userData, token).then(response => {
                 console.log("response:", response);
