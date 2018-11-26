@@ -8,10 +8,12 @@ var Users = mongoose.model('Users',{
         type : String
     },
     profilePicture : {
-        type : String
+        type : String,
+        default: ''
     },
     profileSummary : {
-        type : String
+        type : String,
+        default: ''
     },
     email : {
         type : String
@@ -23,19 +25,24 @@ var Users = mongoose.model('Users',{
         type: String
     },
     phoneNumber : {
-        type: Number
+        type: Number,
+        default: ''
     },
     address : {
-        type: String
+        type: String,
+        default: ''
     },
     city : {
-        type : String
+        type : String,
+        default: ''
     },
     role : {
-        type: String
+        type: String,
+        default: ''
     },
     companyName : {
-        type : String
+        type : String,
+        default: ''
     },
     experience : [{
         title : String,
@@ -43,21 +50,29 @@ var Users = mongoose.model('Users',{
         location : String,
         fromMonth: String,
         fromYear: Number,
-        description : String,
+        description : {
+            type: String,
+            default: ''
+        }
     }],
     education : [{
         school : String,
         degree : String,
         schoolfromYear: Number,
         schooltoYear: Number,
-        description : String,
+        description : {
+            type: String,
+            default: ''
+        }
     }],
     skills : {
-        type : String 
+        type : String,
+        default: ''
     },
     resume : {
         type : String,
-        data : Buffer
+        data : Buffer,
+        default: ''
     },
     connectionsIncoming:[{
         email : String,

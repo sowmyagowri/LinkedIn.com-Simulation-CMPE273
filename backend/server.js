@@ -14,7 +14,8 @@ let postRecruiterProfile = require('./routes/postRecruiterProfile');
 let getRecruiterProfile = require('./routes/getRecruiterProfile');
 
 let getApplicantProfile = require('./routes/getApplicantProfile');
-let postApplicantProfileSummary = require('./routes/postApplicantProfilesummary');
+let postApplicantProfileSummary = require('./routes/postApplicantProfileSummary');
+let postApplicantProfileExperience = require('./routes/postApplicantProfileExperience');
 
 let editJob = require('./routes/editJob');
 let updateJobViews = require('./routes/updateJobViews');
@@ -80,6 +81,7 @@ app.use("/get_recruiter_profile/", getRecruiterProfile);
 
 app.use("/get_applicant_profile/", getApplicantProfile);
 app.use("/post_applicant_profile_summary/", postApplicantProfileSummary);
+app.use("/post_applicant_profile_experience/", postApplicantProfileExperience);
 
 app.use("/edit_job/", editJob);
 app.use("/update_job_views/", updateJobViews);
