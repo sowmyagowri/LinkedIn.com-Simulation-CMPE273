@@ -153,7 +153,7 @@ class ProfileEdit extends Component{
     submitSignup(event) {
         //prevent page from refresh
         event.preventDefault();
-        if (this.handleValidation()) {
+        if (this.handleValidation()){
             const { firstname, lastname, email, password, state, zipcode, title, company, location, fromMonth, fromYear, school, degree, schoolfromYear, schooltoYear} = {...this.state};
             const data = {
                 firstname : firstname,
