@@ -7,10 +7,10 @@ var config = require('./../config');
 const redis = require('redis');
 let client = redis.createClient();
 client.on('connect', function (err) {
-    if(err){
+    if (err) {
         console.log("Error occured while connecting to redis server")
-    }else{
-    console.log('passport connected to Redis...');
+    } else {
+        console.log('passport connected to Redis...');
     }
 });
 
@@ -23,7 +23,7 @@ module.exports = function (passport) {
     passport.use(new JwtStrategy(opts, function (jwt_payload, callback) {
         try {
             let result = null;
-            let redisKey = jwt_payload.email;
+            let redisKey = "passport_" + jwt_payload.email;
             client.get(redisKey, async function (err, result) {
                 if (!err && result != null) {
                     console.log("passport : user found in cache");
@@ -38,7 +38,7 @@ module.exports = function (passport) {
                             }
                             console.log(reply);
                         });
-                        //cache will expire in 30 secs
+                        //cache will expire in 60 secs
                         client.expire(redisKey, 60);
                     }
                 }
