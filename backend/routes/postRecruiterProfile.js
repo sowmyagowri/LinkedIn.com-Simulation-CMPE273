@@ -42,7 +42,7 @@ router.put("/", (req, res) => {
  */
 
 function validateInput(req) {
-    req.checkBody("company", "A Company name is required.").notEmpty();
+    req.checkBody("companyName", "A Company name is required.").notEmpty();
     req.checkBody("phoneNumber", "A Phone Number is required.").notEmpty();
     // req.checkBody("password", "Your Password must contain at least 1 number and 1 letter. \n Your Password must be between 7 and 32 characters.").matches(/^(?=.*\d)(?=.*[a-zA-Z]).{7,32}$/);
 

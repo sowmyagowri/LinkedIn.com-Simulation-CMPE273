@@ -29,8 +29,14 @@ var Users = mongoose.model('Users',{
     address : {
         type: String
     },
+    city : {
+        type : String
+    },
     role : {
         type: String
+    },
+    companyName : {
+        type : String
     },
     experience : [{
         title : String,
