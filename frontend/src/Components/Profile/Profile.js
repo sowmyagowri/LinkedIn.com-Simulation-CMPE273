@@ -37,7 +37,8 @@ class Profile extends Component{
         //call to action
         const data = JSON.parse(localStorage.getItem(userConstants.USER_DETAILS)).email;
         console.log(localStorage.getItem(userConstants.USER_DETAILS));
-        this.props.getapplicantprofile(data, localStorage.getItem(userConstants.AUTH_TOKEN)).then(response => {
+        let token =  JSON.parse(localStorage.getItem(userConstants.AUTH_TOKEN));
+        this.props.getapplicantprofile(data, token).then(response => {
             console.log("response:", response);
             if(response.payload.status === 200){
                 this.setState({ 

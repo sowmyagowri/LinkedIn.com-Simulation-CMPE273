@@ -29,20 +29,23 @@ export function applicantlogin(data) {
 }
 
 //target action for applicant profile fetch
-export function getapplicantprofile(email, tokenFromStorage) {
+export async function getapplicantprofile(email, tokenFromStorage) {
   console.log("inside applicant profile fetch action")
   console.log(email)
   console.log(tokenFromStorage);
   var config = {
-    headers: {'Authorization': tokenFromStorage,
-              'Content-Type': 'application/json'
+    headers: {
+      'Authorization': tokenFromStorage,
+      'Content-Type': 'application/json',
+      withCredentials : true
     }
   };
   axios.defaults.withCredentials = true;
-  const response =  axios.get(URI.ROOT_URL + '/get_applicant_profile/' , {
+  const response = await axios.get(URI.ROOT_URL + '/get_applicant_profile/' , {
     params: {
       email
-    } , config
+    } , 
+    ...config
   });
   console.log("Response", response);
   return {
