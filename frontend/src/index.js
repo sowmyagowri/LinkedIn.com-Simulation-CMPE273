@@ -3,7 +3,6 @@ import ReactDOM from 'react-dom';
 import './index.css';
 import App from './App';
 import { Provider } from "react-redux";
-import {Route, Switch} from 'react-router-dom';
 import { createStore, applyMiddleware, compose} from "redux";
 import promise from "redux-promise";
 import RootReducer from "./Reducers";

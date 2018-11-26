@@ -2,9 +2,7 @@ import React, {Component} from 'react';
 import '../../App.css';
 import Navbar from '../NavBar/Navbar';
 import '../../profile_wrapper.css';
-import { Field, reduxForm } from "redux-form";
-import {Redirect, withRouter} from 'react-router-dom';
-import { connect } from "react-redux";
+
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 
 class Viewjob extends Component{
@@ -45,7 +43,7 @@ class Viewjob extends Component{
                             <div className="mt4 display-flex ember-view">
                                 <div className="pv-entity__actions"></div>
                                 <div className="media">
-                                    <a className="pull-left"><img src={jobs[0].company_logo} style={{ height: "150px", width: "150px" }} /></a>
+                                    <a href=" "className="pull-left"><img src={jobs[0].company_logo}  alt=""style={{ height: "150px", width: "150px" }} /></a>
                                     <div className="artdeco-entity-lockup--size-4 gap1">
                                         <div className="job-details__subject" >
                                             {jobs[0].title}

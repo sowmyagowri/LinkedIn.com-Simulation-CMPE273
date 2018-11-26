@@ -19,7 +19,7 @@ class Navbar extends Component {
             <div className="navbar fixed-top navbar-dark bg-dark" style={{ height: "52px" }}>
                 <div className="home_wrapper">
                     <div className="nav-main__content full-height display-flex align-items-center" role="navigation">
-                        <h1><a className="navbar-brand" href="#" style={{ marginTop: "10px" }}><img src={"/images/linkedin-logo2.png"} alt="" /></a></h1>
+                        <h1><a className="navbar-brand" href="/" style={{ marginTop: "10px" }}><img src={"/images/linkedin-logo2.png"} alt="" /></a></h1>
                         <div className="nav-search-bar">
                             <div className="nav-typeahead-wormhole">
                                 <div className="jobs-search-box">
@@ -64,7 +64,7 @@ class Navbar extends Component {
                                 <a className="dropdown-item" href="/searchjobs">Job Postings</a>
                                 <a className="dropdown-item" href="/job/saved">Saved Jobs</a>
                                 <div className="dropdown-divider"></div>
-                                <a className="dropdown-item" onClick= {this.signout} href="#">Sign Out</a></div>
+                                <a className="dropdown-item" onClick= {this.signout} href=" ">Sign Out</a></div>
                             </div>
                             </li></span> 
                         </ul>

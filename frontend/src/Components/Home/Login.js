@@ -158,7 +158,7 @@ class Login extends Component{
             {redirectVar}
               <div className="navbar fixed-top">
                 <div className = "home_wrapper">
-                <h1><a className="navbar-brand" href="#"><img src = {"/images/linkedinfulllogo.png"} alt = "LinkedIn"/></a></h1>
+                <h1><a className="navbar-brand" href="/"><img src = {"/images/linkedinfulllogo.png"} alt = "LinkedIn"/></a></h1>
                  </div>
               </div>
               <div className = "main2">

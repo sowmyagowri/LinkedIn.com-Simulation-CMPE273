@@ -5,10 +5,6 @@ export default class WebService extends AxiosService {
 
     static instance = null;
 
-    constructor() {
-        super();
-    }
-
     /** Singleton Patter
     * @returns {WebService}
     */
