@@ -43,7 +43,6 @@ class Profile extends Component{
     componentDidMount() {
         //call to action
         const data = JSON.parse(localStorage.getItem(userConstants.USER_DETAILS)).email;
-        console.log(localStorage.getItem(userConstants.USER_DETAILS));
         const token =  JSON.parse(localStorage.getItem(userConstants.AUTH_TOKEN));
         this.props.getapplicantprofile(data, token).then(response => {
             console.log("response:", response);
@@ -152,12 +151,13 @@ class Profile extends Component{
                 resume : this.state.resume,
                 profilePicture : this.state.profilePicture,
             }
-            this.props.applicantprofilesummary(data, token, ).then(response => {
-                console.log("response:", response);
-                if(response.payload.status === 200){
-                    console.log("Profile Summary Updated Successfully")
-                }
-            })
+            console.log(data);
+            // this.props.applicantprofilesummary(data, token, ).then(response => {
+            //     console.log("response:", response);
+            //     if(response.payload.status === 200){
+            //         console.log("Profile Summary Updated Successfully")
+            //     }
+            // })
         }
     } 
 
@@ -204,7 +204,7 @@ class Profile extends Component{
             return Object.keys(experience).map(function(i) {
                 return <li className ="pv-profile-section__card-item-v2 pv-profile-section pv-position-entity ember-view" key ={i}>
                     {/* <div className = "pv-entity__actions"><FontAwesomeIcon icon="pencil-alt" color="#0073b1" size ="lg"/> </div> */}
-                    <EditExperience experience={experience[i]} id = {i}/>
+                    <EditExperience experience={experience[i]} experiencelist = {self.state.experience} id = {i} applicantprofileexperience = {self.props.applicantprofileexperience}/>
                     <div className ="pv-entity__summary-info pv-entity__summary-info--background-section mb2">
                     <h3 className = "t-16 t-black t-bold">{experience[i].title}</h3> 
                     <h4 className = "t-16 t-black-light t-normal">{experience[i].company}</h4>
@@ -224,7 +224,7 @@ class Profile extends Component{
             return Object.keys(education).map(function(i) {
                 return <li className ="pv-profile-section__card-item-v2 pv-profile-section pv-position-entity ember-view" key ={i}>
                 {/* <div className = "pv-entity__actions"><FontAwesomeIcon icon="pencil-alt" color="#0073b1" size ="lg"/> </div> */}
-                <EditEducation education={education[i]} id = {i}/>
+                <EditEducation education={education[i]} id = {i} applicantprofileeducation = {self.props.applicantprofileeducation}/>
                 <div className ="pv-entity__summary-info pv-entity__summary-info--background-section mb2">
                 <h3 className = "t-16 t-black t-bold">{education[i].school}</h3> 
                 <h4 className = "t-16 t-black-light t-normal">{education[i].degree}</h4>
@@ -420,7 +420,7 @@ class Profile extends Component{
 
               <div className = "pv-profile-section artdeco-container-card ember-view gap">
                     <header className = "pv-profile-section__card-header">
-                    <Experience experiencelist = {this.state.experience}></Experience>
+                    <Experience experiencelist = {this.state.experience} applicantprofileexperience = {this.props.applicantprofileexperience}></Experience>
                         <h2 className = "pv-profile-section__card-heading t-20 t-black t-normal">Experience</h2>
                     </header>   
                     <div className = "pv-entity__position-group-pager pv-profile-section__list-item ember-view">
@@ -430,7 +430,7 @@ class Profile extends Component{
 
               <div className = "pv-profile-section artdeco-container-card ember-view gap">
                     <header className = "pv-profile-section__card-header">
-                    <Education></Education>
+                    <Education educationlist = {this.state.education} applicantprofileeducation = {this.props.applicantprofileeducation}></Education>
                         <h2 className = "pv-profile-section__card-heading t-20 t-black t-normal">Education</h2>
                     </header>   
                     <div className = "pv-entity__position-group-pager pv-profile-section__list-item ember-view">
@@ -524,23 +524,27 @@ constructor(props){
 submitExperience = () => {
     if (this.handleValidationExperience()) {
         const email = JSON.parse(localStorage.getItem(userConstants.USER_DETAILS)).email;
-            var editedExperience = {
-                title : this.state.title,
-                company : this.state.company,
-                location : this.state.location,
-                fromMonth : this.state.fromMonth,
-                fromYear : this.state.fromYear,
-                description : this.state.profilesummary
+        const token =  JSON.parse(localStorage.getItem(userConstants.AUTH_TOKEN));
+        var editedExperience = {
+            title : this.state.title,
+            company : this.state.company,
+            location : this.state.location,
+            fromMonth : this.state.fromMonth,
+            fromYear : this.state.fromYear,
+            description : this.state.profilesummary
+        }
+        var experiencelist = this.props.experiencelist;
+        console.log(experiencelist);
+        experiencelist[this.state.id] = editedExperience;
+        var data = {
+            email: email,
+            experiencelist : experiencelist
+        }
+        this.props.applicantprofileexperience(data, token).then(response => {
+            console.log("response:", response);
+            if(response.payload.status === 200){
+                console.log("Profile Experience Updated Successfully")
             }
-            var experiencelist = this.props.experiencelist
-            experiencelist[this.state.id] = editedExperience
-            var data = experiencelist
-            console.log(localStorage.getItem(userConstants.USER_DETAILS));
-            this.props.applicantprofileexperience(email, localStorage.getItem(userConstants.AUTH_TOKEN, data)).then(response => {
-                console.log("response:", response);
-                if(response.payload.status === 200){
-                    console.log("Profile Experience Updated Successfully")
-                }
         })
     }
 } 
@@ -643,7 +647,7 @@ render() {
                         </div>
                         <div className="modal-footer">
                             <button type="button" className="btn arteco-btn-save" data-dismiss="modal">Close</button>
-                            <button type="submit" className="btn arteco-btn" style = {{width : "150px"}}>Save changes</button>
+                            <button type="submit" className="btn arteco-btn" onClick = {this.submitExperience} style = {{width : "150px"}}>Save changes</button>
                         </div>
                         </div>
                     </div>
@@ -824,6 +828,7 @@ class Experience extends Component {
     submitExperience = () => {
         if (this.handleValidationExperience()) {
             const email = JSON.parse(localStorage.getItem(userConstants.USER_DETAILS)).email;
+            const token =  JSON.parse(localStorage.getItem(userConstants.AUTH_TOKEN));
             var newExperience = {
                 title : this.state.title,
                 company : this.state.company,
@@ -833,9 +838,13 @@ class Experience extends Component {
                 description : this.state.description
             }
             var experiencelist = this.props.experiencelist
-            var data = experiencelist.push(newExperience)
+            //var data = experiencelist.push(newExperience)
+            var data = {
+                email: email,
+                experiencelist : experiencelist.push(newExperience)
+            }
             console.log(localStorage.getItem(userConstants.USER_DETAILS));
-            this.props.applicantprofileexperience(email, localStorage.getItem(userConstants.AUTH_TOKEN, data)).then(response => {
+            this.props.applicantprofileexperience(data, token).then(response => {
                 console.log("response:", response);
                 if(response.payload.status === 200){
                     console.log("Profile Experience Updated Successfully")

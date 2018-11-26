@@ -1,5 +1,4 @@
 var { Users } = require('../models/user');
-const db = require('../config/mysql');
 const { prepareInternalServerError, prepareSuccess } = require('./responses')
 
 async function handle_request(msg, callback) {
@@ -27,7 +26,6 @@ async function handle_request(msg, callback) {
             },
             {new: true}
         );
-        await db.updateQuery('UPDATE user_profile SET firstName = ?, lastName = ? where email = ?', [msg.firstName, msg.lastName, msg.email]);
         console.log(profile);
         resp = prepareSuccess({ "profile": profile });
     }

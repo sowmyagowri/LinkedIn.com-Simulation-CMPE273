@@ -6,8 +6,6 @@ export const userConstants = {
     APPLICANT_PROFILE_EXPERIENCE_POST: 'applicantprofileexperience',
     APPLICANT_PROFILE_EDUCATION_POST: 'applicantprofileeducation',
     APPLICANT_PROFILE_SKILLS_POST: 'applicantprofileskills',
-    PROFILE_FETCH: 'profilefetch',
-    PROFILE_SAVE: 'profilesave',
     USER_DETAILS:"user_details",
     AUTH_TOKEN: "auth_token"
 };

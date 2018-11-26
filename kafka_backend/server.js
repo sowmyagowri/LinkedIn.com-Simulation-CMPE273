@@ -13,6 +13,7 @@ var postRecruiterProfileService = require('./services/postRecruiterProfile');
 var getRecruiterProfileService = require('./services/getRecruiterProfile');
 var getApplicantProfileService = require('./services/getApplicantProfile');
 var postApplicantProfileSummaryService = require('./services/postApplicantProfileSummary');
+var postApplicantProfileExperienceService = require('./services/postApplicantProfileExperience');
 var editJobService =  require('./services/editJob');
 var updateJobViewsService = require('./services/updateJobViews');
 var graphClicksPerJobServce = require('./services/graphClicksPerJob');
@@ -32,7 +33,7 @@ const {
     SIGNIN_RECRUITER_REQUEST_TOPIC,SIGNIN_APPLICANT_REQUEST_TOPIC,
     GET_JOBS_BY_RECRUITER_REQUEST, POST_RECRUITER_PROFILE_REQUEST,
     GET_RECRUITER_PROFILE_REQUEST, GET_APPLICANT_PROFILE_REQUEST, 
-    POST_APPLICANT_PROFILE_SUMMARY_REQUEST,
+    POST_APPLICANT_PROFILE_SUMMARY_REQUEST, POST_APPLICANT_PROFILE_EXPERIENCE_REQUEST,
     EDIT_JOB_REQUEST, UPDATE_JOB_VIEWS_REQUEST,
     GRAPHS_CLICK_PER_JOB_REQUEST, GRAPHS_TOP_JOB_POSTINGS_REQUEST, UPDATE_JOB_CLICKS_REQUEST,
     GRAPHS_UNPOPULAR_JOB_POSTINGS_REQUEST, GRAPHS_CITYWISE_APPLICATION_REQUEST, LOG_EVENT_REQUEST,
@@ -84,6 +85,7 @@ handleTopicRequest(POST_RECRUITER_PROFILE_REQUEST, postRecruiterProfileService);
 handleTopicRequest(GET_RECRUITER_PROFILE_REQUEST, getRecruiterProfileService);
 handleTopicRequest(GET_APPLICANT_PROFILE_REQUEST, getApplicantProfileService);
 handleTopicRequest(POST_APPLICANT_PROFILE_SUMMARY_REQUEST, postApplicantProfileSummaryService);
+handleTopicRequest(POST_APPLICANT_PROFILE_EXPERIENCE_REQUEST, postApplicantProfileExperienceService);
 handleTopicRequest(EDIT_JOB_REQUEST, editJobService);
 handleTopicRequest(UPDATE_JOB_VIEWS_REQUEST, updateJobViewsService);
 handleTopicRequest(GRAPHS_CLICK_PER_JOB_REQUEST, graphClicksPerJobServce);
