@@ -152,7 +152,8 @@ class Profile extends Component{
                 profilePicture : this.state.profilePicture,
             }
             console.log(data);
-            this.props.applicantprofilesummary(data, token, ).then(response => {
+            const token =  JSON.parse(localStorage.getItem(userConstants.AUTH_TOKEN));
+            this.props.applicantprofilesummary(data, token).then(response => {
                 console.log("response:", response);
                 if(response.payload.status === 200){
                     console.log("Profile Summary Updated Successfully")
