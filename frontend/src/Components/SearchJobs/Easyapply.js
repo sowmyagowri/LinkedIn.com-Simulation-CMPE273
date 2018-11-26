@@ -6,6 +6,7 @@ import '../NavBar/Navbar.css';
 import { reduxForm } from "redux-form";
 import { withRouter} from 'react-router-dom';
 import { connect } from "react-redux";
+import { userConstants } from '../../constants';
 import { getapplicantprofile } from '../../Actions/applicant_login_profile_actions';
 
 class Easyapply extends Component{
