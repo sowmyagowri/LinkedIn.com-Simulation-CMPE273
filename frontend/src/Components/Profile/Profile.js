@@ -613,18 +613,18 @@ render() {
                         <label htmlFor="position-date-typeahead" className="mb1 required">From</label>
                         <select className = "form-control edit-date" id="position-date-typeahead" value = {fromMonth}  onChange = {this.changeHandler}  onBlur={this.handleBlur('fromMonth')}  name="fromMonth">
                         <option value="">Month</option>
-                        <option value="1">January</option>
-                        <option value="2">February</option>
-                        <option value="3">March</option>
-                        <option value="4">April</option>
-                        <option value="5">May</option>
-                        <option value="6">June</option>
-                        <option value="7">July</option>
-                        <option value="8">August</option>
-                        <option value="9">September</option>
-                        <option value="10">October</option>
-                        <option value="11">November</option>
-                        <option value="12">December</option>
+                        <option value="January">January</option>
+                        <option value="February">February</option>
+                        <option value="March">March</option>
+                        <option value="April">April</option>
+                        <option value="May">May</option>
+                        <option value="June">June</option>
+                        <option value="July">July</option>
+                        <option value="August">August</option>
+                        <option value="September">September</option>
+                        <option value="October">October</option>
+                        <option value="November">November</option>
+                        <option value="December">December</option>
                         </select>
                         {shouldMarkError('fromMonth') ? <div className = "col-xs-6 col-md-6" style = {{color: "red"}}>&nbsp;Month is a required field</div> : (null)}
 
@@ -916,18 +916,18 @@ class Experience extends Component {
                         <label htmlFor="position-date-typeahead" className="mb1 required">From</label>
                         <select className = "form-control edit-date" id="position-date-typeahead" value = {this.state.fromMonth} onChange = {this.changeHandler}   onBlur={this.handleBlur('fromMonth')} name="fromMonth">
                         <option value="">Month</option>
-                        <option value="1">January</option>
-                        <option value="2">February</option>
-                        <option value="3">March</option>
-                        <option value="4">April</option>
-                        <option value="5">May</option>
-                        <option value="6">June</option>
-                        <option value="7">July</option>
-                        <option value="8">August</option>
-                        <option value="9">September</option>
-                        <option value="10">October</option>
-                        <option value="11">November</option>
-                        <option value="12">December</option>
+                        <option value="January">January</option>
+                        <option value="February">February</option>
+                        <option value="March">March</option>
+                        <option value="April">April</option>
+                        <option value="May">May</option>
+                        <option value="June">June</option>
+                        <option value="July">July</option>
+                        <option value="August">August</option>
+                        <option value="September">September</option>
+                        <option value="October">October</option>
+                        <option value="November">November</option>
+                        <option value="December">December</option>
                         </select>
                         {shouldMarkError('fromMonth') ? <div className = "col-xs-6 col-md-6" style = {{color: "red"}}>&nbsp;Month is a required field</div> : (null)}
 
