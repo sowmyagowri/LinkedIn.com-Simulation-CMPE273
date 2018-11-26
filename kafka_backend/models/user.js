@@ -1,7 +1,6 @@
 var mongoose = require('mongoose');
 
 var Users = mongoose.model('Users',{
-    
     firstName : {
         type : String
     },
@@ -44,6 +43,7 @@ var Users = mongoose.model('Users',{
         location : String,
         fromMonth: String,
         fromYear: Number,
+        description : String,
     }],
     education : [{
         school : String,
