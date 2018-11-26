@@ -3,10 +3,7 @@ import '../../App.css';
 import '../../jobsearch_wrapper.css';
 import './Easyapply.css';
 import '../NavBar/Navbar.css';
-import { Field, reduxForm } from "redux-form";
-import {Redirect, withRouter} from 'react-router-dom';
-import { connect } from "react-redux";
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+
 
 class Easyapply extends Component{
     constructor(props){
@@ -37,7 +34,7 @@ class Easyapply extends Component{
                 <div className="navbar fixed-top navbar-dark bg-dark" style={{ height: "52px" }}>
                     <div className="home_wrapper">
                         <div className="nav-main__content full-height display-flex align-items-center" role="navigation">
-                            <h1 className ="easy-apply-h1"><a className="navbar-brand" href="#"><img src={"/images/linkedin-logo2.png"} alt="" />&nbsp;Easy Apply</a></h1>
+                            <h1 className ="easy-apply-h1"><a lassName="navbar-brand" href=" "><img src={"/images/linkedin-logo2.png"} alt="" />&nbsp;Easy Apply</a></h1>
                         </div> 
                     </div>
                 </div>
@@ -45,7 +42,7 @@ class Easyapply extends Component{
                     <div className ="wrapping-header" >
                         <div className ="easyapply-header">
                             <div className ="company-logo">
-                                <img src ="/images/cisco.png" style = {{width:"70px", height: "70px"}} />
+                                <img src ="/images/cisco.png" alt="" style = {{width:"70px", height: "70px"}} />
                             </div>
                             <div className ="company-info-wrapper">
                                 <div className ="company-info">
@@ -65,7 +62,7 @@ class Easyapply extends Component{
                         <section className = "section-profile ember-view">
                             <div className = "profile-title">LinkedIn profile</div>
                             <div className = "profile-entity">
-                            <figure><img src = "/images/avatar.png" /></figure>
+                            <figure><img alt="" src = "/images/avatar.png" /></figure>
                             <dl>
                                 <dt className = "profile-name">{profile[0].firstname}&nbsp;{profile[0].lastname} </dt>
                                 <dd className = "profile-headline">{profile[0].headline}</dd>

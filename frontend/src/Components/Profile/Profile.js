@@ -2,13 +2,12 @@ import React, {Component} from 'react';
 import '../../App.css';
 import '../../profile_wrapper.css';
 import Navbar from '../NavBar/Navbar';
-import { Field, reduxForm } from "redux-form";
-import {Redirect, withRouter} from 'react-router-dom';
+import {  reduxForm } from "redux-form";
+import { withRouter} from 'react-router-dom';
 import { connect } from "react-redux";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { userConstants } from '../../constants';
 import { getapplicantprofile, applicantprofilesummary, applicantprofileexperience, applicantprofileeducation, applicantprofileskills } from '../../Actions/applicant_login_profile_actions';
-import { throws } from 'assert';
 
 class Profile extends Component{
     constructor(props){
@@ -83,7 +82,6 @@ class Profile extends Component{
     updateSkills () {
         const email = JSON.parse(localStorage.getItem(userConstants.USER_DETAILS)).email;
         const token =  JSON.parse(localStorage.getItem(userConstants.AUTH_TOKEN));
-        var data = this.state.skills
         
         this.props.applicantprofileskills(email, token).then(response => {
             console.log("response:", response);
@@ -201,7 +199,6 @@ class Profile extends Component{
     }
 
     getExperienceContents () {
-        var self = this;
         const {experience,isLoading} = this.state;
         if(!isLoading) {
             return Object.keys(experience).map(function(i) {
@@ -222,7 +219,6 @@ class Profile extends Component{
     }
 
     getEducationContents () {
-        var self = this;
         const {education, isLoading} = this.state;
         if(!isLoading) {
             return Object.keys(education).map(function(i) {
@@ -589,12 +585,12 @@ render() {
 
     return (
         <div>
-         <div className = "pv-entity__actions" data-toggle="modal" data-target={'#experienceeditmodal'+`${id}`}><FontAwesomeIcon icon="pencil-alt" color="#0073b1" size ="lg"/></div>
-           <div className="modal fade  bd-example-modal-lg" id={'experienceeditmodal'+`${id}`} tabIndex="-1" role="dialog" aria-labelledby={'experiencemodallabel'+`${id}`} aria-hidden="true"  style = {{marginTop : "40px"}}>
+         <div className = "pv-entity__actions" data-toggle="modal" data-target={'#experienceeditmodal'+id}><FontAwesomeIcon icon="pencil-alt" color="#0073b1" size ="lg"/></div>
+           <div className="modal fade  bd-example-modal-lg" id={'experienceeditmodal'+id} tabIndex="-1" role="dialog" aria-labelledby={'experiencemodallabel'+id} aria-hidden="true"  style = {{marginTop : "40px"}}>
                 <div className="modal-dialog modal-dialog-centered modal-lg">
                     <div className="modal-content">
                         <div className="modal-header">
-                            <h5 className="modal-title" id={'experiencemodallabel'+`${id}`}>Edit Experience</h5>
+                            <h5 className="modal-title" id={'experiencemodallabel'+id}>Edit Experience</h5>
                             <button type="button" className="close" data-dismiss="modal" aria-label="Close">
                             &times;
                             </button>
@@ -630,7 +626,7 @@ render() {
                         </select>
                         {shouldMarkError('fromMonth') ? <div className = "col-xs-6 col-md-6" style = {{color: "red"}}>&nbsp;Month is a required field</div> : (null)}
 
-                        <select name="fromYear" id="position-start-typeahead" name = "fromYear"   onBlur={this.handleBlur('fromYear')} value = {fromYear} onChange = {this.changeHandler} className = "form-control edit-year">  
+                        <select  id="position-start-typeahead" name = "fromYear"   onBlur={this.handleBlur('fromYear')} value = {fromYear} onChange = {this.changeHandler} className = "form-control edit-year">  
                         <option value="">Year</option>
                         <option value="2018">2018</option>
                         <option value="2017">2017</option>
@@ -742,12 +738,12 @@ class EditEducation extends Component {
     
         return (
             <div>
-             <div className = "pv-entity__actions" data-toggle="modal" data-target={'#educationeditmodal'+`${id}`}><FontAwesomeIcon icon="pencil-alt" color="#0073b1" size ="lg"/></div>
-               <div className="modal fade  bd-example-modal-lg" id={'educationeditmodal'+`${id}`} tabIndex="-1" role="dialog" aria-labelledby={'educationmodallabel'+`${id}`} aria-hidden="true"  style = {{marginTop : "40px"}}>
+             <div className = "pv-entity__actions" data-toggle="modal" data-target={'#educationeditmodal'+id}><FontAwesomeIcon icon="pencil-alt" color="#0073b1" size ="lg"/></div>
+               <div className="modal fade  bd-example-modal-lg" id={'educationeditmodal'+id} tabIndex="-1" role="dialog" aria-labelledby={'educationmodallabel'+id} aria-hidden="true"  style = {{marginTop : "40px"}}>
                     <div className="modal-dialog modal-dialog-centered modal-lg">
                 <div className="modal-content">
                     <div className="modal-header">
-                        <h5 className="modal-title" id={'educationmodallabel'+`${id}`}>Edit Education</h5>
+                        <h5 className="modal-title" id={'educationmodallabel'+id}>Edit Education</h5>
                         <button type="button" className="close" data-dismiss="modal" aria-label="Close">
                         &times;
                         </button>
@@ -762,7 +758,7 @@ class EditEducation extends Component {
                 {shouldMarkError('degree') ? <div className = "col-xs-6 col-md-6" style = {{color: "red"}}>&nbsp;Degree is a required field</div> : (null)}
 
                 <label htmlFor="position-date-typeahead" className="mb1 required">From - To</label>
-                <select name="startYear" id="position-start-typeahead" name = "schoolfromYear"  value = {this.state.schoolfromYear} onChange = {this.changeHandler}  onBlur={this.handleBlur('schoolfromYear')}   className = "form-control edit-year">  
+                <select  id="position-start-typeahead" name = "schoolfromYear"  value = {this.state.schoolfromYear} onChange = {this.changeHandler}  onBlur={this.handleBlur('schoolfromYear')}   className = "form-control edit-year">  
                 <option value="">Year</option>
                 <option value="2018">2018</option>
                 <option value="2017">2017</option>
@@ -777,7 +773,7 @@ class EditEducation extends Component {
                 </select>
                 {shouldMarkError('schoolfromYear') ? <div className = "col-xs-6 col-md-6" style = {{color: "red"}}>&nbsp;Start Year is a required field</div> : (null)}
 
-                <select name="endYear" id="position-end-typeahead" name = "schooltoYear" value = {this.state.schooltoYear}  onBlur={this.handleBlur('schooltoYear')}  onChange = {this.changeHandler} className = "form-control edit-year">  
+                <select  id="position-end-typeahead" name = "schooltoYear" value = {this.state.schooltoYear}  onBlur={this.handleBlur('schooltoYear')}  onChange = {this.changeHandler} className = "form-control edit-year">  
                 <option value="">Year</option>
                 <option value="2018">2018</option>
                 <option value="2017">2017</option>
@@ -933,7 +929,7 @@ class Experience extends Component {
                         </select>
                         {shouldMarkError('fromMonth') ? <div className = "col-xs-6 col-md-6" style = {{color: "red"}}>&nbsp;Month is a required field</div> : (null)}
 
-                        <select name="fromYear" id="position-start-typeahead" name = "fromYear"  value = {this.state.fromYear} onChange = {this.changeHandler}  onBlur={this.handleBlur('fromYear')} className = "form-control edit-year">  
+                        <select  id="position-start-typeahead" name = "fromYear"  value = {this.state.fromYear} onChange = {this.changeHandler}  onBlur={this.handleBlur('fromYear')} className = "form-control edit-year">  
                         <option value="">Year</option>
                         <option value="2018">2018</option>
                         <option value="2017">2017</option>
@@ -1061,7 +1057,7 @@ class Education extends Component {
                 {shouldMarkError('degree') ? <div className = "col-xs-6 col-md-6" style = {{color: "red"}}>&nbsp;Degree is a required field</div> : (null)}
 
                 <label htmlFor="position-date-typeahead" className="mb1 required">From - To</label>
-                <select name="startYear" id="position-start-typeahead" name = "schoolfromYear"  value = {this.state.schoolfromYear} onChange = {this.changeHandler}  onBlur={this.handleBlur('schoolfromYear')}   className = "form-control edit-year">  
+                <select  id="position-start-typeahead" name = "schoolfromYear"  value = {this.state.schoolfromYear} onChange = {this.changeHandler}  onBlur={this.handleBlur('schoolfromYear')}   className = "form-control edit-year">  
                 <option value="">Year</option>
                 <option value="2018">2018</option>
                 <option value="2017">2017</option>
@@ -1076,7 +1072,7 @@ class Education extends Component {
                 </select>
                 {shouldMarkError('schoolfromYear') ? <div className = "col-xs-6 col-md-6" style = {{color: "red"}}>&nbsp;Start Year is a required field</div> : (null)}
 
-                <select name="endYear" id="position-end-typeahead" name = "schooltoYear" value = {this.state.schooltoYear}  onBlur={this.handleBlur('schooltoYear')}  onChange = {this.changeHandler} className = "form-control edit-year">  
+                <select  id="position-end-typeahead" name = "schooltoYear" value = {this.state.schooltoYear}  onBlur={this.handleBlur('schooltoYear')}  onChange = {this.changeHandler} className = "form-control edit-year">  
                 <option value="">Year</option>
                 <option value="2018">2018</option>
                 <option value="2017">2017</option>

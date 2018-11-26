@@ -58,12 +58,12 @@ const fetchConversationFailure = (response) => ({
     payload: response
 });
 
-const postMessageSuccess = (response, newSelectConversation) => ({
-    type: AppActions.POST_MESSAGE_SUCCESS,
-    payload: { ...response, newSelectConversation, confirmation: 'Message Sent Successfully' }
-});
+// const postMessageSuccess = (response, newSelectConversation) => ({
+//     type: AppActions.POST_MESSAGE_SUCCESS,
+//     payload: { ...response, newSelectConversation, confirmation: 'Message Sent Successfully' }
+// });
 
-const postMessageFailure = (response) => ({
-    type: AppActions.POST_MESSAGE_FAILURE,
-    payload: response
-});
+// const postMessageFailure = (response) => ({
+//     type: AppActions.POST_MESSAGE_FAILURE,
+//     payload: response
+// });

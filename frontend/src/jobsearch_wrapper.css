@@ -35,6 +35,13 @@
     border-bottom: 1px solid rgba(0,0,0,.15);
 }
 
+.jobs-search-two-pane__wrapper_no-border {
+    height: 100%;
+    overflow: hidden;
+ 
+}
+
+
 .neptune-grid {
     width: 1128px;
     box-sizing: content-box;
@@ -440,7 +447,7 @@
 .jobs-job-card-actions-container {
     display: flex;
     flex: 1 1 auto;
-    max-height: 500px;
+    max-height: 00px;
     overflow: hidden;
 }
 .card-list__item {
