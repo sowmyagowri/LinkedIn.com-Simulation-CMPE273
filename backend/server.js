@@ -15,7 +15,8 @@ let getRecruiterProfile = require('./routes/getRecruiterProfile');
 let getApplicantProfile = require('./routes/getApplicantProfile');
 let postApplicantProfileSummary = require('./routes/postApplicantProfileSummary');
 let postApplicantProfileExperience = require('./routes/postApplicantProfileExperience');
-
+let postApplicantProfileEducation = require('./routes/postApplicantProfileEducation');
+let postApplicantProfileSkills = require('./routes/postApplicantProfileSkills');
 let editJob = require('./routes/editJob');
 let updateJobViews = require('./routes/updateJobViews');
 let graphClicksPerJob = require('./routes/graphClicksPerJob');
@@ -77,11 +78,11 @@ app.use("/post_job/", postJob);
 app.use("/get_jobs_by_recruiter/", getJobsByRecruiter);
 app.use("/post_recruiter_profile/", postRecruiterProfile);
 app.use("/get_recruiter_profile/", getRecruiterProfile);
-
 app.use("/get_applicant_profile/", getApplicantProfile);
 app.use("/post_applicant_profile_summary/", postApplicantProfileSummary);
 app.use("/post_applicant_profile_experience/", postApplicantProfileExperience);
-
+app.use("/post_applicant_profile_education/", postApplicantProfileEducation);
+app.use("/post_applicant_profile_skills/", postApplicantProfileSkills);
 app.use("/edit_job/", editJob);
 app.use("/update_job_views/", updateJobViews);
 app.use("/graph_clicks_per_job/", graphClicksPerJob);
