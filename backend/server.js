@@ -69,7 +69,7 @@ app.use("/signin_applicant/", signinApplicant);
 
 // Add routes above this line if they do not require passport authentication
 // Add passport Authentication code will go here
-app.use("/", requireAuth);
+// app.use("/", requireAuth);
 // Add routes below this line if they require passport authentication
 
 app.use("/add_recruiter_role/", addRecruiterRole);

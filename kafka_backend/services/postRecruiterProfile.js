@@ -1,10 +1,13 @@
 var { Users } = require('../models/user');
+const db = require('./../config/mysql');
 const { prepareInternalServerError, prepareSuccess } = require('./responses')
 
 async function handle_request(msg, callback) {
     console.log("Inside kafka post Recruiter profile backend");
     console.log("In handle request:" + JSON.stringify(msg));
 
+    let firstName = msg.firstname;
+    let lastName = msg.lastname;
     let email = msg.email;
     let address = msg.address;
     let city = msg.city;
@@ -18,6 +21,8 @@ async function handle_request(msg, callback) {
             { email: email },
             {
                 $set: {
+                    firstName : firstName,
+                    lastName : lastName,
                     address : address,
                     city : city,
                     state : state,
@@ -27,6 +32,7 @@ async function handle_request(msg, callback) {
                 }
             }
         );
+        await db.updateQuery('UPDATE user_profile SET firstName = ?, lastName = ? WHERE email = ?',[ firstName, lastName, email ]);
         resp = prepareSuccess({ "result": "Profile Updated Sucessfully" });
     }
     catch (error) {
