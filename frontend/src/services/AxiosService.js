@@ -3,7 +3,6 @@ import URI from "../constants/URI";
 import { userConstants } from '../constants';
 // import {logoutReset} from "../actions/actions_logout";
 class AxiosService {
-    constructor() {}
 
     api = axios.create({
         baseURL: URI.ROOT_URL,

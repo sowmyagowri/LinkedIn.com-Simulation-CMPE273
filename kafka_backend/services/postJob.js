@@ -10,6 +10,7 @@ async function handle_request(msg, callback) {
         var jobs = new Jobs({
             posted_by: msg.recruiterID,
             title: msg.title,
+            company: msg.company,
             job_description: msg.jobDescription,
             industry: msg.industry,
             employment_type: msg.employmentType,

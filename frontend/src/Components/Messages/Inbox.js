@@ -11,11 +11,6 @@ class Inbox extends Component {
         currentConversation: null,
         messageDraft: ''
     }
-
-    constructor(props) {
-        super(props);
-    }
-
     componentWillMount() {
         this.props.fetchConversations();
     }
@@ -25,10 +20,11 @@ class Inbox extends Component {
             this.setState({ currentConversation: nextProps.conversations[0] })
         }
         else {
-            nextProps.conversations.map((conversation) => {
+
+            nextProps.conversations.forEach(conversation => {
                 console.log(this.state.currentConversation);
-                let user1 = this.state.currentConversation.user1.username == conversation.user1.username;
-                let user2 = this.state.currentConversation.user2.username == conversation.user2.username;
+                let user1 = this.state.currentConversation.user1.username === conversation.user1.username;
+                let user2 = this.state.currentConversation.user2.username === conversation.user2.username;
                 console.log(user1, user2);
 
                 if (user1 && user2) {
@@ -64,11 +60,11 @@ class Inbox extends Component {
         let conversations = [];
         let user = JSON.parse(localStorage.getItem(userConstants.USER_DETAILS));
         if (this.props.conversations && this.props.conversations.length > 0) {
-            this.props.conversations.map((conversation, index) => {
+            this.props.conversations.forEach(conversation => {
                 let sender = user.email === conversation.user1.username ? conversation.user2 : conversation.user1;
                 conversations.push(
-                    <div class="message" key={index} onClick={this.viewConversation.bind(this, conversation)}>
-                        <img src="/images/avatar.png" />
+                    <div class="message" onClick={this.viewConversation.bind(this, conversation)}>
+                        <img alt="" src="/images/avatar.png" />
                         <h5 className = "t-14 t-black-light t-normal">{sender.firstname + ' ' + sender.lastname}</h5>
                     </div>
                 );
@@ -98,7 +94,7 @@ class Inbox extends Component {
                 <div class="conversation">
                     <div class="conversation-list">
                         <div class="conversation-header">
-                            <img src="/images/avatar.png" width="40px" height="40px" />
+                            <img alt="" src="/images/avatar.png" width="40px" height="40px" />
                             <h6 className = "t-14 t-black-light t-normal">{headerName}</h6>
                         </div>
                         <div class="conversation-content">
@@ -137,13 +133,14 @@ class Inbox extends Component {
         let messages = [];
         let user = JSON.parse(localStorage.getItem(userConstants.USER_DETAILS));
         if (this.state.currentConversation) {
-            this.state.currentConversation.messages.map((message, index) => {
+            this.state.currentConversation.messages.forEach(message => {
                 messages.push(
-                    <div key={index} class="message-container">
+                    <div  class="message-container">
                         <p className={user.email === message.from ? "message-content from-bubble" : "message-content to-bubble"}>{message.message}</p>
                     </div>
-                )
+                ) 
             });
+     
         }
         return messages;
     }
