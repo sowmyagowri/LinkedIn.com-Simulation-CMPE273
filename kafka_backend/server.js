@@ -16,6 +16,7 @@ var postApplicantProfileSummaryService = require('./services/postApplicantProfil
 var postApplicantProfileExperienceService = require('./services/postApplicantProfileExperience');
 var postApplicantProfileEducationService = require('./services/postApplicantProfileEducation');
 var postApplicantProfileSkillsService = require('./services/postApplicantProfileSkills');
+var postApplicantProfilePhotoService = require('./services/postApplicantProfilePhoto');
 var editJobService =  require('./services/editJob');
 var updateJobViewsService = require('./services/updateJobViews');
 var graphClicksPerJobServce = require('./services/graphClicksPerJob');
@@ -27,6 +28,9 @@ let logEventService = require('./services/logEvent');
 let graphLogEvent = require('./services/graphLogEvent');
 let sendMessageService = require('./services/sendMessageService');
 let getAllMessagesService = require('./services/getAllMessagesService');
+let sendConnectionRequestService = require('./services/sendConnectionRequest');
+let connectionResponse = require('./services/connectionResponse');
+let getAllConnections = require('./services/getAllConnection');
 
 //import kafka topics
 const {
@@ -37,10 +41,12 @@ const {
     GET_RECRUITER_PROFILE_REQUEST, GET_APPLICANT_PROFILE_REQUEST, 
     POST_APPLICANT_PROFILE_SUMMARY_REQUEST, POST_APPLICANT_PROFILE_EXPERIENCE_REQUEST,
     POST_APPLICANT_PROFILE_EDUCATION_REQUEST, POST_APPLICANT_PROFILE_SKILLS_REQUEST,
+    POST_APPLICANT_PROFILE_PHOTO_REQUEST,
     EDIT_JOB_REQUEST, UPDATE_JOB_VIEWS_REQUEST,
     GRAPHS_CLICK_PER_JOB_REQUEST, GRAPHS_TOP_JOB_POSTINGS_REQUEST, UPDATE_JOB_CLICKS_REQUEST,
     GRAPHS_UNPOPULAR_JOB_POSTINGS_REQUEST, GRAPHS_CITYWISE_APPLICATION_REQUEST, LOG_EVENT_REQUEST,
-    GRAPHS_LOG_EVENT_REQUEST, SEND_MESSAGE_REQUEST, GET_ALL_MESSAGES_REQUEST
+    GRAPHS_LOG_EVENT_REQUEST, SEND_MESSAGE_REQUEST, GET_ALL_MESSAGES_REQUEST,
+    SEND_CONNECTION_REQUEST, GET_ALL_CONNECTION_REQUEST, CONNECTION_RESPONSE_REQUEST,
 } = require('./kafka/topics');
 
 function handleTopicRequest(topic_name, fname) {
@@ -91,6 +97,7 @@ handleTopicRequest(POST_APPLICANT_PROFILE_SUMMARY_REQUEST, postApplicantProfileS
 handleTopicRequest(POST_APPLICANT_PROFILE_EXPERIENCE_REQUEST, postApplicantProfileExperienceService);
 handleTopicRequest(POST_APPLICANT_PROFILE_EDUCATION_REQUEST, postApplicantProfileEducationService);
 handleTopicRequest(POST_APPLICANT_PROFILE_SKILLS_REQUEST, postApplicantProfileSkillsService);
+handleTopicRequest(POST_APPLICANT_PROFILE_PHOTO_REQUEST, postApplicantProfilePhotoService);
 handleTopicRequest(EDIT_JOB_REQUEST, editJobService);
 handleTopicRequest(UPDATE_JOB_VIEWS_REQUEST, updateJobViewsService);
 handleTopicRequest(GRAPHS_CLICK_PER_JOB_REQUEST, graphClicksPerJobServce);
@@ -102,4 +109,7 @@ handleTopicRequest(LOG_EVENT_REQUEST, logEventService);
 handleTopicRequest(GRAPHS_LOG_EVENT_REQUEST, graphLogEvent);
 handleTopicRequest(SEND_MESSAGE_REQUEST, sendMessageService);
 handleTopicRequest(SIGNIN_APPLICANT_REQUEST_TOPIC, signinApplicantService);
-handleTopicRequest(GET_ALL_MESSAGES_REQUEST, getAllMessagesService)
+handleTopicRequest(GET_ALL_MESSAGES_REQUEST, getAllMessagesService);
+handleTopicRequest(SEND_CONNECTION_REQUEST, sendConnectionRequestService);
+handleTopicRequest(CONNECTION_RESPONSE_REQUEST, connectionResponse);
+handleTopicRequest(GET_ALL_CONNECTION_REQUEST, getAllConnections);

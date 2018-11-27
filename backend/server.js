@@ -17,6 +17,7 @@ let postApplicantProfileSummary = require('./routes/postApplicantProfileSummary'
 let postApplicantProfileExperience = require('./routes/postApplicantProfileExperience');
 let postApplicantProfileEducation = require('./routes/postApplicantProfileEducation');
 let postApplicantProfileSkills = require('./routes/postApplicantProfileSkills');
+let postApplicantProfilePhoto = require('./routes/postApplicantProfilePhoto');
 let editJob = require('./routes/editJob');
 let updateJobViews = require('./routes/updateJobViews');
 let graphClicksPerJob = require('./routes/graphClicksPerJob');
@@ -28,6 +29,9 @@ let logEvent = require('./routes/logEvent');
 let graphLogEvent = require('./routes/graphLogEvent');
 let sendMessage = require('./routes/sendMessage');
 let getAllMessages = require('./routes/getAllMessages');
+let sendConnectionRequest = require('./routes/sendConnectionRequest');
+let connectionResponse = require('./routes/connectionResponse');
+let getAllConnections = require('./routes/getAllConnections');
 
 let expressValidator = require("express-validator");
 var morgan = require('morgan');
@@ -39,8 +43,6 @@ let passport = require('passport');
 app.use(passport.initialize());
 require('./passport/passport')(passport);
 let requireAuth = passport.authenticate('jwt', {session: false});
-
-const multer = require('multer');
 
 let port = 5000 || process.env.PORT
 
@@ -83,6 +85,7 @@ app.use("/post_applicant_profile_summary/", postApplicantProfileSummary);
 app.use("/post_applicant_profile_experience/", postApplicantProfileExperience);
 app.use("/post_applicant_profile_education/", postApplicantProfileEducation);
 app.use("/post_applicant_profile_skills/", postApplicantProfileSkills);
+app.use("/post_applicant_profile_photo/", postApplicantProfilePhoto);
 app.use("/edit_job/", editJob);
 app.use("/update_job_views/", updateJobViews);
 app.use("/graph_clicks_per_job/", graphClicksPerJob);
@@ -94,6 +97,10 @@ app.use("/log_event/", logEvent);
 app.use("/graph_log_event/", graphLogEvent);
 app.use("/message", sendMessage);
 app.use("/messages", getAllMessages);
+app.use("/makeConnectionRequest", sendConnectionRequest);
+app.use("/connectionResponse", connectionResponse);
+app.use("/getConnections", getAllConnections);
+
 /** start server */
 app.listen(port, () => {
     console.log(`Server started at port: ${port}`);

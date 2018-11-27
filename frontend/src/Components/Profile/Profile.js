@@ -17,11 +17,14 @@ class Profile extends Component{
             lastname : "",
             state : "",
             zipcode : "",
-            sskills :"",
+            skills :"",
+            updatedskills : "",
+            profilesummary : "",
+            phonenumber : "",
+            address : "",
             profilePicture : "",
             experience : [{}],
             education : [{}],
-            skills : "",  
             resume : "",          
             touchedprofile : {
                 firstname: false,
@@ -38,7 +41,14 @@ class Profile extends Component{
         this.updateSkills = this.updateSkills.bind(this)
         this.submitProfile = this.submitProfile.bind(this)
         this.uploadresume = this.uploadresume.bind(this)
+        this.handleChange = this.handleChange.bind(this)
     }
+
+
+    handleChange(data) {
+        this.setState(data);
+    }
+
 
     componentDidMount() {
         //call to action
@@ -54,28 +64,24 @@ class Profile extends Component{
                         profilesummary : response.payload.data.profile.profileSummary === undefined || "" ? "" : response.payload.data.profile.profileSummary,
                         state : response.payload.data.profile.state,
                         zipcode : response.payload.data.profile.zipcode,
-                        fname : response.payload.data.profile.firstName,
-                        lname : response.payload.data.profile.lastName,
-                        sstate : response.payload.data.profile.state,
-                        zzipcode : response.payload.data.profile.zipcode,
                         phonenumber : response.payload.data.profile.phoneNumber === undefined || ""  ? "" : response.payload.data.profile.phoneNumber,
                         address : response.payload.data.profile.address === undefined || "" ? "" : response.payload.data.profile.address,
                         experience : response.payload.data.profile.experience,
                         education : response.payload.data.profile.education,
                         skills : response.payload.data.profile.skills === undefined || ""  ? "" : response.payload.data.profile.skills,
-                        sskills : response.payload.data.profile.skills === undefined || ""  ? "" : response.payload.data.profile.skills,
+                        updatedskills : response.payload.data.profile.skills === undefined || ""  ? "" : response.payload.data.profile.skills,
                         profilePicture : response.payload.data.profile.profilePicture,
                         isLoading : false
                 });                
             }
-                this.refs.myfirstname.value = this.state.fname;
-                this.refs.mylastname.value = this.state.lname;
-                this.refs.myprofilesummary.value = this.state.profilesummary;
-                this.refs.mystate.value = this.state.sstate;
-                this.refs.myzipcode.value = this.state.zzipcode;
-                this.refs.myphonenumber.value = this.state.phonenumber
-                this.refs.myaddress.value = this.state.address;
-                this.refs.myskills.value = this.state.sskills;
+                this.refs.myfirstname.value = this.state.profiledata.firstName;
+                this.refs.mylastname.value = this.state.profiledata.lastName;
+                this.refs.myprofilesummary.value = this.state.profiledata.profileSummary;
+                this.refs.mystate.value = this.state.profiledata.state;
+                this.refs.myzipcode.value = this.state.profiledata.zipcode;
+                this.refs.myphonenumber.value = this.state.profiledata.phonenumber === "" || null  ? "" : response.payload.data.profile.phoneNumber;
+                this.refs.myaddress.value = this.state.profiledata.address;
+                this.refs.myskills.value = this.state.profiledata.skills;
         })
     }   
 
@@ -86,11 +92,11 @@ class Profile extends Component{
             email: email,
             skills: this.state.skills
         }
-        
         this.props.applicantprofileskills(data, token).then(response => {
             console.log("response:", response);
             if(response.payload.status === 200){
                 console.log("Profile Skills Updated Successfully")
+                this.setState ({ updatedskills : this.state.skills})
             }
         })
     }
@@ -129,6 +135,15 @@ class Profile extends Component{
         this.setState ({
             profilePicture : event.target.files[0].name
         })
+
+        // const state = {
+        //     ...this.state,
+        //     profiledata: {
+        //         ...this.state.profiledata,
+        //         profilePicture : this.state.profilePicture
+        //     }
+        // }
+        // this.setState(state);
     }
      
     changeHandler = (e) => {
@@ -136,6 +151,8 @@ class Profile extends Component{
           ...this.state,
           [e.target.name]: e.target.value,
           }
+
+        console.log(state)
         this.setState(state);
     }
 
@@ -153,32 +170,34 @@ class Profile extends Component{
                 profileSummary : this.state.profilesummary,
                 phoneNumber : this.state.phonenumber,
                 resume : this.state.resume,
-                profilePicture : this.state.profilePicture,
             }
-            console.log(data);
+
+            const state = {
+                ...this.state,
+                profiledata: {
+                    ...this.state.profiledata,
+                firstName : this.state.firstname,
+                lastName : this.state.lastname,
+                state : this.state.state,
+                zipcode : this.state.zipcode,
+                address : this.state.address,
+                profileSummary : this.state.profilesummary,
+                phoneNumber : this.state.phonenumber,
+                resume : this.state.resume
+                }
+            }
+            this.setState(state);
             this.props.applicantprofilesummary(data, token).then(response => {
                 console.log("response:", response);
                 if(response.payload.status === 200){
                     console.log("Profile Summary Updated Successfully")
                 }
-            })
-        }
+             })
+            }
     } 
 
     shouldComponentUpdate(nextState) {
         if (nextState.profiledata !== this.state.profiledata) {
-            return true; 
-        }
-        if (nextState.firstname !== this.state.firstname) {
-            return true; 
-        }
-        if (nextState.lastname !== this.state.lastname) {
-            return true; 
-        }
-        if (nextState.state !== this.state.state) {
-            return true; 
-        }
-        if (nextState.zipcode !== this.state.zipcode) {
             return true; 
         }
         else {
@@ -209,7 +228,12 @@ class Profile extends Component{
             return Object.keys(experience).map(function(i) {
                 return <li className ="pv-profile-section__card-item-v2 pv-profile-section pv-position-entity ember-view" key ={i}>
                     {/* <div className = "pv-entity__actions"><FontAwesomeIcon icon="pencil-alt" color="#0073b1" size ="lg"/> </div> */}
-                    <EditExperience experience={experience[i]} experiencelist = {self.state.experience} id = {i} applicantprofileexperience = {self.props.applicantprofileexperience}/>
+                    <EditExperience 
+                    experience={experience[i]} 
+                    experiencelist = {self.state.experience}
+                    id = {i} 
+                    handleChange={self.handleChange} 
+                    applicantprofileexperience = {self.props.applicantprofileexperience}/>
                     <div className ="pv-entity__summary-info pv-entity__summary-info--background-section mb2">
                     <h3 className = "t-16 t-black t-bold">{experience[i].title}</h3> 
                     <h4 className = "t-16 t-black-light t-normal">{experience[i].company}</h4>
@@ -230,7 +254,12 @@ class Profile extends Component{
             return Object.keys(education).map(function(i) {
                 return <li className ="pv-profile-section__card-item-v2 pv-profile-section pv-position-entity ember-view" key ={i}>
                 {/* <div className = "pv-entity__actions"><FontAwesomeIcon icon="pencil-alt" color="#0073b1" size ="lg"/> </div> */}
-                <EditEducation education={education[i]} id = {i} educationlist = {self.state.education} applicantprofileeducation = {self.props.applicantprofileeducation}/>
+                <EditEducation 
+                education={education[i]} 
+                id = {i} 
+                educationlist = {self.state.education} 
+                handleChange={self.handleChange} 
+                applicantprofileeducation = {self.props.applicantprofileeducation}/>
                 <div className ="pv-entity__summary-info pv-entity__summary-info--background-section mb2">
                 <h3 className = "t-16 t-black t-bold">{education[i].school}</h3> 
                 <h4 className = "t-16 t-black-light t-normal">{education[i].degree}</h4>
@@ -245,7 +274,6 @@ class Profile extends Component{
    }
 
     render() {
-        console.log(this.state.profilePicture)
         const {isLoading} = this.state;
         if(!isLoading){
             const errors = validateprofile(this.state.firstname,  this.state.lastname, this.state.state, this.state.zipcode);
@@ -406,8 +434,8 @@ class Profile extends Component{
                       <div className="col-md-12">
                         <div className="row">
                             <div className="col-xs-12 col-sm-4 text-center"> 
-                            {this.state.profilePicture === "" || undefined ?
-                                <img src= "/images/avatar.png" alt="" className="center-block img-circle rounded-circle img-thumbnail img-responsive"/> : <img src = {this.state.profilePicture} alt="" className="center-block img-circle rounded-circle img-thumbnail img-responsive"/>}
+                            {this.state.profiledata.profilePicture === undefined  || this.state.profiledata.profilePicture === "" ?
+                                <img src= "/images/avatar.png" alt="" className="center-block img-circle rounded-circle img-thumbnail img-responsive"/> : <img src = {this.state.profiledata.profilePicture} alt="" className="center-block img-circle rounded-circle img-thumbnail img-responsive"/>}
                                 <div className="rank-label-container">
                                   <input id='fileid' type='file' onChange={this.profilephotochangeHandler} hidden/>
                                   <button type="file" className ="btn btn-default btn-icon-circle" onClick={this.openFileDialog}>
@@ -415,15 +443,15 @@ class Profile extends Component{
                                 </div>
                            </div>
                           <div className="col-xs-12 col-sm-8">
-                            <h3>{this.state.fname}&nbsp;{this.state.lname}</h3>
-                            <p>{this.state.sstate}</p>
-                           {this.state.address ? <p><strong>Address: </strong> {this.state.address} </p>  : (null)}
+                            <h3>{this.state.profiledata.firstName}&nbsp;{this.state.profiledata.lastName}</h3>
+                            <p>{this.state.profiledata.state}</p>
+                           {this.state.profiledata.address ? <p><strong>Address: </strong> {this.state.profiledata.address} </p>  : (null)}
                             {/* <p><strong>City: </strong> <span className="label label-info tags"></span> <span className="label label-info tags"></span> </p> */}
                           </div>
                         </div>
                         <hr/>
-                        {this.state.profilesummary ?
-                        <p><strong>Profile Summary: </strong>{this.state.profilesummary}</p> : (null)}
+                        {this.state.profiledata.profileSummary ?
+                        <p><strong>Profile Summary: </strong>{this.state.profiledata.profileSummary}</p> : (null)}
                       </div>
                       <hr/>
                     </div>
@@ -432,7 +460,9 @@ class Profile extends Component{
 
               <div className = "pv-profile-section artdeco-container-card ember-view gap">
                     <header className = "pv-profile-section__card-header">
-                    <Experience experiencelist = {this.state.experience} applicantprofileexperience = {this.props.applicantprofileexperience}></Experience>
+                    <Experience experiencelist = {this.state.experience} 
+                    handleChange={this.handleChange} 
+                    applicantprofileexperience = {this.props.applicantprofileexperience}></Experience>
                         <h2 className = "pv-profile-section__card-heading t-20 t-black t-normal">Experience</h2>
                     </header>   
                     <div className = "pv-entity__position-group-pager pv-profile-section__list-item ember-view">
@@ -442,7 +472,9 @@ class Profile extends Component{
 
               <div className = "pv-profile-section artdeco-container-card ember-view gap">
                     <header className = "pv-profile-section__card-header">
-                    <Education educationlist = {this.state.education} applicantprofileeducation = {this.props.applicantprofileeducation}></Education>
+                    <Education educationlist = {this.state.education} 
+                    handleChange={this.handleChange} 
+                    applicantprofileeducation = {this.props.applicantprofileeducation}></Education>
                         <h2 className = "pv-profile-section__card-heading t-20 t-black t-normal">Education</h2>
                     </header>   
                     <div className = "pv-entity__position-group-pager pv-profile-section__list-item ember-view">
@@ -452,7 +484,6 @@ class Profile extends Component{
 
               <div className = "pv-profile-section artdeco-container-card ember-view gap">
                     <header className = "pv-profile-section__card-header">
-
                          <div className="modal fade  bd-example-modal-lg" id="skillsmodal" tabIndex="-1" role="dialog" aria-labelledby="skillsmodallabel" aria-hidden="true" style = {{marginTop : "40px"}}>
                             <div className="modal-dialog modal-dialog-centered modal-lg">
                                 <div className="modal-content">
@@ -479,7 +510,6 @@ class Profile extends Component{
                                     </label>
                                     </div> */}
                                     <textarea className = "form-control" ref = "myskills" name = "skills" onChange = {this.changeHandler} id="position-description-typeahead"/>
-
                                 </div>
                                 <div className="modal-footer">  
                                     <button type="button" className="btn arteco-btn-save" data-dismiss="modal">Close</button>
@@ -496,7 +526,7 @@ class Profile extends Component{
                     <div className = "pv-entity__position-group-pager pv-profile-section__list-item ember-view">
                         <li className ="pv-profile-section__card-item-v2 pv-profile-section pv-position-entity ember-view">
                             <div className = "ember-view">
-                            <p className ="pv-entity__description t-14 t-black t-normal ember-view">{this.state.sskills}</p>
+                            <p className ="pv-entity__description t-14 t-black t-normal ember-view">{this.state.updatedskills}</p>
                             </div>
                         </li>
                     </div>                   
@@ -533,6 +563,7 @@ constructor(props){
     this.submitExperience = this.submitExperience.bind(this);
 }
 
+
 submitExperience = () => {
     if (this.handleValidationExperience()) {
         const email = JSON.parse(localStorage.getItem(userConstants.USER_DETAILS)).email;
@@ -546,19 +577,22 @@ submitExperience = () => {
             description : this.state.description
         }
         var experiencelist = this.props.experiencelist;
+        console.log(experiencelist);
         experiencelist[this.state.id] = editedExperience;
         var data = {
             email: email,
             experiencelist : experiencelist
         }
+
         this.props.applicantprofileexperience(data, token).then(response => {
             console.log("response:", response);
             if(response.payload.status === 200){
                 console.log("Profile Experience Updated Successfully")
+                this.props.handleChange({ experience: experiencelist });
             }
         })
     }
-} 
+}
 
 changeHandler = (e) => {
     const state = {
@@ -715,6 +749,7 @@ class EditEducation extends Component {
                 console.log("response:", response);
                 if(response.payload.status === 200){
                     console.log("Profile Education Updated Successfully")
+                    this.props.handleChange({ education: educationlist });
                 }
             })
         }
@@ -861,14 +896,15 @@ class Experience extends Component {
             }
             var experiencelist = this.props.experiencelist
             experiencelist.push(newExperience)
-            var data = {
+            var userData = {
                 email: email,
                 experiencelist : experiencelist
             }
-            this.props.applicantprofileexperience(data, token).then(response => {
+            this.props.applicantprofileexperience(userData, token).then(response => {
                 console.log("response:", response);
                 if(response.payload.status === 200){
                     console.log("Profile Experience Updated Successfully")
+                    this.props.handleChange({ experience: experiencelist});
                 }
             })
         }
@@ -1027,10 +1063,11 @@ class Education extends Component {
                 console.log("response:", response);
                 if(response.payload.status === 200){
                     console.log("Profile Education Updated Successfully")
+                    this.props.handleChange({ education: educationlist });
                 }
             })
         }
-    }
+    } 
 
     changeHandler = (e) => {
         const state = {
