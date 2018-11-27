@@ -17,6 +17,7 @@ let postApplicantProfileSummary = require('./routes/postApplicantProfileSummary'
 let postApplicantProfileExperience = require('./routes/postApplicantProfileExperience');
 let postApplicantProfileEducation = require('./routes/postApplicantProfileEducation');
 let postApplicantProfileSkills = require('./routes/postApplicantProfileSkills');
+let postApplicantProfilePhoto = require('./routes/postApplicantProfilePhoto');
 let editJob = require('./routes/editJob');
 let updateJobViews = require('./routes/updateJobViews');
 let graphClicksPerJob = require('./routes/graphClicksPerJob');
@@ -39,8 +40,6 @@ let passport = require('passport');
 app.use(passport.initialize());
 require('./passport/passport')(passport);
 let requireAuth = passport.authenticate('jwt', {session: false});
-
-const multer = require('multer');
 
 let port = 5000 || process.env.PORT
 
@@ -70,7 +69,7 @@ app.use("/signin_applicant/", signinApplicant);
 
 // Add routes above this line if they do not require passport authentication
 // Add passport Authentication code will go here
-// app.use("/", requireAuth);
+app.use("/", requireAuth);
 // Add routes below this line if they require passport authentication
 
 app.use("/add_recruiter_role/", addRecruiterRole);
@@ -83,6 +82,7 @@ app.use("/post_applicant_profile_summary/", postApplicantProfileSummary);
 app.use("/post_applicant_profile_experience/", postApplicantProfileExperience);
 app.use("/post_applicant_profile_education/", postApplicantProfileEducation);
 app.use("/post_applicant_profile_skills/", postApplicantProfileSkills);
+app.use("/post_applicant_profile_photo/", postApplicantProfilePhoto);
 app.use("/edit_job/", editJob);
 app.use("/update_job_views/", updateJobViews);
 app.use("/graph_clicks_per_job/", graphClicksPerJob);
