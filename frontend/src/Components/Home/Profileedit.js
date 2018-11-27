@@ -153,7 +153,7 @@ class ProfileEdit extends Component{
     submitSignup(event) {
         //prevent page from refresh
         event.preventDefault();
-        if (this.handleValidation()) {
+        if (this.handleValidation()){
             const { firstname, lastname, email, password, state, zipcode, title, company, location, fromMonth, fromYear, school, degree, schoolfromYear, schooltoYear} = {...this.state};
             const data = {
                 firstname : firstname,
@@ -197,7 +197,7 @@ class ProfileEdit extends Component{
               <div className="navbar fixed-top">
                 <div className = "home_wrapper">
                     <h1>
-                        <a className="navbar-brand" href="#">
+                        <a className="navbar-brand" href="/">
                             <img src = {"/images/linkedinfulllogo.png"} alt = "LinkedIn"/>
                         </a>
                     </h1>
@@ -229,18 +229,18 @@ class ProfileEdit extends Component{
                             <label htmlFor="position-date-typeahead" className="mb1 required">From (Select a Month & Year only if applicable) </label>
                             <select className = "form-control edit-date" onChange = {this.changeHandler} name = "fromMonth" value={fromMonth.value} id="position-date-typeahead">
                             <option value="">Month</option>
-                            <option value="1">January</option>
-                            <option value="2">February</option>
-                            <option value="3">March</option>
-                            <option value="4">April</option>
-                            <option value="5">May</option>
-                            <option value="6">June</option>
-                            <option value="7">July</option>
-                            <option value="8">August</option>
-                            <option value="9">September</option>
-                            <option value="10">October</option>
-                            <option value="11">November</option>
-                            <option value="12">December</option>
+                            <option value="January">January</option>
+                            <option value="February">February</option>
+                            <option value="March">March</option>
+                            <option value="April">April</option>
+                            <option value="May">May</option>
+                            <option value="June">June</option>
+                            <option value="July">July</option>
+                            <option value="August">August</option>
+                            <option value="September">September</option>
+                            <option value="October">October</option>
+                            <option value="November">November</option>
+                            <option value="December">December</option>
                             </select>
 
                             <select name="startYear" id="position-start-typeahead" onChange = {this.changeHandler} name = "fromYear" value={fromYear.value} className = "form-control edit-year">  

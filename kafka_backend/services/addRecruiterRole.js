@@ -11,7 +11,7 @@ async function handle_request(msg, callback) {
         await db.updateQuery('UPDATE user_profile SET role = ? where email = ?', ['AR', email]);
         var query = {"email": msg.email};
         var update = {role: 'AR'};
-        await user.findOneAndUpdate(query, update);
+        await Users.findOneAndUpdate(query, update);
         resp = prepareSuccess({ "result": "Recruiter Profile added Sucessfully" });
     }
     catch (error) {

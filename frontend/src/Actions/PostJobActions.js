@@ -1,5 +1,5 @@
 import axios from "axios";
-import URI from "../constants/URI"
+import URI from "../constants/URI";
 const ROOT_URL = URI.ROOT_URL;
 
 export const CREATE_JOB_SUCCESS = "create_job_successfully";
@@ -8,27 +8,25 @@ export const CREATE_JOB_FAILURE = "create_job_error";
 export const FETCH_JOBS_SUCCESS = "fetch_jobs_successfully";
 export const FETCH_JOBS_FAILURE = "fetch_jobs_error";
 
-
 export function createNewJob(data) {
-  data.recruiterID="012675443"
+  data.recruiterID = "012675443";
   //data.postedDate="2018-08-10"
   console.log(data);
 
   return async dispatch => {
     try {
       axios.defaults.withCredentials = true;
-      // axios.defaults.headers.common["Authorization"] =
-      //   "JWT " + localStorage.getItem("user");
-      var response = await axios.post(
-        `${ROOT_URL}/post_job`,
-        data
-      );
+      axios.defaults.headers.common["Authorization"] = JSON.parse(localStorage.getItem(
+        "auth_token"
+      ));
+
+      var response = await axios.post(`${ROOT_URL}/post_job`, data);
       if (response.status === 200) {
         dispatch({
           type: CREATE_JOB_SUCCESS,
           payload: "Job Added SuccessFully"
         });
-      }else{
+      } else {
         dispatch({
           type: CREATE_JOB_FAILURE,
           payload: "Error Adding Job"
@@ -46,16 +44,12 @@ export function createNewJob(data) {
   };
 }
 
-
-
-
 export function getRecruiterJobs() {
-   let recruiterID= "012675443";
+  let recruiterID = "012675443";
   return async dispatch => {
     try {
       axios.defaults.withCredentials = true;
-      // axios.defaults.headers.common["Authorization"] =
-      //   "JWT " + localStorage.getItem("user");
+      axios.defaults.headers.common["Authorization"] = JSON.parse(localStorage.getItem("auth_token"));
       var response = await axios.get(`${ROOT_URL}/get_jobs_by_recruiter`, {
         params: {
           recruiterID
@@ -67,7 +61,7 @@ export function getRecruiterJobs() {
           type: FETCH_JOBS_SUCCESS,
           payload: response.data.allJobs
         });
-      }else{
+      } else {
         dispatch({
           type: FETCH_JOBS_FAILURE,
           payload: "Error Fetching Job"
@@ -81,5 +75,3 @@ export function getRecruiterJobs() {
     }
   };
 }
-
-

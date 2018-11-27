@@ -3,30 +3,36 @@ import '../../App.css';
 import '../../jobsearch_wrapper.css';
 import './Easyapply.css';
 import '../NavBar/Navbar.css';
-import { Field, reduxForm } from "redux-form";
-import {Redirect, withRouter} from 'react-router-dom';
+import { reduxForm } from "redux-form";
+import { withRouter} from 'react-router-dom';
 import { connect } from "react-redux";
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { userConstants } from '../../constants';
+import { getapplicantprofile } from '../../Actions/applicant_login_profile_actions';
 
 class Easyapply extends Component{
     constructor(props){
         super(props);
         this.state = {
-          profile : [
-            {
-            firstname : "Vince",
-            lastname : "Daniel",
-            location : "San Jose",
-            headline : "Student of San Jose University",
-            title : "Security and Incident Manager" ,
-            emailaddress : "saranya@gmail.com",
-            }]
+          profile : []
         };
     }
 
 
     componentDidMount() {
         //call to action
+        const data = JSON.parse(localStorage.getItem(userConstants.USER_DETAILS)).email;
+        console.log(localStorage.getItem(userConstants.USER_DETAILS));
+        this.props.getapplicantprofile(data, localStorage.getItem(userConstants.AUTH_TOKEN)).then(response => {
+            console.log("response:", response);
+            if(response.payload.status === 200){
+                this.setState({ 
+                        profile: response.payload.data.profile,
+                        isLoading : false
+                });                
+            }
+                this.refs.myphonenumber.value = this.state.profile.phonenumber
+                this.refs.myemail.value = this.state.profile.email;
+        })
     }
     
 
@@ -45,7 +51,7 @@ class Easyapply extends Component{
                     <div className ="wrapping-header" >
                         <div className ="easyapply-header">
                             <div className ="company-logo">
-                                <img src ="/images/cisco.png" style = {{width:"70px", height: "70px"}} />
+                                <img src ="/images/cisco.png" alt="" style = {{width:"70px", height: "70px"}} />
                             </div>
                             <div className ="company-info-wrapper">
                                 <div className ="company-info">
@@ -65,10 +71,10 @@ class Easyapply extends Component{
                         <section className = "section-profile ember-view">
                             <div className = "profile-title">LinkedIn profile</div>
                             <div className = "profile-entity">
-                            <figure><img src = "/images/avatar.png" /></figure>
+                            <figure><img alt="" src = "/images/avatar.png" /></figure>
                             <dl>
-                                <dt className = "profile-name">{profile[0].firstname}&nbsp;{profile[0].lastname} </dt>
-                                <dd className = "profile-headline">{profile[0].headline}</dd>
+                                <dt className = "profile-name">{profile.firstname}&nbsp;{profile.lastname} </dt>
+                                <dd className = "profile-headline">{profile.profileSummary}</dd>
                             </dl>
                             </div>
                         </section>
@@ -76,9 +82,9 @@ class Easyapply extends Component{
                         <div className = "profile-title" style = {{fontSize : "19px"}}>Contact Info</div>
                             <li className = "job-question ember-view">
                                 <label htmlFor = "phone-number-question" className = "question-apply">Phone Number</label>
-                                <input className = "form-control" id="phone-number-question"  pattern="[0-9]{10}" placeholder="1234567890" type="number"/>
+                                <input className = "form-control" id="phone-number-question" ref ="myphonenumber"  pattern="[0-9]{10}" placeholder="1234567890" type="number"/>
                                <label htmlFor = "email-question" className = "question-apply">Email Address</label>
-                                <input className = "form-control" id="email-question" placeholder="email address" type="email"/>
+                                <input className = "form-control" id="email-question" ref = "myemail" placeholder="email address" type="email"/>
                             </li>
                         </section>
                         <section className = "section-profile ember-view" style = {{marginTop : "30px"}}>
@@ -97,4 +103,12 @@ class Easyapply extends Component{
     }
 }
 
-export default Easyapply;
+function mapStateToProps(state) {
+    return {
+        getapplicantprofile: state.getapplicantprofile
+    }
+}
+
+export default withRouter(reduxForm({
+    form: "Easy_Apply"
+    })(connect(mapStateToProps, { getapplicantprofile}) (Easyapply)));

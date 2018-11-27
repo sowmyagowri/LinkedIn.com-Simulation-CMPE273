@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {Route, Redirect, Switch} from 'react-router-dom';
+import {Route, Switch} from 'react-router-dom';
 import Home from './Home/Home';
 import Login from './Home/Login';
 import ProfileLocation from './Home/Profilelocation';
@@ -31,7 +31,7 @@ class Main extends Component {
                 <Route path="/searchjobs" component={SearchJobs}/>
                 <Route path="/messages" component={Inbox}/>
                 <Route path="/mynetwork" component={MyNetwork}/>
-                <Route path="/easyapply" component={EasyApply}/>
+                <Route path="/easyapply/:jobid" component={EasyApply}/>
                 <Route path="/job/view/:jobid" component={ViewJob}/>
                 <Route path="/job/saved" component={ViewSavedJobs}/>
                 <Route path="/postajobhome" component={PostAJobHome}/>
