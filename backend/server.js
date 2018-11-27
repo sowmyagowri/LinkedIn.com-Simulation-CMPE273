@@ -24,6 +24,9 @@ let logEvent = require('./routes/logEvent');
 let graphLogEvent = require('./routes/graphLogEvent');
 let sendMessage = require('./routes/sendMessage');
 let getAllMessages = require('./routes/getAllMessages');
+let sendConnectionRequest = require('./routes/sendConnectionRequest');
+let connectionResponse = require('./routes/connectionResponse');
+let getAllConnections = require('./routes/getAllConnections');
 
 let expressValidator = require("express-validator");
 var morgan = require('morgan');
@@ -87,6 +90,10 @@ app.use("/log_event/", logEvent);
 app.use("/graph_log_event/", graphLogEvent);
 app.use("/message", sendMessage);
 app.use("/messages", getAllMessages);
+app.use("/makeConnectionRequest", sendConnectionRequest);
+app.use("/connectionResponse", connectionResponse);
+app.use("/getConnections", getAllConnections);
+
 /** start server */
 app.listen(port, () => {
     console.log(`Server started at port: ${port}`);

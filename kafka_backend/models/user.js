@@ -61,12 +61,18 @@ var Users = mongoose.model('Users',{
     },
     connectionsIncoming:[{
         email : String,
+        firstName : String,
+        lastName: String
     }],
     connectionsOutgoing:[{
         email : String,
+        firstName : String,
+        lastName: String
     }],
     connectionsApproved:[{
         email : String,
+        firstName : String,
+        lastName: String
     }],
 });
 
