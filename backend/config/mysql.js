@@ -1,7 +1,7 @@
 var mysql = require('mysql');
 
-var isConnectionPool = false;
-// var isConnectionPool = true;
+// var isConnectionPool = false;
+var isConnectionPool = true;
 
 var connection;
 
