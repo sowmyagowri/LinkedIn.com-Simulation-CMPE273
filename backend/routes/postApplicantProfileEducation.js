@@ -21,7 +21,7 @@ router.post("/", (req, res) => {
         });
     }
     else {
-        kafka.make_request(POST_APPLICANT_PROFILE_EDUCATION_REQUEST, POST_APPLICANT_PROFILE_EDUCATIONAL_RESPONSE, req.body, function (err, result) {
+        kafka.make_request(POST_APPLICANT_PROFILE_EDUCATION_REQUEST, POST_APPLICANT_PROFILE_EDUCATION_RESPONSE, req.body, function (err, result) {
             if (err) {
                 // called in case of time out error, or if we failed to send data over kafka
                 sendInternalServerError(res);

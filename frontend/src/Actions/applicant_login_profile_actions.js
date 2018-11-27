@@ -98,7 +98,7 @@ export async function applicantprofileeducation(data, tokenFromStorage) {
     }
   };
   axios.defaults.withCredentials = true;
-  const response =  await axios.get(URI.ROOT_URL + '/post_applicant_profile_education/' , data, config);
+  const response =  await axios.post(URI.ROOT_URL + '/post_applicant_profile_education/' , data, config);
   console.log("Response", response);
   return {
     type: userConstants.APPLICANT_PROFILE_EDUCATION_POST,
