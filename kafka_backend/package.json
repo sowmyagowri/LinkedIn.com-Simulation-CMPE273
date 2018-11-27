@@ -15,6 +15,7 @@
     "bson": "^4.0.0",
     "kafka-node": "3.0.1",
     "mongoose": "5.3.7",
-    "mysql": "github:mysqljs/mysql"
+    "mysql": "github:mysqljs/mysql",
+    "redis": "^2.8.0"
   }
 }
