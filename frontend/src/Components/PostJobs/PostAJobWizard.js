@@ -4,7 +4,8 @@ import {
   renderFieldLarge,
   renderEmploymentType,
   renderJobDescription,
-  renderDatePicker
+  renderDatePicker,
+  renderCheckbox
 } from "./renderField";
 import { connect } from "react-redux";
 
@@ -19,6 +20,7 @@ class PostAJobWizard extends Component {
         <div className="container">
           <br />
           <div style={{ fontSize: "150%" }}>What job do you want to post?</div>
+
           <br />
           <div className="row">
             <div className="col-4">
@@ -118,8 +120,21 @@ class PostAJobWizard extends Component {
               />
             </div>
           </div>
+          <br/>
+          <div className="row">
+         
+          <div className="col-4 offset-4">
+              <Field
+                name="easyapply"
+                component={renderCheckbox}
+                label="Easy Application"
+                validate={[required]}
+              />
+              </div>
+             
+          </div>
+          <br/>
           <br />
-
           <div className="row">
             <div className="col-4">
               <span style={{ color: "#0073b1" }}>*</span>&nbsp;Required

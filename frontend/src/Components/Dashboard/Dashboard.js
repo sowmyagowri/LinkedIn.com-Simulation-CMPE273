@@ -47,13 +47,14 @@ class RecruiterDashboard extends Component {
               <br />
               <br />
               <div className="col-4">
-                <div 
-                            onClick={() => {
-                                this.props.history.push({
-                                  pathname: "/jobs"
-                                });
-                              }}
-                class="card shadow-lg text-center dashItem">
+                <div
+                  onClick={() => {
+                    this.props.history.push({
+                      pathname: "/jobs"
+                    });
+                  }}
+                  class="card shadow-lg text-center dashItem"
+                >
                   <div class="card-body">
                     <br />
                     <br />
@@ -66,12 +67,13 @@ class RecruiterDashboard extends Component {
               <br />
               <div className="col-4">
                 <div
-                            onClick={() => {
-                                this.props.history.push({
-                                  pathname: "/graphs"
-                                });
-                              }}
-                class="card shadow-lg text-center dashItem">
+                  onClick={() => {
+                    this.props.history.push({
+                      pathname: "/graphs"
+                    });
+                  }}
+                  class="card shadow-lg text-center dashItem"
+                >
                   <div class="card-body">
                     <br />
                     <br />

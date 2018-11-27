@@ -18,8 +18,8 @@ class Jobs extends Component {
     if (this.props.jobsState.jobs.length) {
       jobs = this.props.jobsState.jobs.map(job => {
         return (
-          <div  key={v4()} className="dashItem">
-            <div  className="card shadow-lg ">
+          <div className="dashItem">
+            <div key={v4()} className="card shadow-lg ">
               <div className="card-body">
                 <div className="row">
                   <div className="col-3 text-center">
@@ -57,7 +57,7 @@ class Jobs extends Component {
                   <div className="col-4 ">
                     <button
                       type="button"
-                      className="btn btn-block blueBackground text-white"
+                      class="btn btn-block blueBackground text-white"
                     >
                       <FontAwesomeIcon
                         style={{ color: "#e6e6e6" }}
@@ -71,7 +71,7 @@ class Jobs extends Component {
 
                     <button
                       type="button"
-                      className="btn btn-block blueBackground text-white"
+                      class="btn btn-block blueBackground text-white"
                     >
                       <FontAwesomeIcon
                         style={{ color: "#e6e6e6" }}
@@ -130,7 +130,7 @@ class Jobs extends Component {
             <div className="col-2">
               <button
                 type="button"
-                className="btn btn-block btn-lg blueBackground text-white shadow-lg"
+                class="btn btn-block btn-lg blueBackground text-white shadow-lg"
               >
           
                 Search

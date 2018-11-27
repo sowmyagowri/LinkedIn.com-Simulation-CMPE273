@@ -115,3 +115,26 @@ export const renderDatePicker = ({
     </div>
   </div>
 );
+
+export const renderCheckbox = ({
+  input,
+  label,
+  maxLength,
+  type,
+  meta: { touched, error }
+}) => (
+  <div class="form-check form-check-inline">
+  <br/>
+    <input
+      {...input}
+      placeholder={label}
+      type="checkbox"
+      className="form-check-input"
+      id="asdf"
+    /> &nbsp;&nbsp;&nbsp;&nbsp;
+    <label class="form-check-label" for="asdf">
+      {label}      <span style={{ color: "#0073b1" }}>*</span>
+
+    </label>
+  </div>
+);
