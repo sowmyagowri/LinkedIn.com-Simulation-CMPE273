@@ -28,6 +28,9 @@ let logEventService = require('./services/logEvent');
 let graphLogEvent = require('./services/graphLogEvent');
 let sendMessageService = require('./services/sendMessageService');
 let getAllMessagesService = require('./services/getAllMessagesService');
+let sendConnectionRequestService = require('./services/sendConnectionRequest');
+let connectionResponse = require('./services/connectionResponse');
+let getAllConnections = require('./services/getAllConnection');
 
 //import kafka topics
 const {
@@ -42,7 +45,8 @@ const {
     EDIT_JOB_REQUEST, UPDATE_JOB_VIEWS_REQUEST,
     GRAPHS_CLICK_PER_JOB_REQUEST, GRAPHS_TOP_JOB_POSTINGS_REQUEST, UPDATE_JOB_CLICKS_REQUEST,
     GRAPHS_UNPOPULAR_JOB_POSTINGS_REQUEST, GRAPHS_CITYWISE_APPLICATION_REQUEST, LOG_EVENT_REQUEST,
-    GRAPHS_LOG_EVENT_REQUEST, SEND_MESSAGE_REQUEST, GET_ALL_MESSAGES_REQUEST
+    GRAPHS_LOG_EVENT_REQUEST, SEND_MESSAGE_REQUEST, GET_ALL_MESSAGES_REQUEST,
+    SEND_CONNECTION_REQUEST, GET_ALL_CONNECTION_REQUEST, CONNECTION_RESPONSE_REQUEST,
 } = require('./kafka/topics');
 
 function handleTopicRequest(topic_name, fname) {
@@ -105,4 +109,7 @@ handleTopicRequest(LOG_EVENT_REQUEST, logEventService);
 handleTopicRequest(GRAPHS_LOG_EVENT_REQUEST, graphLogEvent);
 handleTopicRequest(SEND_MESSAGE_REQUEST, sendMessageService);
 handleTopicRequest(SIGNIN_APPLICANT_REQUEST_TOPIC, signinApplicantService);
-handleTopicRequest(GET_ALL_MESSAGES_REQUEST, getAllMessagesService)
+handleTopicRequest(GET_ALL_MESSAGES_REQUEST, getAllMessagesService);
+handleTopicRequest(SEND_CONNECTION_REQUEST, sendConnectionRequestService);
+handleTopicRequest(CONNECTION_RESPONSE_REQUEST, connectionResponse);
+handleTopicRequest(GET_ALL_CONNECTION_REQUEST, getAllConnections);
