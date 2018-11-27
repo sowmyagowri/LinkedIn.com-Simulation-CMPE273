@@ -82,9 +82,12 @@ class Profile extends Component{
     updateSkills () {
         const email = JSON.parse(localStorage.getItem(userConstants.USER_DETAILS)).email;
         const token =  JSON.parse(localStorage.getItem(userConstants.AUTH_TOKEN));
-        var data = this.state.skills
+        var data = {
+            email: email,
+            skills: this.state.skills
+        }
         
-        this.props.applicantprofileskills(email, token, data).then(response => {
+        this.props.applicantprofileskills(data, token).then(response => {
             console.log("response:", response);
             if(response.payload.status === 200){
                 console.log("Profile Skills Updated Successfully")
@@ -858,12 +861,11 @@ class Experience extends Component {
             }
             var experiencelist = this.props.experiencelist
             experiencelist.push(newExperience)
-            var data = experiencelist
-            var userData = {
+            var data = {
                 email: email,
                 experiencelist : experiencelist
             }
-            this.props.applicantprofileexperience(userData, token).then(response => {
+            this.props.applicantprofileexperience(data, token).then(response => {
                 console.log("response:", response);
                 if(response.payload.status === 200){
                     console.log("Profile Experience Updated Successfully")
@@ -1017,19 +1019,18 @@ class Education extends Component {
             }
             var educationlist = this.props.educationlist
             educationlist.push(newEducation)
-            var data = educationlist
-            var userData = {
+            var data = {
                 email: email,
-                educationlist : data
+                educationlist : educationlist
             }
-            this.props.applicantprofileeducation(userData, token).then(response => {
+            this.props.applicantprofileeducation(data, token).then(response => {
                 console.log("response:", response);
                 if(response.payload.status === 200){
                     console.log("Profile Education Updated Successfully")
                 }
             })
         }
-    } 
+    }
 
     changeHandler = (e) => {
         const state = {

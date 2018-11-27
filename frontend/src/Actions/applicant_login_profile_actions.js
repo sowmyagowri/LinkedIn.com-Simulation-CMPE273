@@ -107,22 +107,18 @@ export async function applicantprofileeducation(data, tokenFromStorage) {
 }
 
 //target action for applicant profile skills update
-export function applicantprofileskills(email, tokenFromStorage, data) {
+export async function applicantprofileskills(data, tokenFromStorage) {
   console.log("inside applicant profile skills update action")
-  console.log(email)
+  console.log(data)
   console.log(tokenFromStorage);
   var config = {
     headers: {'Authorization': tokenFromStorage,
-              'Content-Type': 'application/json'
+              'Content-Type': 'application/json',
+              withCredentials : true
     }
   };
   axios.defaults.withCredentials = true;
-  const response =  axios.get(URI.ROOT_URL + '/post_applicant_profile_skills/' , {
-    params: {
-      email
-    } , 
-    ...config
-  });
+  const response =  axios.post(URI.ROOT_URL + '/post_applicant_profile_skills/' , data, config);
   console.log("Response", response);
   return {
     type: userConstants.APPLICANT_PROFILE_SKILLS_POST,
