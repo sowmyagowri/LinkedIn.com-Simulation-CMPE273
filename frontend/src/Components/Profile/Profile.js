@@ -7,6 +7,7 @@ import { withRouter} from 'react-router-dom';
 import { connect } from "react-redux";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { userConstants } from '../../constants';
+import URI from '../../constants/URI';
 import { getapplicantprofile, applicantprofilephoto, applicantprofilesummary, applicantprofileexperience, applicantprofileeducation, applicantprofileskills } from '../../Actions/applicant_login_profile_actions';
 
 class Profile extends Component{
@@ -154,7 +155,6 @@ class Profile extends Component{
           [e.target.name]: e.target.value,
           }
 
-        console.log(state)
         this.setState(state);
     }
 
@@ -437,7 +437,8 @@ class Profile extends Component{
                         <div className="row">
                             <div className="col-xs-12 col-sm-4 text-center"> 
                             {this.state.profiledata.profilePicture === undefined  || this.state.profiledata.profilePicture === "" ?
-                                <img src= "/images/avatar.png" alt="" className="center-block img-circle rounded-circle img-thumbnail img-responsive"/> : <img src = {this.state.profiledata.profilePicture} alt="" className="center-block img-circle rounded-circle img-thumbnail img-responsive"/>}
+                                <img src= "/images/avatar.png" alt="" className="center-block img-circle rounded-circle img-thumbnail img-responsive"/> : 
+                                <img src = {URI.ROOT_URL + "/uploads/" + this.state.profiledata.profilePicture} alt="" className="center-block img-circle rounded-circle img-thumbnail img-responsive"/>}
                                 <div className="rank-label-container">
                                   <input id='fileid' type='file' onChange={this.profilephotochangeHandler} hidden/>
                                   <button type="file" className ="btn btn-default btn-icon-circle" onClick={this.openFileDialog}>
@@ -1209,6 +1210,7 @@ function validateEducation(school, degree, schoolfromYear, schooltoYear) {
 function mapStateToProps(state) {
     return {
         getapplicantprofile: state.getapplicantprofile,
+        applicantprofilephoto: state.applicantprofilephoto,
         applicantprofilesummary : state.applicantprofilesummary, 
         applicantprofileexperience : state.applicantprofileexperience, 
         applicantprofileeducation :  state.applicantprofileeducation, 

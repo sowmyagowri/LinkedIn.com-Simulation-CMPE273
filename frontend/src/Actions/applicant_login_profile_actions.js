@@ -63,7 +63,7 @@ export async function applicantprofilephoto(data, tokenFromStorage) {
   const response = await axios.post(URI.ROOT_URL + '/post_applicant_profile_photo/' , data, config);
   console.log("Response", response);
   return {
-    type: userConstants.APPLICANT_PROFILE_SUMMARY_POST,
+    type: userConstants.APPLICANT_PROFILE_PHOTO_POST,
     payload: response
   };
 }
