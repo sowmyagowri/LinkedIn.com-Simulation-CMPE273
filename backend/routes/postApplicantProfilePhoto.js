@@ -22,26 +22,39 @@ var upload = multer({ storage : storage })
  *  below "/" is relative resource path, the actual resource path is /post_job/
  * 
  */
-router.post("/", (req, res) => {
-    console.log("Inside post applicant Profile Education controller");
-    console.log("POST APPLICANT PROFILE EDUCATION: ", req.body);
-    let errors = validateInput(req);
-    if (errors) {
-        let msg = errors.map(error => error.msg).reduce((accumulator, currentVal) => accumulator + "\n" + currentVal);
-        sendBadRequest(res, {
-            detail: msg
-        });
-    }
-    else {
-        kafka.make_request(POST_APPLICANT_PROFILE_PHOTO_REQUEST, POST_APPLICANT_PROFILE_PHOTO_RESPONSE, req.body, function (err, result) {
-            if (err) {
-                // called in case of time out error, or if we failed to send data over kafka
-                sendInternalServerError(res);
-            } else {
-                responseHandler(res, result);
-            }
-        });
-    }
+
+router.post("/", upload.any(), function(req,res){
+
+    console.log("I AM HERE", req.files);
+    // var filename;
+    // req.files.map(file => {
+    //     filename = file.filename;
+    // });
+    // console.log(filename);
+
+    // var stringObj = JSON.stringify(filenamearray);
+    // console.log(stringObj);
+    // console.log("In Owner Property Post");
+
+    // console.log("Inside post applicant Profile Education controller");
+    // console.log("POST APPLICANT PROFILE EDUCATION: ", req.body);
+    // let errors = validateInput(req);
+    // if (errors) {
+    //     let msg = errors.map(error => error.msg).reduce((accumulator, currentVal) => accumulator + "\n" + currentVal);
+    //     sendBadRequest(res, {
+    //         detail: msg
+    //     });
+    // }
+    // else {
+    //     kafka.make_request(POST_APPLICANT_PROFILE_PHOTO_REQUEST, POST_APPLICANT_PROFILE_PHOTO_RESPONSE, req.body, function (err, result) {
+    //         if (err) {
+    //             // called in case of time out error, or if we failed to send data over kafka
+    //             sendInternalServerError(res);
+    //         } else {
+    //             responseHandler(res, result);
+    //         }
+    //     });
+    // }
 });
 
 

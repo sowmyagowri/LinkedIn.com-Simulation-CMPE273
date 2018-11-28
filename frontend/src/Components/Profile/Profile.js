@@ -7,7 +7,7 @@ import { withRouter} from 'react-router-dom';
 import { connect } from "react-redux";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { userConstants } from '../../constants';
-import { getapplicantprofile, applicantprofilesummary, applicantprofileexperience, applicantprofileeducation, applicantprofileskills } from '../../Actions/applicant_login_profile_actions';
+import { getapplicantprofile, applicantprofilephoto, applicantprofilesummary, applicantprofileexperience, applicantprofileeducation, applicantprofileskills } from '../../Actions/applicant_login_profile_actions';
 
 class Profile extends Component{
     constructor(props){
@@ -136,16 +136,22 @@ class Profile extends Component{
             profilePicture : event.target.files[0].name
         })
 
-        
+        console.log("Profile picture", this.state.profilePicture);
+        const email = JSON.parse(localStorage.getItem(userConstants.USER_DETAILS)).email;
+        const token =  JSON.parse(localStorage.getItem(userConstants.AUTH_TOKEN));
 
-        // const state = {
-        //     ...this.state,
-        //     profiledata: {
-        //         ...this.state.profiledata,
-        //         profilePicture : this.state.profilePicture
-        //     }
-        // }
-        // this.setState(state);
+        const data = {
+            email: email,
+            profilePicture : this.state.profilePicture,
+        }
+        console.log(data);
+
+        this.props.applicantprofilephoto(data, token).then(response => {
+            console.log("response:", response);
+            if(response.payload.status === 200){
+                console.log("Profile Image Updated Successfully")
+            }
+        })
     }
      
     changeHandler = (e) => {
@@ -1218,4 +1224,4 @@ function mapStateToProps(state) {
 
 export default withRouter(reduxForm({
 form: "Applicant_profile"
-})(connect(mapStateToProps, { getapplicantprofile, applicantprofilesummary, applicantprofileexperience, applicantprofileeducation, applicantprofileskills })(Profile)));
+})(connect(mapStateToProps, { getapplicantprofile, applicantprofilephoto, applicantprofilesummary, applicantprofileexperience, applicantprofileeducation, applicantprofileskills })(Profile)));
