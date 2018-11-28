@@ -26,7 +26,7 @@ function addJobs() {
         'Full Time', 'Internship'
     ]
 
-    for (var i = 2; i < 1000; i++) {
+    for (var i = 0; i < 10000; i++) {
         console.log("Created Job", i);
         var data = {
             recruiterID : recruiter_id[Math.floor(Math.random()*recruiter_id.length)],
