@@ -6,146 +6,106 @@ import { connect } from "react-redux";
 import { getRecruiterJobs } from "../../Actions/PostJobActions";
 import { v4 } from "node-uuid";
 import moment from "moment";
+import { Document, Page } from "react-pdf";
+import { pdfjs } from "react-pdf";
+
+pdfjs.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/${
+  pdfjs.version
+}/pdf.worker.js`;
+
 class Jobs extends Component {
   componentWillMount() {
     this.props.getRecruiterJobs();
   }
 
+  state = {
+    numPages: null,
+    pageNumber: 1
+  };
+
+  onDocumentLoadSuccess = ({ numPages }) => {
+    this.setState({ numPages });
+  };
+
   render() {
-    let jobs = null;
-    let errors = null;
-
-    if (this.props.jobsState.jobs.length) {
-      jobs = this.props.jobsState.jobs.map(job => {
-        return (
-          <div className="dashItem">
-            <div key={v4()} className="card shadow-lg ">
-              <div className="card-body">
-                <div className="row">
-                  <div className="col-3 text-center">
-                    <img
-                      className="img-thumbnail"
-                      alt=""
-                      src={job.company_logo}
-                      style={{ border: "none", width: "70%" }}
-                    />
-                  </div>
-
-                  <div className="col-5">
-                    <h5
-                      style={{ fontWeight: "500" }}
-                      className="linkBlue"
-                      href="/"
-                    >
-                      {job.title}
-                    </h5>
-                    <h5>{job.company}</h5>
-                    <FontAwesomeIcon
-                      style={{ color: "#e6e6e6" }}
-                      className="fa-map-marker-alt"
-                      icon="map-marker-alt"
-                    />
-                    &nbsp;&nbsp;{job.location} <br />
-                    <FontAwesomeIcon
-                      style={{ color: "#e6e6e6" }}
-                      className="calendar-alt"
-                      icon="calendar-alt"
-                    />
-                    &nbsp;&nbsp;{moment(job.expiry_date).format("MM/DD/YYYY")}{" "}
-                    <br />
-                  </div>
-                  <div className="col-4 ">
-                    <button
-                      type="button"
-                      class="btn btn-block blueBackground text-white"
-                    >
-                      <FontAwesomeIcon
-                        style={{ color: "#e6e6e6" }}
-                        className="scroll"
-                        icon="scroll"
-                      />
-                      &nbsp; View Applications
-                    </button>
-                    <br />
-                    <br />
-
-                    <button
-                      type="button"
-                      class="btn btn-block blueBackground text-white"
-                    >
-                      <FontAwesomeIcon
-                        style={{ color: "#e6e6e6" }}
-                        className="edit"
-                        icon="edit"
-                      />
-                      &nbsp; Edit Posting{" "}
-                    </button>
-                  </div>
-                  <hr />
-                </div>
-              </div>
-            </div>
-            <br />
-            <br />
-          </div>
-        );
-      });
-    }
-
-    if (this.props.jobsState.jobs.length === 0) {
-      errors = (
-        <div className="col-6  text-center">
-          <br />
-          <br />
-          <img alt="" src="images/nojobs.png" />
-          <br />
-          <br />
-          <span style={{ fontSize: "150%" }}>
-            Sorry, there are no jobs to display.
-          </span>
-          <br />
-          <br /> <br />
-          <br />
-        </div>
-      );
-    }
+    const { pageNumber, numPages } = this.state;
 
     return (
       <div>
         <PostJobNav />
-        <br />
-        <br />
-        <br />
-        <div className="container">
-          <div className="row">
-            <div className="col-6 offset-2">
-              <input
-                type="text"
-                className="form-control form-control-lg shadow-lg"
-                placeholder="Search"
-                aria-label="Sizing example input"
-              />
-            </div>
 
-            <div className="col-2">
-              <button
-                type="button"
-                class="btn btn-block btn-lg blueBackground text-white shadow-lg"
-              >
-          
-                Search
-              </button>
+        <div className="container">
+          <br />
+          <br />
+          <br />
+
+          <div className="card shadow-lg">
+            <div className="card-body">
+              <div className="row">
+                <div className="col-1">
+                  <img
+                    src="http://via.placeholder.com/80"
+                    className="float-left"
+                    alt=""
+                  />
+                </div>
+
+                <div className="col-4">
+                  <h5 className="card-title">John Doe</h5>
+                  <h6 className="card-subtitle mb-2 text-muted">Position</h6>
+                  <h6 className="card-subtitle mb-2 ">Date of Application</h6>
+                </div>
+                <div className="col-4 offset-3">
+                  <button
+                    type="button"
+                    data-toggle="modal"
+                    data-target="#ResumeModal"
+                    className="btn btn-block blueBackground text-white"
+                  >
+                    {" "}
+                    <FontAwesomeIcon
+                      style={{ color: "#e6e6e6" }}
+                      className="scroll"
+                      icon="scroll"
+                    />{" "}
+                    &nbsp; View Resume
+                  </button>
+                  <button
+                    type="button"
+                    className="btn btn-block blueBackground text-white"
+                  >
+                    <FontAwesomeIcon
+                      style={{ color: "#e6e6e6" }}
+                      className="user-circle"
+                      icon="user-circle"
+                    />{" "}
+                    &nbsp; View Profile
+                  </button>
+                </div>
+              </div>
             </div>
           </div>
-          <br />
-        <br />
-          <hr/>
-          <div className="row">
-            {errors}
-            <div className="col-10 offset-1">
-              <br />
-              <br />
-              {jobs}
+        </div>
+
+        <div
+          className="modal fade bd-example-modal-lg"
+          id="ResumeModal"
+          tabindex="-1"
+          role="dialog"
+        >
+          <div className="modal-dialog modal-lg">
+            <div className="modal-content">
+              <div className="row">
+                <div className="col-8 offset-1">
+                  <Document
+                    classname="jodField"
+                    file="Resume_AkhileshAnand.pdf"
+                    onLoadSuccess={this.onDocumentLoadSuccess}
+                  >
+                    <Page pageNumber={pageNumber} />
+                  </Document>
+                </div>
+              </div>
             </div>
           </div>
         </div>

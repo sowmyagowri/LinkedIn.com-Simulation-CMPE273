@@ -19,6 +19,7 @@ async function handle_request(msg, callback) {
             company_logo: msg.companyLogo,
             posted_date: msg.postedDate,
             expiry_date: msg.expiryDate,
+            easy_apply:msg.easy_apply
         });
         let job = await jobs.save();
         resp = prepareSuccess({ "jobID": job._id });

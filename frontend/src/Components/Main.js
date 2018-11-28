@@ -16,6 +16,7 @@ import PostAJobHeader from './PostJobs/PostJobHeader'
 import Jobs from './PostJobs/Jobs'
 import RecruiterGraphs from './Dashboard/Graphs'
 import RecruiterDashboard from './Dashboard/Dashboard'
+import Applications from './PostJobs/Applications'
 
 class Main extends Component {
     render(){
@@ -39,6 +40,8 @@ class Main extends Component {
                 <Route path="/jobs" component={Jobs}/>
                 <Route path="/graphs/" component={RecruiterGraphs}/>
                 <Route path="/recruiterdash/" component={RecruiterDashboard}/>
+                <Route path="/Applications/" component={Applications}/>
+
                 </Switch>
             </div>
         )

@@ -125,7 +125,7 @@ class PostAJobWizard extends Component {
          
           <div className="col-4 offset-4">
               <Field
-                name="easyapply"
+                name="easy_apply"
                 component={renderCheckbox}
                 label="Easy Application"
                 validate={[required]}
