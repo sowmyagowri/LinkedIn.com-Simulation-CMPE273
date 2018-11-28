@@ -1,5 +1,6 @@
 /** require dependencies */
 const express = require("express");
+var path = require('path');
 const bodyParser = require('body-parser');
 var cookieParser = require('cookie-parser');
 
@@ -69,6 +70,7 @@ app.use("/signup_recruiter/", signupRecruiter);
 app.use("/signup_applicant/", signupApplicant);
 app.use("/signin_recruiter/", signinRecruiter);
 app.use("/signin_applicant/", signinApplicant);
+app.use('/uploads', express.static(path.join(__dirname, '/uploads/')));
 
 // Add routes above this line if they do not require passport authentication
 // Add passport Authentication code will go here
