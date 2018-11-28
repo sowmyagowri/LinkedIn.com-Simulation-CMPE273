@@ -439,7 +439,6 @@ class Profile extends Component{
                             {this.state.profiledata.profilePicture === undefined  || this.state.profiledata.profilePicture === "" ?
                                 <img src= "/images/avatar.png" alt="" className="center-block img-circle rounded-circle img-thumbnail img-responsive"/> : 
                                 <img src = {URI.ROOT_URL + "/uploads/" + this.state.profiledata.profilePicture} alt="" className="center-block img-circle rounded-circle img-thumbnail img-responsive"/>}
-                                {/* <img src={`http://localhost:5000/uploads/${this.state.profiledata.profilePicture}`} alt="" className="center-block img-circle rounded-circle img-thumbnail img-responsive"/>} */}
                                 <div className="rank-label-container">
                                   <input id='fileid' type='file' onChange={this.profilephotochangeHandler} hidden/>
                                   <button type="file" className ="btn btn-default btn-icon-circle" onClick={this.openFileDialog}>
@@ -450,7 +449,6 @@ class Profile extends Component{
                             <h3>{this.state.profiledata.firstName}&nbsp;{this.state.profiledata.lastName}</h3>
                             <p>{this.state.profiledata.state}</p>
                            {this.state.profiledata.address ? <p><strong>Address: </strong> {this.state.profiledata.address} </p>  : (null)}
-                            {/* <p><strong>City: </strong> <span className="label label-info tags"></span> <span className="label label-info tags"></span> </p> */}
                           </div>
                         </div>
                         <hr/>
