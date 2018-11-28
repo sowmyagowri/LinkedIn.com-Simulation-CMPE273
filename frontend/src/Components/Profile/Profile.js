@@ -129,27 +129,21 @@ class Profile extends Component{
         console.log(file)
         var formData = new FormData();
 
-        formData.append("description", 'selectedFile')
-        formData.append("selectedFile", file);
-        console.log(formData);
-        this.setState ({
-            profilePicture : event.target.files[0].name
-        })
-
-        console.log("Profile picture", this.state.profilePicture);
         const email = JSON.parse(localStorage.getItem(userConstants.USER_DETAILS)).email;
-        const token =  JSON.parse(localStorage.getItem(userConstants.AUTH_TOKEN));
-
-        const data = {
-            email: email,
-            profilePicture : this.state.profilePicture,
+        formData.append('email', email)
+        formData.append('uploadedPhoto', file);
+        
+        
+        // Display the key/value pairs
+        for (var pair of formData.entries()) {
+            console.log(pair[0]+ ', ' + pair[1]); 
         }
-        console.log(data);
 
-        this.props.applicantprofilephoto(data, token).then(response => {
+        const token =  JSON.parse(localStorage.getItem(userConstants.AUTH_TOKEN));
+        this.props.applicantprofilephoto(formData, token).then(response => {
             console.log("response:", response);
             if(response.payload.status === 200){
-                console.log("Profile Image Updated Successfully")
+                console.log("Profile Image Updated Successfully", response.payload.data.profile)
             }
         })
     }
