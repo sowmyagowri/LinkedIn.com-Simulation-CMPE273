@@ -189,7 +189,7 @@ class ProfileEdit extends Component{
         const { title, company, location, fromMonth, fromYear, school, degree, schoolfromYear, schooltoYear, message} = {...this.state};
         let redirectVar = null;
         if( this.state.signedUp ){
-            redirectVar = <Redirect to= "/profile"/>
+            redirectVar = <Redirect to= "/"/>
         }
         return(
           <div className = "profilelocation-wrapper">

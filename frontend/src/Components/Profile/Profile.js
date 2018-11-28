@@ -136,6 +136,8 @@ class Profile extends Component{
             profilePicture : event.target.files[0].name
         })
 
+        
+
         // const state = {
         //     ...this.state,
         //     profiledata: {

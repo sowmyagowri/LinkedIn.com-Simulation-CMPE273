@@ -176,6 +176,8 @@ class Home extends Component{
         }
     }
 
+    
+
     render(){
         const { firstname, lastname, email, password, message, loginemail, loginpassword, islogged } = {...this.state};
         console.log(message)
