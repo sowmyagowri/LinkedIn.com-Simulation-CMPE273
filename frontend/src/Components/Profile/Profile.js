@@ -453,7 +453,6 @@ class Profile extends Component{
                             <h3>{this.state.profiledata.firstName}&nbsp;{this.state.profiledata.lastName}</h3>
                             <p>{this.state.profiledata.state}</p>
                            {this.state.profiledata.address ? <p><strong>Address: </strong> {this.state.profiledata.address} </p>  : (null)}
-                            {/* <p><strong>City: </strong> <span className="label label-info tags"></span> <span className="label label-info tags"></span> </p> */}
                           </div>
                         </div>
                         <hr/>
