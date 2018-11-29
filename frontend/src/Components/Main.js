@@ -17,6 +17,8 @@ import Jobs from './PostJobs/Jobs'
 import RecruiterGraphs from './Dashboard/Graphs'
 import RecruiterDashboard from './Dashboard/Dashboard'
 import Applications from './PostJobs/Applications'
+import RecruiterSigin from './Recruiter/RecruiterSignIn'
+import RecruiterSignUp from './Recruiter/RecruiterSignUp'
 
 class Main extends Component {
     render(){
@@ -41,6 +43,9 @@ class Main extends Component {
                 <Route path="/graphs/" component={RecruiterGraphs}/>
                 <Route path="/recruiterdash/" component={RecruiterDashboard}/>
                 <Route path="/Applications/" component={Applications}/>
+                <Route path="/recruitersignin/" component={RecruiterSigin}/>
+                <Route path="/recruitersignup/" component={RecruiterSignUp}/>
+
 
                 </Switch>
             </div>

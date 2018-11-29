@@ -3,7 +3,7 @@ import PostJobNav from "./PostJobNav";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { withRouter } from "react-router-dom";
 import { connect } from "react-redux";
-import { getRecruiterJobs } from "../../Actions/PostJobActions";
+import { getRecruiterJobs } from "../../Actions/recruiterActions";
 import { v4 } from "node-uuid";
 import moment from "moment";
 import { Document, Page } from "react-pdf";

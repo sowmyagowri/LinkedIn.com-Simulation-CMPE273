@@ -3,9 +3,9 @@ import './App.css';
 import Main from './Components/Main';
 import {BrowserRouter} from 'react-router-dom';
 import { library } from '@fortawesome/fontawesome-svg-core'
-import { faPencilAlt, faUsers, faCalendarAlt, faPlus, faSearch, faMapMarkerAlt, faSuitcase,faEnvelope, faComments, faUserCircle,faLocationArrow, faChartPie, faListUl, faPlug, faScroll, faEdit} from '@fortawesome/free-solid-svg-icons'
+import { faPencilAlt, faUsers, faCalendarAlt, faPlus, faSearch, faMapMarkerAlt, faSuitcase,faEnvelope, faComments, faUserCircle,faLocationArrow, faChartPie, faListUl, faPlug, faScroll, faEdit, faAt,faKey} from '@fortawesome/free-solid-svg-icons'
 
-library.add(faPencilAlt, faUsers, faCalendarAlt, faPlus, faSearch, faMapMarkerAlt, faSuitcase,faEnvelope, faComments, faUserCircle,faLocationArrow, faChartPie, faListUl, faPlug, faScroll, faEdit)
+library.add(faPencilAlt, faUsers, faCalendarAlt, faPlus, faSearch, faMapMarkerAlt, faSuitcase,faEnvelope, faComments, faUserCircle,faLocationArrow, faChartPie, faListUl, faPlug, faScroll, faEdit,faAt,faKey)
 
 class App extends Component {
   render() {

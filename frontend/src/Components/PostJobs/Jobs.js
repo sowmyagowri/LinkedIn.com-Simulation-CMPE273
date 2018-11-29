@@ -3,7 +3,7 @@ import PostJobNav from "./PostJobNav";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { withRouter } from "react-router-dom";
 import { connect } from "react-redux";
-import { getRecruiterJobs } from "../../Actions/PostJobActions";
+import { getRecruiterJobs } from "../../Actions/recruiterActions";
 import { v4 } from "node-uuid";
 import moment from "moment";
 class Jobs extends Component {
@@ -94,7 +94,7 @@ class Jobs extends Component {
 
     if (this.props.jobsState.jobs.length === 0) {
       errors = (
-        <div className="col-6  text-center">
+        <div className="col-6 offset-3 text-center">
           <br />
           <br />
           <img alt="" src="images/nojobs.png" />
