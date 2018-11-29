@@ -32,6 +32,7 @@ let sendConnectionRequestService = require('./services/sendConnectionRequest');
 let connectionResponse = require('./services/connectionResponse');
 let getAllConnections = require('./services/getAllConnection');
 let applyForJobService = require('./services/applyForJob');
+let saveJobService = require('./services/saveJob');
 
 //import kafka topics
 const {
@@ -48,7 +49,7 @@ const {
     GRAPHS_UNPOPULAR_JOB_POSTINGS_REQUEST, GRAPHS_CITYWISE_APPLICATION_REQUEST, LOG_EVENT_REQUEST,
     GRAPHS_LOG_EVENT_REQUEST, SEND_MESSAGE_REQUEST, GET_ALL_MESSAGES_REQUEST,
     SEND_CONNECTION_REQUEST, GET_ALL_CONNECTION_REQUEST, CONNECTION_RESPONSE_REQUEST,
-    APPLY_FOR_JOB_REQUEST
+    APPLY_FOR_JOB_REQUEST, SAVE_JOB_REQUEST
 } = require('./kafka/topics');
 
 function handleTopicRequest(topic_name, fname) {
@@ -116,3 +117,4 @@ handleTopicRequest(SEND_CONNECTION_REQUEST, sendConnectionRequestService);
 handleTopicRequest(CONNECTION_RESPONSE_REQUEST, connectionResponse);
 handleTopicRequest(GET_ALL_CONNECTION_REQUEST, getAllConnections);
 handleTopicRequest(APPLY_FOR_JOB_REQUEST, applyForJobService);
+handleTopicRequest(SAVE_JOB_REQUEST, saveJobService);

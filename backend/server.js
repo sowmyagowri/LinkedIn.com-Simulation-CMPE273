@@ -34,6 +34,7 @@ let sendConnectionRequest = require('./routes/sendConnectionRequest');
 let connectionResponse = require('./routes/connectionResponse');
 let getAllConnections = require('./routes/getAllConnections');
 let applyForJob  = require('./routes/applyForJob');
+let saveJob = require('./routes/saveJob');
 
 let expressValidator = require("express-validator");
 var morgan = require('morgan');
@@ -104,6 +105,7 @@ app.use("/makeConnectionRequest", sendConnectionRequest);
 app.use("/connectionResponse", connectionResponse);
 app.use("/getConnections", getAllConnections);
 app.use("/apply_for_job/", applyForJob);
+app.use("/save_job/", saveJob);
 
 /** start server */
 app.listen(port, () => {
