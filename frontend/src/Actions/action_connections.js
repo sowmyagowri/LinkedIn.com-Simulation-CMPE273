@@ -21,7 +21,7 @@ export function makeconnections(data, tokenFromStorage) {
 }
 
 //target action getAllConnections Request 
-export function getAllConnections(data, tokenFromStorage) {
+export function getAllConnections(tokenFromStorage) {
   console.log("inside Get All Connections action")
   var config = {
     headers: {'Authorization': tokenFromStorage,
@@ -30,7 +30,7 @@ export function getAllConnections(data, tokenFromStorage) {
     }
   };
   axios.defaults.withCredentials = true;
-  const response =  axios.post(URI.ROOT_URL + '/getConnections/', data, config);
+  const response =  axios.get(URI.ROOT_URL + '/getConnections/', config);
   console.log("Response", response);
   return {
     type: userConstants.GET_ALL_CONNECTIONS,

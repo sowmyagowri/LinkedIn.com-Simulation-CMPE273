@@ -7,7 +7,7 @@ import { reduxForm } from "redux-form";
 import { withRouter} from 'react-router-dom';
 import { connect } from "react-redux";
 import { userConstants } from '../../constants';
-import { makeconnections } from '../../Actions/action_connections';
+import { getAllConnections, makeconnections } from '../../Actions/action_connections';
 
 class SearchPeople extends Component{
     constructor(props){
@@ -15,34 +15,62 @@ class SearchPeople extends Component{
         this.state = {
             searchresults : "",
             isLoading : false,
-            filteredResults : [{
-                profilePicture : "/images/avatar.png",
-                firstName : "Akhi",
-                lastName : "Anand",
-                description : "Senior Accountant at asfasfasff",
-                email : "akhi@gmail.com"
-            },{
-                profilePicture : "/images/avatar.png",
-                firstName : "Nrupa",
-                lastName : "Chitley",
-                description : "Senior Accountant at asfasfasff",
-                email : "replica.recruiter@sjsu.edu"
-            }]
+            filteredResults : "",
+            connectionResults : [],
         };
         this.sendRequest = this.sendRequest.bind(this)
     }
 
     componentDidMount() {
         //call to action
-        const token =  JSON.parse(localStorage.getItem(userConstants.AUTH_TOKEN));
+        var filteredResults =  [{
+            profilePicture : "/images/avatar.png",
+            firstName : "Akhi",
+            lastName : "Anand",
+            description : "Senior Accountant at asfasfasff",
+            email : "akhi@gmail.com"
+        },{
+            profilePicture : "/images/avatar.png",
+            firstName : "Nrupa",
+            lastName : "Chitley",
+            description : "Senior Accountant at asfasfasff",
+            email : "replica.recruiter@sjsu.edu"
+        }]
         this.setState ({
-            searchresults : this.state.filteredResults.length
+            filteredResults : filteredResults,
+            searchresults : filteredResults.length
+        })
+        const token =  JSON.parse(localStorage.getItem(userConstants.AUTH_TOKEN));
+        this.props.getAllConnections(token).then(response => {
+            console.log("response:", response);
+            if(response.payload.status === 200){
+                var connectionResults = []
+                var approved = response.payload.data.connections.connectionsApproved
+                var incoming = response.payload.data.connections.connectionsIncoming
+                var outgoing = response.payload.data.connections.connectionsOutgoing
+                if(approved.length > 0) {
+                    for (var i = 0; i < approved.length; i++) {
+                        connectionResults.push(JSON.parse(JSON.stringify(approved[i].email)))
+                    }                }
+                if(incoming.length > 0) {
+                    for (var i = 0; i < incoming.length; i++) {
+                        connectionResults.push(JSON.parse(JSON.stringify(incoming[i].email)))
+                    }                }
+                if(outgoing.length > 0) {
+                    for (var i = 0; i < outgoing.length; i++) {
+                        connectionResults.push(JSON.parse(JSON.stringify(outgoing[i].email)))
+                    }
+                }
+
+                this.setState ({
+                    connectionResults : connectionResults
+                })
+            }   
         })
     }
 
 
     sendRequest = (event, i) => {
-        const email = JSON.parse(localStorage.getItem(userConstants.USER_DETAILS)).email;
         const token =  JSON.parse(localStorage.getItem(userConstants.AUTH_TOKEN));
         var data = {
             receiver : {
@@ -57,9 +85,19 @@ class SearchPeople extends Component{
             console.log("response:", response);
             if(response.payload.status === 200){
                 console.log("Send Request Successfully")
-                
+                var receiver =  this.state.filteredResults[i].email
+                var connectionResults = this.state.connectionResults
+                connectionResults.push(receiver)
+                this.setState ({
+                    connectionResults : connectionResults
+                })
             }
         })
+    }
+
+    checkcondition = (email) => {
+        var result = this.state.connectionResults.includes(email)
+        return result
     }
 
     listUsers () {
@@ -83,7 +121,9 @@ class SearchPeople extends Component{
                                     </div>
                                 </div>
                                 <div className = "invitation-card__action-container pl3 pr5">
-                                        <button type="button" className="btn arteco-btn" style = {{width : "150px"}} onClick = {(event) => self.sendRequest(event,i)}>Send Request</button>
+                                        {!self.checkcondition(filteredResults[i].email) ? 
+                                        <button type="button" className="btn arteco-btn" style = {{width : "150px"}} onClick = {(event) => self.sendRequest(event,i)}>Send Request</button> 
+                                        : (null)}
                                         <button type="button" className="btn arteco-btn-save" style={{ marginLeft: "10px", width : "100px" }}>Message</button>
                                 </div>  
                                 </div>
@@ -117,10 +157,11 @@ class SearchPeople extends Component{
 
 function mapStateToProps(state) {
     return {
-        makeconnections: state.makeconnections
+        makeconnections: state.makeconnections,
+        getAllConnections : state.getAllConnections
     };
 }
 
 export default withRouter(reduxForm({
 form: "Search_People"
-})(connect(mapStateToProps, { makeconnections })(SearchPeople)));
+})(connect(mapStateToProps, { makeconnections, getAllConnections })(SearchPeople)));
