@@ -18,12 +18,12 @@ class PostJobNav extends Component {
 
             <ul className="nav navbar-nav mx-auto">
               <li className="nav-item">
-                <a className="nav-link text-white navlinkhover" href="/recruiterdash">
+                <a className="nav-link text-white navlinkhover" href="/">
                   HOME
                 </a>
               </li>
               <li className="nav-item">
-                <a className="nav-link text-white navlinkhover" href="/postajob">
+                <a className="nav-link text-white navlinkhover" href="/">
                   POST A JOB
                 </a>
               </li>

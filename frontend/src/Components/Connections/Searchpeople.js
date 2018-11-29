@@ -25,10 +25,10 @@ class SearchPeople extends Component{
         //call to action
         var filteredResults =  [{
             profilePicture : "/images/avatar.png",
-            firstName : "Akhi",
-            lastName : "Anand",
+            firstName : "Saranya",
+            lastName : "Soundarrajan",
             description : "Senior Accountant at asfasfasff",
-            email : "akhi@gmail.com"
+            email : "saranya@gmail.com"
         },{
             profilePicture : "/images/avatar.png",
             firstName : "Nrupa",

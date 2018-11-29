@@ -165,7 +165,6 @@ class Profile extends Component{
         if (this.handleValidationProfile()) {
             const email = JSON.parse(localStorage.getItem(userConstants.USER_DETAILS)).email;
             const token =  JSON.parse(localStorage.getItem(userConstants.AUTH_TOKEN));
-            
             const data = {
                 email: email,
                 firstName : this.state.firstname,

@@ -37,3 +37,21 @@ export function getAllConnections(tokenFromStorage) {
     payload: response
   };  
 }
+
+//target action Connection Response Request 
+export function connectionresponse(data, tokenFromStorage) {
+  console.log("inside Get All Connections action")
+  var config = {
+    headers: {'Authorization': tokenFromStorage,
+              'Content-Type': 'application/json',
+              withCredentials : true
+    }
+  };
+  axios.defaults.withCredentials = true;
+  const response =  axios.post(URI.ROOT_URL + '/connectionResponse/', data, config);
+  console.log("Response", response);
+  return {
+    type: userConstants.CONNECTION_RESPONSE,
+    payload: response
+  };  
+}

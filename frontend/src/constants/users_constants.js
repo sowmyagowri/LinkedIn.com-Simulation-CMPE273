@@ -9,6 +9,7 @@ export const userConstants = {
     APPLICANT_PROFILE_PHOTO_POST: 'applicantprofilephoto',
     MAKE_CONNECTION_REQUEST : 'makeconnections',
     GET_ALL_CONNECTIONS : 'getAllConnections',
+    CONNECTION_RESPONSE :'connectionresponse',
     USER_DETAILS:"user_details",
     AUTH_TOKEN: "auth_token"
 };
