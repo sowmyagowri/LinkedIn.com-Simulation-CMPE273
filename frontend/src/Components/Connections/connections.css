@@ -82,6 +82,19 @@
     width : 700px;
 }
 
+.invitation-card1 {
+    /* display: flex; */
+    align-items: inherit;
+    flex-direction: column;
+    background: #fff;
+    visibility: visible;
+    position: relative;
+    opacity: 1;
+    transition: visibility .4s ease-in,opacity .4s ease-in;
+    border-bottom: 1px solid #e6e9ec;
+    width : 900px;
+}
+
 .invitation-card__info-wrapper {
     display: flex;
     flex: 1;

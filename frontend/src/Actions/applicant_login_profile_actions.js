@@ -50,6 +50,24 @@ export async function getapplicantprofile(email, tokenFromStorage) {
   };  
 }
 
+//target action for applicant profile photo update
+export async function applicantprofilephoto(data, tokenFromStorage) {
+  console.log("inside applicant profile photo update action")
+  var config = {
+    headers: {'Authorization': tokenFromStorage,
+              'Content-Type': 'application/json',
+              withCredentials : true
+    }
+  };
+  axios.defaults.withCredentials = true;
+  const response = await axios.post(URI.ROOT_URL + '/post_applicant_profile_photo/' , data, config);
+  console.log("Response", response);
+  return {
+    type: userConstants.APPLICANT_PROFILE_PHOTO_POST,
+    payload: response
+  };
+}
+
 //target action for applicant profile summary update
 export async function applicantprofilesummary(data, tokenFromStorage) {
   console.log("inside applicant profile summary update action")

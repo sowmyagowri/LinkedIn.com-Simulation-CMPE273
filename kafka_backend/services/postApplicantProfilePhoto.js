@@ -2,7 +2,7 @@ var { Users } = require('../models/user');
 const { prepareInternalServerError, prepareSuccess } = require('./responses')
 
 async function handle_request(msg, callback) {
-    console.log("Inside kafka post Applicant profile Education backend");
+    console.log("Inside kafka post Applicant profile Photo backend");
     console.log("In handle request:" + JSON.stringify(msg));
 
     console.log(msg);
@@ -22,7 +22,7 @@ async function handle_request(msg, callback) {
         resp = prepareSuccess({ "profile": profile });
     }
     catch (error) {
-        console.log("Something went wrong while updating profile education! : ", error);
+        console.log("Something went wrong while updating profile photo! : ", error);
         //don't let time out occur, send internal server error
         resp = prepareInternalServerError();
     }

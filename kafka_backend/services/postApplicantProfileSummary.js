@@ -11,23 +11,22 @@ async function handle_request(msg, callback) {
     
     try {
         let profile = await Users.findOneAndUpdate(
-            { email: msg.email },
+            { email: msg.body.email },
             {
                 $set: {
-                    firstName : msg.firstName,
-                    lastName : msg.lastName,
-                    state : msg.state,
-                    zipcode : msg.zipcode,
-                    address : msg.address,
-                    profileSummary : msg.profileSummary,
-                    phoneNumber : msg.phoneNumber,
-                    resume : msg.resume,
-                    profilePicture : msg.profilePicture,
+                    firstName : msg.body.firstName,
+                    lastName : msg.body.lastName,
+                    state : msg.body.state,
+                    zipcode : msg.body.zipcode,
+                    address : msg.body.address,
+                    profileSummary : msg.body.profileSummary,
+                    phoneNumber : msg.body.phoneNumber,
+                    resume : msg.resumeName,
                 }
             },
             {new: true}
         );
-        await db.updateQuery('UPDATE user_profile SET firstName = ?, lastName = ? where email = ?', [msg.firstName, msg.lastName, msg.email]);
+        await db.updateQuery('UPDATE user_profile SET firstName = ?, lastName = ? where email = ?', [msg.body.firstName, msg.body.lastName, msg.body.email]);
         console.log(profile);
         resp = prepareSuccess({ "profile": profile });
     }
