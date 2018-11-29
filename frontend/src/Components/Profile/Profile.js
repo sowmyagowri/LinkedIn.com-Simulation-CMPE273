@@ -7,7 +7,8 @@ import { withRouter} from 'react-router-dom';
 import { connect } from "react-redux";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { userConstants } from '../../constants';
-import { getapplicantprofile, applicantprofilesummary, applicantprofileexperience, applicantprofileeducation, applicantprofileskills } from '../../Actions/applicant_login_profile_actions';
+import URI from '../../constants/URI';
+import { getapplicantprofile, applicantprofilephoto, applicantprofilesummary, applicantprofileexperience, applicantprofileeducation, applicantprofileskills } from '../../Actions/applicant_login_profile_actions';
 
 class Profile extends Component{
     constructor(props){
@@ -25,7 +26,8 @@ class Profile extends Component{
             profilePicture : "",
             experience : [{}],
             education : [{}],
-            resume : "",          
+            resume : "",
+            uploadedresume: "",   
             touchedprofile : {
                 firstname: false,
                 lastname: false,
@@ -114,12 +116,10 @@ class Profile extends Component{
         event.preventDefault();
         var file = event.target.files[0]
         console.log(file)
-        var formData = new FormData();
-        formData.append("description", 'selectedFile')
-        formData.append("selectedFile", file);
-        console.log(formData);
+
         this.setState ({
-            resume : event.target.files[0].name
+            resume : file.name,
+            uploadedresume : file
         })
     }
 
@@ -127,23 +127,29 @@ class Profile extends Component{
         event.preventDefault();
         var file = event.target.files[0]
         console.log(file)
+
+        const email = JSON.parse(localStorage.getItem(userConstants.USER_DETAILS)).email;
         var formData = new FormData();
+        formData.append('email', email)
+        formData.append('uploadedPhoto', file);
+        
+        
+        // Display the formdata key/value pairs
+        for (var pair of formData.entries()) {
+            console.log(pair[0]+ ', ' + pair[1]); 
+        }
 
-        formData.append("description", 'selectedFile')
-        formData.append("selectedFile", file);
-        console.log(formData);
-        this.setState ({
-            profilePicture : event.target.files[0].name
+        const token =  JSON.parse(localStorage.getItem(userConstants.AUTH_TOKEN));
+        this.props.applicantprofilephoto(formData, token).then(response => {
+            console.log("response:", response);
+            if(response.payload.status === 200){
+                console.log("Profile Image Updated Successfully", response.payload.data.profile)
+                this.setState ({
+                    profiledata: { ...this.state.profiledata,  profilePicture : response.payload.data.profile.profilePicture},
+                    profilePicture : response.payload.data.profile.profilePicture
+                })
+            }
         })
-
-        // const state = {
-        //     ...this.state,
-        //     profiledata: {
-        //         ...this.state.profiledata,
-        //         profilePicture : this.state.profilePicture
-        //     }
-        // }
-        // this.setState(state);
     }
      
     changeHandler = (e) => {
@@ -152,7 +158,6 @@ class Profile extends Component{
           [e.target.name]: e.target.value,
           }
 
-        console.log(state)
         this.setState(state);
     }
 
@@ -172,6 +177,18 @@ class Profile extends Component{
                 resume : this.state.resume,
             }
 
+            var formData = new FormData();
+            formData.append('uploadedFile', this.state.uploadedresume);
+            
+            Object.keys(data).forEach(function(key){
+                formData.append(key, data[key]);
+            });
+
+            // Display the formdata key/value pairs
+            for (var pair of formData.entries()) {
+                console.log(pair[0]+ ', ' + pair[1]); 
+            }
+
             const state = {
                 ...this.state,
                 profiledata: {
@@ -187,10 +204,13 @@ class Profile extends Component{
                 }
             }
             this.setState(state);
-            this.props.applicantprofilesummary(data, token).then(response => {
+            this.props.applicantprofilesummary(formData, token).then(response => {
                 console.log("response:", response);
                 if(response.payload.status === 200){
                     console.log("Profile Summary Updated Successfully")
+                    this.setState ({
+                        profiledata: { ...this.state.profiledata},
+                    })
                 }
              })
             }
@@ -431,22 +451,22 @@ class Profile extends Component{
 
                 <div className = "pv-entity__actions" data-toggle="modal" data-target="#profilemodal"><FontAwesomeIcon icon="pencil-alt" color="#0073b1" size ="lg"/></div>
                     <div className="row">
-                      <div className="col-md-12">
+                      <div className="col-md-12" style = {{width : "800px"}}>
                         <div className="row">
                             <div className="col-xs-12 col-sm-4 text-center"> 
-                            {this.state.profiledata.profilePicture === undefined  || this.state.profiledata.profilePicture === "" ?
-                                <img src= "/images/avatar.png" alt="" className="center-block img-circle rounded-circle img-thumbnail img-responsive"/> : <img src = {this.state.profiledata.profilePicture} alt="" className="center-block img-circle rounded-circle img-thumbnail img-responsive"/>}
+                            {this.state.profiledata.profilePicture === undefined  || this.state.profiledata.profilePicture === "" || this.state.profiledata.profilePicture === null ?
+                                <img src= "/images/avatar.png" alt="" className="center-block img-circle rounded-circle img-thumbnail img-responsive"/> : 
+                                <img src = {URI.ROOT_URL + "/profilepictures/" + this.state.profiledata.profilePicture} alt="" className="center-block img-circle rounded-circle img-thumbnail img-responsive" style = {{width : "160px", height : "160px"}}/>}
                                 <div className="rank-label-container">
                                   <input id='fileid' type='file' onChange={this.profilephotochangeHandler} hidden/>
                                   <button type="file" className ="btn btn-default btn-icon-circle" onClick={this.openFileDialog}>
                                   <FontAwesomeIcon icon="pencil-alt" color="black" size ="lg"/></button>
                                 </div>
                            </div>
-                          <div className="col-xs-12 col-sm-8">
+                          <div className="col-xs-12 col-sm-6">
                             <h3>{this.state.profiledata.firstName}&nbsp;{this.state.profiledata.lastName}</h3>
                             <p>{this.state.profiledata.state}</p>
                            {this.state.profiledata.address ? <p><strong>Address: </strong> {this.state.profiledata.address} </p>  : (null)}
-                            {/* <p><strong>City: </strong> <span className="label label-info tags"></span> <span className="label label-info tags"></span> </p> */}
                           </div>
                         </div>
                         <hr/>
@@ -1207,6 +1227,7 @@ function validateEducation(school, degree, schoolfromYear, schooltoYear) {
 function mapStateToProps(state) {
     return {
         getapplicantprofile: state.getapplicantprofile,
+        applicantprofilephoto: state.applicantprofilephoto,
         applicantprofilesummary : state.applicantprofilesummary, 
         applicantprofileexperience : state.applicantprofileexperience, 
         applicantprofileeducation :  state.applicantprofileeducation, 
@@ -1216,4 +1237,4 @@ function mapStateToProps(state) {
 
 export default withRouter(reduxForm({
 form: "Applicant_profile"
-})(connect(mapStateToProps, { getapplicantprofile, applicantprofilesummary, applicantprofileexperience, applicantprofileeducation, applicantprofileskills })(Profile)));
+})(connect(mapStateToProps, { getapplicantprofile, applicantprofilephoto, applicantprofilesummary, applicantprofileexperience, applicantprofileeducation, applicantprofileskills })(Profile)));

@@ -1,5 +1,7 @@
 var addUser = require('../kafka_backend/services/signupApplicant');
 var { mongoose } = new require('../kafka_backend/config/mongoose');
+var con = require('../kafka_backend/config/mysql')
+con.startConnection()
 
 function addUsers() {
     for (var i = 0; i < 10000; i++) {

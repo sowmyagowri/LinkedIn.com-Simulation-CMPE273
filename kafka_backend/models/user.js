@@ -1,12 +1,8 @@
 var mongoose = require('mongoose');
 
 var Users = mongoose.model('Users',{
-    firstName : {
-        type : String
-    },
-    lastName : {
-        type : String
-    },
+    firstName : String,
+    lastName : String,
     profilePicture : {
         type : String,
         default: ''
@@ -16,14 +12,13 @@ var Users = mongoose.model('Users',{
         default: ''
     },
     email : {
-        type : String
+        type: String,
+        unique: true,
+        required: true,
+        dropDups: true
     },
-    state : {
-        type: String
-    },
-    zipcode : {
-        type: String
-    },
+    state : String,
+    zipcode : String,
     phoneNumber : {
         type: Number,
         default: ''
@@ -89,6 +84,12 @@ var Users = mongoose.model('Users',{
         firstName : String,
         lastName: String
     }],
+    jobsAppliedTo: [{
+        type : String
+    }],
+    savedJobs:[{
+        type: String
+    }]
 });
 
 module.exports = {Users};

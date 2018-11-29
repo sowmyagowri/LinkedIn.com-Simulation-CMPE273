@@ -1,7 +1,7 @@
 var mysql = require('mysql');
 
-var isConnectionPool = false;
-// var isConnectionPool = true;
+// var isConnectionPool = false;
+var isConnectionPool = true;
 
 var connection;
 
@@ -41,7 +41,7 @@ function insertQuery(query, post) {
         else {
             connection.getConnection(function (err, con) {
                 if (err) {
-                    con.release();
+                    // åcon.release();
                     console.log("Could not get Pool Connection Object!!");
                     reject();
                 }

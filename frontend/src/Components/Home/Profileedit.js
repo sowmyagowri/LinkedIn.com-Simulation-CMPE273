@@ -142,7 +142,9 @@ class ProfileEdit extends Component{
             return formIsValid
         } else {
             if (schooltoYear.value < schoolfromYear.value){
-                alert('TO Year of School should be greater than FROM year');
+                this.setState({
+                    message: "TO Year of School should be greater than FROM year"
+                });
                 formIsValid = false;
             }
         }
@@ -181,6 +183,7 @@ class ProfileEdit extends Component{
                 }
             }).catch (error => {
                 console.log("Error is", error);
+                alert ("User ID already exists!!")
             })
         } 
     }
@@ -189,7 +192,7 @@ class ProfileEdit extends Component{
         const { title, company, location, fromMonth, fromYear, school, degree, schoolfromYear, schooltoYear, message} = {...this.state};
         let redirectVar = null;
         if( this.state.signedUp ){
-            redirectVar = <Redirect to= "/profile"/>
+            redirectVar = <Redirect to= "/"/>
         }
         return(
           <div className = "profilelocation-wrapper">
@@ -243,7 +246,7 @@ class ProfileEdit extends Component{
                             <option value="December">December</option>
                             </select>
 
-                            <select name="startYear" id="position-start-typeahead" onChange = {this.changeHandler} name = "fromYear" value={fromYear.value} className = "form-control edit-year">  
+                            <select id="position-start-typeahead" onChange = {this.changeHandler} name = "fromYear" value={fromYear.value} className = "form-control edit-year">  
                             <option value="">Year</option>
                             <option value="2018">2018</option>
                             <option value="2017">2017</option>
@@ -265,7 +268,7 @@ class ProfileEdit extends Component{
                             <input className = "form-control" onChange = {this.changeHandler} name = "degree" value={degree.value} id="position-degree-typeahead" placeholder="Ex: Bachelor's" maxLength="100" type="text"/>
 
                             <label htmlFor="position-date-typeahead" className="mb1 required">From - To</label>
-                            <select name="startYear" id="position-start-typeahead" onChange = {this.changeHandler} name = "schoolfromYear" value={schoolfromYear.value} className = "form-control edit-year">  
+                            <select id="position-start-typeahead" onChange = {this.changeHandler} name = "schoolfromYear" value={schoolfromYear.value} className = "form-control edit-year">  
                             <option value="">Year</option>
                             <option value="2018">2018</option>
                             <option value="2017">2017</option>
@@ -279,7 +282,7 @@ class ProfileEdit extends Component{
                             <option value="2009">2009</option>
                             </select>
 
-                            <select name="endYear" id="position-end-typeahead"  onChange = {this.changeHandler} name = "schooltoYear" value={schooltoYear.value} className = "form-control edit-year">  
+                            <select id="position-end-typeahead"  onChange = {this.changeHandler} name = "schooltoYear" value={schooltoYear.value} className = "form-control edit-year">  
                             <option value="">Year</option>
                             <option value="2018">2018</option>
                             <option value="2017">2017</option>

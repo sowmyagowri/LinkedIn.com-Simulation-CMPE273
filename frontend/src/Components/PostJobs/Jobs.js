@@ -13,47 +13,37 @@ class Jobs extends Component {
 
   render() {
     let jobs = null;
-    let errors = null;
-
     if (this.props.jobsState.jobs.length) {
       jobs = this.props.jobsState.jobs.map(job => {
         return (
           <div key={v4()} className="card shadow-lg">
-            <div className="card-body">
-              <div className="row">
-                <div className="col-4">
-                  <img
-                    className="img-thumbnail"
-                    alt=""
-                    style={{ border: "none" }}
-                  />
-                </div>
-                <div className="col-8">
-                  <h5
-                    style={{ fontWeight: "500" }}
-                    className="linkBlue"
-                    href="/"
-                  >
-                    {job.title}
-                  </h5>
-                  <h5>Company</h5>
-                  <FontAwesomeIcon
-                    style={{ color: "#e6e6e6" }}
-                    className="fa-map-marker-alt"
-                    icon="map-marker-alt"
-                  />
-                  &nbsp;&nbsp;Place <br />
-                </div>
-                <hr />
+            <div className="row">
+              <div className="col-4">
+                <img
+                  className="img-thumbnail"
+                  alt=""
+                  style={{ border: "none" }}
+                />
               </div>
+              <div className="col-8">
+                <h4>{job.title}</h4>
+                &nbsp;&nbsp;&nbsp;&nbsp;Company <br />
+                &nbsp;&nbsp;&nbsp;&nbsp;Expiry <br />
+                <FontAwesomeIcon
+                  color="#dee2e6"
+                  size="sm"
+                  icon="location-arrow"
+                />
+                Place <br />
+                <br />
+              </div>
+              <hr />
             </div>
           </div>
         );
       });
-    }
-
-    if (this.props.jobsState.jobs.length === 0) {
-      errors = (
+    } else {
+      jobs = (
         <div className="col-6 offset-3 text-center">
           <br />
           <br />
@@ -78,8 +68,7 @@ class Jobs extends Component {
         <br />
         <div className="container">
           <div className="row">
-            {errors}
-            <div className="col-5">
+            <div className="col-12">
               <br />
               <br />
               {jobs}

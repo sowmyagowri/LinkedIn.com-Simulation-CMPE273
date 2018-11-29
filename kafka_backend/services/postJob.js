@@ -8,7 +8,7 @@ async function handle_request(msg, callback) {
     let resp = {};
     try {
         var jobs = new Jobs({
-            posted_by: msg.recruiterID,
+            posted_by: msg.recruiterEmail,
             title: msg.title,
             company: msg.company,
             job_description: msg.jobDescription,
@@ -19,6 +19,7 @@ async function handle_request(msg, callback) {
             company_logo: msg.companyLogo,
             posted_date: msg.postedDate,
             expiry_date: msg.expiryDate,
+            application_method: msg.applicationMethod
         });
         let job = await jobs.save();
         resp = prepareSuccess({ "jobID": job._id });
