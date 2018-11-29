@@ -22,6 +22,7 @@ async function handle_request(msg, callback) {
             cover_letter: msg.coverletterName,
         }
         console.log("jobID - ", msg.body.jobID);
+        console.log("Email - ", msg.body.applicantEmail);
         await Jobs.updateOne(
             { _id : msg.body.jobID },
             {
@@ -34,7 +35,14 @@ async function handle_request(msg, callback) {
             {
                 $push: { jobsAppliedTo : msg.body.jobID }
             }
-        )
+        );
+
+        await Users.updateOne(
+            { email : msg.body.applicantEmail },
+            {
+                $pull : { savedJobs : msg.body.jobID }
+            }
+        );
         resp = prepareSuccess({ "result" : "Applied to job successfully!" });
     } catch (err) {
         console.log("Error: " , err);
