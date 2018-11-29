@@ -17,7 +17,6 @@ var postApplicantProfileExperienceService = require('./services/postApplicantPro
 var postApplicantProfileEducationService = require('./services/postApplicantProfileEducation');
 var postApplicantProfileSkillsService = require('./services/postApplicantProfileSkills');
 var postApplicantProfilePhotoService = require('./services/postApplicantProfilePhoto');
-var postApplicantProfileResumeService = require('./services/postApplicantProfileResume');
 var editJobService =  require('./services/editJob');
 var updateJobViewsService = require('./services/updateJobViews');
 var graphClicksPerJobServce = require('./services/graphClicksPerJob');
@@ -42,7 +41,7 @@ const {
     GET_RECRUITER_PROFILE_REQUEST, GET_APPLICANT_PROFILE_REQUEST, 
     POST_APPLICANT_PROFILE_SUMMARY_REQUEST, POST_APPLICANT_PROFILE_EXPERIENCE_REQUEST,
     POST_APPLICANT_PROFILE_EDUCATION_REQUEST, POST_APPLICANT_PROFILE_SKILLS_REQUEST,
-    POST_APPLICANT_PROFILE_PHOTO_REQUEST, POST_APPLICANT_PROFILE_RESUME_REQUEST,
+    POST_APPLICANT_PROFILE_PHOTO_REQUEST,
     EDIT_JOB_REQUEST, UPDATE_JOB_VIEWS_REQUEST,
     GRAPHS_CLICK_PER_JOB_REQUEST, GRAPHS_TOP_JOB_POSTINGS_REQUEST, UPDATE_JOB_CLICKS_REQUEST,
     GRAPHS_UNPOPULAR_JOB_POSTINGS_REQUEST, GRAPHS_CITYWISE_APPLICATION_REQUEST, LOG_EVENT_REQUEST,
@@ -99,7 +98,6 @@ handleTopicRequest(POST_APPLICANT_PROFILE_EXPERIENCE_REQUEST, postApplicantProfi
 handleTopicRequest(POST_APPLICANT_PROFILE_EDUCATION_REQUEST, postApplicantProfileEducationService);
 handleTopicRequest(POST_APPLICANT_PROFILE_SKILLS_REQUEST, postApplicantProfileSkillsService);
 handleTopicRequest(POST_APPLICANT_PROFILE_PHOTO_REQUEST, postApplicantProfilePhotoService);
-handleTopicRequest(POST_APPLICANT_PROFILE_RESUME_REQUEST, postApplicantProfileResumeService);
 handleTopicRequest(EDIT_JOB_REQUEST, editJobService);
 handleTopicRequest(UPDATE_JOB_VIEWS_REQUEST, updateJobViewsService);
 handleTopicRequest(GRAPHS_CLICK_PER_JOB_REQUEST, graphClicksPerJobServce);
