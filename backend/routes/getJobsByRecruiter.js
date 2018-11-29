@@ -4,12 +4,6 @@ const { GET_JOBS_BY_RECRUITER_REQUEST, GET_JOBS_BY_RECRUITER_RESPONSE } = requir
 const { responseHandler, sendInternalServerError, sendBadRequest } = require('./response');
 const router = express.Router();
 
-/**
- *  this script will be called for routes begin with /post_job
- *  
- *  below "/" is relative resource path, the actual resource path is /post_job/
- * 
- */
 router.get("/", (req, res) => {
     console.log("Inside get Jobs by Recruiter controller");
     console.log("GETJOBSBYRECRUITER: ", req.query);
