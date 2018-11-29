@@ -18,6 +18,13 @@ class Navbar extends Component {
         localStorage.clear();
     }
 
+    componentDidMount() {
+        //call to action
+        if(!localStorage.getItem(userConstants.USER_DETAILS)){
+            window.location = "/"
+        }
+    }
+
     changeSelection = (e) => {
         if (e.target.value === "Jobs") {
             this.props.history.push({

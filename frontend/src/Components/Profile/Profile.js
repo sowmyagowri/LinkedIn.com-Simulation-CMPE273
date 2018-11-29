@@ -54,10 +54,6 @@ class Profile extends Component{
 
     componentDidMount() {
         //call to action
-        if(!localStorage.getItem(userConstants.USER_DETAILS)){
-            window.location = "/"
-        }
-
         const data = JSON.parse(localStorage.getItem(userConstants.USER_DETAILS)).email;
         
         const token =  JSON.parse(localStorage.getItem(userConstants.AUTH_TOKEN));
