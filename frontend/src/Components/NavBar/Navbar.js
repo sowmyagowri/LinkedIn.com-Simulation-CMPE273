@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import './Navbar.css';
 import { withRouter, Link } from 'react-router-dom';
+import { userConstants } from '../../constants';
 
 class Navbar extends Component {
     constructor(props) { 
@@ -15,7 +16,6 @@ class Navbar extends Component {
 
     signout = () => {
         localStorage.clear();
-        window.location = "/"
     }
 
     changeSelection = (e) => {
