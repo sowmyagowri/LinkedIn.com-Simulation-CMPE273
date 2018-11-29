@@ -8,7 +8,7 @@ import { connect } from "react-redux";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { userConstants } from '../../constants';
 import URI from '../../constants/URI';
-import { getapplicantprofile, applicantprofilephoto, applicantprofilesummary, applicantprofileexperience, applicantprofileeducation, applicantprofileskills } from '../../Actions/applicant_login_profile_actions';
+import { getapplicantprofile, applicantprofilephoto, applicantprofileresume, applicantprofilesummary, applicantprofileexperience, applicantprofileeducation, applicantprofileskills } from '../../Actions/applicant_login_profile_actions';
 
 class Profile extends Component{
     constructor(props){
@@ -115,12 +115,26 @@ class Profile extends Component{
         event.preventDefault();
         var file = event.target.files[0]
         console.log(file)
+
+        const email = JSON.parse(localStorage.getItem(userConstants.USER_DETAILS)).email;
         var formData = new FormData();
-        formData.append("description", 'selectedFile')
-        formData.append("selectedFile", file);
-        console.log(formData);
-        this.setState ({
-            resume : event.target.files[0].name
+        formData.append('email', email)
+        formData.append('uploadedFile', file);
+        
+        // Display the formdata key/value pairs
+        for (var pair of formData.entries()) {
+            console.log(pair[0]+ ', ' + pair[1]); 
+        }
+
+        const token =  JSON.parse(localStorage.getItem(userConstants.AUTH_TOKEN));
+        this.props.applicantprofileresume(formData, token).then(response => {
+            console.log("response:", response);
+            if(response.payload.status === 200){
+                console.log("Profile Resume Updated Successfully", response.payload.data.profile)
+                this.setState ({
+                    resume : file.name
+                })
+            }
         })
     }
 
@@ -128,14 +142,14 @@ class Profile extends Component{
         event.preventDefault();
         var file = event.target.files[0]
         console.log(file)
-        var formData = new FormData();
 
         const email = JSON.parse(localStorage.getItem(userConstants.USER_DETAILS)).email;
+        var formData = new FormData();
         formData.append('email', email)
         formData.append('uploadedPhoto', file);
         
         
-        // Display the key/value pairs
+        // Display the formdata key/value pairs
         for (var pair of formData.entries()) {
             console.log(pair[0]+ ', ' + pair[1]); 
         }
@@ -440,9 +454,9 @@ class Profile extends Component{
                       <div className="col-md-12" style = {{width : "800px"}}>
                         <div className="row">
                             <div className="col-xs-12 col-sm-4 text-center"> 
-                            {this.state.profiledata.profilePicture === undefined  || this.state.profiledata.profilePicture === "" ?
+                            {this.state.profiledata.profilePicture === undefined  || this.state.profiledata.profilePicture === "" || this.state.profiledata.profilePicture === null ?
                                 <img src= "/images/avatar.png" alt="" className="center-block img-circle rounded-circle img-thumbnail img-responsive"/> : 
-                                <img src = {URI.ROOT_URL + "/uploads/" + this.state.profiledata.profilePicture} alt="" className="center-block img-circle rounded-circle img-thumbnail img-responsive" style = {{width : "160px", height : "160px"}}/>}
+                                <img src = {URI.ROOT_URL + "/profilepictures/" + this.state.profiledata.profilePicture} alt="" className="center-block img-circle rounded-circle img-thumbnail img-responsive" style = {{width : "160px", height : "160px"}}/>}
                                 <div className="rank-label-container">
                                   <input id='fileid' type='file' onChange={this.profilephotochangeHandler} hidden/>
                                   <button type="file" className ="btn btn-default btn-icon-circle" onClick={this.openFileDialog}>
@@ -1223,4 +1237,4 @@ function mapStateToProps(state) {
 
 export default withRouter(reduxForm({
 form: "Applicant_profile"
-})(connect(mapStateToProps, { getapplicantprofile, applicantprofilephoto, applicantprofilesummary, applicantprofileexperience, applicantprofileeducation, applicantprofileskills })(Profile)));
+})(connect(mapStateToProps, { getapplicantprofile, applicantprofilephoto, applicantprofileresume, applicantprofilesummary, applicantprofileexperience, applicantprofileeducation, applicantprofileskills })(Profile)));

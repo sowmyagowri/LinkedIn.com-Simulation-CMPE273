@@ -1,13 +1,13 @@
 const express = require("express");
 const kafka = require('./../kafka/client');
-const { POST_APPLICANT_PROFILE_PHOTO_REQUEST, POST_APPLICANT_PROFILE_PHOTO_RESPONSE } = require('./../kafka/topics');
+const { POST_APPLICANT_PROFILE_RESUME_REQUEST, POST_APPLICANT_PROFILE_RESUME_RESPONSE } = require('./../kafka/topics');
 const { responseHandler, sendInternalServerError, sendBadRequest } = require('./response');
 const router = express.Router();
 
 const multer = require('multer');
 const storage = multer.diskStorage({
   destination: (req, file, callback) => {
-    callback(null, './profilepictures');
+    callback(null, './resumes');
   },
   filename: (req, file, callback) => {
     fileExtension = file.originalname.split('.')[1] // get file extension from original file
@@ -35,11 +35,11 @@ router.post("/", upload.any(), function(req,res){
     // console.log(stringObj);
     // console.log("In Owner Property Post");
 
-    console.log("Inside post applicant Profile Picture controller");
-    console.log("POST APPLICANT PROFILE PICTURE: ", req.body);
+    console.log("Inside post applicant Profile Resume controller");
+    console.log("POST APPLICANT PROFILE RESUME: ", req.body);
     const data = {
         email : req.body.email,
-        profilePicture : filename
+        resume : filename
     }
     let errors = validateInput(req);
     if (errors) {
@@ -49,7 +49,7 @@ router.post("/", upload.any(), function(req,res){
         });
     }
     else {
-        kafka.make_request(POST_APPLICANT_PROFILE_PHOTO_REQUEST, POST_APPLICANT_PROFILE_PHOTO_RESPONSE, data, function (err, result) {
+        kafka.make_request(POST_APPLICANT_PROFILE_RESUME_REQUEST, POST_APPLICANT_PROFILE_RESUME_RESPONSE, data, function (err, result) {
             if (err) {
                 // called in case of time out error, or if we failed to send data over kafka
                 sendInternalServerError(res);

@@ -19,6 +19,7 @@ let postApplicantProfileExperience = require('./routes/postApplicantProfileExper
 let postApplicantProfileEducation = require('./routes/postApplicantProfileEducation');
 let postApplicantProfileSkills = require('./routes/postApplicantProfileSkills');
 let postApplicantProfilePhoto = require('./routes/postApplicantProfilePhoto');
+let postApplicantProfileResume = require('./routes/postApplicantProfileResume');
 let editJob = require('./routes/editJob');
 let updateJobViews = require('./routes/updateJobViews');
 let graphClicksPerJob = require('./routes/graphClicksPerJob');
@@ -70,7 +71,7 @@ app.use("/signup_recruiter/", signupRecruiter);
 app.use("/signup_applicant/", signupApplicant);
 app.use("/signin_recruiter/", signinRecruiter);
 app.use("/signin_applicant/", signinApplicant);
-app.use('/uploads', express.static(path.join(__dirname, '/uploads/')));
+app.use('/profilepictures', express.static(path.join(__dirname, '/profilepictures/')));
 
 // Add routes above this line if they do not require passport authentication
 // Add passport Authentication code will go here
@@ -88,6 +89,7 @@ app.use("/post_applicant_profile_experience/", postApplicantProfileExperience);
 app.use("/post_applicant_profile_education/", postApplicantProfileEducation);
 app.use("/post_applicant_profile_skills/", postApplicantProfileSkills);
 app.use("/post_applicant_profile_photo/", postApplicantProfilePhoto);
+app.use("/post_applicant_profile_resume/", postApplicantProfileResume);
 app.use("/edit_job/", editJob);
 app.use("/update_job_views/", updateJobViews);
 app.use("/graph_clicks_per_job/", graphClicksPerJob);
