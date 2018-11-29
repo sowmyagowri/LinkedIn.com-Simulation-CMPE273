@@ -55,7 +55,6 @@ class Profile extends Component{
     componentDidMount() {
         //call to action
         const data = JSON.parse(localStorage.getItem(userConstants.USER_DETAILS)).email;
-        
         const token =  JSON.parse(localStorage.getItem(userConstants.AUTH_TOKEN));
         this.props.getapplicantprofile(data, token).then(response => {
             console.log("response:", response);

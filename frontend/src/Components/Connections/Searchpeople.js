@@ -48,16 +48,17 @@ class SearchPeople extends Component{
                 var approved = response.payload.data.connections.connectionsApproved
                 var incoming = response.payload.data.connections.connectionsIncoming
                 var outgoing = response.payload.data.connections.connectionsOutgoing
+                var i = 0;
                 if(approved.length > 0) {
-                    for (var i = 0; i < approved.length; i++) {
+                    for (i = 0; i < approved.length; i++) {
                         connectionResults.push(JSON.parse(JSON.stringify(approved[i].email)))
                     }                }
                 if(incoming.length > 0) {
-                    for (var i = 0; i < incoming.length; i++) {
+                    for (i = 0; i < incoming.length; i++) {
                         connectionResults.push(JSON.parse(JSON.stringify(incoming[i].email)))
                     }                }
                 if(outgoing.length > 0) {
-                    for (var i = 0; i < outgoing.length; i++) {
+                    for (i = 0; i < outgoing.length; i++) {
                         connectionResults.push(JSON.parse(JSON.stringify(outgoing[i].email)))
                     }
                 }

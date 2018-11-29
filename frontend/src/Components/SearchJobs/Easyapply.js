@@ -43,7 +43,7 @@ class Easyapply extends Component{
                 <div className="navbar fixed-top navbar-dark bg-dark" style={{ height: "52px" }}>
                     <div className="home_wrapper">
                         <div className="nav-main__content full-height display-flex align-items-center" role="navigation">
-                            <h1 className ="easy-apply-h1"><a className="navbar-brand" href="#"><img src={"/images/linkedin-logo2.png"} alt="" />&nbsp;Easy Apply</a></h1>
+                            <h1 className ="easy-apply-h1"><a className="navbar-brand" href="/"><img src={"/images/linkedin-logo2.png"} alt="" />&nbsp;Easy Apply</a></h1>
                         </div> 
                     </div>
                 </div>
