@@ -74,8 +74,9 @@ class Mynetwork extends Component{
     connectionresponse = (event, response, invitation, i) => {
         const token =  JSON.parse(localStorage.getItem(userConstants.AUTH_TOKEN))
 
+        var data = {}
         if( response === "y") {
-            var data = {
+             data = {
                 receiver: {
                     username: invitation.email,
                     firstname: invitation.firstName,
@@ -84,7 +85,7 @@ class Mynetwork extends Component{
                 isAccepted : "true"
             }
         } else {
-            var data = {
+             data = {
                 receiver: {
                     username: invitation.email,
                     firstname: invitation.firstName,

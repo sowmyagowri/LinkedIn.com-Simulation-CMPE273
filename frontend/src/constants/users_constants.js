@@ -10,6 +10,7 @@ export const userConstants = {
     MAKE_CONNECTION_REQUEST : 'makeconnections',
     GET_ALL_CONNECTIONS : 'getAllConnections',
     CONNECTION_RESPONSE :'connectionresponse',
+    SAVE_JOB :'saveajob',
     USER_DETAILS:"user_details",
     AUTH_TOKEN: "auth_token"
 };

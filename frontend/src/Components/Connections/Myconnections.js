@@ -7,7 +7,7 @@ import { reduxForm } from "redux-form";
 import { withRouter} from 'react-router-dom';
 import { connect } from "react-redux";
 import { userConstants } from '../../constants';
-import { getAllConnections, makeconnections } from '../../Actions/action_connections';
+import { getAllConnections } from '../../Actions/action_connections';
 
 class Myconnections extends Component{
     constructor(props){
