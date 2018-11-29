@@ -7,8 +7,8 @@ async function handle_request(msg, callback) {
 
     let resp = {};
     try {
-        var recruiter_id = msg.recruiterID;
-        let job_list = await Jobs.find({ 'posted_by': recruiter_id }, { title: 1, company: 1, job_description: 1, industry: 1, employment_type: 1, location: 1, job_function: 1, company_logo: 1, posted_date: 1, expiry_date: 1 });
+        var recruiter_email = msg.recruiterEmail;
+        let job_list = await Jobs.find({ 'posted_by': recruiter_email }, { title: 1, company: 1, job_description: 1, industry: 1, employment_type: 1, location: 1, job_function: 1, company_logo: 1, posted_date: 1, expiry_date: 1 });
         resp = prepareSuccess({ "allJobs": job_list });
     } catch (err) {
         console.log("Error: ", err);

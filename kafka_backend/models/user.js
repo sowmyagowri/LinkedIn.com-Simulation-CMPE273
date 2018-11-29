@@ -84,6 +84,12 @@ var Users = mongoose.model('Users',{
         firstName : String,
         lastName: String
     }],
+    jobsAppliedTo: [{
+        type : String
+    }],
+    savedJobs:[{
+        type: String
+    }]
 });
 
 module.exports = {Users};
