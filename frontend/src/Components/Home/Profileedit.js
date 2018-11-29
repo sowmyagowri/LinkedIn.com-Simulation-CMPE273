@@ -142,7 +142,9 @@ class ProfileEdit extends Component{
             return formIsValid
         } else {
             if (schooltoYear.value < schoolfromYear.value){
-                alert('TO Year of School should be greater than FROM year');
+                this.setState({
+                    message: "TO Year of School should be greater than FROM year"
+                });
                 formIsValid = false;
             }
         }
@@ -181,6 +183,7 @@ class ProfileEdit extends Component{
                 }
             }).catch (error => {
                 console.log("Error is", error);
+                alert ("User ID already exists!!")
             })
         } 
     }
