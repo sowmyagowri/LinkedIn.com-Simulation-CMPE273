@@ -5,7 +5,6 @@ import URI from '../constants/URI';
 //target action for applicant signup
 export function applicantsignup(data) {
   console.log("inside applicant signup action")
-  console.log(data)
   axios.defaults.withCredentials = true;
   const response =  axios.post(URI.ROOT_URL + '/signup_applicant/', data);
   console.log("Response", response);
@@ -18,7 +17,6 @@ export function applicantsignup(data) {
 //target action for applicant login
 export function applicantlogin(data) {
   console.log("inside applicant login action")
-  console.log(data)
   axios.defaults.withCredentials = true;
   const response =  axios.post(URI.ROOT_URL + '/signin_applicant/', data);
   console.log("Response", response);
@@ -52,6 +50,24 @@ export async function getapplicantprofile(email, tokenFromStorage) {
   };  
 }
 
+//target action for applicant profile photo update
+export async function applicantprofilephoto(data, tokenFromStorage) {
+  console.log("inside applicant profile photo update action")
+  var config = {
+    headers: {'Authorization': tokenFromStorage,
+              'Content-Type': 'application/json',
+              withCredentials : true
+    }
+  };
+  axios.defaults.withCredentials = true;
+  const response = await axios.post(URI.ROOT_URL + '/post_applicant_profile_photo/' , data, config);
+  console.log("Response", response);
+  return {
+    type: userConstants.APPLICANT_PROFILE_PHOTO_POST,
+    payload: response
+  };
+}
+
 //target action for applicant profile summary update
 export async function applicantprofilesummary(data, tokenFromStorage) {
   console.log("inside applicant profile summary update action")
@@ -71,17 +87,16 @@ export async function applicantprofilesummary(data, tokenFromStorage) {
 }
 
 //target action for applicant profile experience update
-export function applicantprofileexperience(data, tokenFromStorage) {
+export async function applicantprofileexperience(data, tokenFromStorage) {
   console.log("inside applicant profile experience update action")
-  console.log(data)
-  console.log(tokenFromStorage);
   var config = {
     headers: {'Authorization': tokenFromStorage,
-              'Content-Type': 'application/json'
+              'Content-Type': 'application/json',
+              withCredentials : true
     }
   };
   axios.defaults.withCredentials = true;
-  const response =  axios.post(URI.ROOT_URL + '/post_applicant_profile_experience/' , data, config);
+  const response =  await axios.post(URI.ROOT_URL + '/post_applicant_profile_experience/' , data, config);
   console.log("Response", response);
   return {
     type: userConstants.APPLICANT_PROFILE_EXPERIENCE_POST,
@@ -90,22 +105,18 @@ export function applicantprofileexperience(data, tokenFromStorage) {
 }
 
 //target action for applicant profile education update
-export function applicantprofileeducation(email, tokenFromStorage, data) {
+export async function applicantprofileeducation(data, tokenFromStorage) {
   console.log("inside applicant profile education update action")
-  console.log(email)
-  console.log(tokenFromStorage);
+  console.log(data)
+  console.log(tokenFromStorage)
   var config = {
     headers: {'Authorization': tokenFromStorage,
-              'Content-Type': 'application/json'
+              'Content-Type': 'application/json',
+              withCredentials : true
     }
   };
   axios.defaults.withCredentials = true;
-  const response =  axios.get(URI.ROOT_URL + '/post_applicant_profile_education/' , {
-    params: {
-      email
-    } , 
-    ...config
-  });
+  const response =  await axios.post(URI.ROOT_URL + '/post_applicant_profile_education/' , data, config);
   console.log("Response", response);
   return {
     type: userConstants.APPLICANT_PROFILE_EDUCATION_POST,
@@ -114,22 +125,18 @@ export function applicantprofileeducation(email, tokenFromStorage, data) {
 }
 
 //target action for applicant profile skills update
-export function applicantprofileskills(email, tokenFromStorage, data) {
+export async function applicantprofileskills(data, tokenFromStorage) {
   console.log("inside applicant profile skills update action")
-  console.log(email)
+  console.log(data)
   console.log(tokenFromStorage);
   var config = {
     headers: {'Authorization': tokenFromStorage,
-              'Content-Type': 'application/json'
+              'Content-Type': 'application/json',
+              withCredentials : true
     }
   };
   axios.defaults.withCredentials = true;
-  const response =  axios.get(URI.ROOT_URL + '/post_applicant_profile_skills/' , {
-    params: {
-      email
-    } , 
-    ...config
-  });
+  const response =  axios.post(URI.ROOT_URL + '/post_applicant_profile_skills/' , data, config);
   console.log("Response", response);
   return {
     type: userConstants.APPLICANT_PROFILE_SKILLS_POST,

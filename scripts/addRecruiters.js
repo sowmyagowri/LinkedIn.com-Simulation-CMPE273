@@ -1,5 +1,7 @@
 var addRecruiter = require('../kafka_backend/services/signupRecruiter');
 var { mongoose } = new require('../kafka_backend/config/mongoose');
+var con = require('../kafka_backend/config/mysql')
+con.startConnection()
 
 function addRecruiters() {
     for (var i = 0; i < 10000; i++) {

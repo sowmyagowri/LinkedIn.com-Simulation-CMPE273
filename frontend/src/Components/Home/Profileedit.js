@@ -142,7 +142,9 @@ class ProfileEdit extends Component{
             return formIsValid
         } else {
             if (schooltoYear.value < schoolfromYear.value){
-                alert('TO Year of School should be greater than FROM year');
+                this.setState({
+                    message: "TO Year of School should be greater than FROM year"
+                });
                 formIsValid = false;
             }
         }
@@ -181,6 +183,7 @@ class ProfileEdit extends Component{
                 }
             }).catch (error => {
                 console.log("Error is", error);
+                alert ("User ID already exists!!")
             })
         } 
     }
@@ -189,7 +192,7 @@ class ProfileEdit extends Component{
         const { title, company, location, fromMonth, fromYear, school, degree, schoolfromYear, schooltoYear, message} = {...this.state};
         let redirectVar = null;
         if( this.state.signedUp ){
-            redirectVar = <Redirect to= "/profile"/>
+            redirectVar = <Redirect to= "/"/>
         }
         return(
           <div className = "profilelocation-wrapper">

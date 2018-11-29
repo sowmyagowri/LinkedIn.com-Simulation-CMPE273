@@ -19,6 +19,7 @@ import RecruiterDashboard from './Dashboard/Dashboard'
 import Applications from './PostJobs/Applications'
 import RecruiterSigin from './Recruiter/RecruiterSignIn'
 import RecruiterSignUp from './Recruiter/RecruiterSignUp'
+import SearchPeople from './Connections/Searchpeople';
 
 class Main extends Component {
     render(){
@@ -32,6 +33,7 @@ class Main extends Component {
                 <Route path="/profilelocation/new" component={ProfileLocation}/>
                 <Route path="/profileedit/new" component={ProfileEdit}/>
                 <Route path="/searchjobs" component={SearchJobs}/>
+                <Route path="/searchpeople" component={SearchPeople}/>
                 <Route path="/messages" component={Inbox}/>
                 <Route path="/mynetwork" component={MyNetwork}/>
                 <Route path="/easyapply/:jobid" component={EasyApply}/>
