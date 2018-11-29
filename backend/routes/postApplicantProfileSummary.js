@@ -4,15 +4,40 @@ const { POST_APPLICANT_PROFILE_SUMMARY_REQUEST, POST_APPLICANT_PROFILE_SUMMARY_R
 const { responseHandler, sendInternalServerError, sendBadRequest } = require('./response');
 const router = express.Router();
 
+const multer = require('multer');
+const storage = multer.diskStorage({
+  destination: (req, file, callback) => {
+    callback(null, './resumes');
+  },
+  filename: (req, file, callback) => {
+    fileExtension = file.originalname.split('.')[1] // get file extension from original file
+    callback(null, file.originalname.split('.')[0] + '-' + Date.now() + '.' + fileExtension);
+  },
+});
+var upload = multer({ storage : storage })
+
 /**
  *  this script will be called for routes begin with /post_job
  *  
  *  below "/" is relative resource path, the actual resource path is /post_job/
  * 
  */
-router.post("/", (req, res) => {
+router.post("/", upload.any(), function(req,res){
+
     console.log("Inside post applicant Profile Summary controller");
-    console.log("POST APPLICANT PROFILE SUMMARY: ", req.body);
+    console.log("POST APPLICANT PROFILE SUMMARY: ", req.body, req.files);
+
+    var filename;
+    req.files.map(file => {
+        filename = file.filename;
+    });
+    console.log(filename);
+
+    const data = {
+        body : req.body,
+        resumeName : filename
+    }
+
     let errors = validateInput(req);
     if (errors) {
         let msg = errors.map(error => error.msg).reduce((accumulator, currentVal) => accumulator + "\n" + currentVal);
@@ -21,7 +46,7 @@ router.post("/", (req, res) => {
         });
     }
     else {
-        kafka.make_request(POST_APPLICANT_PROFILE_SUMMARY_REQUEST, POST_APPLICANT_PROFILE_SUMMARY_RESPONSE, req.body, function (err, result) {
+        kafka.make_request(POST_APPLICANT_PROFILE_SUMMARY_REQUEST, POST_APPLICANT_PROFILE_SUMMARY_RESPONSE, data, function (err, result) {
             if (err) {
                 // called in case of time out error, or if we failed to send data over kafka
                 sendInternalServerError(res);

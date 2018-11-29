@@ -8,7 +8,7 @@ import { connect } from "react-redux";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { userConstants } from '../../constants';
 import URI from '../../constants/URI';
-import { getapplicantprofile, applicantprofilephoto, applicantprofileresume, applicantprofilesummary, applicantprofileexperience, applicantprofileeducation, applicantprofileskills } from '../../Actions/applicant_login_profile_actions';
+import { getapplicantprofile, applicantprofilephoto, applicantprofilesummary, applicantprofileexperience, applicantprofileeducation, applicantprofileskills } from '../../Actions/applicant_login_profile_actions';
 
 class Profile extends Component{
     constructor(props){
@@ -26,7 +26,8 @@ class Profile extends Component{
             profilePicture : "",
             experience : [{}],
             education : [{}],
-            resume : "",          
+            resume : "",
+            uploadedresume: "",   
             touchedprofile : {
                 firstname: false,
                 lastname: false,
@@ -116,25 +117,9 @@ class Profile extends Component{
         var file = event.target.files[0]
         console.log(file)
 
-        const email = JSON.parse(localStorage.getItem(userConstants.USER_DETAILS)).email;
-        var formData = new FormData();
-        formData.append('email', email)
-        formData.append('uploadedFile', file);
-        
-        // Display the formdata key/value pairs
-        for (var pair of formData.entries()) {
-            console.log(pair[0]+ ', ' + pair[1]); 
-        }
-
-        const token =  JSON.parse(localStorage.getItem(userConstants.AUTH_TOKEN));
-        this.props.applicantprofileresume(formData, token).then(response => {
-            console.log("response:", response);
-            if(response.payload.status === 200){
-                console.log("Profile Resume Updated Successfully", response.payload.data.profile)
-                this.setState ({
-                    resume : file.name
-                })
-            }
+        this.setState ({
+            resume : file.name,
+            uploadedresume : file
         })
     }
 
@@ -180,6 +165,7 @@ class Profile extends Component{
         if (this.handleValidationProfile()) {
             const email = JSON.parse(localStorage.getItem(userConstants.USER_DETAILS)).email;
             const token =  JSON.parse(localStorage.getItem(userConstants.AUTH_TOKEN));
+            
             const data = {
                 email: email,
                 firstName : this.state.firstname,
@@ -190,6 +176,18 @@ class Profile extends Component{
                 profileSummary : this.state.profilesummary,
                 phoneNumber : this.state.phonenumber,
                 resume : this.state.resume,
+            }
+
+            var formData = new FormData();
+            formData.append('uploadedFile', this.state.uploadedresume);
+            
+            Object.keys(data).forEach(function(key){
+                formData.append(key, data[key]);
+            });
+
+            // Display the formdata key/value pairs
+            for (var pair of formData.entries()) {
+                console.log(pair[0]+ ', ' + pair[1]); 
             }
 
             const state = {
@@ -207,10 +205,13 @@ class Profile extends Component{
                 }
             }
             this.setState(state);
-            this.props.applicantprofilesummary(data, token).then(response => {
+            this.props.applicantprofilesummary(formData, token).then(response => {
                 console.log("response:", response);
                 if(response.payload.status === 200){
                     console.log("Profile Summary Updated Successfully")
+                    this.setState ({
+                        profiledata: { ...this.state.profiledata},
+                    })
                 }
              })
             }
@@ -1237,4 +1238,4 @@ function mapStateToProps(state) {
 
 export default withRouter(reduxForm({
 form: "Applicant_profile"
-})(connect(mapStateToProps, { getapplicantprofile, applicantprofilephoto, applicantprofileresume, applicantprofilesummary, applicantprofileexperience, applicantprofileeducation, applicantprofileskills })(Profile)));
+})(connect(mapStateToProps, { getapplicantprofile, applicantprofilephoto, applicantprofilesummary, applicantprofileexperience, applicantprofileeducation, applicantprofileskills })(Profile)));
