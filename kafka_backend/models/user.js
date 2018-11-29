@@ -86,6 +86,9 @@ var Users = mongoose.model('Users',{
     }],
     jobsAppliedTo: [{
         type : String
+    }],
+    savedJobs:[{
+        type: String
     }]
 });
 
