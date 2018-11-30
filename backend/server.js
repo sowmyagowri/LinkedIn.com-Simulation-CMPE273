@@ -36,10 +36,9 @@ let getAllConnections = require('./routes/getAllConnections');
 let applyForJob  = require('./routes/applyForJob');
 let saveJob = require('./routes/saveJob');
 let getAllSavedJobs = require('./routes/getAllSavedJobs');
-
 let deleteProfile = require('./routes/deleteProfile');
-
 let searchJobs = require('./routes/searchJobs');
+let searchPeople = require('./routes/searchPeople');
 
 let expressValidator = require("express-validator");
 var morgan = require('morgan');
@@ -113,8 +112,8 @@ app.use("/apply_for_job/", applyForJob);
 app.use("/save_job/", saveJob);
 app.use("/get_all_saved_jobs/", getAllSavedJobs);
 app.use("/delete_profile/", deleteProfile);
-
 app.use("/searchJobs", searchJobs);
+app.use("/searchPeople", searchPeople);
 
 
 /** start server */
