@@ -239,7 +239,7 @@ class SearchJobs extends Component{
 
 const JobList = ({jobs, getSelectedJob, selectedJob }) => {
         let jobList = jobs.map(function(job, i) {    
-            return <JobListItem job={job} openJob={getSelectedJob} selectedJob={selectedJob === job}/>
+            return <JobListItem job={job} key = {i} openJob={getSelectedJob} selectedJob={selectedJob === job}/>
         })
         return (
             <li className = "occludable-update artdeco-list__item p0 ember-view">                

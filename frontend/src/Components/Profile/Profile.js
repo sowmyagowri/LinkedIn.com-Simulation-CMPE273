@@ -52,7 +52,7 @@ class Profile extends Component{
     }
 
 
-    componentDidMount() {
+    componentWillMount() {
         //call to action
         const data = JSON.parse(localStorage.getItem(userConstants.USER_DETAILS)).email;
         const token =  JSON.parse(localStorage.getItem(userConstants.AUTH_TOKEN));
