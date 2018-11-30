@@ -52,6 +52,15 @@ class Viewjob extends Component{
         // })
     }
 
+    applyjob = (event, job) => {
+        this.props.history.push({
+            pathname:"/easyapply/1",
+            state:{
+                job : job,
+            }
+        });    
+    }
+
     render(){
         var jobs = this.state.jobs;
         return (
@@ -76,7 +85,7 @@ class Viewjob extends Component{
                                         <div className="job-details__posted">Posted on {jobs[0].posted_date}</div>
                                         {!this.state.saved ?
                                         <button type="submit" className="btn arteco-btn-save" onClick = {this.saveajob}>Save</button> : (null)}
-                                        <button type="submit" className="btn arteco-btn" style={{ marginLeft: "10px" }}>Apply</button>
+                                        <button type="submit" className="btn arteco-btn" onClick = {(event) => this.applyjob(event, jobs[0])} style={{ marginLeft: "10px" }}>Apply</button>
                                     </div>
                                 </div>
                             </div>
