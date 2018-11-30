@@ -27,7 +27,8 @@ async function handle_request(msg, callback) {
                     company: 1,
                     title: 1,
                     location: 1,
-                    expiry_date: 1
+                    expiry_date: 1,
+                    application_method: 1
                 }
             )
             if (curr_job != null && curr_job.length != 0) {
