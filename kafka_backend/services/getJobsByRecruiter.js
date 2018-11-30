@@ -17,6 +17,6 @@ async function handle_request(msg, callback) {
     callback(null, resp);
 }
 
-module.exports = {
+module.exports = { 
     handle_request: handle_request
 }

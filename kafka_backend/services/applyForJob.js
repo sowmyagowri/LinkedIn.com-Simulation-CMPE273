@@ -8,6 +8,23 @@ async function handle_request(msg, callback) {
 
     let resp = {};
     try {
+
+        var sponsorship_que;
+        if(msg.body.sponsorshipQuestion && msg.body.sponsorshipQuestion == "True"){
+            sponsorship_que = true
+        }
+        else if(msg.body.sponsorshipQuestion && msg.body.sponsorshipQuestion == "False"){
+            sponsorship_que = false 
+        }
+
+        var disability_que;
+        if(msg.body.disabilityQuestion && msg.body.disabilityQuestion == "True"){
+            disability_que = true
+        }
+        else if(msg.body.disabilityQuestion && msg.body.disabilityQuestion == "False"){
+            disability_que = false 
+        }
+
         var application = {
             applicant_email: msg.body.applicantEmail,
             first_name: msg.body.firstName,
@@ -16,8 +33,8 @@ async function handle_request(msg, callback) {
             phone_number: msg.body.phoneNumber,
             how_did_they_hear_about_us: msg.body.howDidTheyHearAboutUs,
             diversity_question: msg.body.disabilityQuestion,
-            sponsorship_question: msg.body.sponsorshipQuestion,
-            disability_question: msg.body.disabilityQuestion,
+            sponsorship_question: sponsorship_que,
+            disability_question: disability_que,
             resume: msg.resumeName,
             cover_letter: msg.coverletterName,
         }
