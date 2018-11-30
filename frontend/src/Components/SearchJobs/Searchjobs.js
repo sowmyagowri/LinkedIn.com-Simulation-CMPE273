@@ -3,88 +3,35 @@ import '../../App.css';
 import '../../jobsearch_wrapper.css';
 import Navbar from '../NavBar/Navbar';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+// import URI from '../../constants/URI';
+import { reduxForm } from "redux-form";
+import { withRouter} from 'react-router-dom';
+import { connect } from "react-redux";
+import { userConstants } from '../../constants';
+import { searchjob } from '../../Actions/actions_jobs';
 
 class SearchJobs extends Component{
     constructor(props){
         super(props);
         this.state = {
             currentjoblistid : 1,
-            jobdata : [
-                {
-                id : 1,
-                posted_by : "CISCO",
-                title : "Security and Incident Manager" ,
-                job_description : "Upwork1 is the world's largest freelancing website. Each year $1.5 billion of work happens through Upwork, allowing businesses to get more done and helping professionals break free of traditional time and place boundaries and work anytime, anywhere on projects they love. At Upwork, you'll help build on this momentum. Together, well create economic and social value on a global scale, providing a trusted online workplace for businesses to connect with extraordinary talent and work without limits.Are you a superstar security defender? Would you like to work with advanced tools and lead a team? We can use your skills and experience to defend against sophisticated attacks and keep our platform secure. We need your disciplined, methodical approach towards incident response and security investigations. \n\n Upwork1 is the world's largest freelancing website. Each year $1.5 billion of work happens through Upwork, allowing businesses to get more done and helping professionals break free of traditional time and place boundaries and work anytime, anywhere on projects they love. At Upwork, you'll help build on this momentum. Together, well create economic and social value on a global scale, providing a trusted online workplace for businesses to connect with extraordinary talent and work without limits.Are you a superstar security defender? Would you like to work with advanced tools and lead a team? We can use your skills and experience to defend against sophisticated attacks and keep our platform secure. We need your disciplined, methodical approach towards incident response and security investigations",
-               industry : "industry",
-               employment_type : "fulltime",
-               location : "Sanjose",
-               job_function : "adadawdfw",
-               company_logo : "/images/cisco.png",
-               posted_date : "ssdsd",
-               expiry_date : "sdfcsdf" }, {
-                id : 2,
-                posted_by : "IBM",
-                title : "Sr. Product Marketing Manager - QRadar Security Intelligence Promoted" ,
-                job_description : "Upwork2 is the world's largest freelancing website. Each year $1.5 billion of work happens through Upwork, allowing businesses to get more done and helping professionals break free of traditional time and place boundaries and work anytime, anywhere on projects they love. At Upwork, you'll help build on this momentum. Together, well create economic and social value on a global scale, providing a trusted online workplace for businesses to connect with extraordinary talent and work without limits",
-               industry : "industry",
-                employment_type : "fulltime",
-               location : "Sanjose",
-               job_function : "adadawdfw",
-               company_logo : "/images/linkedin-logo1.jpg",
-               posted_date : "ssdsd",
-               expiry_date : "sdfcsdf"
-               },
-               {
-                id : 3,
-                posted_by : "CISCO",
-                title : "Security and Incident Manager" ,
-                job_description : "Upwork3 is the world's largest freelancing website. Each year $1.5 billion of work happens through Upwork, allowing businesses to get more done and helping professionals break free of traditional time and place boundaries and work anytime, anywhere on projects they love. At Upwork, you'll help build on this momentum. Together, well create economic and social value on a global scale, providing a trusted online workplace for businesses to connect with extraordinary talent and work without limits",
-               industry : "industry",
-                employment_type : "fulltime",
-               location : "San Francisco",
-               job_function : "adadawdfw sdfsfdsfdsg dgsgdsgsg\n sdgsdgsdgsg dgsdgdsgsgsdgsgsdgs",
-               company_logo : "/images/cisco.png",
-               posted_date : "ssdsd",
-               expiry_date : "sdfcsdf" }, {
-                id : 4,
-                posted_by : "IBM",
-                title : "Sr. Product Marketing Manager - QRadar Security Intelligence Promoted" ,
-                job_description : "Upwork4 is the world's largest freelancing website. Each year $1.5 billion of work happens through Upwork, allowing businesses to get more done and helping professionals break free of traditional time and place boundaries and work anytime, anywhere on projects they love. At Upwork, you'll help build on this momentum. Together, well create economic and social value on a global scale, providing a trusted online workplace for businesses to connect with extraordinary talent and work without limits",
-               industry : "industry",
-                employment_type : "fulltime",
-               location : "sanjose",
-               job_function : "adadawdfw",
-               company_logo : "/images/linkedin-logo1.jpg",
-               posted_date : "ssdsd",
-               expiry_date : "sdfcsdf"
-               },
-               {
-                id : 5,
-                posted_by : "CISCO",
-                title : "Security and Incident Manager" ,
-                job_description : "Upwork5 is the world's largest freelancing website. Each year $1.5 billion of work happens through Upwork, allowing businesses to get more done and helping professionals break free of traditional time and place boundaries and work anytime, anywhere on projects they love. At Upwork, you'll help build on this momentum. Together, well create economic and social value on a global scale, providing a trusted online workplace for businesses to connect with extraordinary talent and work without limits",
-               industry : "industry",
-                employment_type : "fulltime",
-               location : "Santa Clara",
-               job_function : "adadawdfw",
-               company_logo : "/images/cisco.png",
-               posted_date : "ssdsd",
-               expiry_date : "sdfcsdf" }, {
-                id : 6,
-                posted_by : "IBM",
-                title : "Sr. Product Marketing Manager - QRadar Security Intelligence Promoted" ,
-                job_description : "Upwork6 is the world's largest freelancing website. Each year $1.5 billion of work happens through Upwork, allowing businesses to get more done and helping professionals break free of traditional time and place boundaries and work anytime, anywhere on projects they love. At Upwork, you'll help build on this momentum. Together, well create economic and social value on a global scale, providing a trusted online workplace for businesses to connect with extraordinary talent and work without limits",
-               industry : "industry",
-                employment_type : "fulltime",
-               location : "Los Angeles",
-               job_function : "adadawdfw",
-               company_logo : "/images/linkedin-logo1.jpg",
-               posted_date : "ssdsd",
-               expiry_date : "sdfcsdf"
-               }
-            ]
+            jobdata : [],
+            results : true
         };
         this.openJob = this.openJob.bind(this);
+        this.normalapplyjob = this.normalapplyjob.bind(this);
+        this.easyapplyjob = this.easyapplyjob.bind(this);
+        this.changeHandler = this.changeHandler.bind(this);
+    }
+
+
+    changeHandler = (e) => {
+        const state = {
+          ...this.state,
+          [e.target.name]: e.target.value,
+          }
+
+        this.setState(state);
     }
 
     openJob(id) {
@@ -93,14 +40,97 @@ class SearchJobs extends Component{
         });
     };
 
+    normalapplyjob = (event, job) => {
+        var job = JSON.stringify(job)
+        var id = JSON.parse(job)._id
+        window.open('/applyjob/'+id, "_blank")
+        localStorage.setItem("job", job)    
+    }
+
+    easyapplyjob = (event, job) => {
+        var job = JSON.stringify(job)
+        var id = JSON.parse(job)._id
+        this.props.history.push({
+            pathname:"/easyapply/"+id,
+            state:{
+                job : job,
+            }
+        });
+    }
+
+    viewjob  = (event, job) => {
+        this.props.history.push({
+            pathname:`/job/view/${job._id}`,
+            state:{
+                viewjob : job,
+            }
+        });
+    }
+
     componentDidMount() {
         //call to action
+        var data = { 
+            start : 0,
+            length : 100,
+            search : "",
+            company : "",
+            employment_type : "",
+            location : "",
+            date_posted : ""
+        }
+
+        const token =  JSON.parse(localStorage.getItem(userConstants.AUTH_TOKEN));
+
+        this.props.searchjob(data, token).then(response => {
+            console.log("response:", response);
+            if(response.payload.status === 200){
+                this.setState({ 
+                    jobdata : response.payload.data.jobs,
+                    currentjoblistid : response.payload.data.jobs[0]._id
+                })
+            }
+        })
     }
-    
+
+    onSearch = () => {
+        var data = { 
+            start : 0,
+            length : 100,
+            search : this.state.search,
+            company : this.state.company,
+            employment_type : this.state.company,
+            location : this.state.location,
+            date_posted : this.state.date_posted
+        }
+
+        console.log(data)
+
+        const token =  JSON.parse(localStorage.getItem(userConstants.AUTH_TOKEN));
+
+        this.props.searchjob(data, token).then(response => {
+            console.log("response:", response);
+            if(response.payload.status === 200){
+                var results = response.payload.data.jobs.length > 0
+                console.log(results)
+                if(results){
+                    this.setState({ 
+                        jobdata : response.payload.data.jobs,
+                        currentjoblistid : response.payload.data.jobs[0]._id,
+                        results : results
+                    })
+                } else {
+                    this.setState({ 
+                        results : results
+                    })
+                }
+            }
+        })
+    }
 
     render(){
-        var currentjobliststate = this.state.jobdata.find(x => x.id === this.state.currentjoblistid);
-        console.log(currentjobliststate)
+        if(this.state.results){
+            var currentjobliststate = this.state.jobdata.find(x => x._id === this.state.currentjoblistid);
+        }
         return (
             <div className="jobsearch-wrapper">
                 <Navbar></Navbar>
@@ -115,24 +145,24 @@ class SearchJobs extends Component{
                                     </button>
                                     <div className="dropdown-menu" role="menu">
                                         <div className="checkbox-wrapper">
-                                        <div className="checkbox" data-search="Order DateTime" >
+                                        <div className="radio" data-search="Order DateTime" >
                                             <label className = "align-boxes-center">
-                                            <input name="selectedColumns" value="Past24hrs" type="checkbox"/>&nbsp;&nbsp;Past 24 hrs
+                                            <input name="date_posted" value="day" onChange={this.changeHandler} type="radio"/>&nbsp;&nbsp;Past 24 hrs
                                             </label>
                                         </div>   
                                         <div className="checkbox" data-search="Order DateTime" >
                                             <label className = "align-boxes-center">
-                                            <input name="selectedColumns" value="PastMonth" type="checkbox"/>&nbsp;&nbsp;Past Month
+                                            <input name="date_posted" value="week" onChange={this.changeHandler} type="radio"/>&nbsp;&nbsp;Past Week
                                             </label>
-                                        </div>  
+                                        </div> 
                                         <div className="checkbox" data-search="Order DateTime" >
                                             <label className = "align-boxes-center">
-                                            <input name="selectedColumns" value="Anytime" type="checkbox"/>&nbsp;&nbsp;Anytime
+                                            <input name="date_posted" value="month" onChange={this.changeHandler} type="radio"/>&nbsp;&nbsp;Past Month
                                             </label>
-                                        </div>     
+                                        </div>      
                                         </div>
                                         <div className="button-panel text-right">
-                                        <button type="submit" className="btn arteco-btn">Apply</button>
+                                        <button type="submit" className="btn arteco-btn" onClick ={this.onSearch}>Apply</button>
                                         <button type="button" className="btn arteco-btn-save" style = {{marginLeft : "10px", marginRight : "10px"}}>Cancel</button>
                                         </div>
                                     </div>
@@ -145,10 +175,10 @@ class SearchJobs extends Component{
                                     </button>
                                     <div className="dropdown-menu" role="menu">
                                         <div className ="jobs-search-box1">
-                                            <input type = "text" id = "jobsearch3" className ="jobs-search-box__input1" placeholder = "Search by Company Name"/>
+                                            <input type = "text" onChange={this.changeHandler} name ="company" id = "jobsearch3" className ="jobs-search-box__input1" placeholder = "Search by Company Name"/>
                                         </div>                                       
                                         <div className="button-panel text-right">
-                                        <button type="submit" className="btn arteco-btn">Apply</button>
+                                        <button type="submit" className="btn arteco-btn" onClick ={this.onSearch}>Apply</button>
                                         <button type="button" className="btn arteco-btn-save" style = {{marginLeft : "10px", marginRight : "10px"}}>Cancel</button>
                                         </div>
                                     </div>
@@ -161,10 +191,10 @@ class SearchJobs extends Component{
                                     </button>
                                     <div className="dropdown-menu" role="menu">
                                         <div className ="jobs-search-box1">
-                                            <input type = "text" id = "jobsearch4" className ="jobs-search-box__input1" placeholder = "Search by Location"/>
+                                            <input type = "text" id = "jobsearch4" onChange={this.changeHandler} name ="location" className ="jobs-search-box__input1" placeholder = "Search by Location"/>
                                         </div> 
                                         <div className="button-panel text-right">
-                                        <button type="submit" className="btn arteco-btn">Apply</button>
+                                        <button type="submit" className="btn arteco-btn"  onClick ={this.onSearch}>Apply</button>
                                         <button type="button" className="btn arteco-btn-save" style = {{marginLeft : "10px", marginRight : "10px"}}>Cancel</button>
                                         </div>
                                     </div>
@@ -179,27 +209,37 @@ class SearchJobs extends Component{
                                         <div className="checkbox-wrapper">
                                         <div className="checkbox" data-search="Full Time" >
                                             <label className = "align-boxes-center">
-                                            <input name="selectedColumns" value="FullTime" type="checkbox"/>&nbsp;&nbsp;Full Time
+                                            <input name="employment_type" onChange={this.changeHandler} value="FullTime" type="radio"/>&nbsp;&nbsp;Full Time
                                             </label>
                                         </div>   
                                         <div className="checkbox" data-search="Part Time" >
                                             <label className = "align-boxes-center">
-                                            <input name="selectedColumns" value="Parttime" type="checkbox"/>&nbsp;&nbsp;Part Time
+                                            <input name="employment_type" onChange={this.changeHandler} value="Parttime" type="radio"/>&nbsp;&nbsp;Part Time
                                             </label>
                                         </div>  
                                         <div className="checkbox" data-search="Contract" >
                                             <label className = "align-boxes-center">
-                                            <input name="selectedColumns" value="Contract" type="checkbox"/>&nbsp;&nbsp;Contract
+                                            <input name="employment_type" onChange={this.changeHandler} value="Contract" type="radio"/>&nbsp;&nbsp;Contract
                                             </label>
                                         </div>  
                                         <div className="checkbox" data-search="Temporary" >
                                             <label className = "align-boxes-center">
-                                            <input name="selectedColumns" value="Temporary" type="checkbox"/>&nbsp;&nbsp;Temporary
+                                            <input name="employment_type" onChange={this.changeHandler} value="Temporary" type="radio"/>&nbsp;&nbsp;Temporary
                                             </label>
-                                        </div>     
+                                        </div>
+                                        <div className="checkbox" data-search="Internship" >
+                                            <label className = "align-boxes-center">
+                                            <input name="employment_type" onChange={this.changeHandler} value="Internship" type="radio"/>&nbsp;&nbsp;Internship
+                                            </label>
+                                        </div>
+                                        <div className="checkbox" data-search="Volunteer" >
+                                            <label className = "align-boxes-center">
+                                            <input name="employment_type" onChange={this.changeHandler} value="Volunteer" type="radio"/>&nbsp;&nbsp;Volunteer
+                                            </label>
+                                        </div>          
                                         </div>
                                         <div className="button-panel text-right">
-                                        <button type="submit" className="btn arteco-btn">Apply</button>
+                                        <button type="submit" className="btn arteco-btn" onClick ={this.onSearch}>Apply</button>
                                         <button type="button" className="btn arteco-btn-save" style = {{marginLeft : "10px", marginRight : "10px"}}>Cancel</button>
                                         </div>
                                     </div>
@@ -215,18 +255,22 @@ class SearchJobs extends Component{
                         <div className = "jobs-search-two-pane__results jobs-search-two-pane__results--responsive display-flex full-width">
                             <div className = "jobs-search-results jobs-search-results--is-two-pane" tabIndex = "-1">
                                 <ul className = "jobs-search-results__list artdeco-list artdeco-list--offset-4">
+                                {this.state.results ?
                                     <JobList 
                                     jobs={this.state.jobdata} 
                                     getSelectedJob={this.openJob} 
-                                    selectedJob={currentjobliststate}/>
+                                    selectedJob={currentjobliststate}
+                                    self = {this}/> : 
+                                    <div>No Search Results found!</div> }
                                 </ul>
                             </div>
                         </div>
                         <div className = "jobs-search-two-pane__details pt4 ph3 jobs-search-two-pane__details--responsive ember-view">
                             <div id = "job-view-layout jobs-details ember-view">
+                            {this.state.results ?
                             <JobDetails 
-                                    jobs={currentjobliststate}
-                            />
+                                    jobs={currentjobliststate} self = {this}
+                            /> : <div>No Search Results found!</div> }
                             </div>
                         </div>
                     </div>
@@ -237,9 +281,9 @@ class SearchJobs extends Component{
     }
 }
 
-const JobList = ({jobs, getSelectedJob, selectedJob }) => {
+const JobList = ({jobs, getSelectedJob, selectedJob, self }) => {
         let jobList = jobs.map(function(job, i) {    
-            return <JobListItem job={job} key = {i} openJob={getSelectedJob} selectedJob={selectedJob === job}/>
+            return <JobListItem job={job} key = {i} openJob={getSelectedJob} self = {self} selectedJob={selectedJob === job}/>
         })
         return (
             <li className = "occludable-update artdeco-list__item p0 ember-view">                
@@ -248,18 +292,18 @@ const JobList = ({jobs, getSelectedJob, selectedJob }) => {
         );
 }
 
-const JobListItem = ({ job, openJob, selectedJob}) => {
+const JobListItem = ({ job, openJob, selectedJob, self}) => {
     var classes = "job-card-search"
     if(selectedJob) {
         classes += " job-card-search--is-active";
     }
-    console.log(job)   
+    // console.log(job)   
     return (
-        <div className={classes} onClick={() => openJob(job.id)}>
+        <div className={classes} onClick={() => openJob(job._id)}>
             <div className = "media">
             <a href=" "className = "pull-left"><img alt=""src = {job.company_logo} style = {{height : "56px", width : "56px"}}></img></a>
             <div className = "artdeco-entity-lockup--size-4 gap1">
-            <a href = {`/job/view/${job.id}`}><div className="job-item__subject" >
+            <a href = {`/job/view/${job._id}`} onClick = {(event) => self.viewjob(event, job)}><div className="job-item__subject" >
             {job.title}
             </div></a>
             <div className="job-item__name">{job.posted_by}</div>
@@ -271,7 +315,7 @@ const JobListItem = ({ job, openJob, selectedJob}) => {
     );
 };
 
-const JobDetails = ({jobs}) =>{
+const JobDetails = ({jobs, self}) =>{
     if(!jobs) {
         return (
             <div className="jobs-details__wrapper">
@@ -289,13 +333,16 @@ const JobDetails = ({jobs}) =>{
                 <div className = "media">
                     <a href=" "className = "pull-left"><img src = {jobs.company_logo} alt=" "style = {{height : "150px", width : "150px"}}></img></a>
                     <div className = "artdeco-entity-lockup--size-4 gap1">
-                    <a href = {`/job/view/${jobs.id}`}><div className="job-details__subject" >
+                    <a href = {`/job/view/${jobs._id}`} onClick = {(event) => self.viewjob(event, jobs)}><div className="job-details__subject" >
                     {jobs.title}
                     </div></a>
                     <div className="job-details__name">{jobs.posted_by}</div>
                     <div className="job-details__location"><FontAwesomeIcon className = "fa-map-marker-alt" icon="map-marker-alt"></FontAwesomeIcon>&nbsp;&nbsp;{jobs.location}</div>
                     <div className="job-details__posted">Posted on {jobs.posted_date}</div>
-                    <button type="submit" className="btn arteco-btn">Apply</button>
+                    {jobs.application_method  === "Easy" ? 
+                        <button type="submit" className="btn arteco-btn" style ={{width : "150px"}} onClick = {(event) => self.easyapplyjob(event, jobs)}>Easy Apply</button> :
+                        <button type="submit" className="btn arteco-btn" onClick = {(event) => self.normalapplyjob(event, jobs)}>Apply</button>
+                    }
                 </div>  
             </div>
             </div>
@@ -315,4 +362,12 @@ const JobDetails = ({jobs}) =>{
     )
 }
 
-export default SearchJobs;
+function mapStateToProps(state) {
+    return {
+        searchjob: state.searchjob
+    }
+}
+
+export default withRouter(reduxForm({
+    form: "Easy_Apply"
+    })(connect(mapStateToProps, { searchjob }) (SearchJobs)));

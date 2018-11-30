@@ -152,7 +152,6 @@ class Profile extends Component{
             }
         })
     }
-    
      
     changeHandler = (e) => {
         const state = {
@@ -1249,7 +1248,8 @@ function mapStateToProps(state) {
         applicantprofilesummary : state.applicantprofilesummary, 
         applicantprofileexperience : state.applicantprofileexperience, 
         applicantprofileeducation :  state.applicantprofileeducation, 
-        applicantprofileskills : state.applicantprofileskills
+        applicantprofileskills : state.applicantprofileskills,
+        applicantprofiledelete : state.applicantprofiledelete
     };
 }
 

@@ -9,25 +9,15 @@ import { connect } from "react-redux";
 import URI from '../../constants/URI';
 import { userConstants } from '../../constants';
 import { getapplicantprofile } from '../../Actions/applicant_login_profile_actions';
+import { applyjob } from '../../Actions/actions_jobs';
+
 
 class JobApply extends Component{
     constructor(props){
         super(props);
         this.state = {
           profile : [],
-          jobdetails :[ {_id : "5bfcfb5ab86ad9459e4b8421",
-          posted_by : "5bfcf215fa36bb441e5b2935",
-          title : "Title2",
-          company : "Company2",
-          job_description : "Job Description2",
-          industry : "Industry2",
-          employment_type : "Internship",
-          location : "New York",
-          job_function : "Job Function2",
-          company_logo : "https://logonoid.com/images/sjsu-logo.png",
-          posted_date : "2018-12-01T00:00:00.000Z",
-          expiry_date : "2019-02-13T00:00:00.000Z",
-          applications : [] }],
+          jobdetails :[],
           firstname : "",
           lastname : "",
           phonenumber : "",
@@ -69,6 +59,15 @@ class JobApply extends Component{
                 }); 
             }
         })
+    }
+
+    componentWillMount(){
+        var job = JSON.parse(localStorage.getItem("job"))
+        this.setState ({
+            jobdetails : job
+        })
+        console.log(job)
+        localStorage.removeItem("job")
     }
 
     openResumeDialog = (e) => {
@@ -114,11 +113,15 @@ class JobApply extends Component{
         if (this.handleValidation()) {
             const token =  JSON.parse(localStorage.getItem(userConstants.AUTH_TOKEN));
             const data = {
-                firstName : this.state.firstname,
-                lastName : this.state.lastname,
-                email : this.state.email,
-                phoneNumber : this.state.phonenumber,
+                first_name : this.state.firstname,
+                last_name : this.state.lastname,
+                applicant_email : this.state.email,
+                phone_number : this.state.phonenumber,
                 resume : this.state.resume,
+                diversity_question : this.state.ethnicity,
+                disability_question : this.state.disability,
+                sponsorship_question : this.state.sponsorship,
+                how_did_you_hear_about_us : this.state.question
             }
 
             var formData = new FormData();
@@ -133,16 +136,15 @@ class JobApply extends Component{
                 console.log(pair[0]+ ', ' + pair[1]); 
             }
 
-            // this.props.applyjob(formData, token).then(response => {
-            //     console.log("response:", response);
-            //     if(response.payload.status === 200){
-            //         console.log("Applied job Successfully")
-            //         window.location.href = '/searchjobs';
-            //     }
-            //  })
-            // }
-        }
-    } 
+            this.props.applyjob(formData, token).then(response => {
+                console.log("response:", response);
+                if(response.payload.status === 200){
+                    console.log("Applied job Successfully")
+                    window.location.href = '/searchjobs';
+                }
+             })
+            }
+        } 
 
     render() {
         const {profile, jobdetails} = this.state;
@@ -155,7 +157,6 @@ class JobApply extends Component{
                 return hasError ? shouldShow : false;
             };
         }
-        console.log(this.props.location.state.job)
         return (
            <div className="jobsearch-wrapper">
                 <div className="navbar fixed-top navbar-dark bg-dark" style={{ height: "52px" }}>
@@ -169,15 +170,15 @@ class JobApply extends Component{
                     <div className ="wrapping-header" >
                         <div className ="easyapply-header">
                             <div className ="company-logo">
-                                <img src ={jobdetails[0].company_logo} alt="" style = {{width:"70px", height: "70px"}} />
+                                <img src ={jobdetails.company_logo} alt="" style = {{width:"70px", height: "70px"}} />
                             </div>
                             <div className ="company-info-wrapper">
                                 <div className ="company-info">
-                                    <div className = "job-title">{jobdetails[0].title}
+                                    <div className = "job-title">{jobdetails.title}
                                     </div>
-                                    <div className = "company-name">{jobdetails[0].company}
+                                    <div className = "company-name">{jobdetails.company}
                                     </div>
-                                    <div className = "location-description">{jobdetails[0].location}
+                                    <div className = "location-description">{jobdetails.location}
                                     </div>
                                 </div>
                             </div>
@@ -296,10 +297,11 @@ function validateprofile(firstname, lastname, phonenumber, email, resume) {
 
 function mapStateToProps(state) {
     return {
-        getapplicantprofile: state.getapplicantprofile
+        getapplicantprofile: state.getapplicantprofile,
+        applyjob : state.applyjob
     }
 }
 
 export default withRouter(reduxForm({
     form: "Job_Apply"
-    })(connect(mapStateToProps, { getapplicantprofile}) (JobApply)));
+    })(connect(mapStateToProps, { getapplicantprofile, applyjob}) (JobApply)));
