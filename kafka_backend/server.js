@@ -34,7 +34,11 @@ let getAllConnections = require('./services/getAllConnection');
 let applyForJobService = require('./services/applyForJob');
 let saveJobService = require('./services/saveJob');
 let getAllSavedJobsService = require('./services/getAllSavedJobs');
+
+let deleteProfileService = require('./services/deleteProfile');
+
 let searchJobs = require('./services/searchJobs');
+
 
 //import kafka topics
 const {
@@ -51,7 +55,9 @@ const {
     GRAPHS_UNPOPULAR_JOB_POSTINGS_REQUEST, GRAPHS_CITYWISE_APPLICATION_REQUEST, LOG_EVENT_REQUEST,
     GRAPHS_LOG_EVENT_REQUEST, SEND_MESSAGE_REQUEST, GET_ALL_MESSAGES_REQUEST,
     SEND_CONNECTION_REQUEST, GET_ALL_CONNECTION_REQUEST, CONNECTION_RESPONSE_REQUEST,
-    APPLY_FOR_JOB_REQUEST, SAVE_JOB_REQUEST, GET_ALL_SAVED_JOBS_REQUEST, SEARCH_JOBS_REQUEST
+
+    APPLY_FOR_JOB_REQUEST, SAVE_JOB_REQUEST, GET_ALL_SAVED_JOBS_REQUEST, DELETE_PROFILE_REQUEST, SEARCH_JOBS_REQUEST
+
 } = require('./kafka/topics');
 
 function handleTopicRequest(topic_name, fname) {
@@ -121,4 +127,8 @@ handleTopicRequest(GET_ALL_CONNECTION_REQUEST, getAllConnections);
 handleTopicRequest(APPLY_FOR_JOB_REQUEST, applyForJobService);
 handleTopicRequest(SAVE_JOB_REQUEST, saveJobService);
 handleTopicRequest(GET_ALL_SAVED_JOBS_REQUEST, getAllSavedJobsService);
+
+handleTopicRequest(DELETE_PROFILE_REQUEST, deleteProfileService);
+
 handleTopicRequest(SEARCH_JOBS_REQUEST, searchJobs);
+
