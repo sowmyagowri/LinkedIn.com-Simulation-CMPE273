@@ -60,3 +60,34 @@ export function getsavedjobs(applicantEmail, tokenFromStorage) {
     payload: response
   };  
 }
+
+//target action for Search Jobs Request 
+export function searchjob(data, tokenFromStorage) {
+  console.log("inside Search Job Request action")
+  var config = {
+    headers: {'Authorization': tokenFromStorage,
+              'Content-Type': 'application/json',
+              withCredentials : true
+    }
+  };
+  var start = data.start
+  var length = data.length
+  var search = data.search
+  var company = data.company
+  var employment_type = data.employment_type
+  var location = data.location
+  var date_posted = data.date_posted
+
+  axios.defaults.withCredentials = true;
+  const response =  axios.get(URI.ROOT_URL + '/searchJobs/', {
+    params: {
+      start,length,search,company,employment_type,location,date_posted
+    }, 
+    ...config
+  });
+  console.log("Response", response);
+  return {
+    type: userConstants.SEARCH_JOBS,
+    payload: response
+  };  
+}

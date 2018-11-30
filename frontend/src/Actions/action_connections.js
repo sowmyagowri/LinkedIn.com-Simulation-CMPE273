@@ -55,3 +55,27 @@ export function connectionresponse(data, tokenFromStorage) {
     payload: response
   };  
 }
+
+//target action Search all People Request 
+export function searchpeople(data, tokenFromStorage) {
+  console.log("inside Search all People action")
+  var config = {
+    headers: {'Authorization': tokenFromStorage,
+              'Content-Type': 'application/json',
+              withCredentials : true
+    }
+  };
+  var search = data.search
+  axios.defaults.withCredentials = true;
+  const response =  axios.get(URI.ROOT_URL + '/searchPeople/', {
+    params: {
+      search
+    }, 
+    ...config
+  });
+  console.log("Response", response);
+  return {
+    type: userConstants.SEARCH_PEOPLE,
+    payload: response
+  };  
+}
