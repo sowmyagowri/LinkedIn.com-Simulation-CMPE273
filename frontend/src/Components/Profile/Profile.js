@@ -231,7 +231,7 @@ class Profile extends Component{
             }
             })
         }
-    } 
+  
 
     shouldComponentUpdate(nextState) {
         if (nextState.profiledata !== this.state.profiledata) {
