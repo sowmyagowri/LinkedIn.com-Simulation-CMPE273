@@ -66,7 +66,7 @@ class Profile extends Component{
                         profilesummary : response.payload.data.profile.profileSummary === undefined || "" ? "" : response.payload.data.profile.profileSummary,
                         state : response.payload.data.profile.state,
                         zipcode : response.payload.data.profile.zipcode,
-                        phonenumber : response.payload.data.profile.phoneNumber === undefined || ""  ? "" : response.payload.data.profile.phoneNumber,
+                        phonenumber : response.payload.data.profile.phoneNumber === undefined || null || ""  ? "" : response.payload.data.profile.phoneNumber,
                         address : response.payload.data.profile.address === undefined || "" ? "" : response.payload.data.profile.address,
                         experience : response.payload.data.profile.experience,
                         education : response.payload.data.profile.education,

@@ -10,7 +10,7 @@ import URI from '../../constants/URI';
 import { userConstants } from '../../constants';
 import { getapplicantprofile } from '../../Actions/applicant_login_profile_actions';
 
-class Easyapply extends Component{
+class JobApply extends Component{
     constructor(props){
         super(props);
         this.state = {
@@ -41,7 +41,10 @@ class Easyapply extends Component{
             email : false,
           }
         };
+
         this.submitApply = this.submitApply.bind(this);
+        this.changeHandler = this.changeHandler.bind(this);
+        this.uploadresume = this.uploadresume.bind(this)
     }
 
 
@@ -56,16 +59,9 @@ class Easyapply extends Component{
                         profile: response.payload.data.profile,
                         firstname : response.payload.data.profile.firstName,
                         lastname : response.payload.data.profile.lastName,
-                        phonenumber : response.payload.data.profile.phoneNumber === undefined || null || ""  ? "" : response.payload.data.profile.phoneNumber,
-                        email : response.payload.data.profile.email,
-                        resume : response.payload.data.profile.resume,
                         profilephoto : response.payload.data.profile.profilePicture === "" ? "images/avatar.png" : response.payload.data.profile.profilePicture,
                         isLoading : false
                 }); 
-                this.refs.myfirstname.value = response.payload.data.profile.firstName      
-                this.refs.mylastname.value = response.payload.data.profile.lastName  
-                this.refs.myphonenumber.value = response.payload.data.profile.phoneNumber      
-                this.refs.myemail.value = response.payload.data.profile.email    
             }
         })
     }
@@ -159,7 +155,7 @@ class Easyapply extends Component{
                 <div className="navbar fixed-top navbar-dark bg-dark" style={{ height: "52px" }}>
                     <div className="home_wrapper">
                         <div className="nav-main__content full-height display-flex align-items-center" role="navigation">
-                            <h1 className ="easy-apply-h1"><a className="navbar-brand" href="/"><img src={"/images/linkedin-logo2.png"} alt="" />&nbsp;Easy Apply</a></h1>
+                            <h1 className ="easy-apply-h1"><a className="navbar-brand" href="/"><img src={"/images/linkedin-logo2.png"} alt="" />&nbsp;Job Apply</a></h1>
                         </div> 
                     </div>
                 </div>
@@ -204,11 +200,11 @@ class Easyapply extends Component{
                                 <div className="row form-group">
                                     <div className = "col-xs-6 col-md-6">
                                         <label htmlFor="position-firstname-typeahead" className="mb1 required">First Name*</label>
-                                        <input className = "form-control" name = "firstname" ref = "myfirstname" onChange = {this.changeHandler} onBlur={this.handleBlur('firstname')} id="position-firstname-typeahead" maxLength="100" type="text"/>
+                                        <input className = "form-control" name = "firstname" onChange = {this.changeHandler} onBlur={this.handleBlur('firstname')} id="position-firstname-typeahead" maxLength="100" type="text"/>
                                     </div>
                                     <div className = "col-xs-6 col-md-6">
                                         <label htmlFor="position-lastname-typeahead" className="mb1 required">Last Name*</label>
-                                        <input className = "form-control"  name = "lastname" ref = "mylastname" onChange = {this.changeHandler} onBlur={this.handleBlur('lastname')} id="position-lastname-typeahead" maxLength="100" type="text"/>
+                                        <input className = "form-control"  name = "lastname"  onChange = {this.changeHandler} onBlur={this.handleBlur('lastname')} id="position-lastname-typeahead" maxLength="100" type="text"/>
                                     </div>
                                     {!isLoading ?
                                         <div className = "col-xs-6 col-md-6">
@@ -222,13 +218,13 @@ class Easyapply extends Component{
                                     }
                                 </div>
                                     <label htmlFor = "phone-number-question" className = "question-apply">Phone Number*</label>
-                                    <input className = "form-control" name = "phonenumber" id="phone-number-question" ref ="myphonenumber" onChange = {this.changeHandler} type="text" pattern="[0-9]{10}" onBlur={this.handleBlur('phonenumber')} placeholder="1234567890"/>
+                                    <input className = "form-control" name = "phonenumber" id="phone-number-question"  onChange = {this.changeHandler} type="text" pattern="[0-9]{10}" onBlur={this.handleBlur('phonenumber')} placeholder="1234567890"/>
                                     {!isLoading ?
                                     <div className = "col-xs-12">
                                      {shouldMarkError('phonenumber') ? <div className=""  style = {{color: "red"}}>Phone Number is a required field</div> : (null)}
                                     </div> : (null) }
                                     <label htmlFor = "email-question" className = "question-apply">Email Address*</label>
-                                    <input className = "form-control" name = "email" id="email-question" ref = "myemail" onChange = {this.changeHandler} maxLength="100" type="email" onBlur={this.handleBlur('email')} type="email"/>
+                                    <input className = "form-control" name = "email" id="email-question" onChange = {this.changeHandler} maxLength="100" type="email" onBlur={this.handleBlur('email')} type="email"/>
                                     {!isLoading ?
                                     <div className = "col-xs-12">
                                     {shouldMarkError('email') ? <div className=""  style = {{color: "red"}}>Email is a required field</div> : (null)}
@@ -273,5 +269,5 @@ function mapStateToProps(state) {
 }
 
 export default withRouter(reduxForm({
-    form: "Easy_Apply"
-    })(connect(mapStateToProps, { getapplicantprofile}) (Easyapply)));
+    form: "Job_Apply"
+    })(connect(mapStateToProps, { getapplicantprofile}) (JobApply)));
