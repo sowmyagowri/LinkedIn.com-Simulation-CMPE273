@@ -143,3 +143,21 @@ export async function applicantprofileskills(data, tokenFromStorage) {
     payload: response
   };  
 }
+
+//target action for applicant profile delete
+export async function applicantprofiledelete(data, tokenFromStorage) {
+  console.log("inside applicant profile delete action")
+  var config = {
+    headers: {'Authorization': tokenFromStorage,
+              'Content-Type': 'application/json',
+              withCredentials : true
+    }
+  };
+  axios.defaults.withCredentials = true;
+  const response =  await axios.post(URI.ROOT_URL + '/deleteProfile/' , data, config);
+  console.log("Response", response);
+  return {
+    type: userConstants.APPLICANT_PROFILE_DELETE,
+    payload: response
+  };  
+}
