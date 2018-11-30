@@ -41,7 +41,10 @@ class Easyapply extends Component{
             email : false,
           }
         };
+
         this.submitApply = this.submitApply.bind(this);
+        this.changeHandler = this.changeHandler.bind(this);
+        this.uploadresume = this.uploadresume.bind(this)
     }
 
 
