@@ -7,6 +7,7 @@ export const userConstants = {
     APPLICANT_PROFILE_EDUCATION_POST: 'applicantprofileeducation',
     APPLICANT_PROFILE_SKILLS_POST: 'applicantprofileskills',
     APPLICANT_PROFILE_PHOTO_POST: 'applicantprofilephoto',
+    APPLICANT_PROFILE_DELETE : 'applicantprofiledelete',
     MAKE_CONNECTION_REQUEST : 'makeconnections',
     GET_ALL_CONNECTIONS : 'getAllConnections',
     CONNECTION_RESPONSE :'connectionresponse',
