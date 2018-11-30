@@ -23,8 +23,8 @@ var Jobs = mongoose.model('Jobs', {
         phone_number: String,
         how_did_they_hear_about_us: String,
         diversity_question: String,
-        sponsorship_question: String,
-        disability_question: String,
+        sponsorship_question: Boolean,
+        disability_question: Boolean,
         resume: {
             type: String,
             data: Buffer,
