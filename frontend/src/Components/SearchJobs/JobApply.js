@@ -34,6 +34,11 @@ class JobApply extends Component{
           email : "",
           profilephoto : "",
           resume : "",
+          coverletter : "",
+          ethnicity : "",
+          question : "",
+          sponsorship : false,
+          disability : false,
           touchedprofile : {
             firstname: false,
             lastname: false,
@@ -150,6 +155,7 @@ class JobApply extends Component{
                 return hasError ? shouldShow : false;
             };
         }
+        console.log(this.props.location.state.job)
         return (
            <div className="jobsearch-wrapper">
                 <div className="navbar fixed-top navbar-dark bg-dark" style={{ height: "52px" }}>
@@ -229,7 +235,33 @@ class JobApply extends Component{
                                     <div className = "col-xs-12">
                                     {shouldMarkError('email') ? <div className=""  style = {{color: "red"}}>Email is a required field</div> : (null)}
                                     </div> : (null) }
+
+                                    <label htmlFor = "ethnicity-question" className = "question-apply">Ethnicity</label>
+                                    <input className = "form-control" name = "ethnicity" id="ethnicity-question"  onChange = {this.changeHandler} type="text" placeholder=""/>
+
+                                    <label htmlFor = "question-question" className = "question-apply">How did you hear about us?</label>
+                                    <input className = "form-control" name = "question" id="question-question"  onChange = {this.changeHandler} type="text" placeholder=""/>
                             </li>
+                        </section>
+                        <section className = "section-profile ember-view">
+                            <div className = "question-apply">Will you now, or in the future, require sponsorship for employment visa status (e.g. H-1B visa status)? *</div>
+                            <div className="radio">
+                                <h4><label>
+                                    <input type="radio" value = "True" name="sponsorship" onChange={this.changeHandler} />&nbsp;&nbsp;Yes</label> </h4>
+                                <h4><label>
+                                    <input type="radio" value = "False" checked={this.state.sponsorship === "False"} name="sponsorship" onChange={this.changeHandler} />&nbsp;&nbsp;No</label> </h4>
+                                <br />
+                            </div>
+
+                            <div className = "question-apply">Do you have a physical, sensory, or mental condition that substantially limits any of your major life functions?*</div>
+                            <div className="radio">
+                                <h4><label>
+                                    <input type="radio" value = "True" name="disability" onChange={this.changeHandler} />&nbsp;&nbsp;Yes</label> </h4>
+                                <h4><label>
+                                    <input type="radio" value = "False" checked={this.state.disability === "False"} name="disability" onChange={this.changeHandler} />&nbsp;&nbsp;No</label> </h4>
+                                <br />
+                            </div>
+
                         </section>
                         <section className = "section-profile ember-view">
                         <div className = "profile-title" style = {{fontSize : "19px"}}>Resume</div>

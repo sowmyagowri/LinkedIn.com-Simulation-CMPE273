@@ -54,7 +54,7 @@ class Viewjob extends Component{
 
     applyjob = (event, job) => {
         this.props.history.push({
-            pathname:"/easyapply/1",
+            pathname:"/applyjob/1",
             state:{
                 job : job,
             }

@@ -9,10 +9,10 @@ async function handle_request(msg, callback) {
     let resp = {};
     try {
         await Users.remove(
-            { email : msg.applicantEmail }
+            { email : msg.email }
         );
 
-        await db.deleteQuery('DELETE FROM user_profile WHERE email = ?', [msg.applicantEmail]);
+        await db.deleteQuery('DELETE FROM user_profile WHERE email = ?', [msg.email]);
         resp = prepareSuccess({ "result": "Profile deleted Successfully!" });
     } catch (err) {
         console.log("Error: " , err);
