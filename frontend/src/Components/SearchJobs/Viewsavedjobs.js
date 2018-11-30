@@ -51,6 +51,16 @@ class ViewSavedJobs extends Component{
             }
         });
     }
+
+    viewjob  = (event, job) => {
+        console.log(job)
+        this.props.history.push({
+            pathname:`/job/view/${job._id}`,
+            state:{
+                viewjob : job,
+            }
+        });
+    }
     
     getContents () {
         var rows = this.state.jobs;
@@ -61,7 +71,7 @@ class ViewSavedJobs extends Component{
                     <div className = "media1">
                      <a href = {`/job/view/${rows[i]._id}`} className = "pull-left"><img alt=""src = {rows[i].company_logo} style = {{height : "50px", width : "50px"}}/></a>
                       <div className = "artdeco-entity-lockup--size-4 gap1">
-                           <a href = {`/job/view/${rows[i]._id}`}><div className="job-details__subject1" >
+                           <a href = {`/job/view/${rows[i]._id}`} onClick = {(event) => self.viewjob(event, rows[i])}><div className="job-details__subject1" >
                              {rows[i].title}
                             </div></a>
                         <div className="job-details__name">{rows[i].posted_by}</div>
@@ -71,9 +81,9 @@ class ViewSavedJobs extends Component{
                             <div className="job-details__posted">Expires on {rows[i].expiry_date}</div>
                         </div>  
                     </div>
-                    {rows.application_method  === "Easy" ? 
-                        <button type="submit" className="btn arteco-btn" style ={{width : "150px"}} onClick = {(event) => self.easyapplyjob(event, rows)}>Easy Apply</button> :
-                        <button type="submit" className="btn arteco-btn" onClick = {(event) => self.normalapplyjob(event, rows)}>Apply</button>
+                    {rows[i].application_method  === "Easy" ? 
+                        <button type="submit" className="btn arteco-btn" style ={{width : "150px"}} onClick = {(event) => self.easyapplyjob(event, rows[i])}>Easy Apply</button> :
+                        <button type="submit" className="btn arteco-btn" onClick = {(event) => self.normalapplyjob(event, rows[i])}>Apply</button>
                     }
             </li>
             })
