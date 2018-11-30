@@ -11,6 +11,7 @@ export const userConstants = {
     MAKE_CONNECTION_REQUEST : 'makeconnections',
     GET_ALL_CONNECTIONS : 'getAllConnections',
     CONNECTION_RESPONSE :'connectionresponse',
+    SEARCH_PEOPLE : 'searchpeople',
     SAVE_JOB :'saveajob',
     APPLY_JOB :'applyjob',
     GET_SAVEDJOBS :'getsavedjobs',

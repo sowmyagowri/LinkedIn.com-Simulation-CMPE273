@@ -219,7 +219,7 @@ class Easyapply extends Component{
                                 </div>
                                 <div>
                                     <label htmlFor = "email-question" className = "question-apply">Email Address*</label>
-                                    <input className = "form-control" name = "email" id="email-question" ref = "myemail" maxLength="100" type="email" disabled type="email"/>
+                                    <input className = "form-control" name = "email" id="email-question" ref = "myemail" maxLength="100" type="email" disabled/>
                                 </div>
                                 <div>
                                     <label htmlFor = "address-question" className = "question-apply">Address*</label>

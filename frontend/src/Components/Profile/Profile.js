@@ -568,7 +568,7 @@ class Profile extends Component{
                         </li>
                     </div>                   
               </div>
-
+              <button type="submit" className="btn arteco-btn" onClick = {this.deleteProfile} style = {{width : "150px"}}>Delete Profile</button>
             </div>
         </div>
       </div>   

@@ -58,10 +58,10 @@ class Viewjob extends Component{
     }
 
     applyjob = (event, job) => {
-        var job = JSON.stringify(job)
-        var id = JSON.parse(job)._id
+        var applyjob = JSON.stringify(job)
+        var id = JSON.parse(applyjob)._id
         window.open('/applyjob/'+id, "_blank")
-        localStorage.setItem("job", job)    
+        localStorage.setItem("job", applyjob)    
     }
 
     render(){

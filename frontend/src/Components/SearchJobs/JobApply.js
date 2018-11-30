@@ -231,7 +231,7 @@ class JobApply extends Component{
                                      {shouldMarkError('phonenumber') ? <div className=""  style = {{color: "red"}}>Phone Number is a required field</div> : (null)}
                                     </div> : (null) }
                                     <label htmlFor = "email-question" className = "question-apply">Email Address*</label>
-                                    <input className = "form-control" name = "email" id="email-question" onChange = {this.changeHandler} maxLength="100" type="email" onBlur={this.handleBlur('email')} type="email"/>
+                                    <input className = "form-control" name = "email" id="email-question" onChange = {this.changeHandler} maxLength="100" type="email" onBlur={this.handleBlur('email')}/>
                                     {!isLoading ?
                                     <div className = "col-xs-12">
                                     {shouldMarkError('email') ? <div className=""  style = {{color: "red"}}>Email is a required field</div> : (null)}

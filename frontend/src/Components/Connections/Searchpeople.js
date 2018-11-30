@@ -7,15 +7,16 @@ import { reduxForm } from "redux-form";
 import { withRouter} from 'react-router-dom';
 import { connect } from "react-redux";
 import { userConstants } from '../../constants';
-import { getAllConnections, makeconnections } from '../../Actions/action_connections';
+import URI from '../../constants/URI';
+import { getAllConnections, makeconnections, searchpeople } from '../../Actions/action_connections';
 
 class SearchPeople extends Component{
     constructor(props){
         super(props);
         this.state = {
-            searchresults : "",
+            searchresults : 0,
             isLoading : false,
-            filteredResults : "",
+            filteredResults : [],
             connectionResults : [],
         };
         this.sendRequest = this.sendRequest.bind(this)
@@ -23,53 +24,52 @@ class SearchPeople extends Component{
 
     componentDidMount() {
         //call to action
-        var filteredResults =  [{
-            profilePicture : "/images/avatar.png",
-            firstName : "Saranya",
-            lastName : "Soundarrajan",
-            description : "Senior Accountant at asfasfasff",
-            email : "saranya@gmail.com"
-        },{
-            profilePicture : "/images/avatar.png",
-            firstName : "Nrupa",
-            lastName : "Chitley",
-            description : "Senior Accountant at asfasfasff",
-            email : "replica.recruiter@sjsu.edu"
-        }]
-        this.setState ({
-            filteredResults : filteredResults,
-            searchresults : filteredResults.length
-        })
+
         const token =  JSON.parse(localStorage.getItem(userConstants.AUTH_TOKEN));
-        this.props.getAllConnections(token).then(response => {
+
+        var data = {
+            search : ""
+        }
+
+        this.props.searchpeople(data, token).then(response => {
             console.log("response:", response);
             if(response.payload.status === 200){
-                var connectionResults = []
-                var approved = response.payload.data.connections.connectionsApproved
-                var incoming = response.payload.data.connections.connectionsIncoming
-                var outgoing = response.payload.data.connections.connectionsOutgoing
-                var i = 0;
-                if(approved.length > 0) {
-                    for (i = 0; i < approved.length; i++) {
-                        connectionResults.push(JSON.parse(JSON.stringify(approved[i].email)))
-                    }                }
-                if(incoming.length > 0) {
-                    for (i = 0; i < incoming.length; i++) {
-                        connectionResults.push(JSON.parse(JSON.stringify(incoming[i].email)))
-                    }                }
-                if(outgoing.length > 0) {
-                    for (i = 0; i < outgoing.length; i++) {
-                        connectionResults.push(JSON.parse(JSON.stringify(outgoing[i].email)))
-                    }
-                }
-
+                var filteredResults =  response.payload.data.people
                 this.setState ({
-                    connectionResults : connectionResults
+                    filteredResults : filteredResults,
+                    searchresults : filteredResults.length
                 })
-            }   
+
+                this.props.getAllConnections(token).then(response => {
+                    console.log("response:", response);
+                    if(response.payload.status === 200){
+                        var connectionResults = []
+                        var approved = response.payload.data.connections.connectionsApproved
+                        var incoming = response.payload.data.connections.connectionsIncoming
+                        var outgoing = response.payload.data.connections.connectionsOutgoing
+                        var i = 0;
+                        if(approved.length > 0) {
+                            for (i = 0; i < approved.length; i++) {
+                                connectionResults.push(JSON.parse(JSON.stringify(approved[i].email)))
+                            }                }
+                        if(incoming.length > 0) {
+                            for (i = 0; i < incoming.length; i++) {
+                                connectionResults.push(JSON.parse(JSON.stringify(incoming[i].email)))
+                            }                }
+                        if(outgoing.length > 0) {
+                            for (i = 0; i < outgoing.length; i++) {
+                                connectionResults.push(JSON.parse(JSON.stringify(outgoing[i].email)))
+                            }
+                        }
+
+                        this.setState ({
+                            connectionResults : connectionResults
+                        })
+                    }   
+                })
+            }
         })
     }
-
 
     sendRequest = (event, i) => {
         const token =  JSON.parse(localStorage.getItem(userConstants.AUTH_TOKEN));
@@ -113,11 +113,13 @@ class SearchPeople extends Component{
                             <div className = "invitation-card__details">
                                 <div className = "details-view">
                                 <div className = "msg-conversation-card__row pr2">
-                                    <img alt="" src={filteredResults[i].profilePicture} style = {{width : "56px", height : "56px"}}/>
+                                    {filteredResults[i].profilePicture === "" ?
+                                        <img alt="" src="/images/avatar.png" style = {{width : "56px", height : "56px"}}/> :
+                                        <img alt="" src={URI.ROOT_URL + "/profilepictures/" + filteredResults[i].profilePicture} style = {{width : "56px", height : "56px"}}/> }
                                     <div className = "row" style = {{marginLeft : "15px"}}>
                                         <div className = "form-group">
                                             <h5 className = "t-14 t-black t-normal">{filteredResults[i].firstName}&nbsp;{filteredResults[i].lastName}</h5>
-                                            <h5 className = "t-12 t-black--light t-normal">{filteredResults[i].description}</h5>
+                                            <h5 className = "t-12 t-black--light t-normal">{filteredResults[i].profileSummary}</h5>
                                         </div>
                                     </div>
                                 </div>
@@ -159,10 +161,11 @@ class SearchPeople extends Component{
 function mapStateToProps(state) {
     return {
         makeconnections: state.makeconnections,
-        getAllConnections : state.getAllConnections
+        getAllConnections : state.getAllConnections,
+        searchpeople : state.searchpeople
     };
 }
 
 export default withRouter(reduxForm({
 form: "Search_People"
-})(connect(mapStateToProps, { makeconnections, getAllConnections })(SearchPeople)));
+})(connect(mapStateToProps, { makeconnections, getAllConnections, searchpeople })(SearchPeople)));
