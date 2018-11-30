@@ -8,7 +8,7 @@ import { connect } from "react-redux";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { userConstants } from '../../constants';
 import URI from '../../constants/URI';
-import { getapplicantprofile, applicantprofilephoto, applicantprofilesummary, applicantprofileexperience, applicantprofileeducation, applicantprofileskills } from '../../Actions/applicant_login_profile_actions';
+import { getapplicantprofile, applicantprofilephoto, applicantprofilesummary, applicantprofileexperience, applicantprofileeducation, applicantprofileskills, applicantprofiledelete } from '../../Actions/applicant_login_profile_actions';
 
 class Profile extends Component{
     constructor(props){
@@ -42,6 +42,7 @@ class Profile extends Component{
         this.openFileDialog = this.openFileDialog.bind(this)
         this.updateSkills = this.updateSkills.bind(this)
         this.submitProfile = this.submitProfile.bind(this)
+        this.deleteProfile = this.deleteProfile.bind(this)
         this.uploadresume = this.uploadresume.bind(this)
         this.handleChange = this.handleChange.bind(this)
     }
@@ -151,6 +152,7 @@ class Profile extends Component{
             }
         })
     }
+    
      
     changeHandler = (e) => {
         const state = {
@@ -214,6 +216,22 @@ class Profile extends Component{
                 }
              })
             }
+    } 
+
+    deleteProfile = () => {
+       const email = JSON.parse(localStorage.getItem(userConstants.USER_DETAILS)).email;
+        const token =  JSON.parse(localStorage.getItem(userConstants.AUTH_TOKEN));
+        const data = {
+            email: email,
+        }
+
+        this.props.applicantprofiledelete(data, token).then(response => {
+            console.log("response:", response);
+            if(response.payload.status === 200){
+                console.log("Profile Summary Deleted Successfully")
+            }
+            })
+        }
     } 
 
     shouldComponentUpdate(nextState) {
@@ -1237,4 +1255,4 @@ function mapStateToProps(state) {
 
 export default withRouter(reduxForm({
 form: "Applicant_profile"
-})(connect(mapStateToProps, { getapplicantprofile, applicantprofilephoto, applicantprofilesummary, applicantprofileexperience, applicantprofileeducation, applicantprofileskills })(Profile)));
+})(connect(mapStateToProps, { getapplicantprofile, applicantprofilephoto, applicantprofilesummary, applicantprofileexperience, applicantprofileeducation, applicantprofileskills, applicantprofiledelete })(Profile)));
