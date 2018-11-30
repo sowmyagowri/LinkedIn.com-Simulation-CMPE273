@@ -23,10 +23,18 @@ router.post("/", upload.any(), function (req, res) {
     var resumename;
     var coverlettername;
 
-    resumename = req.files[0].filename;
-    console.log("resumename", resumename);
-    coverlettername = req.files[1].filename;
-    console.log("coverlettername", coverlettername);
+    console.log("Files - ", req.files)
+    if (req.files.length == 1) {
+        resumename = req.files[0].filename;
+        console.log("resumename", resumename);
+    }
+    if (req.files.length > 1) {
+        resumename = req.files[0].filename;
+        console.log("resumename", resumename);
+        coverlettername = req.files[1].filename;
+        console.log("coverlettername", coverlettername);
+    }
+
 
     const data = {
         body: req.body,

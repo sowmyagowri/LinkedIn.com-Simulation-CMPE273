@@ -26,7 +26,11 @@ function addJobs() {
         'Full Time', 'Internship'
     ]
 
-    for (var i = 0; i < 10000; i++) {
+    var application_methods = [
+        'Easy', 'Normal'
+    ] 
+
+    for (var i = 0; i < 100; i++) {
         console.log("Created Job", i);
         var data = {
             recruiterID : recruiter_id[Math.floor(Math.random()*recruiter_id.length)],
@@ -39,7 +43,8 @@ function addJobs() {
             jobFunction : 'Job Function' + i.toString(),
             companyLogo : 'https://logonoid.com/images/sjsu-logo.png',
             postedDate : posted_date_array[Math.floor(Math.random()*posted_date_array.length)],
-            expiryDate : expiry_date_array[Math.floor(Math.random()*expiry_date_array.length)]
+            expiryDate : expiry_date_array[Math.floor(Math.random()*expiry_date_array.length)],
+            applicationMethod : application_methods[Math.floor(Math.random()*application_methods.length)]
         }
         addJob.handle_request(data, function (res) {
             console.log("Result", res)
