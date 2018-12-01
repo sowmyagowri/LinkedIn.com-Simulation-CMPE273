@@ -219,11 +219,24 @@ class JobApply extends Component{
                 console.log("response:", response);
                 if(response.payload.status === 200){
                     console.log("Applied job Successfully")
-                    window.location.href = '/searchjobs';
+                    const data = {
+                        jobID : this.state.jobdetails._id,
+                        eventName: "COMPLETELY_FILL_FORM",
+                        applicantEmail: this.state.profile.email,
+                        recruiterEmail: this.state.jobdetails.posted_by,
+                        city: this.state.profile.state
+                    }
+                    console.log("Application logged as just-read")
+                    this.props.logapplyapplicationtypes(data, token).then(response => {
+                        console.log("Application logged as completely filled")
+                        if(response.payload.status === 200){
+                            window.close();
+                        }
+                    })
                 }
-             })
-            }
-        } 
+            })
+        }
+    }
 
     render() {
         const {profile, jobdetails} = this.state;
