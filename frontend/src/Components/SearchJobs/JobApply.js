@@ -357,7 +357,12 @@ class JobApply extends Component{
                         We’ll save your answers to questions that tend to be common across applications so you can use them later. 
                         </div>
                         </section>
-                        <button className = "btn arteco-btn" type = "submit"  style = {{marginBottom : "100px"}} onClick = {this.submitApply}>Submit</button>
+                        {!this.handleValidation() ?
+                         <div className=""  style = {{color: "red"}}>&nbsp;Please enter all the mandatory fields</div> : (null)}
+                         {!this.handleValidation() ?
+                        <button className = "btn arteco-btn" type = "submit"  style = {{marginBottom : "100px"}} >Submit</button>
+                         :
+                        <button className = "btn arteco-btn" type = "submit"  style = {{marginBottom : "100px"}} onClick = {this.submitApply}>Submit</button>}
                         <button className = "btn arteco-btn" type = "submit"  style = {{marginBottom : "100px", marginLeft : "20px"}} onClick = {this.cancelApply}>Cancel</button>
                     </div>    
                 </div>

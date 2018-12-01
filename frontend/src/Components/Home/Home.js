@@ -174,6 +174,14 @@ class Home extends Component{
         }
     }
 
+    componentDidMount () {
+        if (localStorage.getItem(userConstants.AUTH_TOKEN) !== null) {
+            this.setState ({
+                islogged : true
+            })
+        }
+    }
+
     
 
     render(){

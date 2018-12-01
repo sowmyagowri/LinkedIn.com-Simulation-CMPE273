@@ -34,7 +34,6 @@ class Myconnections extends Component{
         })
     }
 
-
     listUsers () {
         const {connections, isLoading} = this.state;
         var self = this;

@@ -2,6 +2,7 @@ import React, {Component} from 'react';
 import '../../App.css';
 import '../../profile_wrapper.css';
 import { reduxForm } from "redux-form";
+import {Redirect} from 'react-router';
 import { withRouter, Link} from 'react-router-dom';
 import { connect } from "react-redux";
 import { userConstants } from '../../constants';
@@ -16,6 +17,7 @@ class Viewjob extends Component{
         this.state = {
             jobs : [],
             saved : false,
+            loggedin : true,
         }
         this.signout = this.signout.bind(this);
         this.saveajob = this.saveajob.bind(this)
@@ -23,6 +25,9 @@ class Viewjob extends Component{
 
     signout = () => {
         localStorage.clear();
+        this.setState ({
+            loggedin : false
+        })
     }
 
 
@@ -81,13 +86,18 @@ class Viewjob extends Component{
 
     render(){
         var jobs = this.state.jobs;
+        let redirectVar = null;
+        if( !this.state.loggedin ){
+            redirectVar = <Redirect to= "/"/>
+        }
         return (
             <div className="jobsearch-wrapper">
             <div className="navbar fixed-top navbar-dark bg-dark" style = {{height : "52px"}}>
+            {redirectVar}
                 <div className = "home_wrapper">
-                <h1><a className="navbar-brand" href="/"><img src = {"/images/linkedin-logo2.png"} alt = "LinkedIn"/></a></h1>
-             <div className="nav-main__content full-height display-flex align-items-center" style = {{margin: "auto"}} role="navigation">
-                <ul className="nav-main nav-container display-flex full-height" role="navigation" aria-label="primary">
+                <h1><a className="navbar-brand" style = {{paddingBottom:"0px"}} href="/"><img src = {"/images/linkedin-logo2.png"} alt = "LinkedIn"/></a></h1>
+                <div className="nav-main__content full-height display-flex" style ={{ margin: "10px"}}>
+                <div className="nav-main nav-container display-flex full-height" role="navigation" aria-label="primary">
                         <span className = "nav-item nav-item__icon">
                             <li className="nav-item--jobs">
                             <a href="/mynetwork" className= "nav-item__link nav-item__link--underline js-nav-item-link">
@@ -113,13 +123,13 @@ class Viewjob extends Component{
                                 <a className="dropdown-item" onClick= {this.signout} href=" ">Sign Out</a></div>
                             </div>
                             </li></span> 
-                        </ul>
-                        <ul className="nav-side nav-container display-flex full-height" role="navigation" aria-label="primary">
+                        </div>
+                        <div className="nav-side nav-container display-flex full-height" role="navigation" aria-label="primary">
                         <span className = "nav-item nav-item__icon">
                             <li className="nav-item--postjobs">
                             <a href="/jobs" className= "nav-item__link nav-item__link--underline js-nav-item-link">
                                 <FontAwesomeIcon color="#dee2e6" size="lg" icon="calendar-alt"></FontAwesomeIcon><small className ="nocolor small" style ={{whiteSpace : "nowrap"}}>Post a Job</small></a></li></span>
-                        </ul>
+                        </div>
                  </div>
               </div>
               </div>

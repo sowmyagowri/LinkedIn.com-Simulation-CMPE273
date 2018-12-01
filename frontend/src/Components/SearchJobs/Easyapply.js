@@ -51,7 +51,7 @@ class Easyapply extends Component{
                         profile: response.payload.data.profile,
                         firstname : response.payload.data.profile.firstName,
                         lastname : response.payload.data.profile.lastName,
-                        phonenumber : response.payload.data.profile.phoneNumber === undefined || null || ""  ? "" : response.payload.data.profile.phoneNumber,
+                        phonenumber : response.payload.data.profile.phoneNumber === 0 ? "" : response.payload.data.profile.phoneNumber,
                         email : response.payload.data.profile.email,
                         resume : response.payload.data.profile.resume,
                         address : response.payload.data.profile.address,
@@ -61,7 +61,7 @@ class Easyapply extends Component{
                 }); 
                 this.refs.myfirstname.value = response.payload.data.profile.firstName      
                 this.refs.mylastname.value = response.payload.data.profile.lastName  
-                this.refs.myphonenumber.value = response.payload.data.profile.phoneNumber      
+                this.refs.myphonenumber.value = response.payload.data.profile.phoneNumber === 0 ? "" :  response.payload.data.profile.phoneNumber
                 this.refs.myemail.value = response.payload.data.profile.email
                 this.refs.myaddress.value = response.payload.data.profile.address
             }
@@ -154,7 +154,6 @@ class Easyapply extends Component{
 
     render() {
         var {profile, jobdetails} = this.state;
-        console.log(profile)
         const {isLoading} = this.state;
         if(!isLoading){
             const errors = validateprofile(this.state.firstname, this.state.lastname, this.state.phonenumber, this.state.resume, this.state.address);
@@ -260,18 +259,25 @@ class Easyapply extends Component{
                                     
                                 </div>
                         <section className = "section-profile ember-view">
-                        <div className = "profile-title" style = {{fontSize : "19px"}}>Resume</div>
+                        <div className = "profile-title" style = {{fontSize : "19px"}}>Resume*</div>
                             <div className="form-group">
+                            <div className = "col-xs-6 col-md-6">
                                 <input type="file" id="resume" onChange={this.uploadresume} style = {{display : "none"}}/>
                                 <button type="file" className="btn arteco-btn-save" id="position-resume-typeahead" onClick = {this.openResumeDialog} style = {{width : "150px"}}>Upload Resume
                                 </button>&nbsp;&nbsp;{this.state.resume} 
                             </div> 
+                            </div>
                         <div className = "job-application-consents ember-view">We include a copy of your full profile with your application
                         <br></br>
                         We’ll save your answers to questions that tend to be common across applications so you can use them later. 
                         </div>
                         </section>
-                        <button className = "btn arteco-btn" type = "submit"  style = {{marginBottom : "100px"}} onClick = {this.submitApply}>Submit</button>
+                        {!this.handleValidation() ?
+                         <div className=""  style = {{color: "red"}}>&nbsp;Please enter all the mandatory fields</div> : (null)}
+                        {!this.handleValidation() ?
+                        <button className = "btn arteco-btn" type = "submit"  style = {{marginBottom : "100px"}} >Submit</button>
+                         :
+                        <button className = "btn arteco-btn" type = "submit"  style = {{marginBottom : "100px"}} onClick = {this.submitApply}>Submit</button>}
                     </div>    
                 </div>
         </div>

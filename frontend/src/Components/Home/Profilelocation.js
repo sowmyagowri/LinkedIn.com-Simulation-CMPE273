@@ -124,7 +124,6 @@ class ProfileLocation extends Component{
                         <label htmlFor ="reg-location" className = "mb1 required">Country/Region</label>
                         <select className = "form-control" onChange = {this.changeHandler} name = "state" value={state.value} style = {{width : "500px"}} id="reg-location" maxLength="100" type="text">
                             <option value="">United States</option>
-                            <option value="">United States</option>
                                     <option value="Alabama">Alabama</option>
                                     <option value="Alaska">Alaska</option>
                                     <option value="Arizona">Arizona</option>

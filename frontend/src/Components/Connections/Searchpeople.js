@@ -29,7 +29,7 @@ class SearchPeople extends Component{
         const token =  JSON.parse(localStorage.getItem(userConstants.AUTH_TOKEN));
 
         var data = {
-            search : this.props.location.state.search === undefined ? "" : this.props.location.state.search
+            search : this.props.location.state.search === undefined || this.props.location.state === undefined? "" : this.props.location.state.search
         }
         let user = JSON.parse(localStorage.getItem(userConstants.USER_DETAILS));
         var email = user.email;
@@ -74,6 +74,19 @@ class SearchPeople extends Component{
             }
         })
     }
+
+
+    gotoprofile = (event, profile, requestconnection) => {
+        console.log(requestconnection)
+        this.props.history.push({
+            pathname:"/userprofile/"+profile._id,
+            state:{
+                profile : profile,
+                requestconnection : requestconnection
+            }
+        });
+    }
+
 
     sendRequest = (event, i) => {
         const token =  JSON.parse(localStorage.getItem(userConstants.AUTH_TOKEN));
@@ -122,7 +135,7 @@ class SearchPeople extends Component{
                                         <img alt="" src={URI.ROOT_URL + "/profilepictures/" + filteredResults[i].profilePicture} style = {{width : "56px", height : "56px"}}/> }
                                     <div className = "row" style = {{marginLeft : "15px"}}>
                                         <div className = "form-group">
-                                            <h5 className = "t-14 t-black t-normal">{filteredResults[i].firstName}&nbsp;{filteredResults[i].lastName}</h5>
+                                        <a href = {"/userprofile/"+filteredResults[i]._id} onClick = {(event) => self.gotoprofile(event,filteredResults[i], self.checkcondition(filteredResults[i].email))}><h5 className = "t-14 t-black t-normal">{filteredResults[i].firstName}&nbsp;{filteredResults[i].lastName}</h5></a>
                                             <h5 className = "t-12 t-black--light t-normal">{filteredResults[i].profileSummary}</h5>
                                         </div>
                                     </div>
