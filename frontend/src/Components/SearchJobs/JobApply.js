@@ -9,7 +9,7 @@ import { connect } from "react-redux";
 import URI from '../../constants/URI';
 import { userConstants } from '../../constants';
 import { getapplicantprofile } from '../../Actions/applicant_login_profile_actions';
-import { applyjob } from '../../Actions/actions_jobs';
+import { applyjob, logapplyapplicationtypes } from '../../Actions/actions_jobs';
 import validator from 'validator';
 
 class JobApply extends Component{
@@ -143,9 +143,36 @@ class JobApply extends Component{
 
     cancelApply = (e) => {
         var touchedfields = this.state.touchedfields;
-        if (touchedfields.firstname || touchedfields.lastname || touchedfields. phonenumber || touchedfields.email || touchedfields.ethnicity || touchedfields.address || touchedfields.question || touchedfields.resume || touchedfields.coverletter || touchedfields.sponsorship || touchedfields.disability ) {
+        if (touchedfields.firstname || touchedfields.lastname || touchedfields.phonenumber || touchedfields.email || touchedfields.ethnicity || touchedfields.address || touchedfields.question || touchedfields.resume || touchedfields.coverletter || touchedfields.sponsorship || touchedfields.disability ) {
             var halffilled = true
         }
+        const token =  JSON.parse(localStorage.getItem(userConstants.AUTH_TOKEN));
+        var data;
+        if (halffilled) {
+            data = {
+                jobID : this.state.jobdetails._id,
+                eventName: "HALF_FILL_FORM",
+                applicantEmail: this.state.profile.email,
+                recruiterEmail: this.state.jobdetails.posted_by,
+                city: this.state.profile.state
+            }
+            console.log("Application logged as half-filled")
+        } else {
+            data = {
+                jobID : this.state.jobdetails._id,
+                eventName: "JUST_READ_APPLICATION",
+                applicantEmail: this.state.profile.email,
+                recruiterEmail: this.state.jobdetails.posted_by,
+                city: this.state.profile.state
+            }
+            console.log("Application logged as just-read")
+        }
+        this.props.logapplyapplicationtypes(data, token).then(response => {
+            console.log("response:", response);
+            if(response.payload.status === 200){
+                window.close();
+            }
+        })
     }
 
     handleValidation () {
@@ -392,4 +419,4 @@ function mapStateToProps(state) {
 
 export default withRouter(reduxForm({
     form: "Job_Apply"
-    })(connect(mapStateToProps, { getapplicantprofile, applyjob}) (JobApply)));
+    })(connect(mapStateToProps, { getapplicantprofile, applyjob, logapplyapplicationtypes}) (JobApply)));

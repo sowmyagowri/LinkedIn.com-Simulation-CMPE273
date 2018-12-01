@@ -110,3 +110,21 @@ export async function logjobclicks(data, tokenFromStorage) {
     payload: response
   };  
 }
+
+//target action to log just read applications 
+export async function logapplyapplicationtypes(data, tokenFromStorage) {
+  console.log("inside Apply a Job Request  action")
+  var config = {
+    headers: {'Authorization': tokenFromStorage,
+              'Content-Type': 'application/json',
+              withCredentials : true
+    }
+  };
+  axios.defaults.withCredentials = true;
+  const response =  await axios.post(URI.ROOT_URL + '/log_event/', data, config);
+  console.log("Response", response);
+  return {
+    type: userConstants.LOG_APPLY_APPLICATION_TYPES,
+    payload: response
+  };  
+}
