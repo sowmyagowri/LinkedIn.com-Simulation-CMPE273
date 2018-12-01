@@ -1,9 +1,8 @@
 import React, {Component} from 'react';
 import '../../App.css';
-import Navbar from '../NavBar/Navbar';
 import '../../profile_wrapper.css';
 import { reduxForm } from "redux-form";
-import { withRouter} from 'react-router-dom';
+import { withRouter, Link} from 'react-router-dom';
 import { connect } from "react-redux";
 import { userConstants } from '../../constants';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
@@ -18,7 +17,12 @@ class Viewjob extends Component{
             jobs : [],
             saved : false,
         }
+        this.signout = this.signout.bind(this);
         this.saveajob = this.saveajob.bind(this)
+    }
+
+    signout = () => {
+        localStorage.clear();
     }
 
 
@@ -57,7 +61,18 @@ class Viewjob extends Component{
         })
     }
 
-    applyjob = (event, job) => {
+    easyapplyjob = (event, job) => {
+        var applyjob = JSON.stringify(job)
+        var id = JSON.parse(applyjob)._id
+        this.props.history.push({
+            pathname:"/easyapply/"+id,
+            state:{
+                job : applyjob,
+            }
+        });
+    }
+
+    normalapplyjob = (event, job) => {
         var applyjob = JSON.stringify(job)
         var id = JSON.parse(applyjob)._id
         window.open('/applyjob/'+id, "_blank")
@@ -68,8 +83,47 @@ class Viewjob extends Component{
         var jobs = this.state.jobs;
         return (
             <div className="jobsearch-wrapper">
-                <Navbar></Navbar>
-                <div className="Elevation-2dp profile-background-image profile-background-image--loading ember-view"></div>
+            <div className="navbar fixed-top navbar-dark bg-dark" style = {{height : "52px"}}>
+                <div className = "home_wrapper">
+                <h1><a className="navbar-brand" href="/"><img src = {"/images/linkedin-logo2.png"} alt = "LinkedIn"/></a></h1>
+             <div className="nav-main__content full-height display-flex align-items-center" style = {{margin: "auto"}} role="navigation">
+                <ul className="nav-main nav-container display-flex full-height" role="navigation" aria-label="primary">
+                        <span className = "nav-item nav-item__icon">
+                            <li className="nav-item--jobs">
+                            <a href="/mynetwork" className= "nav-item__link nav-item__link--underline js-nav-item-link">
+                                <FontAwesomeIcon color="#dee2e6" size="lg" icon="users"></FontAwesomeIcon><small className ="nocolor small" style ={{whiteSpace : "nowrap"}}>My Network</small></a></li></span>
+                        <span className = "nav-item nav-item__icon">
+                            <li className="nav-item--jobs">
+                            <a href="/searchjobs" className= "nav-item__link nav-item__link--underline js-nav-item-link">
+                                <FontAwesomeIcon color="#dee2e6" size="lg" icon="suitcase"></FontAwesomeIcon><small className ="nocolor small">Jobs</small></a></li></span>
+                        <span className = "nav-item nav-item__icon">
+                            <li className="nav-item--messaging"><Link to="/messages" className= "nav-item__link nav-item__link--underline js-nav-item-link">
+                                <FontAwesomeIcon color="#dee2e6" size="lg" icon="comments"></FontAwesomeIcon><small className ="nocolor small">Messaging</small></Link></li></span>
+                            <span className = "nav-item nav-item__icon">
+                            <li className="nav-item--profile">
+                            <div className ="dropdown">
+                            <button type="button" className="nav-item__link nav-item__link--underline js-nav-item-link dropdown-toggle"  id="dropdownMenuProfile"  data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <FontAwesomeIcon color="#dee2e6" size="lg" icon="user-circle"></FontAwesomeIcon><small className ="nocolor small">Me</small></button>
+                            <div className="dropdown-menu selection-nav" aria-labelledby="dropdownMenuProfile">
+                                <a className="dropdown-item" href="/profile">Profile</a>
+                                <div className="dropdown-divider"></div>
+                                <a className="dropdown-item" href="/searchjobs">Job Postings</a>
+                                <a className="dropdown-item" href="/job/saved">Saved Jobs</a>
+                                <div className="dropdown-divider"></div>
+                                <a className="dropdown-item" onClick= {this.signout} href=" ">Sign Out</a></div>
+                            </div>
+                            </li></span> 
+                        </ul>
+                        <ul className="nav-side nav-container display-flex full-height" role="navigation" aria-label="primary">
+                        <span className = "nav-item nav-item__icon">
+                            <li className="nav-item--postjobs">
+                            <a href="/jobs" className= "nav-item__link nav-item__link--underline js-nav-item-link">
+                                <FontAwesomeIcon color="#dee2e6" size="lg" icon="calendar-alt"></FontAwesomeIcon><small className ="nocolor small" style ={{whiteSpace : "nowrap"}}>Post a Job</small></a></li></span>
+                        </ul>
+                 </div>
+              </div>
+              </div>
+            <div className="Elevation-2dp profile-background-image profile-background-image--loading ember-view"></div>
                 <div className="pv-content1 profile-view-grid neptune-grid2 two-column">
                     <div className="core-rail">
                         <div className="pv-profile-section pv-top-card-section artdeco-container-card ember-view">
@@ -88,7 +142,9 @@ class Viewjob extends Component{
                                         <div className="job-details__posted">Posted on {jobs.posted_date}</div>
                                         {!this.state.saved ?
                                         <button type="submit" className="btn arteco-btn-save" onClick = {this.saveajob}>Save</button> : (null)}
-                                        <button type="submit" className="btn arteco-btn" onClick = {(event) => this.applyjob(event, jobs)} style={{ marginLeft: "10px" }}>Apply</button>
+                                        {jobs.application_method === "Easy" ?
+                                        <button type="submit" className="btn arteco-btn" onClick = {(event) => this.easyapplyjob(event, jobs)} style={{ marginLeft: "10px", width : "150px" }}>Easy Apply</button> :
+                                        <button type="submit" className="btn arteco-btn" onClick = {(event) => this.normalapplyjob(event, jobs)} style={{ marginLeft: "10px" }}>Apply</button>}
                                     </div>
                                 </div>
                             </div>

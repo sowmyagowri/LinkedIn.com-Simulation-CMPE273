@@ -8,7 +8,7 @@ import { reduxForm } from "redux-form";
 import { withRouter} from 'react-router-dom';
 import { connect } from "react-redux";
 import { userConstants } from '../../constants';
-import { searchjob } from '../../Actions/actions_jobs';
+import { searchjob, logjobclicks } from '../../Actions/actions_jobs';
 
 class SearchJobs extends Component{
     constructor(props){
@@ -64,6 +64,16 @@ class SearchJobs extends Component{
     }
 
     viewjob  = (event, job) => {
+        const token =  JSON.parse(localStorage.getItem(userConstants.AUTH_TOKEN));
+        const data = {
+            jobID: job._id
+        }
+        this.props.logjobclicks(data, token).then(response => {
+            console.log("response:", response);
+            if(response.payload.status === 200){
+                console.log("Job Clicks updated successfully")
+            }
+        })
         this.props.history.push({
             pathname:`/job/view/${job._id}`,
             state: {
@@ -74,13 +84,16 @@ class SearchJobs extends Component{
 
     componentDidMount() {
         //call to action
+
+        console.log(this.props.location.state)
+
         var data = { 
             start : 0,
             length : 100,
-            search : this.props.location.state.jobname === undefined ? "" : this.props.location.state.jobname,
+            search : this.props.location.state === undefined || this.props.location.state.jobname === undefined ? "" : this.props.location.state.jobname,
             company : "",
             employment_type : "",
-            location : this.props.location.state.location === undefined ? "" : this.props.location.state.location,
+            location : this.props.location.state === undefined || this.props.location.state.location === undefined ? "" : this.props.location.state.location,
             date_posted : ""
         }
 
@@ -93,8 +106,8 @@ class SearchJobs extends Component{
                 this.setState({ 
                     jobdata : response.payload.data.jobs,
                     currentjoblistid : response.payload.data.jobs[0]._id,
-                    search : this.props.location.state.jobname === undefined ? "" : this.props.location.state.jobname,
-                    location : this.props.location.state.location === undefined ? "" : this.props.location.state.location,
+                    search : this.props.location.state === undefined || this.props.location.state.jobname === undefined? "" : this.props.location.state.jobname,
+                    location : this.props.location.state === undefined || this.props.location.state.location === undefined ? "" : this.props.location.state.location,
                     results : true
                 })
             } else {
@@ -336,7 +349,7 @@ const JobListItem = ({ job, openJob, selectedJob, self}) => {
             <a href = {`/job/view/${job._id}`} onClick = {(event) => self.viewjob(event, job)}><div className="job-item__subject" >
             {job.title}
             </div></a>
-            <div className="job-item__name">{job.posted_by}</div>
+            <div className="job-item__name">{job.company}</div>
             <div className="job-item__location"><FontAwesomeIcon className = "fa-map-marker-alt" icon="map-marker-alt"></FontAwesomeIcon>&nbsp;&nbsp;{job.location}</div>
             <div className="job-item__message" style = {{textOverflow: "ellipsis", whiteSpace: "pre-wrap", overflow: "hidden"}}>{job.job_description}</div>
             </div>  
@@ -366,7 +379,7 @@ const JobDetails = ({jobs, self}) =>{
                     <a href = {`/job/view/${jobs._id}`} onClick = {(event) => self.viewjob(event, jobs)}><div className="job-details__subject" >
                     {jobs.title}
                     </div></a>
-                    <div className="job-details__name">{jobs.posted_by}</div>
+                    <div className="job-details__name">{jobs.company}</div>
                     <div className="job-details__location"><FontAwesomeIcon className = "fa-map-marker-alt" icon="map-marker-alt"></FontAwesomeIcon>&nbsp;&nbsp;{jobs.location}</div>
                     <div className="job-details__posted">Posted on {jobs.posted_date}</div>
                     {jobs.application_method  === "Easy" ? 
@@ -400,4 +413,4 @@ function mapStateToProps(state) {
 
 export default withRouter(reduxForm({
     form: "Easy_Apply"
-    })(connect(mapStateToProps, { searchjob }) (SearchJobs)));
+    })(connect(mapStateToProps, { searchjob, logjobclicks }) (SearchJobs)));

@@ -67,9 +67,7 @@ class Login extends Component{
 
 
     handleValidation() {
-
-        console.log("validation check")
-
+        
         let formIsValid = true;
         const email = { ...this.state.email };
         const password = { ...this.state.password };

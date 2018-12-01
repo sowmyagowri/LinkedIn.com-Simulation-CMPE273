@@ -21,6 +21,7 @@ class Easyapply extends Component{
           firstname : "",
           lastname : "",
           phonenumber : "",
+          email : "",
           profilephoto : "",
           address : "",
           resume : "",
@@ -34,6 +35,7 @@ class Easyapply extends Component{
 
         this.submitApply = this.submitApply.bind(this);
         this.changeHandler = this.changeHandler.bind(this);
+        this.openResumeDialog = this.openResumeDialog.bind(this);
         this.uploadresume = this.uploadresume.bind(this)
     }
 
@@ -99,8 +101,8 @@ class Easyapply extends Component{
     handleValidation () {
         let formIsValid = false;
         const errors = validateprofile(this.state.firstname, this.state.lastname, this.state.phonenumber, this.state.resume, this.state.address);
-        if(!errors.firstname && !errors.lastname && !errors.lastname && !errors.phonenumber && !errors.resume && !errors.address){
-          formIsValid = true
+        if(!errors.firstname && !errors.lastname && !errors.phonenumber && !errors.resume && !errors.address){
+            formIsValid = true
         }
         return formIsValid;
     }
@@ -109,38 +111,50 @@ class Easyapply extends Component{
         if (this.handleValidation()) {
             const token =  JSON.parse(localStorage.getItem(userConstants.AUTH_TOKEN));
             const data = {
-                first_name : this.state.firstname,
-                last_name : this.state.lastname,
-                applicant_email : this.state.email,
-                phone_number : this.state.phonenumber,
-                resume : this.state.resume,
-                address : this.state.address
+                jobID : this.state.jobdetails._id,
+                firstName : this.state.firstname,
+                lastName : this.state.lastname,
+                address : this.state.address,
+                phoneNumber : this.state.phonenumber,
+                applicantEmail : this.state.email,
+                resume : this.state.resume
             }
 
-            // var formData = new FormData();
-            // formData.append('uploadedFile', this.state.uploadedresume);
-            
-            // Object.keys(data).forEach(function(key){
-            //     formData.append(key, data[key]);
-            // });
+            if (this.state.uploadedresume) {
 
-            // // Display the formdata key/value pairs
-            // for (var pair of formData.entries()) {
-            //     console.log(pair[0]+ ', ' + pair[1]); 
-            // }
-
-            this.props.applyjob(data, token).then(response => {
-                console.log("response:", response);
-                if(response.payload.status === 200){
-                    console.log("Applied job Successfully")
-                    window.location.href = '/searchjobs';
+                var formData = new FormData();
+                formData.append('uploadedResume', this.state.uploadedresume);
+                Object.keys(data).forEach(function(key){
+                    formData.append(key, data[key]);
+                });
+    
+                // Display the formdata key/value pairs
+                for (var pair of formData.entries()) {
+                    console.log(pair[0]+ ', ' + pair[1]); 
                 }
-             })
+                this.props.applyjob(formData, token).then(response => {
+                    console.log("response:", response);
+                    if(response.payload.status === 200){
+                        console.log("Applied job Successfully")
+                        window.location.href = '/searchjobs';
+                    }
+                })
+            } else {           
+                console.log("else", data) 
+                this.props.applyjob(data, token).then(response => {
+                    console.log("response:", response);
+                    if(response.payload.status === 200){
+                        console.log("Applied job Successfully")
+                        window.location.href = '/searchjobs';
+                    }
+                })
             }
+        }
     } 
 
     render() {
-        const {profile, jobdetails} = this.state;
+        var {profile, jobdetails} = this.state;
+        console.log(profile)
         const {isLoading} = this.state;
         if(!isLoading){
             const errors = validateprofile(this.state.firstname, this.state.lastname, this.state.phonenumber, this.state.resume, this.state.address);
@@ -194,9 +208,9 @@ class Easyapply extends Component{
                             </dl>
                             </div>
                         </section>
-                        <section className = "section-profile ember-view" style = {{marginTop : "30px"}}>
+                        <section className = "section-profile " style = {{marginTop : "30px"}}>
                         <div className = "profile-title" style = {{fontSize : "19px"}}>Contact Info</div>
-                            <li className = "job-question ember-view">
+                            <li className = "job-question">
                                 <div className="row form-group">
                                     <div className = "col-xs-6 col-md-6">
                                         <label htmlFor="position-firstname-typeahead" className="mb1 required">First Name*</label>
@@ -217,30 +231,34 @@ class Easyapply extends Component{
                                         </div> : (null)
                                     }
                                 </div>
-                                <div>
-                                    <label htmlFor = "email-question" className = "question-apply">Email Address*</label>
-                                    <input className = "form-control" name = "email" id="email-question" ref = "myemail" maxLength="100" type="email" disabled/>
-                                </div>
-                                <div>
-                                    <label htmlFor = "address-question" className = "question-apply">Address*</label>
-                                    <input className = "form-control" name = "address" id="address-question" ref ="myaddress" onChange = {this.changeHandler} type="text" onBlur={this.handleBlur('address')} placeholder="Address"/>
-                                    
+                                <div className="row form-group">
+                                    <div className = "col-xs-6 col-md-6">
+                                        <label htmlFor = "address-question" className = "mb1 required">Address*</label>
+                                        <input className = "form-control" name = "address" id="address-question" ref ="myaddress" onChange = {this.changeHandler} type="text" onBlur={this.handleBlur('address')} placeholder="Address"/>
+                                    </div>
+                                    <div className = "col-xs-6 col-md-6">
+                                        <label htmlFor = "phone-number-question" className = "mb1 required">Phone Number*</label>
+                                        <input className = "form-control" name = "phonenumber" id="phone-number-question" ref ="myphonenumber" onChange = {this.changeHandler} type="text" pattern="[0-9]{10}" onBlur={this.handleBlur('phonenumber')} placeholder="1234567890"/>
+                                    </div>
                                     {!isLoading ?
-                                    <div className = "col-xs-12">
+                                    <div className = "col-xs-6 col-md-6">
                                      {shouldMarkError('address') ? <div className=""  style = {{color: "red"}}>Address is a required field</div> : (null)}
                                     </div> : (null) }
-                                 </div>
-                                <div>
-                                    <label htmlFor = "phone-number-question" className = "question-apply">Phone Number*</label>
-                                    <input className = "form-control" name = "phonenumber" id="phone-number-question" ref ="myphonenumber" onChange = {this.changeHandler} type="text" pattern="[0-9]{10}" onBlur={this.handleBlur('phonenumber')} placeholder="1234567890"/>
-                                    
                                     {!isLoading ?
-                                    <div className = "col-xs-12">
+                                    <div className = "col-xs-6 col-md-6">
                                      {shouldMarkError('phonenumber') ? <div className=""  style = {{color: "red"}}>Phone Number is a required field</div> : (null)}
                                     </div> : (null) }
                                 </div>
+                                <label htmlFor = "email-question" className = "mb1 required">Email Address*</label>
+                                <input className = "form-control" name = "email" id="email-question" ref = "myemail" maxLength="100" type="email" disabled/>    
                             </li>
-                        </section>
+                            </section>
+                                 <div>                                    
+                                    
+                                 </div>
+                                <div>
+                                    
+                                </div>
                         <section className = "section-profile ember-view">
                         <div className = "profile-title" style = {{fontSize : "19px"}}>Resume</div>
                             <div className="form-group">
@@ -266,7 +284,7 @@ function validateprofile(firstname, lastname, phonenumber, resume, address) {
     return {
       firstname: firstname.length === 0, 
       lastname: lastname.length === 0,
-      phonenumber: phonenumber.length !== 10,
+      phonenumber: phonenumber.length < 10 || phonenumber.length > 10,
       resume: resume.length === 0,
       address : address.length === 0
     };

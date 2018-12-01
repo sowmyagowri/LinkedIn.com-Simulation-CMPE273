@@ -8,6 +8,7 @@ import { connect } from "react-redux";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { userConstants } from '../../constants';
 import URI from '../../constants/URI';
+import SweetAlert from 'react-bootstrap-sweetalert';
 import { getapplicantprofile, applicantprofilephoto, applicantprofilesummary, applicantprofileexperience, applicantprofileeducation, applicantprofileskills, applicantprofiledelete } from '../../Actions/applicant_login_profile_actions';
 
 class Profile extends Component{
@@ -35,14 +36,17 @@ class Profile extends Component{
                 zipcode : false,
             },
             profiledata : [],
-            isLoading : true
+            isLoading : true,
+            alert: null,
         };
         this.changeHandler = this.changeHandler.bind(this);
         this.profilephotochangeHandler = this.profilephotochangeHandler.bind(this);
         this.openFileDialog = this.openFileDialog.bind(this)
         this.updateSkills = this.updateSkills.bind(this)
         this.submitProfile = this.submitProfile.bind(this)
+        this.deleteProfileConfirm = this.deleteProfileConfirm.bind(this)
         this.deleteProfile = this.deleteProfile.bind(this)
+        this.cancelDelete = this.cancelDelete.bind(this)
         this.uploadresume = this.uploadresume.bind(this)
         this.handleChange = this.handleChange.bind(this)
     }
@@ -217,20 +221,46 @@ class Profile extends Component{
             }
     } 
 
-    deleteProfile = () => {
-       const email = JSON.parse(localStorage.getItem(userConstants.USER_DETAILS)).email;
-        const token =  JSON.parse(localStorage.getItem(userConstants.AUTH_TOKEN));
-        const data = {
-            email: email,
-        }
+    deleteProfileConfirm = () => {
+        const getAlert = () => (
+            <SweetAlert 
+                warning
+                showCancel
+                confirmBtnText="Yes, delete!"
+                confirmBtnBsStyle="danger"
+                cancelBtnBsStyle="default"
+                title="Are you sure?"
+                onConfirm={this.deleteProfile}
+                onCancel={this.cancelDelete}
+            >
+                You will not be able to recover your profile!
+            </SweetAlert>
+        );
+  
+        this.setState({
+          alert: getAlert(),
+        })
+    }
 
-        this.props.applicantprofiledelete(data, token).then(response => {
+    cancelDelete = () => {
+        this.setState({
+            alert: null
+        });
+    }
+
+    deleteProfile = () => {
+        const email = JSON.parse(localStorage.getItem(userConstants.USER_DETAILS)).email;
+        const token =  JSON.parse(localStorage.getItem(userConstants.AUTH_TOKEN));
+
+        this.props.applicantprofiledelete(email, token).then(response => {
             console.log("response:", response);
             if(response.payload.status === 200){
-                console.log("Profile Summary Deleted Successfully")
+                console.log("Profile Deleted Successfully")
+                localStorage.clear();
+                window.location = "/"
             }
-            })
-        }
+        })
+    }
   
 
     shouldComponentUpdate(nextState) {
@@ -568,7 +598,8 @@ class Profile extends Component{
                         </li>
                     </div>                   
               </div>
-              <button type="submit" className="btn arteco-btn" onClick = {this.deleteProfile} style = {{width : "150px"}}>Delete Profile</button>
+              <button type="submit" className="btn arteco-btn" onClick = {this.deleteProfileConfirm} style = {{width : "150px"}}>Delete Profile</button>
+              {this.state.alert}
             </div>
         </div>
       </div>   

@@ -37,7 +37,7 @@ class SearchPeople extends Component{
             console.log("response:", response);
             if(response.payload.status === 200){
                 var filteredResults =  response.payload.data.people
-                filteredResults = filteredResults.filter(function(x){ return x.email != email; });
+                filteredResults = filteredResults.filter(function(x){ return x.email !== email; });
 
                 this.setState ({
                     filteredResults : filteredResults,

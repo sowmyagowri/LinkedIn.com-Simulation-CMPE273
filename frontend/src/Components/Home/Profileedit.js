@@ -62,8 +62,6 @@ class ProfileEdit extends Component{
 
     handleValidation() {
 
-        console.log("validation check")
-
         let formIsValid = true;
         const { title, company, location, school, degree, schoolfromYear, schooltoYear} = {...this.state};
 
