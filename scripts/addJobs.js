@@ -4,10 +4,8 @@ var con = require('../kafka_backend/config/mysql')
 con.startConnection()
 
 function addJobs() {
-    var recruiter_id = [
-        '5bfcf161c4887a4415cd1be9', '5bfcf161c4887a4415cd1bea', '5bfcf215fa36bb441e5b2930', '5bfcf215fa36bb441e5b2931', '5bfcf215fa36bb441e5b2936',
-        '5bfcf215fa36bb441e5b2935', '5bfcf215fa36bb441e5b2938', '5bfcf215fa36bb441e5b293c', '5bfcf215fa36bb441e5b293a', '5bfcf215fa36bb441e5b293d',
-        '5bfcf215fa36bb441e5b2942', '5bfcf215fa36bb441e5b2940', '5bfcf215fa36bb441e5b293e', '5bfcf216fa36bb441e5b2946', '5bfcf216fa36bb441e5b2945'
+    var recruiter_email = [
+        'recruiter1@gmail.com', 'recruiter2@gmail.com', 'recruiter3@gmail.com', 'recruiter4@gmail.com'
     ]
 
     var location_array = [
@@ -30,10 +28,10 @@ function addJobs() {
         'Easy', 'Normal'
     ] 
 
-    for (var i = 0; i < 100; i++) {
+    for (var i = 2; i < 100; i++) {
         console.log("Created Job", i);
         var data = {
-            recruiterID : recruiter_id[Math.floor(Math.random()*recruiter_id.length)],
+            recruiterEmail : recruiter_email[Math.floor(Math.random()*recruiter_email.length)],
             title : 'Title' + i.toString(),
             company : 'Company' + i.toString(),
             jobDescription : 'Job Description' + i.toString(),

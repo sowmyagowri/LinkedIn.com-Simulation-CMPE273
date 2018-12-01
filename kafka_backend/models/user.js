@@ -89,6 +89,9 @@ var Users = mongoose.model('Users',{
     }],
     savedJobs:[{
         type: String
+    }],
+    profileViews:[{
+        type : Date
     }]
 });
 

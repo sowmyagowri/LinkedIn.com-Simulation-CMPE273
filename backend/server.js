@@ -39,6 +39,8 @@ let getAllSavedJobs = require('./routes/getAllSavedJobs');
 let deleteProfile = require('./routes/deleteProfile');
 let searchJobs = require('./routes/searchJobs');
 let searchPeople = require('./routes/searchPeople');
+let graphProfileViews = require('./routes/grpahProfileViews');
+let updateProfileViews = require('./routes/updateProfileViews');
 
 let expressValidator = require("express-validator");
 var morgan = require('morgan');
@@ -114,6 +116,8 @@ app.use("/get_all_saved_jobs/", getAllSavedJobs);
 app.use("/delete_profile/", deleteProfile);
 app.use("/searchJobs", searchJobs);
 app.use("/searchPeople", searchPeople);
+app.use("/graph_profile_views/", graphProfileViews);
+app.use("/update_profile_views/", updateProfileViews);
 
 
 /** start server */
