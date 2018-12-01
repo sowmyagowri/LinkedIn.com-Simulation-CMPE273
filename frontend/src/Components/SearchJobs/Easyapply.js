@@ -101,8 +101,8 @@ class Easyapply extends Component{
     handleValidation () {
         let formIsValid = false;
         const errors = validateprofile(this.state.firstname, this.state.lastname, this.state.phonenumber, this.state.resume, this.state.address);
-        if(!errors.firstname && !errors.lastname && !errors.lastname && !errors.phonenumber && !errors.resume && !errors.address){
-          formIsValid = true
+        if(!errors.firstname && !errors.lastname && !errors.phonenumber && !errors.resume && !errors.address){
+            formIsValid = true
         }
         return formIsValid;
     }

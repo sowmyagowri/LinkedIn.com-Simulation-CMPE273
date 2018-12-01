@@ -54,6 +54,7 @@ class JobApply extends Component{
         };
 
         this.submitApply = this.submitApply.bind(this);
+        this.cancelApply = this.cancelApply.bind(this);
         this.changeHandler = this.changeHandler.bind(this);
         this.uploadresume = this.uploadresume.bind(this);
         this.uploadcoverletter = this.uploadcoverletter.bind(this);
@@ -71,8 +72,6 @@ class JobApply extends Component{
             if(response.payload.status === 200){
                 this.setState({ 
                         profile: response.payload.data.profile,
-                        firstname : response.payload.data.profile.firstName,
-                        lastname : response.payload.data.profile.lastName,
                         profilephoto : response.payload.data.profile.profilePicture === "" ? "images/avatar.png" : response.payload.data.profile.profilePicture,
                         isLoading : false
                 }); 
@@ -140,6 +139,13 @@ class JobApply extends Component{
         this.setState({
             touchedfields: { ...this.state.touchedfields, [field]: true }
         });
+    }
+
+    cancelApply = (e) => {
+        var touchedfields = this.state.touchedfields;
+        if (touchedfields.firstname || touchedfields.lastname || touchedfields. phonenumber || touchedfields.email || touchedfields.ethnicity || touchedfields.address || touchedfields.question || touchedfields.resume || touchedfields.coverletter || touchedfields.sponsorship || touchedfields.disability ) {
+            var halffilled = true
+        }
     }
 
     handleValidation () {
@@ -352,6 +358,7 @@ class JobApply extends Component{
                         </div>
                         </section>
                         <button className = "btn arteco-btn" type = "submit"  style = {{marginBottom : "100px"}} onClick = {this.submitApply}>Submit</button>
+                        <button className = "btn arteco-btn" type = "submit"  style = {{marginBottom : "100px", marginLeft : "20px"}} onClick = {this.cancelApply}>Cancel</button>
                     </div>    
                 </div>
         </div>
@@ -361,7 +368,6 @@ class JobApply extends Component{
 
 function validateprofile(firstname, lastname, phonenumber, email, address, resume) {
     // true means invalid, so our conditions got reversed
-    console.log(email.value);
     return {
       firstname: firstname.length === 0, 
       lastname: lastname.length === 0,
