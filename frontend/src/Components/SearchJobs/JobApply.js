@@ -203,7 +203,7 @@ class JobApply extends Component{
                         </section>
                         <section className = "section-profile ember-view" style = {{marginTop : "30px"}}>
                         <div className = "profile-title" style = {{fontSize : "19px"}}>Contact Info</div>
-                            <li className = "job-question ember-view">
+                            <li className = "job-question">
                                 <div className="row form-group">
                                     <div className = "col-xs-6 col-md-6">
                                         <label htmlFor="position-firstname-typeahead" className="mb1 required">First Name*</label>
@@ -224,24 +224,36 @@ class JobApply extends Component{
                                         </div> : (null)
                                     }
                                 </div>
-                                    <label htmlFor = "phone-number-question" className = "question-apply">Phone Number*</label>
-                                    <input className = "form-control" name = "phonenumber" id="phone-number-question"  onChange = {this.changeHandler} type="text" pattern="[0-9]{10}" onBlur={this.handleBlur('phonenumber')} placeholder="1234567890"/>
-                                    {!isLoading ?
-                                    <div className = "col-xs-12">
-                                     {shouldMarkError('phonenumber') ? <div className=""  style = {{color: "red"}}>Phone Number is a required field</div> : (null)}
-                                    </div> : (null) }
-                                    <label htmlFor = "email-question" className = "question-apply">Email Address*</label>
-                                    <input className = "form-control" name = "email" id="email-question" onChange = {this.changeHandler} maxLength="100" type="email" onBlur={this.handleBlur('email')}/>
-                                    {!isLoading ?
-                                    <div className = "col-xs-12">
-                                    {shouldMarkError('email') ? <div className=""  style = {{color: "red"}}>Email is a required field</div> : (null)}
-                                    </div> : (null) }
+                                <div className="row form-group">
+                                    <div className = "col-xs-6 col-md-6">
+                                        <label htmlFor = "phone-number-question" className = "question-apply">Phone Number*</label>
+                                        <input className = "form-control" name = "phonenumber" id="phone-number-question"  onChange = {this.changeHandler} type="text" pattern="[0-9]{10}" onBlur={this.handleBlur('phonenumber')} placeholder="1234567890"/>
+                                    </div>
+                                    <div className = "col-xs-6 col-md-6">
+                                        <label htmlFor = "email-question" className = "question-apply">Email Address*</label>
+                                        <input className = "form-control" name = "email" id="email-question" onChange = {this.changeHandler} maxLength="100" type="email" onBlur={this.handleBlur('email')}/>
+                                    </div>
 
-                                    <label htmlFor = "ethnicity-question" className = "question-apply">Ethnicity</label>
-                                    <input className = "form-control" name = "ethnicity" id="ethnicity-question"  onChange = {this.changeHandler} type="text" placeholder=""/>
+                                        {!isLoading ?
+                                        <div className = "col-xs-6 col-md-6">
+                                        {shouldMarkError('phonenumber') ? <div className=""  style = {{color: "red"}}>Phone Number is a required field</div> : (null)}
+                                        </div> : (null) }
+                                        {!isLoading ?
+                                        <div className = "col-xs-6 col-md-6">
+                                        {shouldMarkError('email') ? <div className=""  style = {{color: "red"}}>Email is a required field</div> : (null)}
+                                        </div> : (null) }
+                                    </div>
 
-                                    <label htmlFor = "question-question" className = "question-apply">How did you hear about us?</label>
-                                    <input className = "form-control" name = "question" id="question-question"  onChange = {this.changeHandler} type="text" placeholder=""/>
+                                    <div className="row form-group">
+                                        <div className = "col-xs-6 col-md-6">
+                                            <label htmlFor = "ethnicity-question" className = "question-apply">Ethnicity</label>
+                                            <input className = "form-control" name = "ethnicity" id="ethnicity-question"  onChange = {this.changeHandler} type="text" placeholder=""/>
+                                        </div>
+                                        <div className = "col-xs-6 col-md-6">
+                                            <label htmlFor = "question-question" className = "question-apply">How did you hear about us?</label>
+                                            <input className = "form-control" name = "question" id="question-question"  onChange = {this.changeHandler} type="text" placeholder=""/>
+                                        </div>
+                                    </div>
                             </li>
                         </section>
                         <section className = "section-profile ember-view">

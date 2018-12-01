@@ -57,7 +57,18 @@ class Viewjob extends Component{
         })
     }
 
-    applyjob = (event, job) => {
+    easyapplyjob = (event, job) => {
+        var applyjob = JSON.stringify(job)
+        var id = JSON.parse(applyjob)._id
+        this.props.history.push({
+            pathname:"/easyapply/"+id,
+            state:{
+                job : applyjob,
+            }
+        });
+    }
+
+    normalapplyjob = (event, job) => {
         var applyjob = JSON.stringify(job)
         var id = JSON.parse(applyjob)._id
         window.open('/applyjob/'+id, "_blank")
@@ -88,7 +99,9 @@ class Viewjob extends Component{
                                         <div className="job-details__posted">Posted on {jobs.posted_date}</div>
                                         {!this.state.saved ?
                                         <button type="submit" className="btn arteco-btn-save" onClick = {this.saveajob}>Save</button> : (null)}
-                                        <button type="submit" className="btn arteco-btn" onClick = {(event) => this.applyjob(event, jobs)} style={{ marginLeft: "10px" }}>Apply</button>
+                                        {jobs.application_method === "Easy" ?
+                                        <button type="submit" className="btn arteco-btn" onClick = {(event) => this.easyapplyjob(event, jobs)} style={{ marginLeft: "10px", width : "150px" }}>Easy Apply</button> :
+                                        <button type="submit" className="btn arteco-btn" onClick = {(event) => this.normalapplyjob(event, jobs)} style={{ marginLeft: "10px" }}>Apply</button>}
                                     </div>
                                 </div>
                             </div>
