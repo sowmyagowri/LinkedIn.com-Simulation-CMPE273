@@ -91,3 +91,21 @@ export function searchjob(data, tokenFromStorage) {
     payload: response
   };  
 }
+
+//target action to log clicks per Job Posting 
+export function logjobclicks(data, tokenFromStorage) {
+  console.log("inside Apply a Job Request  action")
+  var config = {
+    headers: {'Authorization': tokenFromStorage,
+              'Content-Type': 'application/json',
+              withCredentials : true
+    }
+  };
+  axios.defaults.withCredentials = true;
+  const response =  axios.post(URI.ROOT_URL + '/update_job_views/', data, config);
+  console.log("Response", response);
+  return {
+    type: userConstants.UPDATE_JOB_VIEWS,
+    payload: response
+  };  
+}

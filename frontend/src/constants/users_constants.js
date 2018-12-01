@@ -16,6 +16,7 @@ export const userConstants = {
     APPLY_JOB :'applyjob',
     GET_SAVEDJOBS :'getsavedjobs',
     SEARCH_JOBS : "searchjob",
+    UPDATE_JOB_VIEWS: "updatejobviews",
     USER_DETAILS:"user_details",
     AUTH_TOKEN: "auth_token"
 };

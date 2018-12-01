@@ -8,7 +8,7 @@ import { reduxForm } from "redux-form";
 import { withRouter} from 'react-router-dom';
 import { connect } from "react-redux";
 import { userConstants } from '../../constants';
-import { searchjob } from '../../Actions/actions_jobs';
+import { searchjob, logjobclicks } from '../../Actions/actions_jobs';
 
 class SearchJobs extends Component{
     constructor(props){
@@ -64,6 +64,16 @@ class SearchJobs extends Component{
     }
 
     viewjob  = (event, job) => {
+        const token =  JSON.parse(localStorage.getItem(userConstants.AUTH_TOKEN));
+        const data = {
+            jobID: job._id
+        }
+        this.props.logjobclicks(data, token).then(response => {
+            console.log("response:", response);
+            if(response.payload.status === 200){
+                console.log("Job Clicks updated successfully")
+            }
+        })
         this.props.history.push({
             pathname:`/job/view/${job._id}`,
             state: {
@@ -403,4 +413,4 @@ function mapStateToProps(state) {
 
 export default withRouter(reduxForm({
     form: "Easy_Apply"
-    })(connect(mapStateToProps, { searchjob }) (SearchJobs)));
+    })(connect(mapStateToProps, { searchjob, logjobclicks }) (SearchJobs)));
