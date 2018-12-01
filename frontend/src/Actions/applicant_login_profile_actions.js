@@ -136,7 +136,7 @@ export async function applicantprofileskills(data, tokenFromStorage) {
     }
   };
   axios.defaults.withCredentials = true;
-  const response =  axios.post(URI.ROOT_URL + '/post_applicant_profile_skills/' , data, config);
+  const response =  await axios.post(URI.ROOT_URL + '/post_applicant_profile_skills/' , data, config);
   console.log("Response", response);
   return {
     type: userConstants.APPLICANT_PROFILE_SKILLS_POST,
@@ -146,6 +146,7 @@ export async function applicantprofileskills(data, tokenFromStorage) {
 
 //target action for applicant profile delete
 export async function applicantprofiledelete(data, tokenFromStorage) {
+  console.log(data,tokenFromStorage);
   console.log("inside applicant profile delete action")
   var config = {
     headers: {'Authorization': tokenFromStorage,
@@ -154,10 +155,15 @@ export async function applicantprofiledelete(data, tokenFromStorage) {
     }
   };
   axios.defaults.withCredentials = true;
-  const response =  await axios.post(URI.ROOT_URL + '/deleteProfile/' , data, config);
+  const response = await axios.delete(URI.ROOT_URL + '/delete_profile/' , {
+    params: {
+      data
+    } , 
+    ...config
+  });
   console.log("Response", response);
   return {
     type: userConstants.APPLICANT_PROFILE_DELETE,
     payload: response
-  };  
+  };
 }

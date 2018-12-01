@@ -227,10 +227,10 @@ class Profile extends Component{
         this.props.applicantprofiledelete(data, token).then(response => {
             console.log("response:", response);
             if(response.payload.status === 200){
-                console.log("Profile Summary Deleted Successfully")
+                console.log("Profile Deleted Successfully")
             }
-            })
-        }
+        })
+    }
   
 
     shouldComponentUpdate(nextState) {
