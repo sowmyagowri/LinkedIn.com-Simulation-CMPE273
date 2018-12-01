@@ -22,6 +22,7 @@ export async function saveajob(data, tokenFromStorage) {
 
 //target action for Apply a Job Request 
 export async function applyjob(data, tokenFromStorage) {
+  console.log(data);
   console.log("inside Apply a Job Request  action")
   var config = {
     headers: {'Authorization': tokenFromStorage,

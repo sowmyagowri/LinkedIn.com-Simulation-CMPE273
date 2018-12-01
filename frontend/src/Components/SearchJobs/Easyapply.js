@@ -35,6 +35,7 @@ class Easyapply extends Component{
 
         this.submitApply = this.submitApply.bind(this);
         this.changeHandler = this.changeHandler.bind(this);
+        this.openResumeDialog = this.openResumeDialog.bind(this);
         this.uploadresume = this.uploadresume.bind(this)
     }
 
@@ -110,34 +111,45 @@ class Easyapply extends Component{
         if (this.handleValidation()) {
             const token =  JSON.parse(localStorage.getItem(userConstants.AUTH_TOKEN));
             const data = {
-                first_name : this.state.firstname,
-                last_name : this.state.lastname,
-                applicant_email : this.state.email,
-                phone_number : this.state.phonenumber,
-                resume : this.state.resume,
-                address : this.state.address
+                jobID : this.state.jobdetails._id,
+                firstName : this.state.firstname,
+                lastName : this.state.lastname,
+                address : this.state.address,
+                phoneNumber : this.state.phonenumber,
+                applicantEmail : this.state.email,
+                resume : this.state.resume
             }
 
-            // var formData = new FormData();
-            // formData.append('uploadedFile', this.state.uploadedresume);
-            
-            // Object.keys(data).forEach(function(key){
-            //     formData.append(key, data[key]);
-            // });
+            if (this.state.uploadedresume) {
 
-            // // Display the formdata key/value pairs
-            // for (var pair of formData.entries()) {
-            //     console.log(pair[0]+ ', ' + pair[1]); 
-            // }
-
-            this.props.applyjob(data, token).then(response => {
-                console.log("response:", response);
-                if(response.payload.status === 200){
-                    console.log("Applied job Successfully")
-                    window.location.href = '/searchjobs';
+                var formData = new FormData();
+                formData.append('uploadedResume', this.state.uploadedresume);
+                Object.keys(data).forEach(function(key){
+                    formData.append(key, data[key]);
+                });
+    
+                // Display the formdata key/value pairs
+                for (var pair of formData.entries()) {
+                    console.log(pair[0]+ ', ' + pair[1]); 
                 }
-             })
+                this.props.applyjob(formData, token).then(response => {
+                    console.log("response:", response);
+                    if(response.payload.status === 200){
+                        console.log("Applied job Successfully")
+                        window.location.href = '/searchjobs';
+                    }
+                })
+            } else {           
+                console.log("else", data) 
+                this.props.applyjob(data, token).then(response => {
+                    console.log("response:", response);
+                    if(response.payload.status === 200){
+                        console.log("Applied job Successfully")
+                        window.location.href = '/searchjobs';
+                    }
+                })
             }
+        }
     } 
 
     render() {
@@ -272,7 +284,7 @@ function validateprofile(firstname, lastname, phonenumber, resume, address) {
     return {
       firstname: firstname.length === 0, 
       lastname: lastname.length === 0,
-      phonenumber: phonenumber.length !== 10,
+      phonenumber: phonenumber.length < 10 || phonenumber.length > 10,
       resume: resume.length === 0,
       address : address.length === 0
     };

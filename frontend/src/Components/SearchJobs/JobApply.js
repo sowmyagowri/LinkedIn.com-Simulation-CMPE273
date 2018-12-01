@@ -12,7 +12,6 @@ import { getapplicantprofile } from '../../Actions/applicant_login_profile_actio
 import { applyjob } from '../../Actions/actions_jobs';
 import validator from 'validator';
 
-
 class JobApply extends Component{
     constructor(props){
         super(props);
@@ -362,11 +361,12 @@ class JobApply extends Component{
 
 function validateprofile(firstname, lastname, phonenumber, email, address, resume) {
     // true means invalid, so our conditions got reversed
+    console.log(email.value);
     return {
       firstname: firstname.length === 0, 
       lastname: lastname.length === 0,
       phonenumber: phonenumber.length < 10 || phonenumber.length > 10,
-      email: email.length === 0 || !validator.isEmail(email.value),
+      email: validator.isEmail(email) ? false : true,
       address : address.length === 0,
       resume: resume.length === 0,
     };
