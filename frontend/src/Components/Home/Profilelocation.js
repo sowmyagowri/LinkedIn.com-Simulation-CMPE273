@@ -197,4 +197,3 @@ class ProfileLocation extends Component{
 }
 
 export default ProfileLocation;
-  

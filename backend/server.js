@@ -119,7 +119,6 @@ app.use("/searchPeople", searchPeople);
 app.use("/graph_profile_views/", graphProfileViews);
 app.use("/update_profile_views/", updateProfileViews);
 
-
 /** start server */
 app.listen(port, () => {
     console.log(`Server started at port: ${port}`);
