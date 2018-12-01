@@ -110,6 +110,9 @@ class SendMessage  extends Component {
                 "message": this.state.messageDraft
             }
             this.props.postMessage(messageDetails);
+            this.setState ({
+                messageDraft : ""
+            })
         }
     }
 

@@ -15,6 +15,11 @@ class SearchJobs extends Component{
         super(props);
         this.state = {
             currentjoblistid : 1,
+            search : "",
+            location : "",
+            company : "",
+            date_posted : "",
+            employment_type : "",
             jobdata : [],
             results : true
         };
@@ -61,7 +66,7 @@ class SearchJobs extends Component{
     viewjob  = (event, job) => {
         this.props.history.push({
             pathname:`/job/view/${job._id}`,
-            state:{
+            state: {
                 viewjob : job,
             }
         });
@@ -72,10 +77,10 @@ class SearchJobs extends Component{
         var data = { 
             start : 0,
             length : 100,
-            search : "",
+            search : this.props.location.state.jobname === undefined ? "" : this.props.location.state.jobname,
             company : "",
             employment_type : "",
-            location : "",
+            location : this.props.location.state.location === undefined ? "" : this.props.location.state.location,
             date_posted : ""
         }
 
@@ -84,10 +89,19 @@ class SearchJobs extends Component{
         this.props.searchjob(data, token).then(response => {
             console.log("response:", response);
             if(response.payload.status === 200){
+                if(response.payload.data.jobs.length > 0) {
                 this.setState({ 
                     jobdata : response.payload.data.jobs,
-                    currentjoblistid : response.payload.data.jobs[0]._id
+                    currentjoblistid : response.payload.data.jobs[0]._id,
+                    search : this.props.location.state.jobname === undefined ? "" : this.props.location.state.jobname,
+                    location : this.props.location.state.location === undefined ? "" : this.props.location.state.location,
+                    results : true
                 })
+            } else {
+                this.setState({ 
+                    results : false
+                })
+            }
             }
         })
     }
@@ -98,7 +112,7 @@ class SearchJobs extends Component{
             length : 100,
             search : this.state.search,
             company : this.state.company,
-            employment_type : this.state.company,
+            employment_type : this.state.employment_type,
             location : this.state.location,
             date_posted : this.state.date_posted
         }
@@ -134,6 +148,8 @@ class SearchJobs extends Component{
         return (
             <div className="jobsearch-wrapper">
                 <Navbar></Navbar>
+                {this.state.results ? 
+                <div>
                 <header className="container-with-shadow p3 search-filters-bar--jobs-search relative">
                     <div className="neptune-grid1">
                         <div className="search-filters-bar display-flex align-items-center" style={{ height: "42px" }}>
@@ -255,27 +271,41 @@ class SearchJobs extends Component{
                         <div className = "jobs-search-two-pane__results jobs-search-two-pane__results--responsive display-flex full-width">
                             <div className = "jobs-search-results jobs-search-results--is-two-pane" tabIndex = "-1">
                                 <ul className = "jobs-search-results__list artdeco-list artdeco-list--offset-4">
-                                {this.state.results ?
                                     <JobList 
                                     jobs={this.state.jobdata} 
                                     getSelectedJob={this.openJob} 
                                     selectedJob={currentjobliststate}
-                                    self = {this}/> : 
-                                    <div>No Search Results found!</div> }
+                                    self = {this}/>
                                 </ul>
                             </div>
                         </div>
                         <div className = "jobs-search-two-pane__details pt4 ph3 jobs-search-two-pane__details--responsive ember-view">
                             <div id = "job-view-layout jobs-details ember-view">
-                            {this.state.results ?
                             <JobDetails 
                                     jobs={currentjobliststate} self = {this}
-                            /> : <div>No Search Results found!</div> }
+                            /> 
                             </div>
                         </div>
                     </div>
                 </div>
-           </div>
+                </div>
+            </div> :
+            <div className="neptune-grid1">
+                <div className="col-6 offset-3 text-center">
+                <br />
+                <br />
+                <img alt="" src="images/nojobs.png" />
+                <br />
+                <br />
+                <span style={{ fontSize: "150%" }}>
+                Sorry, there are no jobs to display.
+                </span>
+                <br />
+                <br /> <br />
+                <br />
+            </div> 
+            </div>
+           } 
       </div>   
       )
     }
