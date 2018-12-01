@@ -24,7 +24,7 @@ class JobApply extends Component{
           email : "",
           profilephoto : "",
           resume : "",
-          coverletter : "",
+          Coverletter : "",
           ethnicity : "",
           question : "",
           sponsorship : false,
@@ -34,12 +34,17 @@ class JobApply extends Component{
             lastname: false,
             phonenumber : false,
             email : false,
-          }
+          },
+          uploadedresume: "",
+          uploadedcoverletter: ""
         };
 
         this.submitApply = this.submitApply.bind(this);
         this.changeHandler = this.changeHandler.bind(this);
-        this.uploadresume = this.uploadresume.bind(this)
+        this.uploadresume = this.uploadresume.bind(this);
+        this.uploadcoverletter = this.uploadcoverletter.bind(this);
+        this.openResumeDialog = this.openResumeDialog.bind(this);
+        this.openCoverLetterDialog = this.openCoverLetterDialog.bind(this);
     }
 
 
@@ -74,6 +79,10 @@ class JobApply extends Component{
         document.getElementById('resume').click();
     }
 
+    openCoverLetterDialog = (e) => {
+        document.getElementById('coverletter').click();
+    }
+
     uploadresume = (event) => {
         event.preventDefault();
         var file = event.target.files[0]
@@ -82,6 +91,17 @@ class JobApply extends Component{
         this.setState ({
             resume : file.name,
             uploadedresume : file
+        })
+    }
+
+    uploadcoverletter = (event) => {
+        event.preventDefault();
+        var file = event.target.files[0]
+        console.log(file)
+
+        this.setState ({
+            Coverletter : file.name,
+            uploadedcoverletter : file
         })
     }
     
@@ -113,19 +133,23 @@ class JobApply extends Component{
         if (this.handleValidation()) {
             const token =  JSON.parse(localStorage.getItem(userConstants.AUTH_TOKEN));
             const data = {
-                first_name : this.state.firstname,
-                last_name : this.state.lastname,
-                applicant_email : this.state.email,
-                phone_number : this.state.phonenumber,
-                resume : this.state.resume,
+                jobID : this.state.jobdetails._id,
+                firstName : this.state.firstname,
+                lastName : this.state.lastname,
+                applicantEmail : this.state.email,
+                phoneNumber : this.state.phonenumber,
+                address : this.state.address,
                 diversity_question : this.state.ethnicity,
-                disability_question : this.state.disability,
-                sponsorship_question : this.state.sponsorship,
-                how_did_you_hear_about_us : this.state.question
+                disability_que : this.state.disability,
+                sponsorship_que : this.state.sponsorship,
+                howDidTheyHearAboutUs : this.state.question
             }
 
             var formData = new FormData();
-            formData.append('uploadedFile', this.state.uploadedresume);
+            formData.append('uploadedResume', this.state.uploadedresume);
+            if (this.state.Coverletter) {
+                formData.append('uploadedCoverletter', this.state.uploadedcoverletter);
+            }
             
             Object.keys(data).forEach(function(key){
                 formData.append(key, data[key]);
@@ -282,6 +306,12 @@ class JobApply extends Component{
                                 <input type="file" id="resume" onChange={this.uploadresume} style = {{display : "none"}}/>
                                 <button type="file" className="btn arteco-btn-save" id="position-resume-typeahead" onClick = {this.openResumeDialog} style = {{width : "150px"}}>Upload Resume
                                 </button>&nbsp;&nbsp;{this.state.resume} 
+                            </div> 
+                            <div className = "profile-title" style = {{fontSize : "19px"}}>Coverletter</div>
+                            <div className="form-group">
+                                <input type="file" id="coverletter" onChange={this.uploadcoverletter} style = {{display : "none"}}/>
+                                <button type="file" className="btn arteco-btn-save" id="position-resume-typeahead" onClick = {this.openCoverLetterDialog} style = {{width : "180px"}}>Upload Coverletter
+                                </button>&nbsp;&nbsp;{this.state.Coverletter}
                             </div> 
                         <div className = "job-application-consents ember-view">We include a copy of your full profile with your application
                         <br></br>

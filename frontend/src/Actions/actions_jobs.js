@@ -3,7 +3,7 @@ import { userConstants } from '../constants';
 import URI from '../constants/URI';
 
 //target action for Save a Job Request 
-export function saveajob(data, tokenFromStorage) {
+export async function saveajob(data, tokenFromStorage) {
   console.log("inside Save a Job Request action")
   var config = {
     headers: {'Authorization': tokenFromStorage,
@@ -12,7 +12,7 @@ export function saveajob(data, tokenFromStorage) {
     }
   };
   axios.defaults.withCredentials = true;
-  const response =  axios.post(URI.ROOT_URL + '/save_job/', data, config);
+  const response =  await axios.post(URI.ROOT_URL + '/save_job/', data, config);
   console.log("Response", response);
   return {
     type: userConstants.SAVE_JOB,
@@ -21,7 +21,7 @@ export function saveajob(data, tokenFromStorage) {
 }
 
 //target action for Apply a Job Request 
-export function applyjob(data, tokenFromStorage) {
+export async function applyjob(data, tokenFromStorage) {
   console.log("inside Apply a Job Request  action")
   var config = {
     headers: {'Authorization': tokenFromStorage,
@@ -30,7 +30,7 @@ export function applyjob(data, tokenFromStorage) {
     }
   };
   axios.defaults.withCredentials = true;
-  const response =  axios.post(URI.ROOT_URL + '/apply_for_job/', data, config);
+  const response =  await axios.post(URI.ROOT_URL + '/apply_for_job/', data, config);
   console.log("Response", response);
   return {
     type: userConstants.APPLY_JOB,
@@ -39,7 +39,7 @@ export function applyjob(data, tokenFromStorage) {
 }
   
 //target action for Get all saved jobs Request 
-export function getsavedjobs(applicantEmail, tokenFromStorage) {
+export async function getsavedjobs(applicantEmail, tokenFromStorage) {
   console.log("inside Get all saved jobs Request action")
   var config = {
     headers: {'Authorization': tokenFromStorage,
@@ -62,7 +62,7 @@ export function getsavedjobs(applicantEmail, tokenFromStorage) {
 }
 
 //target action for Search Jobs Request 
-export function searchjob(data, tokenFromStorage) {
+export async function searchjob(data, tokenFromStorage) {
   console.log("inside Search Job Request action")
   var config = {
     headers: {'Authorization': tokenFromStorage,
@@ -79,7 +79,7 @@ export function searchjob(data, tokenFromStorage) {
   var date_posted = data.date_posted
 
   axios.defaults.withCredentials = true;
-  const response =  axios.get(URI.ROOT_URL + '/searchJobs/', {
+  const response =  await axios.get(URI.ROOT_URL + '/searchJobs/', {
     params: {
       start,length,search,company,employment_type,location,date_posted
     }, 
@@ -93,7 +93,7 @@ export function searchjob(data, tokenFromStorage) {
 }
 
 //target action to log clicks per Job Posting 
-export function logjobclicks(data, tokenFromStorage) {
+export async function logjobclicks(data, tokenFromStorage) {
   console.log("inside Apply a Job Request  action")
   var config = {
     headers: {'Authorization': tokenFromStorage,
@@ -102,7 +102,7 @@ export function logjobclicks(data, tokenFromStorage) {
     }
   };
   axios.defaults.withCredentials = true;
-  const response =  axios.post(URI.ROOT_URL + '/update_job_views/', data, config);
+  const response =  await axios.post(URI.ROOT_URL + '/update_job_views/', data, config);
   console.log("Response", response);
   return {
     type: userConstants.UPDATE_JOB_VIEWS,
