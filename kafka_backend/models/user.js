@@ -21,7 +21,7 @@ var Users = mongoose.model('Users',{
     zipcode : String,
     phoneNumber : {
         type: Number,
-        default: ''
+        default: 0
     },
     address : {
         type: String,
