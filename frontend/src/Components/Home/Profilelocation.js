@@ -44,9 +44,7 @@ class ProfileLocation extends Component{
     }
 
     handleValidation() {
-
-        console.log("validation check")
-
+        
         let formIsValid = true;
         const state = { ...this.state.state };
         const zipcode = { ...this.state.zipcode };

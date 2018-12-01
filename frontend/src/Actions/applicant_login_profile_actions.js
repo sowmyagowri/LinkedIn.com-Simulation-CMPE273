@@ -145,8 +145,7 @@ export async function applicantprofileskills(data, tokenFromStorage) {
 }
 
 //target action for applicant profile delete
-export async function applicantprofiledelete(data, tokenFromStorage) {
-  console.log(data,tokenFromStorage);
+export async function applicantprofiledelete(email, tokenFromStorage) {
   console.log("inside applicant profile delete action")
   var config = {
     headers: {'Authorization': tokenFromStorage,
@@ -157,7 +156,7 @@ export async function applicantprofiledelete(data, tokenFromStorage) {
   axios.defaults.withCredentials = true;
   const response = await axios.delete(URI.ROOT_URL + '/delete_profile/' , {
     params: {
-      data
+      email
     } , 
     ...config
   });

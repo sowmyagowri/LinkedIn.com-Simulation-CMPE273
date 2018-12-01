@@ -251,11 +251,8 @@ class Profile extends Component{
     deleteProfile = () => {
         const email = JSON.parse(localStorage.getItem(userConstants.USER_DETAILS)).email;
         const token =  JSON.parse(localStorage.getItem(userConstants.AUTH_TOKEN));
-        const data = {
-            email: email,
-        }
 
-        this.props.applicantprofiledelete(data, token).then(response => {
+        this.props.applicantprofiledelete(email, token).then(response => {
             console.log("response:", response);
             if(response.payload.status === 200){
                 console.log("Profile Deleted Successfully")
