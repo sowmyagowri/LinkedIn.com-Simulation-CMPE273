@@ -8,11 +8,8 @@ import { connect } from "react-redux";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { userConstants } from '../../constants';
 import URI from '../../constants/URI';
-import { throws } from 'assert';
 import { postMessage } from "../../Actions/action_messages"
 import { makeconnections } from '../../Actions/action_connections';
-
-
 
 class UserProfile extends Component{
     constructor(props){

@@ -99,7 +99,6 @@ class SendMessage  extends Component {
     
     sendMessage() {
         if (this.state.messageDraft.trim().length > 0) {
-            let user = JSON.parse(localStorage.getItem(userConstants.USER_DETAILS));
             let messageDetails = {
                 "receiver": {
                     "username": this.props.connection.email,
