@@ -154,7 +154,7 @@ class JobApply extends Component{
                 eventName: "HALF_FILL_FORM",
                 applicantEmail: this.state.profile.email,
                 recruiterEmail: this.state.jobdetails.posted_by,
-                city: this.state.profile.state
+                city: this.state.profile.city
             }
             console.log("Application logged as half-filled")
         } else {
@@ -163,7 +163,7 @@ class JobApply extends Component{
                 eventName: "JUST_READ_APPLICATION",
                 applicantEmail: this.state.profile.email,
                 recruiterEmail: this.state.jobdetails.posted_by,
-                city: this.state.profile.state
+                city: this.state.profile.city
             }
             console.log("Application logged as just-read")
         }
@@ -224,7 +224,7 @@ class JobApply extends Component{
                         eventName: "COMPLETELY_FILL_FORM",
                         applicantEmail: this.state.profile.email,
                         recruiterEmail: this.state.jobdetails.posted_by,
-                        city: this.state.profile.state
+                        city: this.state.profile.city
                     }
                     console.log("Application logged as just-read")
                     this.props.logapplyapplicationtypes(data, token).then(response => {

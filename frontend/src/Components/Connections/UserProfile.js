@@ -10,6 +10,7 @@ import { userConstants } from '../../constants';
 import URI from '../../constants/URI';
 import { postMessage } from "../../Actions/action_messages"
 import { makeconnections } from '../../Actions/action_connections';
+import { logprofileview } from '../../Actions/applicant_login_profile_actions';
 
 class UserProfile extends Component{
     constructor(props){
@@ -34,10 +35,19 @@ class UserProfile extends Component{
 
     componentDidMount() {
         //call to action
+        console.log("this.props.location.state.profile", this.props.location.state.profile)
+        const email = this.props.location.state.profile.email;
+        const token =  JSON.parse(localStorage.getItem(userConstants.AUTH_TOKEN));
+        this.props.logprofileview(email, token).then(response => {
+            if(response.payload.status === 200){
+                console.log("Profile view logged")
+            }
+        })
+
        this.setState ({
             profiledata : this.props.location.state.profile,
             requestconnection : this.props.location.state.requestconnection
-       })  
+       })
     } 
     
     sendRequest = () => {
@@ -243,4 +253,4 @@ function mapStateToProps(state) {
 
 export default withRouter(reduxForm({
 form: "Search_People"
-})(connect(mapStateToProps, {postMessage, makeconnections})(UserProfile)));
+})(connect(mapStateToProps, {postMessage, makeconnections, logprofileview})(UserProfile)));
