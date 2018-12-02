@@ -8,6 +8,7 @@ import { v4 } from "node-uuid";
 import moment from "moment";
 import { Document, Page } from "react-pdf";
 import { pdfjs } from "react-pdf";
+import URI from "../../constants/URI"
 import checkValidityRecruiter from "../../Actions/ValidityScript"
 pdfjs.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/${
   pdfjs.version
@@ -25,6 +26,7 @@ class RecruiterJobApplications extends Component {
       search:"",
       numPages: null,
       pageNumber: 1,
+      resumeUrl:""
 
     };
   }
@@ -55,7 +57,7 @@ class RecruiterJobApplications extends Component {
     let applications = null;
     if (this.props.applicationsState.applications.length) {
       applications = this.props.applicationsState.applications.map(application => {
-
+        if(application.first_name.includes(this.state.search) ||  application.last_name.includes(this.state.search) ){
         return (
           <div  key={v4()} className="dashItem">
             <div  className="card shadow-lg ">
@@ -85,9 +87,16 @@ class RecruiterJobApplications extends Component {
                     <br />
                   </div>
                   <div className="col-4 offset-3 ">
+                  <br/> 
                     <button
                       type="button"
                       className="btn btn-block blueBackground text-white"
+                      onClick={()=>{
+                        this.setState({
+                          resumeUrl: URI.ROOT_URL+"/resumes/"+application.resume
+                        })
+                      }}
+                      data-toggle="modal" data-target="#resumeModal"
                     >
                       <FontAwesomeIcon
                         style={{ color: "#e6e6e6" }}
@@ -97,18 +106,7 @@ class RecruiterJobApplications extends Component {
                       &nbsp; View Resume
                     </button>
                     <br/>
-                    <button
-                      type="button"
-                      className="btn btn-block blueBackground text-white"
-                    >
-                      <FontAwesomeIcon
-                        style={{ color: "#e6e6e6" }}
-                        className="scroll"
-                        icon="user-circle"
-                      />
-                      &nbsp; View Profile
-                    </button>
-                
+            
                   </div>
               
                 </div>
@@ -117,9 +115,12 @@ class RecruiterJobApplications extends Component {
             </div>
             <br />
             <br />
+  
+
           </div>
+          
         );
-     
+                    }
       });
 
 
@@ -148,7 +149,7 @@ class RecruiterJobApplications extends Component {
         <br />
         <br />
 
-       {/* <div className="container">
+       <div className="container">
           <div className="row">
             <div className="col-6 offset-2">
               <input
@@ -180,20 +181,35 @@ class RecruiterJobApplications extends Component {
               {applications}
             </div>
           </div>
-    </div> */}
+    </div>
 
 
+          <div className="modal fade bd-example-modal-lg" tabIndex="-1" role="dialog" id="resumeModal" aria-hidden="true">
+  <div className="modal-dialog modal-lg">
+    <div className="modal-content">
+      <div className="modal-header">
+        <h5 className="modal-title">Resume</h5>
+        <button type="button" className="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div className="modal-body">
       <div>
         <Document
-          file="http://www.pdf995.com/samples/pdf.pdf"
+          file={this.state.resumeUrl}
           onLoadSuccess={this.onDocumentLoadSuccess}
         >
           <Page pageNumber={pageNumber} />
         </Document>
         <p>Page {pageNumber} of {numPages}</p>
-
- 
       </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
         
       </div>
     );
