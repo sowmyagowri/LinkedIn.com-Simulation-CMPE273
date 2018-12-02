@@ -138,7 +138,6 @@ class Jobs extends Component {
         <br />
           <hr/>
           <div className="row">
-            {errors}
             <div className="col-10 offset-1">
               <br />
               <br />

@@ -16,6 +16,9 @@ export const FETCH_JOBS_SUCCESS = "fetch_jobs_successfully";
 export const FETCH_JOBS_FAILURE = "fetch_jobs_error";
 
 
+export const ADDJOB_FETCH = "fetch_addjob";
+export const ADDJOB_ERROR = "fetch_addjob_error";
+
 
 export function recruiterSignUp(data) {
     return async dispatch => {
@@ -133,4 +136,12 @@ export function getRecruiterJobs() {
       });
     }
   };
+}
+
+
+export function populateJobsForm(data) {
+        return{
+          type: ADDJOB_FETCH,
+          payload: data
+        };
 }

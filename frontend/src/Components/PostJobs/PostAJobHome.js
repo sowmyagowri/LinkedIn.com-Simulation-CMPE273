@@ -1,13 +1,57 @@
 import React, { Component } from "react";
 import PostJobNav from "./PostJobNav";
+import { populateJobsForm } from "../../Actions/recruiterActions";
+import { withRouter } from "react-router-dom";
+import { connect } from "react-redux";
 
 class PostAJobHome extends Component {
   constructor(props) {
     super(props);
-    this.state = {};
+    this.state = {
+      company:"",
+      title:"",
+      city:""
+    };
+  }
+
+
+  companyChangeHandler = e => {
+    this.setState({
+      company: e.target.value
+    });
+  };
+
+  titleChangeHandler = e => {
+    this.setState({
+      title: e.target.value
+    });
+  };
+
+  cityChangeHandler = e => {
+    this.setState({
+      city: e.target.value
+    });
+  };
+
+  startAJobClickHandler = e =>{
+ 
+    let data={
+      company: this.state.company,
+      title: this.state.title,
+      location:this.state.city
+    }
+
+    this.props.populateJobsForm(data);
+
+
+    this.props.history.push("/postajob");
+
+
+
   }
 
   render() {
+
     return (
       <div>
         <PostJobNav/>
@@ -39,6 +83,7 @@ class PostAJobHome extends Component {
                         placeholder="Company"
                         aria-label="company"
                         aria-describedby="company"
+                        onChange={this.companyChangeHandler}
                       />
                     </div>
                     <br />
@@ -54,6 +99,7 @@ class PostAJobHome extends Component {
                         placeholder="Job title"
                         aria-label="jobtitle"
                         aria-describedby="jobtitle"
+                        onChange={this.titleChangeHandler}
                       />
                     </div>
                     <br />
@@ -69,6 +115,7 @@ class PostAJobHome extends Component {
                         placeholder="Job address or city"
                         aria-label="jbcity"
                         aria-describedby="jbcity"
+                        onChange={this.cityChangeHandler}
                       />
                     </div>
                     <br/>
@@ -76,6 +123,7 @@ class PostAJobHome extends Component {
                       type="button"
                       style={{background:"#004b7c"}}
                       className="btn btn-lg btn-block text-white"
+                      onClick={this.startAJobClickHandler}
                     >
                       Start job post
                     </button>
@@ -91,4 +139,17 @@ class PostAJobHome extends Component {
   }
 }
 
-export default PostAJobHome;
+function mapStateToProps(state) {
+  return {
+  };
+}
+
+
+export default withRouter(
+  connect(
+    mapStateToProps,
+    { populateJobsForm }
+  )(PostAJobHome)
+);
+
+

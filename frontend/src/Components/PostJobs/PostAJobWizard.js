@@ -157,14 +157,17 @@ class PostAJobWizard extends Component {
   }
 }
 
-function mapStateToProps(state) {
-  return {};
-}
 
 PostAJobWizard = reduxForm({
-  form: "postAJobWizard"
+  form: "postAJobWizard",
+  enableReinitialize:true,
+  keepDirtyOnReinitialize:true
 })(PostAJobWizard);
 
-export default connect(mapStateToProps)(PostAJobWizard);
 
 
+export default connect(  
+  state => ({
+      initialValues: state.AddJobReducer.addjob, 
+    })
+)(PostAJobWizard);

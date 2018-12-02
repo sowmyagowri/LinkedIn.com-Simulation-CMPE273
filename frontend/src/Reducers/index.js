@@ -8,6 +8,7 @@ import { ApplicantJobsReducer } from "./reducer_applicantjobs"
 import Conversations from "./reducer_messages";
 import RecruiterLoginReducer from "./reducer_recruiter_sigin";
 import RecruiterSignUpReducer from "./reducer_recruiter_signup";
+import AddJobReducer from "./reducer_addjobs";
 
 const rootReducer = combineReducers({
     HomeReducer,
@@ -16,8 +17,11 @@ const rootReducer = combineReducers({
     RecruiterLoginReducer,
     ConnectionsReducer,
     ApplicantJobsReducer,
+    AddJobReducer,
     form: formReducer,
     RecruiterSignUpReducer,
-    conversations: Conversations
+    conversations: Conversations,
+
+
 });
 export default rootReducer;
