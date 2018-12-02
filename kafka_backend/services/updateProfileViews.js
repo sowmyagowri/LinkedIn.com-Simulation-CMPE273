@@ -6,13 +6,13 @@ async function handle_request(msg, callback) {
     console.log("In handle request:" + JSON.stringify(msg));
 
     let email = msg.email;
-    
+    let curr_date = new Date() - 8 * 60 * 60000;
     let resp = {};
     try {
         await Users.findOneAndUpdate(
-            { email : email },
+            { email: email },
             {
-                $push: { profileViews : new Date() }
+                $push: { profileViews: curr_date }
             }
         )
         resp = prepareSuccess({ "result": "Profile Views Updated Sucessfully" });
