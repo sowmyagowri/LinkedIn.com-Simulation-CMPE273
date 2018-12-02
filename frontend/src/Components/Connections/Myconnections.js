@@ -9,6 +9,7 @@ import { connect } from "react-redux";
 import { userConstants } from '../../constants';
 import { getAllConnections } from '../../Actions/action_connections';
 import { postMessage } from "../../Actions/action_messages"
+import PostJobNav from "../PostJobs/PostJobNav";
 
 class Myconnections extends Component{
     constructor(props){
@@ -69,9 +70,10 @@ class Myconnections extends Component{
     
 
     render(){
+        let role = localStorage.getItem("role");
         return (
             <div className="jobsearch-wrapper">
-                <Navbar></Navbar>
+                {(role && role === "R")? <PostJobNav /> : <Navbar/>}
                 <div className = "neptune-grid1" style = {{marginTop : "70px"}}>
                     <div className = "core-rail" style = {{width : "900px"}}>
                         <div className ="mn-invitations-preview mb4 artdeco-card ember-view">
