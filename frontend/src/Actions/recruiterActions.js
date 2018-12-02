@@ -169,11 +169,8 @@ export function getRecruiterJobs() {
 }
 
 
-export function getAllApplicationsForJob() {
-  //let recruiterEmail = localStorage.getItem("username");
-
-  let jobID = "5c01ee70fcfe329f94c4043d";
-
+export function getAllApplicationsForJob(jobID) {
+ 
   return async dispatch => {
     try {
       axios.defaults.withCredentials = true;

@@ -38,10 +38,7 @@ class RecruiterJobApplications extends Component {
 
 
 
-  componentDidMount(){
-    this.props.getAllApplicationsForJob();
-  }
-
+ 
 
 
   searchChangeListener = e => {
@@ -121,6 +118,9 @@ class RecruiterJobApplications extends Component {
           
         );
                     }
+
+
+                    
       });
 
 
