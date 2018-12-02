@@ -20,3 +20,7 @@
   ### Data Storage
     - MySQL
     - MongoDB
+
+  ### HomePage
+
+![linkedin simulation homepage](https://user-images.githubusercontent.com/25673997/49334513-d6a27e00-f58c-11e8-9887-53192664ee9c.png)
