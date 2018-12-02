@@ -1,4 +1,5 @@
 # LinkedIn.com-Simulation-CMPE273
+This website was developed solely for educational purposes.
 
 ## How can I run LinkedIn Simulation?
   - Run back-end using instructions in ReadMe.md in backend directory
