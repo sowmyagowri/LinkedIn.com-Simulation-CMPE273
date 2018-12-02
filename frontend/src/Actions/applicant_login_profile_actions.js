@@ -168,8 +168,8 @@ export async function applicantprofiledelete(email, tokenFromStorage) {
 }
 
 //target action for applicant profile view logs
-export async function logprofileview(email, tokenFromStorage) {
-  console.log("inside applicant profile view log action")
+export async function logprofileview(data, tokenFromStorage) {
+  console.log("inside applicant profile view log action", data)
   var config = {
     headers: {'Authorization': tokenFromStorage,
               'Content-Type': 'application/json',
@@ -177,7 +177,7 @@ export async function logprofileview(email, tokenFromStorage) {
     }
   };
   axios.defaults.withCredentials = true;
-  const response = await axios.post(URI.ROOT_URL + '/update_profile_views/' , email, config);
+  const response = await axios.post(URI.ROOT_URL + '/update_profile_views/' , data, config);
    console.log("Response", response);
   return {
     type: userConstants.LOG_APPLICANT_PROFILE_VIEW,

@@ -10,7 +10,6 @@ import { userConstants } from '../../constants';
 import URI from '../../constants/URI';
 import { postMessage } from "../../Actions/action_messages"
 import { makeconnections } from '../../Actions/action_connections';
-import { logprofileview } from '../../Actions/applicant_login_profile_actions';
 
 class UserProfile extends Component{
     constructor(props){
@@ -35,20 +34,11 @@ class UserProfile extends Component{
 
     componentDidMount() {
         //call to action
-        console.log("this.props.location.state.profile", this.props.location.state.profile)
-        const email = this.props.location.state.profile.email;
-        const token =  JSON.parse(localStorage.getItem(userConstants.AUTH_TOKEN));
-        this.props.logprofileview(email, token).then(response => {
-            if(response.payload.status === 200){
-                console.log("Profile view logged")
-            }
-        })
-
-       this.setState ({
+        this.setState ({
             profiledata : this.props.location.state.profile,
             requestconnection : this.props.location.state.requestconnection
        })
-    } 
+    }
     
     sendRequest = () => {
         const token =  JSON.parse(localStorage.getItem(userConstants.AUTH_TOKEN));
@@ -132,8 +122,10 @@ class UserProfile extends Component{
                                     <div className="row">
                                         <div className="col-xs-12 col-sm-4 text-center"> 
                                         {this.state.profiledata.profilePicture === undefined  || this.state.profiledata.profilePicture === "" || this.state.profiledata.profilePicture === null ?
-                                            <img src= "/images/avatar.png" alt="" className="center-block img-circle rounded-circle img-thumbnail img-responsive"/> : 
-                                            <img src = {URI.ROOT_URL + "/profilepictures/" + this.state.profiledata.profilePicture} alt="" className="center-block img-circle rounded-circle img-thumbnail img-responsive" style = {{width : "160px", height : "160px"}}/>}
+                                            <img src= "/images/avatar.png" alt="" className="center-block img-circle rounded-circle img-thumbnail img-responsive"/> 
+                                        : 
+                                            <img src = {URI.ROOT_URL + "/profilepictures/" + this.state.profiledata.profilePicture} alt="" className="center-block img-circle rounded-circle img-thumbnail img-responsive" style = {{width : "160px", height : "160px"}}/>
+                                        }
                                     </div>
                                     <div className="col-xs-12 col-sm-6">
                                         <h3>{this.state.profiledata.firstName}&nbsp;{this.state.profiledata.lastName}</h3>
@@ -253,4 +245,4 @@ function mapStateToProps(state) {
 
 export default withRouter(reduxForm({
 form: "Search_People"
-})(connect(mapStateToProps, {postMessage, makeconnections, logprofileview})(UserProfile)));
+})(connect(mapStateToProps, {postMessage, makeconnections})(UserProfile)));

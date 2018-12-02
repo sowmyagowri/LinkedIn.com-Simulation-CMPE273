@@ -9,6 +9,7 @@ import { connect } from "react-redux";
 import { userConstants } from '../../constants';
 import URI from '../../constants/URI';
 import { getAllConnections, makeconnections, searchpeople } from '../../Actions/action_connections';
+import { logprofileview } from '../../Actions/applicant_login_profile_actions';
 import { postMessage } from "../../Actions/action_messages"
 
 class SearchPeople extends Component{
@@ -78,6 +79,16 @@ class SearchPeople extends Component{
 
     gotoprofile = (event, profile, requestconnection) => {
         console.log(requestconnection)
+        //call to action
+        const token =  JSON.parse(localStorage.getItem(userConstants.AUTH_TOKEN));
+        const data ={
+            email: profile.email
+        }
+        this.props.logprofileview(data, token).then(response => {
+            if(response.payload.status === 200){
+                console.log("Profile view logged")
+            }
+        })
         this.props.history.push({
             pathname:"/userprofile/"+profile._id,
             state:{
@@ -269,4 +280,4 @@ function mapStateToProps(state) {
 
 export default withRouter(reduxForm({
 form: "Search_People"
-})(connect(mapStateToProps, { makeconnections, getAllConnections, searchpeople, postMessage})(SearchPeople)));
+})(connect(mapStateToProps, { makeconnections, getAllConnections, searchpeople, postMessage, logprofileview})(SearchPeople)));
