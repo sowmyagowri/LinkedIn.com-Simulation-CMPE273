@@ -3,6 +3,8 @@ import PostJobNav from "../PostJobs/PostJobNav";
 import { withRouter } from "react-router-dom";
 import { connect } from "react-redux";
 import checkValidityRecruiter from "../../Actions/ValidityScript"
+import axios from  "axios"
+import URI from "../../constants/URI"
 
 var BarChart = require("react-chartjs").Bar;
 
@@ -13,9 +15,6 @@ function rand(min, max, num) {
   }
   return rtn;
 }
-
-
-
 
 
 const data = {
@@ -52,22 +51,26 @@ class RecruiterGraphs extends Component {
   }
 
   
-// componentDidMount() {
-//       try {
-//         axios.defaults.withCredentials = true;
-//         axios.defaults.headers.common["Authorization"] =localStorage.getItem("user");
-//         var response = await axios.get(`${ROOT_URL}/graph_top_job_postings`, {
-//           params: {
-//             recruiterEmail
-//           }
-//         });
-//         if (response.status === 200) {
-//         }
-//         } catch (error) {
-//         console.log(error)
-       
-//     };
-//   }
+componentDidMount() {
+        let recruiterEmail = "recruiter3@gmail.com";
+        let month = "12"
+        axios.defaults.withCredentials = true;
+        axios.defaults.headers.common["Authorization"] =localStorage.getItem("user");
+        axios.get(`${URI.ROOT_URL}/graph_top_job_postings`, {
+          params: {
+            recruiterEmail,
+            month
+          }
+        }).then((res)=>{
+          if (res.status === 200) {
+            console.log(res)
+          }
+        }).catch((err)=>{
+            console.log(err);
+        })
+  
+    };
+
   
 
 
@@ -122,15 +125,15 @@ class RecruiterGraphs extends Component {
           <br />
           <br />
 
-          <div className="row">
+          {/* <div className="row">
             <div className="col-12">
               <div class="card shadow-lg">
                 <div class="card-body">
                   <h5 class="card-title">City wise Application/month</h5>
-                  {/* <h6 class="card-subtitle mb-2 text-muted">Card subtitle</h6> */}
+                  {/* <h6 class="card-subtitle mb-2 text-muted">Card subtitle</h6> 
                   <div className="row">
                     <div className="col-8">
-                      <BarChart data={data} width="600" height="250" />{" "}
+                      <BarChart data={data} width="600" height="250" />
                     </div>
                     <div className="col-4">
                       <br />
@@ -142,7 +145,10 @@ class RecruiterGraphs extends Component {
                 </div>
               </div>
             </div>
-          </div>
+          </div> */}
+
+
+          
         </div>
       </div>
     );
