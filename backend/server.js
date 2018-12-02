@@ -80,6 +80,23 @@ app.use("/signup_applicant/", signupApplicant);
 app.use("/signin_recruiter/", signinRecruiter);
 app.use("/signin_applicant/", signinApplicant);
 app.use('/profilepictures', express.static(path.join(__dirname, '/profilepictures/')));
+app.get("/resumes/:resume", function(req, res, next) {
+    var options = {
+      root: __dirname + "/resumes" ,
+      dotfiles: "deny",
+      headers: {
+        "x-timestamp": Date.now(),
+        "x-sent": true
+      }
+    };
+    var fileName = req.params.resume;
+    res.sendFile(fileName, options, function(err) {
+      if (err) {
+        next(err);
+      } else {
+      }
+    });
+  });
 
 // Add routes above this line if they do not require passport authentication
 // Add passport Authentication code will go here
@@ -120,6 +137,8 @@ app.use("/searchPeople", searchPeople);
 app.use("/graph_profile_views/", graphProfileViews);
 app.use("/update_profile_views/", updateProfileViews);
 app.use("/get_all_applications/", getAllApplicationsForAJob);
+
+
 
 /** start server */
 app.listen(port, () => {

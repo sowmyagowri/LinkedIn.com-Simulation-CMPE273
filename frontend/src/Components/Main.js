@@ -14,19 +14,20 @@ import EasyApply from './SearchJobs/Easyapply'
 import ApplyJob from './SearchJobs/JobApply'
 import PostAJobHome from './PostJobs/PostAJobHome'
 import PostAJobHeader from './PostJobs/PostJobHeader'
+import EditJobHeader from './PostJobs/EditJobHeader'
 import Jobs from './PostJobs/Jobs'
 import RecruiterGraphs from './Dashboard/Graphs'
 import RecruiterDashboard from './Dashboard/Dashboard'
 import RecruiterSearchPeople from './Dashboard/RecruiterPeople'
 import RecruiterUserProfile from './Dashboard/RecruiterUserProfile'
-
 import Applications from './PostJobs/Applications'
 import RecruiterSigin from './Recruiter/RecruiterSignIn'
 import RecruiterSignUp from './Recruiter/RecruiterSignUp'
 import SearchPeople from './Connections/Searchpeople';
 import MyConnections from './Connections/Myconnections';
 import UserProfile from './Connections/UserProfile';
-
+import NotARecruiter from './Recruiter/NotAReccruiter'
+import RecruiterJobApplications from './PostJobs/Applications'
 class Main extends Component {
     render(){
         return(
@@ -51,6 +52,7 @@ class Main extends Component {
                 <Route path="/job/saved" component={ViewSavedJobs}/>
                 <Route path="/postajobhome" component={PostAJobHome}/>
                 <Route path="/postajob" component={PostAJobHeader}/>
+                <Route path="/editjob" component={EditJobHeader}/>
                 <Route path="/jobs" component={Jobs}/>
                 <Route path="/graphs/" component={RecruiterGraphs}/>
                 <Route path="/recruiterdash/" component={RecruiterDashboard}/>
@@ -58,7 +60,8 @@ class Main extends Component {
                 <Route path="/recruitersignin/" component={RecruiterSigin}/>
                 <Route path="/recruitersignup/" component={RecruiterSignUp}/>
                 <Route path="/recruiterSearchPeople/" component={RecruiterSearchPeople}/>
-
+                <Route path="/notarecruiter/" component={NotARecruiter}/>
+                <Route path="/recruiterApplications/" component={RecruiterJobApplications}/>
 
                 </Switch>
             </div>

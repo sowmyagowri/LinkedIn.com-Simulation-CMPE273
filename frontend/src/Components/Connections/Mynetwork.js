@@ -8,6 +8,7 @@ import { withRouter} from 'react-router-dom';
 import { connect } from "react-redux";
 import { userConstants } from '../../constants';
 import { getAllConnections, connectionresponse } from '../../Actions/action_connections';
+import PostJobNav from "../PostJobs/PostJobNav";
 
 class Mynetwork extends Component{
     constructor(props){
@@ -110,9 +111,10 @@ class Mynetwork extends Component{
     }
 
     render(){
+        let role = localStorage.getItem("role");
         return (
             <div className="jobsearch-wrapper">
-                <Navbar></Navbar>
+                {(role && role === "R")? <PostJobNav /> : <Navbar/>}
                 <div className = "neptune-grid1" style = {{marginTop : "70px"}}>
                     <div className = "left-rail">
                         <div className ="sticky ember-view">
