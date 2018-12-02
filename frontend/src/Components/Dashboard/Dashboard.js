@@ -139,7 +139,13 @@ class RecruiterDashboard extends Component {
               <br />
               <br />
               <div className="col-4">
-                <div class="card shadow-lg text-center dashItem">
+                <div 
+                onClick={() => {
+                  this.props.history.push({
+                    pathname: "/mynetwork"
+                  });
+                }}
+                class="card shadow-lg text-center dashItem">
                   <div class="card-body">
                     <br />
                     <br />

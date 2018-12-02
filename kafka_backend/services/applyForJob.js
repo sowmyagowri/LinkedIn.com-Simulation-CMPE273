@@ -27,6 +27,7 @@ async function handle_request(msg, callback) {
 
         var application = {
             applicant_email: msg.body.applicantEmail,
+            date: new Date() - 8 * 60 * 60000,
             first_name: msg.body.firstName,
             last_name: msg.body.lastName,
             address: msg.body.address,

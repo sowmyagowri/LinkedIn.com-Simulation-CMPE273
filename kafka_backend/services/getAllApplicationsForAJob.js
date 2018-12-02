@@ -15,6 +15,7 @@ async function handle_request(msg, callback) {
                 _id : 0
             }
         );
+
         resp = prepareSuccess({ "allApplications": all_applications[0].applications });
     } catch (err) {
         console.log("Error: ", err);

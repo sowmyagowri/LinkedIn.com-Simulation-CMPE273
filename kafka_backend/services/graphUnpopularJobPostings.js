@@ -5,11 +5,11 @@ async function handle_request(msg, callback) {
     console.log("Inside kafka get graph for unpopular 5 job postings backend");
     console.log("In handle request:" + JSON.stringify(msg));
 
-    let _id = msg.recruiterID;
+    let email = msg.recruiterEmail;
     let resp = {};
     try {
         let data = await Jobs.aggregate([
-            { $match: { posted_by: _id } },
+            { $match: { posted_by: email } },
             {
                 $project: {
                     title: 1,
@@ -17,11 +17,9 @@ async function handle_request(msg, callback) {
                 }
             },
             { $sort: { count: 1 } }
-
         ])
         let label = []
-        let colors = ["#FF8000", "#F7464A", "#46BFBD", "#FDB45C", "#FEDCBA", "#ABCDEF", "#DDDDDD", "#ABCABC", "#FF4000",
-            "#BF00FF", "#00FFFF", "#FFC0CB"]
+        let colors = ["#FF8000", "#F7464A", "#46BFBD", "#FDB45C", "#FEDCBA"]
         let values = []
         let num = 1
         for (var i = 0; i < data.length; i++) {
