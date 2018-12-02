@@ -426,7 +426,8 @@ function validateprofile(firstname, lastname, phonenumber, email, address, resum
 function mapStateToProps(state) {
     return {
         getapplicantprofile: state.getapplicantprofile,
-        applyjob : state.applyjob
+        applyjob : state.applyjob,
+        logapplyapplicationtypes : state.logapplyapplicationtypes
     }
 }
 
