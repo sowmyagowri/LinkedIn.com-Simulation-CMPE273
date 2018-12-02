@@ -248,6 +248,7 @@ function mapStateToProps(state) {
     return {
         postMessage : state.postMessage,
         makeconnections: state.makeconnections,
+        logprofileview : state.logprofileview
     };
 }
 
