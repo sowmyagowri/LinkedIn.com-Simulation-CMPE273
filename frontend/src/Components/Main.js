@@ -17,6 +17,12 @@ import PostAJobHeader from './PostJobs/PostJobHeader'
 import Jobs from './PostJobs/Jobs'
 import RecruiterGraphs from './Dashboard/Graphs'
 import RecruiterDashboard from './Dashboard/Dashboard'
+import RecruiterSearchPeople from './Dashboard/RecruiterPeople'
+import RecruiterUserProfile from './Dashboard/RecruiterUserProfile'
+
+import Applications from './PostJobs/Applications'
+import RecruiterSigin from './Recruiter/RecruiterSignIn'
+import RecruiterSignUp from './Recruiter/RecruiterSignUp'
 import SearchPeople from './Connections/Searchpeople';
 import MyConnections from './Connections/Myconnections';
 import UserProfile from './Connections/UserProfile';
@@ -35,6 +41,7 @@ class Main extends Component {
                 <Route path="/searchjobs" component={SearchJobs}/>
                 <Route path="/searchpeople" component={SearchPeople}/>
                 <Route path="/userprofile/:_id" component={UserProfile}/>
+                <Route path="/recruiteruserprofile/:_id" component={RecruiterUserProfile}/>
                 <Route path="/messages" component={Inbox}/>
                 <Route path="/mynetwork" component={MyNetwork}/>
                 <Route path="/myconnections" component={MyConnections}/>
@@ -47,6 +54,12 @@ class Main extends Component {
                 <Route path="/jobs" component={Jobs}/>
                 <Route path="/graphs/" component={RecruiterGraphs}/>
                 <Route path="/recruiterdash/" component={RecruiterDashboard}/>
+                <Route path="/Applications/" component={Applications}/>
+                <Route path="/recruitersignin/" component={RecruiterSigin}/>
+                <Route path="/recruitersignup/" component={RecruiterSignUp}/>
+                <Route path="/recruiterSearchPeople/" component={RecruiterSearchPeople}/>
+
+
                 </Switch>
             </div>
         )

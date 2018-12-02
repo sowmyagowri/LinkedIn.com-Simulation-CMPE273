@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import PostAJobWizard from "./PostAJobWizard";
-import { createNewJob } from "../../Actions/PostJobActions";
+import { createNewJob } from "../../Actions/recruiterActions";
 import { withRouter } from "react-router-dom";
 import { connect } from "react-redux";
 
