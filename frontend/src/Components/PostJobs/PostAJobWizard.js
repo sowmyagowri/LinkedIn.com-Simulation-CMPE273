@@ -127,7 +127,7 @@ class PostAJobWizard extends Component {
          
           <div className="col-4">
               <Field
-                name="applicationType"
+                name="applicationMethod"
                 type="text"
                 component={renderApplicationType}
                 label="Application Type"
