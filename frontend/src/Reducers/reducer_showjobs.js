@@ -1,7 +1,7 @@
 import {
  FETCH_JOBS_SUCCESS,
  FETCH_JOBS_FAILURE
-} from "../Actions/PostJobActions";
+} from "../Actions/recruiterActions";
 
 export default function(
   state = {

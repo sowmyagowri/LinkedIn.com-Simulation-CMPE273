@@ -3,44 +3,132 @@ import PostJobNav from "./PostJobNav";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { withRouter } from "react-router-dom";
 import { connect } from "react-redux";
-import { getRecruiterJobs } from "../../Actions/PostJobActions";
+import { getRecruiterJobs } from "../../Actions/recruiterActions";
 import { v4 } from "node-uuid";
+import moment from "moment";
+import { populateJobsForm } from "../../Actions/recruiterActions";
 
 class Jobs extends Component {
+
+
+  constructor(props) {
+    super(props);
+    this.state = {
+      search:""
+
+    };
+  }
+
+
+
   componentWillMount() {
     this.props.getRecruiterJobs();
   }
 
+  searchChangeListener = e => {
+    this.setState({
+      search: e.target.value
+    });
+  };
+
+  
   render() {
     let jobs = null;
     if (this.props.jobsState.jobs.length) {
       jobs = this.props.jobsState.jobs.map(job => {
+        if(job.title.includes(this.state.search)){
         return (
-          <div key={v4()} className="card shadow-lg">
-            <div className="row">
-              <div className="col-4">
-                <img
-                  className="img-thumbnail"
-                  alt=""
-                  style={{ border: "none" }}
-                />
+          <div  key={v4()} className="dashItem">
+            <div  className="card shadow-lg ">
+              <div className="card-body">
+                <div className="row">
+                  <div className="col-3 text-center">
+                    <img
+                      className="img-thumbnail"
+                      alt=""
+                      src={job.company_logo}
+                      style={{ border: "none", width: "70%" }}
+                    />
+                  </div>
+
+                  <div className="col-5">
+                    <h5
+                      style={{ fontWeight: "500" }}
+                      className="linkBlue"
+                      href="/"
+                    >
+                      {job.title}
+                    </h5>
+                    <h5>{job.company}</h5>
+                    <FontAwesomeIcon
+                      style={{ color: "#e6e6e6" }}
+                      className="fa-map-marker-alt"
+                      icon="map-marker-alt"
+                    />
+                    &nbsp;&nbsp;{job.location} <br />
+                    <FontAwesomeIcon
+                      style={{ color: "#e6e6e6" }}
+                      className="calendar-alt"
+                      icon="calendar-alt"
+                    />
+                    &nbsp;&nbsp;{moment(job.expiry_date).format("MM/DD/YYYY")}{" "}
+                    <br />
+                  </div>
+                  <div className="col-4 ">
+                    <button
+                      type="button"
+                      className="btn btn-block blueBackground text-white"
+                    >
+                      <FontAwesomeIcon
+                        style={{ color: "#e6e6e6" }}
+                        className="scroll"
+                        icon="scroll"
+                      />
+                      &nbsp; View Applications
+                    </button>
+                    <br />
+                    <br />
+
+                    <button
+                      type="button"
+                      className="btn btn-block blueBackground text-white"
+                      onClick={()=>{
+                          let j={
+                            company:job.company,
+                            companylogo:job.company_logo,
+                            employmentType: job.employment_type,
+                            expiryDate: job.expiry_date,
+                            industry:job.industry,
+                            jobDescription: job.job_description,
+                            jobFunction: job.job_function,
+                            location:job.location,
+                            title:job.title,
+                           
+                          }
+                          console.log(job);
+                        this.props.populateJobsForm(j);
+                        this.props.history.push("/postajob");
+                        
+                      }}
+                    >
+                      <FontAwesomeIcon
+                        style={{ color: "#e6e6e6" }}
+                        className="edit"
+                        icon="edit"
+                      />
+                      &nbsp; Edit Posting{" "}
+                    </button>
+                  </div>
+              
+                </div>
               </div>
-              <div className="col-8">
-                <h4>{job.title}</h4>
-                &nbsp;&nbsp;&nbsp;&nbsp;Company <br />
-                &nbsp;&nbsp;&nbsp;&nbsp;Expiry <br />
-                <FontAwesomeIcon
-                  color="#dee2e6"
-                  size="sm"
-                  icon="location-arrow"
-                />
-                Place <br />
-                <br />
-              </div>
-              <hr />
+   
             </div>
+            <br />
+            <br />
           </div>
         );
+      }
       });
     } else {
       jobs = (
@@ -66,15 +154,42 @@ class Jobs extends Component {
         <br />
         <br />
         <br />
+
         <div className="container">
           <div className="row">
-            <div className="col-12">
+            <div className="col-6 offset-2">
+              <input
+                type="text"
+                className="form-control form-control-lg shadow-lg"
+                placeholder="Search"
+                aria-label="Sizing example input"
+                onChange={this.searchChangeListener}
+              />
+            </div>
+
+            <div className="col-2">
+              <button
+                type="button"
+                className="btn btn-block btn-lg blueBackground text-white shadow-lg"
+                
+              >
+                Search
+              </button>
+            </div>
+          </div>
+          <br />
+        <br />
+          <hr/>
+          <div className="row">
+            <div className="col-10 offset-1">
               <br />
               <br />
               {jobs}
             </div>
           </div>
         </div>
+
+        
       </div>
     );
   }
@@ -89,6 +204,6 @@ function mapStateToProps(state) {
 export default withRouter(
   connect(
     mapStateToProps,
-    { getRecruiterJobs }
+    { getRecruiterJobs, populateJobsForm }
   )(Jobs)
 );

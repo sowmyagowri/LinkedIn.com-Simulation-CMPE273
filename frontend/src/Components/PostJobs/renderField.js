@@ -115,3 +115,63 @@ export const renderDatePicker = ({
     </div>
   </div>
 );
+
+export const renderCheckbox = ({
+  input,
+  label,
+  maxLength,
+  type,
+  meta: { touched, error }
+}) => (
+  <div class="form-check form-check-inline">
+  <br/>
+    <input
+      {...input}
+      placeholder={label}
+      type="checkbox"
+      className="form-check-input"
+      id="asdf"
+    /> &nbsp;&nbsp;&nbsp;&nbsp;
+    <label class="form-check-label" for="asdf">
+      {label}      <span style={{ color: "#0073b1" }}>*</span>
+
+    </label>
+  </div>
+);
+
+
+
+const ApplicationTypes = [
+  "Regular",
+  "Easy Apply"
+];
+
+export const renderApplicationType = ({
+  input,
+  label,
+  meta: { touched, error }
+}) => (
+  <div>
+    <label style={{ fontSize: "14px" }}>
+      {label}
+      <span style={{ color: "#0073b1" }}>*</span>
+    </label>
+    <div>
+      <select {...input}
+     
+       value={input.value}
+       onChange={input.onChange}
+       onBlur={() => input.onBlur(input.value)}
+      
+      className="form-control form-control-lg jodField">
+        <option value="">Choose One</option>
+        {ApplicationTypes.map(val => (
+          <option value={val} key={val}>
+            {val}
+          </option>
+        ))}
+      </select>
+      {touched && error && <span className="text-danger">{error}</span>}
+    </div>
+  </div>
+);

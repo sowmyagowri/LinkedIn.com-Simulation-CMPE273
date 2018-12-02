@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import PostJobNav from "../PostJobs/PostJobNav";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import checkValidityRecruiter from "../../Actions/ValidityScript"
 
 class RecruiterDashboard extends Component {
   constructor(props) {
@@ -8,11 +9,14 @@ class RecruiterDashboard extends Component {
     this.state = {};
   }
 
+  componentWillMount(){
+    checkValidityRecruiter(this);
+  }
+
   render() {
     return (
       <div>
         <PostJobNav />
-
         <div className="row bg blueBackground">
           <div className="container   ">
             <br />
@@ -47,13 +51,14 @@ class RecruiterDashboard extends Component {
               <br />
               <br />
               <div className="col-4">
-                <div 
-                            onClick={() => {
-                                this.props.history.push({
-                                  pathname: "/jobs"
-                                });
-                              }}
-                class="card shadow-lg text-center dashItem">
+                <div
+                  onClick={() => {
+                    this.props.history.push({
+                      pathname: "/jobs"
+                    });
+                  }}
+                  class="card shadow-lg text-center dashItem"
+                >
                   <div class="card-body">
                     <br />
                     <br />
@@ -66,12 +71,13 @@ class RecruiterDashboard extends Component {
               <br />
               <div className="col-4">
                 <div
-                            onClick={() => {
-                                this.props.history.push({
-                                  pathname: "/graphs"
-                                });
-                              }}
-                class="card shadow-lg text-center dashItem">
+                  onClick={() => {
+                    this.props.history.push({
+                      pathname: "/graphs"
+                    });
+                  }}
+                  class="card shadow-lg text-center dashItem"
+                >
                   <div class="card-body">
                     <br />
                     <br />
@@ -92,12 +98,19 @@ class RecruiterDashboard extends Component {
               <br />
               <br />
               <div className="col-4">
-                <div class="card shadow-lg text-center dashItem">
+                <div 
+                  onClick={() => {
+                    this.props.history.push({
+                      pathname: "/recruiterSearchPeople"
+                    });
+                  }}
+                
+                class="card shadow-lg text-center dashItem">
                   <div class="card-body">
                     <br />
                     <br />
-                    <FontAwesomeIcon color="#006097" size="4x" icon="scroll" />
-                    <h2 className="lightFont"> Applications</h2>
+                    <FontAwesomeIcon color="#006097" size="4x" icon="user-circle" />
+                    <h2 className="lightFont"> People</h2>
                   </div>
                 </div>
               </div>
