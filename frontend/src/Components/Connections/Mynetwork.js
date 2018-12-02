@@ -7,7 +7,7 @@ import { reduxForm } from "redux-form";
 import { withRouter} from 'react-router-dom';
 import { connect } from "react-redux";
 import { userConstants } from '../../constants';
-import { getAllConnections } from '../../Actions/action_connections';
+import { getAllConnections, connectionresponse } from '../../Actions/action_connections';
 
 class Mynetwork extends Component{
     constructor(props){
@@ -74,8 +74,9 @@ class Mynetwork extends Component{
     connectionresponse = (event, response, invitation, i) => {
         const token =  JSON.parse(localStorage.getItem(userConstants.AUTH_TOKEN))
 
+        var data = {}
         if( response === "y") {
-            var data = {
+             data = {
                 receiver: {
                     username: invitation.email,
                     firstname: invitation.firstName,
@@ -84,7 +85,7 @@ class Mynetwork extends Component{
                 isAccepted : "true"
             }
         } else {
-            var data = {
+             data = {
                 receiver: {
                     username: invitation.email,
                     firstname: invitation.firstName,
@@ -98,8 +99,10 @@ class Mynetwork extends Component{
             if(response.payload.status === 200){
                 var invitations =  this.state.invitations 
                 invitations.splice(i, 1);
+                var totalinvitations = invitations.length
                 this.setState ({
-                    invitations : invitations
+                    invitations : invitations,
+                    totalinvitations : totalinvitations
                 })
                 console.log("Connection Response sent successfully")
             }   
@@ -115,7 +118,7 @@ class Mynetwork extends Component{
                         <div className ="sticky ember-view">
                         <div className = "left-rail-container ">
                             <div className = "mn-connections-summary container-with-shadow ember-view">
-                            <h3 className = "t-13 t-black t-normal">Connections&nbsp;({this.state.totalconnections})</h3>
+                            <a href = "/myconnections"><h3 className = "t-13 t-black t-normal">Connections&nbsp;({this.state.totalconnections})</h3></a>
                             </div>
                             </div>
                         </div>
@@ -135,10 +138,11 @@ class Mynetwork extends Component{
 
 function mapStateToProps(state) {
     return {
-        getAllConnections : state.getAllConnections
+        getAllConnections : state.getAllConnections,
+        connectionresponse : state.connectionresponse
     };
 }
 
 export default withRouter(reduxForm({
 form: "Search_People"
-})(connect(mapStateToProps, { getAllConnections })(Mynetwork)));
+})(connect(mapStateToProps, { getAllConnections, connectionresponse })(Mynetwork)));

@@ -13,8 +13,6 @@ class Jobs extends Component {
 
   render() {
     let jobs = null;
-    let errors = null;
-
     if (this.props.jobsState.jobs.length) {
       jobs = this.props.jobsState.jobs.map(job => {
         return (
@@ -84,16 +82,15 @@ class Jobs extends Component {
                   <hr />
                 </div>
               </div>
+              <hr />
             </div>
             <br />
             <br />
           </div>
         );
       });
-    }
-
-    if (this.props.jobsState.jobs.length === 0) {
-      errors = (
+    } else {
+      jobs = (
         <div className="col-6 offset-3 text-center">
           <br />
           <br />

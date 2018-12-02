@@ -7,7 +7,7 @@ const router = express.Router();
 const multer = require('multer');
 const storage = multer.diskStorage({
   destination: (req, file, callback) => {
-    callback(null, './resumes');
+    callback(null, './resumes_and_coverletter');
   },
   filename: (req, file, callback) => {
     fileExtension = file.originalname.split('.')[1] // get file extension from original file

@@ -1,16 +1,13 @@
 .user-inbox .content{
     display: flex;
     height: 100vh;
-    margin-left:200px;
-    margin-right: 200px;
+    margin-left:150px;
+    margin-right: 150px;
     padding-top: 100px;
     padding-bottom: 50px;
+    width : 1200px;
 }
 
-/*.master{
-    width : 300px;
-}
-*/
 .user-inbox .master{
     display: flex;
     flex-direction: column;
@@ -64,8 +61,8 @@
 }
 
 .user-inbox .message img{
-    height: 80px;
-    width: 80px;
+    height: 60px;
+    width: 60px;
 }
 
 .user-inbox .conversation{

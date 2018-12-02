@@ -21,7 +21,7 @@ var Users = mongoose.model('Users',{
     zipcode : String,
     phoneNumber : {
         type: Number,
-        default: ''
+        default: 0
     },
     address : {
         type: String,
@@ -84,6 +84,15 @@ var Users = mongoose.model('Users',{
         firstName : String,
         lastName: String
     }],
+    jobsAppliedTo: [{
+        type : String
+    }],
+    savedJobs:[{
+        type: String
+    }],
+    profileViews:[{
+        type : Date
+    }]
 });
 
 module.exports = {Users};

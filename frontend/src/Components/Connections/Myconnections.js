@@ -7,133 +7,38 @@ import { reduxForm } from "redux-form";
 import { withRouter} from 'react-router-dom';
 import { connect } from "react-redux";
 import { userConstants } from '../../constants';
-import URI from '../../constants/URI';
-import { getAllConnections, makeconnections, searchpeople } from '../../Actions/action_connections';
-import { logprofileview } from '../../Actions/applicant_login_profile_actions';
+import { getAllConnections } from '../../Actions/action_connections';
 import { postMessage } from "../../Actions/action_messages"
 
-class SearchPeople extends Component{
+class Myconnections extends Component{
     constructor(props){
         super(props);
         this.state = {
-            searchresults : 0,
             isLoading : false,
-            filteredResults : [],
-            connectionResults : [],
+            connections : [],
         };
-        this.sendRequest = this.sendRequest.bind(this)
     }
 
     componentDidMount() {
         //call to action
-
+      
         const token =  JSON.parse(localStorage.getItem(userConstants.AUTH_TOKEN));
-
-        var data = {
-            search : this.props.location.state.search === undefined || this.props.location.state === undefined? "" : this.props.location.state.search
-        }
-        let user = JSON.parse(localStorage.getItem(userConstants.USER_DETAILS));
-        var email = user.email;
-        this.props.searchpeople(data, token).then(response => {
+        this.props.getAllConnections(token).then(response => {
             console.log("response:", response);
             if(response.payload.status === 200){
-                var filteredResults =  response.payload.data.people
-                filteredResults = filteredResults.filter(function(x){ return x.email !== email; });
-
+                var approved = response.payload.data.connections.connectionsApproved
                 this.setState ({
-                    filteredResults : filteredResults,
-                    searchresults : filteredResults.length
+                    connections : approved
                 })
-
-                this.props.getAllConnections(token).then(response => {
-                    console.log("response:", response);
-                    if(response.payload.status === 200){
-                        var connectionResults = []
-                        var approved = response.payload.data.connections.connectionsApproved
-                        var incoming = response.payload.data.connections.connectionsIncoming
-                        var outgoing = response.payload.data.connections.connectionsOutgoing
-                        var i = 0;
-                        if(approved.length > 0) {
-                            for (i = 0; i < approved.length; i++) {
-                                connectionResults.push(JSON.parse(JSON.stringify(approved[i].email)))
-                            }                }
-                        if(incoming.length > 0) {
-                            for (i = 0; i < incoming.length; i++) {
-                                connectionResults.push(JSON.parse(JSON.stringify(incoming[i].email)))
-                            }                }
-                        if(outgoing.length > 0) {
-                            for (i = 0; i < outgoing.length; i++) {
-                                connectionResults.push(JSON.parse(JSON.stringify(outgoing[i].email)))
-                            }
-                        }
-
-                        this.setState ({
-                            connectionResults : connectionResults
-                        })
-                    }   
-                })
-            }
+            }   
         })
-    }
-
-
-    gotoprofile = (event, profile, requestconnection) => {
-        console.log(requestconnection)
-        //call to action
-        const token =  JSON.parse(localStorage.getItem(userConstants.AUTH_TOKEN));
-        const data ={
-            email: profile.email
-        }
-        this.props.logprofileview(data, token).then(response => {
-            if(response.payload.status === 200){
-                console.log("Profile view logged")
-            }
-        })
-        this.props.history.push({
-            pathname:"/userprofile/"+profile._id,
-            state:{
-                profile : profile,
-                requestconnection : requestconnection
-            }
-        });
-    }
-
-
-    sendRequest = (event, i) => {
-        const token =  JSON.parse(localStorage.getItem(userConstants.AUTH_TOKEN));
-        var data = {
-            receiver : {
-                username: this.state.filteredResults[i].email,
-                firstname: this.state.filteredResults[i].firstName,
-                lastname: this.state.filteredResults[i].lastName
-            }
-        }
-        console.log(data)
-
-        this.props.makeconnections(data, token).then(response => {
-            console.log("response:", response);
-            if(response.payload.status === 200){
-                console.log("Send Request Successfully")
-                var receiver =  this.state.filteredResults[i].email
-                var connectionResults = this.state.connectionResults
-                connectionResults.push(receiver)
-                this.setState ({
-                    connectionResults : connectionResults
-                })
-            }
-        })
-    }
-
-    checkcondition = (email) => {
-        var result = this.state.connectionResults.includes(email)
-        return result
     }
 
     listUsers () {
+        const {connections, isLoading} = this.state;
         var self = this;
-        const {filteredResults, isLoading} = this.state;
         if(!isLoading) {
-            return Object.keys(filteredResults).map(function(i) {
+            return Object.keys(connections).map(function(i) {
                 return <div key ={i}>
                 <ul className = "mn-invitations-preview__header">
                     <li className = "invitation-card1 ember-view">
@@ -141,22 +46,17 @@ class SearchPeople extends Component{
                             <div className = "invitation-card__details">
                                 <div className = "details-view">
                                 <div className = "msg-conversation-card__row pr2">
-                                    {filteredResults[i].profilePicture === "" ?
-                                        <img alt="" src="/images/avatar.png" style = {{width : "56px", height : "56px"}}/> :
-                                        <img alt="" src={URI.ROOT_URL + "/profilepictures/" + filteredResults[i].profilePicture} style = {{width : "56px", height : "56px"}}/> }
+                                    {/* <img alt="" src={connections[i].profilePicture} style = {{width : "56px", height : "56px"}}/> */}
+                                    <img alt="" src= "/images/avatar.png" style = {{width : "56px", height : "56px"}}/>
                                     <div className = "row" style = {{marginLeft : "15px"}}>
                                         <div className = "form-group">
-                                        <a href = {"/userprofile/"+filteredResults[i]._id} onClick = {(event) => self.gotoprofile(event,filteredResults[i], self.checkcondition(filteredResults[i].email))}><h5 className = "t-14 t-black t-normal">{filteredResults[i].firstName}&nbsp;{filteredResults[i].lastName}</h5></a>
-                                            <h5 className = "t-12 t-black--light t-normal">{filteredResults[i].profileSummary}</h5>
+                                            <h5 className = "t-14 t-black t-normal">{connections[i].firstName}&nbsp;{connections[i].lastName}</h5>
+                                            {/* <h5 className = "t-12 t-black--light t-normal">{connections[i].description}</h5> */}
+                                            {/* <h5 className = "t-12 t-black--light t-normal">Description</h5> */}
                                         </div>
                                     </div>
                                 </div>
-                                <div className = "invitation-card__action-container pl3 pr5">
-                                        {!self.checkcondition(filteredResults[i].email) ? 
-                                        <button type="button" className="btn arteco-btn" style = {{width : "150px"}} onClick = {(event) => self.sendRequest(event,i)}>Send Request</button> 
-                                        : (null)}
-                                        <SendMessage postMessage ={self.props.postMessage} id = {i} connection = {filteredResults[i]}></SendMessage>
-                                </div>  
+                                <SendMessage postMessage ={self.props.postMessage} id = {i} connection = {connections[i]}></SendMessage>
                                 </div>
                             </div>
                         </div>
@@ -176,7 +76,7 @@ class SearchPeople extends Component{
                     <div className = "core-rail" style = {{width : "900px"}}>
                         <div className ="mn-invitations-preview mb4 artdeco-card ember-view">
                             <header className = "artdeco-card__header mn-invitations-preview__header">
-                            <h3 className = "t-13 t-black--light t-normal">Showing&nbsp;{this.state.searchresults}&nbsp;results</h3></header>
+                            <h3 className = "t-13 t-black--light t-normal">Showing&nbsp;{this.state.connections.length}&nbsp;results</h3></header>
                             {this.listUsers()}
                         </div>
                     </div>
@@ -271,13 +171,11 @@ class SendMessage  extends Component {
 
 function mapStateToProps(state) {
     return {
-        makeconnections: state.makeconnections,
         getAllConnections : state.getAllConnections,
-        searchpeople : state.searchpeople,
         postMessage : state.postMessage
     };
 }
 
 export default withRouter(reduxForm({
 form: "Search_People"
-})(connect(mapStateToProps, { makeconnections, getAllConnections, searchpeople, postMessage, logprofileview})(SearchPeople)));
+})(connect(mapStateToProps, { getAllConnections, postMessage })(Myconnections)));

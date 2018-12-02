@@ -37,18 +37,18 @@ class Inbox extends Component {
 
     render() {
         return (
-            <div class="user-inbox">
+            <div className="user-inbox">
                 <Navbar></Navbar>
-                <div class="content">
-                    <div class="master">
-                        <div class="master-header">
+                <div className="content">
+                    <div className="master">
+                        <div className="master-header">
                             <h4 className = "t-16 t-black t-normal">Messaging</h4>
                         </div>
-                        <div class="master-content">
+                        <div className="master-content">
                             {this.renderMessageList()}
                         </div>
                     </div>
-                    <div class="detail">
+                    <div className="detail">
                         {this.renderConversations()}
                     </div>
                 </div>
@@ -63,7 +63,7 @@ class Inbox extends Component {
             this.props.conversations.forEach(conversation => {
                 let sender = user.email === conversation.user1.username ? conversation.user2 : conversation.user1;
                 conversations.push(
-                    <div class="message" onClick={this.viewConversation.bind(this, conversation)}>
+                    <div className="message" key = {conversation._id} onClick={this.viewConversation.bind(this, conversation)}>
                         <img alt="" src="/images/avatar.png" />
                         <h5 className = "t-14 t-black-light t-normal">{sender.firstname + ' ' + sender.lastname}</h5>
                     </div>
@@ -73,7 +73,7 @@ class Inbox extends Component {
         }
         else {
             return (
-                <div class="conversation content-ctr" >
+                <div className="conversation content-ctr" >
                     <h4 className = "t-14 t-black t-normal">No Messages Yet !</h4>
                 </div>
             );
@@ -91,21 +91,21 @@ class Inbox extends Component {
             let sender = user.email === this.state.currentConversation.user1.username ? this.state.currentConversation.user2 : this.state.currentConversation.user1;
             headerName = sender.firstname + ' ' + sender.lastname;
             return (
-                <div class="conversation">
-                    <div class="conversation-list">
-                        <div class="conversation-header">
-                            <img alt="" src="/images/avatar.png" width="40px" height="40px" />
+                <div className="conversation">
+                    <div className="conversation-list">
+                        <div className="conversation-header">
+                            <img alt="" src="/images/avatar.png" style= {{width :"40px", height:"40px"}}/>
                             <h6 className = "t-14 t-black-light t-normal">{headerName}</h6>
                         </div>
-                        <div class="conversation-content">
+                        <div className="conversation-content">
                             {this.renderMessage()}
                             <div style={{ float: "left", clear: "both" }}
                                 ref={(el) => { this.messagesEnd = el; }}>
                             </div>
                         </div>
                     </div>
-                    <div class="input-message">
-                        <textarea rows="6" cols="40" required maxlength="10000" class="form-control" value={this.state.messageDraft} onChange={(event) => { this.setState({ messageDraft: event.target.value }) }}
+                    <div className="input-message">
+                        <textarea rows="6" cols="40" required maxLength="10000" className="form-control" value={this.state.messageDraft} onChange={(event) => { this.setState({ messageDraft: event.target.value }) }}
                             name="message" placeholder="Enter Message"></textarea>
                         <button className='btn arteco-btn' onClick={this.sendMessage.bind(this)}>Send</button>
                     </div>
@@ -114,7 +114,7 @@ class Inbox extends Component {
         }
         else {
             return (
-                <div class="conversation content-ctr" >
+                <div className="conversation content-ctr" >
                     <h4 className = "t-14 t-black t-normal">No Messages Yet !</h4>
                 </div>
             );
@@ -122,7 +122,9 @@ class Inbox extends Component {
     }
 
     scrollToBottom = () => {
-        this.messagesEnd.scrollIntoView({ behavior: "smooth" });
+        if(this.messagesEnd){
+            this.messagesEnd.scrollIntoView({ behavior: "smooth" });
+        }
     }
 
     componentDidUpdate() {
@@ -135,7 +137,7 @@ class Inbox extends Component {
         if (this.state.currentConversation) {
             this.state.currentConversation.messages.forEach(message => {
                 messages.push(
-                    <div  class="message-container">
+                    <div key = {message._id} className="message-container">
                         <p className={user.email === message.from ? "message-content from-bubble" : "message-content to-bubble"}>{message.message}</p>
                     </div>
                 ) 

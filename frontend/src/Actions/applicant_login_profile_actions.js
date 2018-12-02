@@ -136,10 +136,51 @@ export async function applicantprofileskills(data, tokenFromStorage) {
     }
   };
   axios.defaults.withCredentials = true;
-  const response =  axios.post(URI.ROOT_URL + '/post_applicant_profile_skills/' , data, config);
+  const response =  await axios.post(URI.ROOT_URL + '/post_applicant_profile_skills/' , data, config);
   console.log("Response", response);
   return {
     type: userConstants.APPLICANT_PROFILE_SKILLS_POST,
     payload: response
   };  
+}
+
+//target action for applicant profile delete
+export async function applicantprofiledelete(email, tokenFromStorage) {
+  console.log("inside applicant profile delete action")
+  var config = {
+    headers: {'Authorization': tokenFromStorage,
+              'Content-Type': 'application/json',
+              withCredentials : true
+    }
+  };
+  axios.defaults.withCredentials = true;
+  const response = await axios.delete(URI.ROOT_URL + '/delete_profile/' , {
+    params: {
+      email
+    } , 
+    ...config
+  });
+  console.log("Response", response);
+  return {
+    type: userConstants.APPLICANT_PROFILE_DELETE,
+    payload: response
+  };
+}
+
+//target action for applicant profile view logs
+export async function logprofileview(data, tokenFromStorage) {
+  console.log("inside applicant profile view log action", data)
+  var config = {
+    headers: {'Authorization': tokenFromStorage,
+              'Content-Type': 'application/json',
+              withCredentials : true
+    }
+  };
+  axios.defaults.withCredentials = true;
+  const response = await axios.post(URI.ROOT_URL + '/update_profile_views/' , data, config);
+   console.log("Response", response);
+  return {
+    type: userConstants.LOG_APPLICANT_PROFILE_VIEW,
+    payload: response
+  };
 }

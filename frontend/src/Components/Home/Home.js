@@ -45,8 +45,6 @@ class Home extends Component{
 
     handleValidation() {
 
-        console.log("validation check")
-
         let formIsValid = true;
         const firstname = { ...this.state.firstname };
         const lastname = { ...this.state.lastname };
@@ -172,6 +170,14 @@ class Home extends Component{
                         message : "Please enter valid email address and password"
                     }
                 });
+            })
+        }
+    }
+
+    componentDidMount () {
+        if (localStorage.getItem(userConstants.AUTH_TOKEN) !== null) {
+            this.setState ({
+                islogged : true
             })
         }
     }

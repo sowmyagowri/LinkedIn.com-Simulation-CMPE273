@@ -1,12 +1,18 @@
 const express = require("express");
 const kafka = require('./../kafka/client');
-const { GET_APPLICANT_PROFILE_REQUEST, GET_APPLICANT_PROFILE_RESPONSE } = require('./../kafka/topics');
+const { UPDATE_PROFILE_VIEWS_REQUEST, UPDATE_PROFILE_VIEWS_RESPONSE } = require('./../kafka/topics');
 const { responseHandler, sendInternalServerError, sendBadRequest } = require('./response');
 const router = express.Router();
 
-router.get("/", (req, res) => {
-    console.log("Inside get applicant Profile controller");
-    console.log("GETAPPLICANTPROFILE: ", req.query);
+/**
+ *  this script will be called for routes begin with /post_job
+ *  
+ *  below "/" is relative resource path, the actual resource path is /post_job/
+ * 
+ */
+router.post("/", (req, res) => {
+    console.log("Inside update profile views controller");
+    console.log("UPATE PROFILE VIEWS: ", req.body);
     let errors = validateInput(req);
     if (errors) {
         let msg = errors.map(error => error.msg).reduce((accumulator, currentVal) => accumulator + "\n" + currentVal);
@@ -15,7 +21,7 @@ router.get("/", (req, res) => {
         });
     }
     else {
-        kafka.make_request(GET_APPLICANT_PROFILE_REQUEST, GET_APPLICANT_PROFILE_RESPONSE, req.query, function (err, result) {
+        kafka.make_request(UPDATE_PROFILE_VIEWS_REQUEST, UPDATE_PROFILE_VIEWS_RESPONSE, req.body, function (err, result) {
             if (err) {
                 // called in case of time out error, or if we failed to send data over kafka
                 sendInternalServerError(res);
@@ -36,9 +42,11 @@ router.get("/", (req, res) => {
  */
 
 function validateInput(req) {
-    // req.checkBody("company", "A Company name is required.").notEmpty();
-    // req.checkBody("phone_number", "A Phone Number is required.").notEmpty();
-    // req.checkBody("password", "Your Password must contain at least 1 number and 1 letter. \n Your Password must be between 7 and 32 characters.").matches(/^(?=.*\d)(?=.*[a-zA-Z]).{7,32}$/);
+    // req.checkBody("title", "Job Title is required.").notEmpty();
+    // req.checkBody("jobDescription", "Job Description is required.").notEmpty();
+    // req.checkBody("employmentType", "Employment Type is required.").notEmpty();
+    // req.checkBody("location", "Job location is required.").notEmpty();
+    // req.checkBody("expiryDate", "Job expiry date is required.").notEmpty();
 
     //add more validation if needed.
     return req.validationErrors();

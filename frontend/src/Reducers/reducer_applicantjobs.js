@@ -1,15 +1,15 @@
 import { userConstants } from '../constants';
 
 //Reducer listening to different action types
-export function ConnectionsReducer(state = {}, action) {
+export function ApplicantJobsReducer(state = {}, action) {
   switch (action.type) {
-    case userConstants.MAKE_CONNECTION_REQUEST:
+    case userConstants.SAVE_JOB:
       return action.payload;
-    case userConstants.GET_ALL_CONNECTIONS:
+    case userConstants.APPLY_JOB:
       return action.payload;
-    case userConstants.CONNECTION_RESPONSE:
+    case userConstants.GET_SAVEDJOBS:
       return action.payload;
-    case userConstants.SEARCH_PEOPLE:
+    case userConstants.SEARCH_JOBS:
       return action.payload;
     default:
       return state;

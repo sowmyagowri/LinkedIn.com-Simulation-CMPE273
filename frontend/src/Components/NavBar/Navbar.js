@@ -2,12 +2,16 @@ import React, { Component } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import './Navbar.css';
 import { withRouter, Link } from 'react-router-dom';
+import { userConstants } from '../../constants';
 
 class Navbar extends Component {
     constructor(props) { 
         super(props);
         this.state = {
-            selection : this.props.location.state === undefined ? "Jobs" : this.props.location.state.selection
+            selection : this.props.location.state === undefined ? "Jobs" : this.props.location.state.selection,
+            jobname : "",
+            location: "",
+            search : ""
         }
         this.signout = this.signout.bind(this);
         this.changeSelection = this.changeSelection.bind(this);
@@ -15,25 +19,58 @@ class Navbar extends Component {
 
     signout = () => {
         localStorage.clear();
-        window.location = "/"
     }
 
-    changeSelection = (e) => {
-        if (e.target.value === "Jobs") {
-            this.props.history.push({
-                pathname:"/searchjobs",
-                state:{
-                    selection : e.target.value,
-                }
-            });
-        } else {
+    changeHandler = (e) => {
+        const state = {
+          ...this.state,
+          [e.target.name]: e.target.value,
+          }
+
+        this.setState(state);
+    }
+
+    componentDidMount() {
+        //call to action
+        if(!localStorage.getItem(userConstants.USER_DETAILS)){
+            window.location = "/"
+        }
+    }
+
+    onJobSearch = () => {
+     console.log(this.state)
+       if (this.state.selection === "Jobs") {
+        this.props.history.push({
+            pathname:"/searchjobs",
+            state:{
+                selection : this.state.selection,
+                jobname : this.state.jobname,
+                location : this.state.location
+            }
+        });
+        window.location.reload();
+        }
+    }
+
+
+    onPersonSearch = () =>{
+        console.log(this.state)
+        if (this.state.selection === "People") {
             this.props.history.push({
                 pathname:"/searchpeople",
                 state:{
-                    selection : e.target.value,
+                    selection : this.state.selection,
+                    search : this.state.search
                 }
             });
+            window.location.reload();
         }
+    }
+
+    changeSelection = (e) => {
+        this.setState ({
+            selection : e.target.value
+        })
     }
     
     render() {
@@ -57,7 +94,7 @@ class Navbar extends Component {
                                 <div className="jobs-search-box">
                                     <label htmlFor="jobsearch1" className="visually-hidden"></label>
                                     <FontAwesomeIcon className="fa-search" icon="search"></FontAwesomeIcon>
-                                    <input type="text" id="jobsearch1" className="jobs-search-box__input" placeholder="Search Jobs" />
+                                    <input type="text" name = "jobname" onChange = {this.changeHandler} id="jobsearch1" className="jobs-search-box__input" placeholder="Search Jobs" />
                                 </div>
                             </div>
                         </div> :
@@ -66,7 +103,7 @@ class Navbar extends Component {
                                 <div className="jobs-search-box">
                                     <label htmlFor="jobsearch1" className="visually-hidden"></label>
                                     <FontAwesomeIcon className="fa-search" icon="search"></FontAwesomeIcon>
-                                    <input type="text" id="jobsearch1" className="jobs-search-box__input" placeholder="Search People" />
+                                    <input type="text" name = "search" onChange = {this.changeHandler}  id="jobsearch1" className="jobs-search-box__input" placeholder="Search People" />
                                 </div>
                             </div>
                         </div> 
@@ -77,18 +114,18 @@ class Navbar extends Component {
                                 <div className="jobs-map-box">
                                     <label htmlFor="jobsearch2" className="visually-hidden"></label>
                                     <FontAwesomeIcon className="fa-map-marker-alt" icon="map-marker-alt"></FontAwesomeIcon>
-                                    <input type="text" id="jobsearch2" className="jobs-map-box__input" placeholder="United States" /></div>
+                                    <input type="text" id="jobsearch2" name = "location" onChange = {this.changeHandler}  className="jobs-map-box__input" placeholder="United States" /></div>
                             </div>
                         </div> : (null) }
 
                         { this.state.selection === "Jobs" ?
                         <div className="nav-search-bar" style={{ marginLeft: "10px" }}>
                             <div className="nav-typeahead-wormhole">
-                                <button type="submit" id="jobsearch3" className="search-jobs">Search</button></div>
+                                <button type="submit" id="jobsearch3" className="search-jobs" onClick ={this.onJobSearch}>Search</button></div>
                         </div>  :
                         <div className="nav-search-bar" style={{ marginLeft: "10px" }}>
                             <div className="nav-typeahead-wormhole">
-                            <button type="submit" id="jobsearch3" className="search-jobs">Search</button></div>
+                            <button type="submit" id="jobsearch3" className="search-jobs" onClick ={this.onPersonSearch}>Search</button></div>
                         </div> 
                         }
                         

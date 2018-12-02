@@ -8,7 +8,8 @@ import { connect } from "react-redux";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { userConstants } from '../../constants';
 import URI from '../../constants/URI';
-import { getapplicantprofile, applicantprofilephoto, applicantprofilesummary, applicantprofileexperience, applicantprofileeducation, applicantprofileskills } from '../../Actions/applicant_login_profile_actions';
+import SweetAlert from 'react-bootstrap-sweetalert';
+import { getapplicantprofile, applicantprofilephoto, applicantprofilesummary, applicantprofileexperience, applicantprofileeducation, applicantprofileskills, applicantprofiledelete } from '../../Actions/applicant_login_profile_actions';
 
 class Profile extends Component{
     constructor(props){
@@ -35,13 +36,17 @@ class Profile extends Component{
                 zipcode : false,
             },
             profiledata : [],
-            isLoading : true
+            isLoading : true,
+            alert: null,
         };
         this.changeHandler = this.changeHandler.bind(this);
         this.profilephotochangeHandler = this.profilephotochangeHandler.bind(this);
         this.openFileDialog = this.openFileDialog.bind(this)
         this.updateSkills = this.updateSkills.bind(this)
         this.submitProfile = this.submitProfile.bind(this)
+        this.deleteProfileConfirm = this.deleteProfileConfirm.bind(this)
+        this.deleteProfile = this.deleteProfile.bind(this)
+        this.cancelDelete = this.cancelDelete.bind(this)
         this.uploadresume = this.uploadresume.bind(this)
         this.handleChange = this.handleChange.bind(this)
     }
@@ -66,7 +71,7 @@ class Profile extends Component{
                         profilesummary : response.payload.data.profile.profileSummary === undefined || "" ? "" : response.payload.data.profile.profileSummary,
                         state : response.payload.data.profile.state,
                         zipcode : response.payload.data.profile.zipcode,
-                        phonenumber : response.payload.data.profile.phoneNumber === undefined || ""  ? "" : response.payload.data.profile.phoneNumber,
+                        phonenumber : response.payload.data.profile.phoneNumber === undefined || null || ""  ? "" : response.payload.data.profile.phoneNumber,
                         address : response.payload.data.profile.address === undefined || "" ? "" : response.payload.data.profile.address,
                         experience : response.payload.data.profile.experience,
                         education : response.payload.data.profile.education,
@@ -165,7 +170,6 @@ class Profile extends Component{
         if (this.handleValidationProfile()) {
             const email = JSON.parse(localStorage.getItem(userConstants.USER_DETAILS)).email;
             const token =  JSON.parse(localStorage.getItem(userConstants.AUTH_TOKEN));
-            
             const data = {
                 email: email,
                 firstName : this.state.firstname,
@@ -216,6 +220,48 @@ class Profile extends Component{
              })
             }
     } 
+
+    deleteProfileConfirm = () => {
+        const getAlert = () => (
+            <SweetAlert 
+                warning
+                showCancel
+                confirmBtnText="Yes, delete!"
+                confirmBtnBsStyle="danger"
+                cancelBtnBsStyle="default"
+                title="Are you sure?"
+                onConfirm={this.deleteProfile}
+                onCancel={this.cancelDelete}
+            >
+                You will not be able to recover your profile!
+            </SweetAlert>
+        );
+  
+        this.setState({
+          alert: getAlert(),
+        })
+    }
+
+    cancelDelete = () => {
+        this.setState({
+            alert: null
+        });
+    }
+
+    deleteProfile = () => {
+        const email = JSON.parse(localStorage.getItem(userConstants.USER_DETAILS)).email;
+        const token =  JSON.parse(localStorage.getItem(userConstants.AUTH_TOKEN));
+
+        this.props.applicantprofiledelete(email, token).then(response => {
+            console.log("response:", response);
+            if(response.payload.status === 200){
+                console.log("Profile Deleted Successfully")
+                localStorage.clear();
+                window.location = "/"
+            }
+        })
+    }
+  
 
     shouldComponentUpdate(nextState) {
         if (nextState.profiledata !== this.state.profiledata) {
@@ -552,7 +598,8 @@ class Profile extends Component{
                         </li>
                     </div>                   
               </div>
-
+              <button type="submit" className="btn arteco-btn" onClick = {this.deleteProfileConfirm} style = {{width : "150px"}}>Delete Profile</button>
+              {this.state.alert}
             </div>
         </div>
       </div>   
@@ -1232,10 +1279,11 @@ function mapStateToProps(state) {
         applicantprofilesummary : state.applicantprofilesummary, 
         applicantprofileexperience : state.applicantprofileexperience, 
         applicantprofileeducation :  state.applicantprofileeducation, 
-        applicantprofileskills : state.applicantprofileskills
+        applicantprofileskills : state.applicantprofileskills,
+        applicantprofiledelete : state.applicantprofiledelete
     };
 }
 
 export default withRouter(reduxForm({
 form: "Applicant_profile"
-})(connect(mapStateToProps, { getapplicantprofile, applicantprofilephoto, applicantprofilesummary, applicantprofileexperience, applicantprofileeducation, applicantprofileskills })(Profile)));
+})(connect(mapStateToProps, { getapplicantprofile, applicantprofilephoto, applicantprofilesummary, applicantprofileexperience, applicantprofileeducation, applicantprofileskills, applicantprofiledelete })(Profile)));

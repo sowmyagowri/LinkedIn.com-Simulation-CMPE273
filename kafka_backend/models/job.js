@@ -12,24 +12,28 @@ var Jobs = mongoose.model('Jobs', {
     company_logo: String,
     posted_date: Date,
     expiry_date: Date,
+    application_method: String,
     no_of_views: Number,
     no_of_clicks: Number,
     applications: [{
-        applicant_id: String,
+        applicant_email: String,
         first_name: String,
         last_name: String,
         address: String,
+        phone_number: String,
         how_did_they_hear_about_us: String,
         diversity_question: String,
-        sponsorship_question: String,
-        disability_question: String,
+        sponsorship_question: Boolean,
+        disability_question: Boolean,
         resume: {
             type: String,
-            data: Buffer
+            data: Buffer,
+            default: ''
         },
         cover_letter: {
             type: String,
-            data: Buffer
+            data: Buffer,
+            default: ''
         }
     }]
 });
