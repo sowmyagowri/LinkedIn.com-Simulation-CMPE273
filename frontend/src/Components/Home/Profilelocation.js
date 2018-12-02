@@ -11,6 +11,7 @@ class ProfileLocation extends Component{
             lastname : "",
             email : "",
             password : "",
+            city : { value: '', isValid: true },
             state : { value: '', isValid: true },
             zipcode : { value: '', isValid: true },
             message: "",
@@ -48,6 +49,7 @@ class ProfileLocation extends Component{
         let formIsValid = true;
         const state = { ...this.state.state };
         const zipcode = { ...this.state.zipcode };
+        const city = { ...this.state.city };
 
         this.setState({
             message: ""
@@ -74,6 +76,15 @@ class ProfileLocation extends Component{
             return formIsValid
         }
 
+        if(!city.value || city.value === ""){
+            formIsValid = false;
+            city.isValid = false;
+            this.setState({
+                message: "Please enter a city name"
+            });
+            return formIsValid
+        }
+
         if(typeof zipcode.value !== "undefined"){
             if (! zipcode.value.match(/(^[0-9]{5}(?:-[0-9]{4})?$)/)){
                 formIsValid = false;
@@ -94,7 +105,7 @@ class ProfileLocation extends Component{
             message: ""
         });
         if (this.handleValidation()) {
-            const { firstname, lastname, email, password, state, zipcode} = this.state;
+            const { firstname, lastname, email, password, state, city, zipcode} = this.state;
             this.props.history.push({
                 pathname:"/profileedit/new",
                 state:{
@@ -103,6 +114,7 @@ class ProfileLocation extends Component{
                     email : email,
                     password : password,
                     state : state.value,
+                    city : city.value,
                     zipcode : zipcode.value
                 }
             });
@@ -110,7 +122,7 @@ class ProfileLocation extends Component{
     }
 
     render(){
-        const { state, zipcode, message} = {...this.state};
+        const { state, city, zipcode, message} = {...this.state};
         return(
           <div className = "profilelocation-wrapper">
               <div className="navbar fixed-top">
@@ -123,7 +135,6 @@ class ProfileLocation extends Component{
                     <section className = "form-body">
                         <label htmlFor ="reg-location" className = "mb1 required">Country/Region</label>
                         <select className = "form-control" onChange = {this.changeHandler} name = "state" value={state.value} style = {{width : "500px"}} id="reg-location" maxLength="100" type="text">
-                            <option value="">United States</option>
                             <option value="">United States</option>
                                     <option value="Alabama">Alabama</option>
                                     <option value="Alaska">Alaska</option>
@@ -177,6 +188,8 @@ class ProfileLocation extends Component{
                                     <option value="Wisconsin">Wisconsin</option>
                                     <option value="Wyoming">Wyoming</option>
                         </select>			
+                        <label htmlFor ="reg-city" className = "mb1 required">City*</label>
+                        <input className = "form-control" onChange = {this.changeHandler} name = "city" value={city.value} id="reg-city" placeholder="Type city name in lower letters" type="text"/>
                         <label htmlFor ="reg-zipcode" className = "mb1 required">Postal Code</label>
                         <input className = "form-control" onChange = {this.changeHandler} name = "zipcode" value={zipcode.value} id="reg-zipcode" pattern="[0-9]{5}" placeholder="Five digit zip code" type="text"/>
                         <div className = "reg-alert1" role = "alert" tabIndex = "-1">
@@ -198,4 +211,3 @@ class ProfileLocation extends Component{
 }
 
 export default ProfileLocation;
-  

@@ -85,8 +85,6 @@ class SearchJobs extends Component{
     componentDidMount() {
         //call to action
 
-        console.log(this.props.location.state)
-
         var data = { 
             start : 0,
             length : 100,

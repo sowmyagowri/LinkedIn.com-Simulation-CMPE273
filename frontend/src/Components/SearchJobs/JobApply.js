@@ -9,7 +9,7 @@ import { connect } from "react-redux";
 import URI from '../../constants/URI';
 import { userConstants } from '../../constants';
 import { getapplicantprofile } from '../../Actions/applicant_login_profile_actions';
-import { applyjob } from '../../Actions/actions_jobs';
+import { applyjob, logapplyapplicationtypes } from '../../Actions/actions_jobs';
 import validator from 'validator';
 
 class JobApply extends Component{
@@ -143,9 +143,36 @@ class JobApply extends Component{
 
     cancelApply = (e) => {
         var touchedfields = this.state.touchedfields;
-        if (touchedfields.firstname || touchedfields.lastname || touchedfields. phonenumber || touchedfields.email || touchedfields.ethnicity || touchedfields.address || touchedfields.question || touchedfields.resume || touchedfields.coverletter || touchedfields.sponsorship || touchedfields.disability ) {
+        if (touchedfields.firstname || touchedfields.lastname || touchedfields.phonenumber || touchedfields.email || touchedfields.ethnicity || touchedfields.address || touchedfields.question || touchedfields.resume || touchedfields.coverletter || touchedfields.sponsorship || touchedfields.disability ) {
             var halffilled = true
         }
+        const token =  JSON.parse(localStorage.getItem(userConstants.AUTH_TOKEN));
+        var data;
+        if (halffilled) {
+            data = {
+                jobID : this.state.jobdetails._id,
+                eventName: "HALF_FILL_FORM",
+                applicantEmail: this.state.profile.email,
+                recruiterEmail: this.state.jobdetails.posted_by,
+                city: this.state.profile.city
+            }
+            console.log("Application logged as half-filled")
+        } else {
+            data = {
+                jobID : this.state.jobdetails._id,
+                eventName: "JUST_READ_APPLICATION",
+                applicantEmail: this.state.profile.email,
+                recruiterEmail: this.state.jobdetails.posted_by,
+                city: this.state.profile.city
+            }
+            console.log("Application logged as just-read")
+        }
+        this.props.logapplyapplicationtypes(data, token).then(response => {
+            console.log("response:", response);
+            if(response.payload.status === 200){
+                window.close();
+            }
+        })
     }
 
     handleValidation () {
@@ -192,11 +219,24 @@ class JobApply extends Component{
                 console.log("response:", response);
                 if(response.payload.status === 200){
                     console.log("Applied job Successfully")
-                    window.location.href = '/searchjobs';
+                    const data = {
+                        jobID : this.state.jobdetails._id,
+                        eventName: "COMPLETELY_FILL_FORM",
+                        applicantEmail: this.state.profile.email,
+                        recruiterEmail: this.state.jobdetails.posted_by,
+                        city: this.state.profile.city
+                    }
+                    console.log("Application logged as just-read")
+                    this.props.logapplyapplicationtypes(data, token).then(response => {
+                        console.log("Application logged as completely filled")
+                        if(response.payload.status === 200){
+                            window.close();
+                        }
+                    })
                 }
-             })
-            }
-        } 
+            })
+        }
+    }
 
     render() {
         const {profile, jobdetails} = this.state;
@@ -357,7 +397,12 @@ class JobApply extends Component{
                         We’ll save your answers to questions that tend to be common across applications so you can use them later. 
                         </div>
                         </section>
-                        <button className = "btn arteco-btn" type = "submit"  style = {{marginBottom : "100px"}} onClick = {this.submitApply}>Submit</button>
+                        {!this.handleValidation() ?
+                         <div className=""  style = {{color: "red"}}>&nbsp;Please enter all the mandatory fields</div> : (null)}
+                         {!this.handleValidation() ?
+                        <button className = "btn arteco-btn" type = "submit"  style = {{marginBottom : "100px"}} >Submit</button>
+                         :
+                        <button className = "btn arteco-btn" type = "submit"  style = {{marginBottom : "100px"}} onClick = {this.submitApply}>Submit</button>}
                         <button className = "btn arteco-btn" type = "submit"  style = {{marginBottom : "100px", marginLeft : "20px"}} onClick = {this.cancelApply}>Cancel</button>
                     </div>    
                 </div>
@@ -381,10 +426,11 @@ function validateprofile(firstname, lastname, phonenumber, email, address, resum
 function mapStateToProps(state) {
     return {
         getapplicantprofile: state.getapplicantprofile,
-        applyjob : state.applyjob
+        applyjob : state.applyjob,
+        logapplyapplicationtypes : state.logapplyapplicationtypes
     }
 }
 
 export default withRouter(reduxForm({
     form: "Job_Apply"
-    })(connect(mapStateToProps, { getapplicantprofile, applyjob}) (JobApply)));
+    })(connect(mapStateToProps, { getapplicantprofile, applyjob, logapplyapplicationtypes}) (JobApply)));

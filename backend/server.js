@@ -39,7 +39,7 @@ let getAllSavedJobs = require('./routes/getAllSavedJobs');
 let deleteProfile = require('./routes/deleteProfile');
 let searchJobs = require('./routes/searchJobs');
 let searchPeople = require('./routes/searchPeople');
-let graphProfileViews = require('./routes/grpahProfileViews');
+let graphProfileViews = require('./routes/graphProfileViews');
 let updateProfileViews = require('./routes/updateProfileViews');
 
 let expressValidator = require("express-validator");
@@ -118,7 +118,6 @@ app.use("/searchJobs", searchJobs);
 app.use("/searchPeople", searchPeople);
 app.use("/graph_profile_views/", graphProfileViews);
 app.use("/update_profile_views/", updateProfileViews);
-
 
 /** start server */
 app.listen(port, () => {

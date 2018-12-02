@@ -11,8 +11,8 @@ async function handle_request(msg, callback) {
             event_name: msg.eventName,
             event_time: new Date(),
             job_id: msg.jobID,
-            applicant_id: msg.applicantID,
-            recruiter_id: msg.recruiterID,
+            applicant_email: msg.applicantEmail,
+            recruiter_email: msg.recruiterEmail,
             city: msg.city
         }
         await db.insertQuery('INSERT INTO logging SET ?', post);
