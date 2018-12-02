@@ -121,6 +121,25 @@ app.use("/graph_profile_views/", graphProfileViews);
 app.use("/update_profile_views/", updateProfileViews);
 app.use("/get_all_applications/", getAllApplicationsForAJob);
 
+app.get("/resumes/:resume", function(req, res, next) {
+    var options = {
+      root: __dirname + "/resumes/",
+      dotfiles: "deny",
+      headers: {
+        "x-timestamp": Date.now(),
+        "x-sent": true
+      }
+    };
+    var fileName = req.params.resume;
+    res.sendFile(fileName, options, function(err) {
+      if (err) {
+        next(err);
+      } else {
+      }
+    });
+  });
+
+
 /** start server */
 app.listen(port, () => {
     console.log(`Server started at port: ${port}`);

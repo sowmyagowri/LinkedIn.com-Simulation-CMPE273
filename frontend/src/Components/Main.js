@@ -27,7 +27,7 @@ import SearchPeople from './Connections/Searchpeople';
 import MyConnections from './Connections/Myconnections';
 import UserProfile from './Connections/UserProfile';
 import NotARecruiter from './Recruiter/NotAReccruiter'
-
+import RecruiterJobApplications from './PostJobs/Applications'
 class Main extends Component {
     render(){
         return(
@@ -61,6 +61,7 @@ class Main extends Component {
                 <Route path="/recruitersignup/" component={RecruiterSignUp}/>
                 <Route path="/recruiterSearchPeople/" component={RecruiterSearchPeople}/>
                 <Route path="/notarecruiter/" component={NotARecruiter}/>
+                <Route path="/recruiterApplications/" component={RecruiterJobApplications}/>
 
                 </Switch>
             </div>

@@ -15,6 +15,9 @@ function rand(min, max, num) {
 }
 
 
+
+
+
 const data = {
   labels: [
     "Job1",
@@ -48,7 +51,27 @@ class RecruiterGraphs extends Component {
     this.state = {};
   }
 
-  componentDidMount() {}
+  
+// componentDidMount() {
+//       try {
+//         axios.defaults.withCredentials = true;
+//         axios.defaults.headers.common["Authorization"] =localStorage.getItem("user");
+//         var response = await axios.get(`${ROOT_URL}/graph_top_job_postings`, {
+//           params: {
+//             recruiterEmail
+//           }
+//         });
+//         if (response.status === 200) {
+//         }
+//         } catch (error) {
+//         console.log(error)
+       
+//     };
+//   }
+  
+
+
+
 
   componentWillMount(){
     checkValidityRecruiter(this);
