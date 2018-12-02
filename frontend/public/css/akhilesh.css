@@ -2,6 +2,15 @@
     background: #006097;
 }
 
+.linkBlue{
+    color: #006097;
+}
+.linkBlue:hover{
+    color: #006097;
+    text-decoration: underline;
+
+}
+
 .navlinkhover:hover {
     opacity: .5;
 }

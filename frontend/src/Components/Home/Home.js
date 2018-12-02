@@ -45,8 +45,6 @@ class Home extends Component{
 
     handleValidation() {
 
-        console.log("validation check")
-
         let formIsValid = true;
         const firstname = { ...this.state.firstname };
         const lastname = { ...this.state.lastname };
@@ -175,6 +173,16 @@ class Home extends Component{
             })
         }
     }
+
+    componentDidMount () {
+        if (localStorage.getItem(userConstants.AUTH_TOKEN) !== null) {
+            this.setState ({
+                islogged : true
+            })
+        }
+    }
+
+    
 
     render(){
         const { firstname, lastname, email, password, message, loginemail, loginpassword, islogged } = {...this.state};

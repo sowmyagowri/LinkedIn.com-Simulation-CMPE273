@@ -4,12 +4,6 @@ const { GET_APPLICANT_PROFILE_REQUEST, GET_APPLICANT_PROFILE_RESPONSE } = requir
 const { responseHandler, sendInternalServerError, sendBadRequest } = require('./response');
 const router = express.Router();
 
-/**
- *  this script will be called for routes begin with /post_job
- *  
- *  below "/" is relative resource path, the actual resource path is /post_job/
- * 
- */
 router.get("/", (req, res) => {
     console.log("Inside get applicant Profile controller");
     console.log("GETAPPLICANTPROFILE: ", req.query);

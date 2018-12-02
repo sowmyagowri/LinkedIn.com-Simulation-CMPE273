@@ -8,7 +8,7 @@ async function handle_request(msg, callback) {
 
     let resp = {};
     try {
-        var recruiter_id = msg.recruiterID;
+        var recruiter_email = msg.recruiterEmail;
         let redisKey = "jobsByRecruiter_" + recruiter_id;
         redisClient.get(redisKey, async function (err, job_list) {
             if (!err && job_list != null) {
@@ -18,7 +18,7 @@ async function handle_request(msg, callback) {
             } else {
                 console.log("Get job_list : inserting job_list into cache");
                 //Main Logic for fetching jobs by recruiter
-                job_list = await Jobs.find({ 'posted_by': recruiter_id }, { title: 1, company: 1, job_description: 1, industry: 1, employment_type: 1, location: 1, job_function: 1, company_logo: 1, posted_date: 1, expiry_date: 1 });
+                let job_list = await Jobs.find({ 'posted_by': recruiter_email }, { title: 1, company: 1, job_description: 1, industry: 1, employment_type: 1, location: 1, job_function: 1, company_logo: 1, posted_date: 1, expiry_date: 1 });
                 /**********/
                 if (job_list) {
                     redisClient.set(redisKey, JSON.stringify(job_list), function (error, reply) {
@@ -41,6 +41,6 @@ async function handle_request(msg, callback) {
     }
 }
 
-module.exports = {
+module.exports = { 
     handle_request: handle_request
 }

@@ -12,7 +12,7 @@ const router = express.Router();
  */
 router.post("/", (req, res) => {
     console.log("Inside post applicant Profile Experience controller");
-    console.log("POST APPLICANT EXPERIENCE SUMMARY: ", req.body);
+    console.log("POST APPLICANT PROFILE EXPERIENCE: ", req.body);
     let errors = validateInput(req);
     if (errors) {
         let msg = errors.map(error => error.msg).reduce((accumulator, currentVal) => accumulator + "\n" + currentVal);

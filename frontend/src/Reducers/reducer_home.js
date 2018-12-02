@@ -17,6 +17,8 @@ export function HomeReducer(state = {}, action) {
       return action.payload;
     case userConstants.APPLICANT_PROFILE_SKILLS_POST:
       return action.payload;
+    case userConstants.APPLICANT_PROFILE_PHOTOS_POST:
+      return action.payload;
     default:
       return state;
   }

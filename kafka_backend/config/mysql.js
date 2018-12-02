@@ -1,7 +1,7 @@
 var mysql = require('mysql');
 
-var isConnectionPool = false;
-// var isConnectionPool = true;
+// var isConnectionPool = false;
+var isConnectionPool = true;
 
 var connection;
 
@@ -41,7 +41,7 @@ function insertQuery(query, post) {
         else {
             connection.getConnection(function (err, con) {
                 if (err) {
-                    con.release();
+                    // åcon.release();
                     console.log("Could not get Pool Connection Object!!");
                     reject();
                 }
@@ -136,6 +136,43 @@ function updateQuery(query, post) {
     });
 }
 
+function deleteQuery(query, post) {
+    console.log("query = ", query, post);
+    return new Promise(async (resolve, reject) => {
+        if (isConnectionPool == false) {
+            connection.query(query, post, function (error, results) {
+                if (error)
+                    reject(error);
+                else
+                    resolve(results);
+            });
+        }
+        else {
+            connection.getConnection(function (err, con) {
+                if (err) {
+                    con.release();
+                    console.log("Could not get Pool Connection Object!!", err);
+                    reject(err);
+                }
+                else {
+                    console.log("Getting Pool Connection!")
+                    con.query(query, post, function (error, results) {
+                        if (error) {
+                            con.release();
+                            console.log("some err", err)
+                            reject(error);
+                        }
+                        else {
+                            con.release();
+                            resolve(results);
+                        }
+                    })
+                }
+            })
+        }
+    });
+}
+
 function closeConnection() {
     console.log("state: ", connection.state);
     if (connection.state == "connected" || connection.state == "authenticated") {
@@ -154,6 +191,7 @@ module.exports = {
     closeConnection: closeConnection,
     selectQuery: selectQuery,
     updateQuery: updateQuery,
+    deleteQuery: deleteQuery,
     startConnection: startConnection,
     // secret: 'project_LinkedIn'
 };

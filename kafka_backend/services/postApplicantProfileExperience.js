@@ -22,7 +22,7 @@ async function handle_request(msg, callback) {
         resp = prepareSuccess({ "profile": profile });
     }
     catch (error) {
-        console.log("Something went wrong while inserting profile! : ", error);
+        console.log("Something went wrong while updating profile experience! : ", error);
         //don't let time out occur, send internal server error
         resp = prepareInternalServerError();
     }

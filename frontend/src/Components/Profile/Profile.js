@@ -7,7 +7,9 @@ import { withRouter} from 'react-router-dom';
 import { connect } from "react-redux";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { userConstants } from '../../constants';
-import { getapplicantprofile, applicantprofilesummary, applicantprofileexperience, applicantprofileeducation, applicantprofileskills } from '../../Actions/applicant_login_profile_actions';
+import URI from '../../constants/URI';
+import SweetAlert from 'react-bootstrap-sweetalert';
+import { getapplicantprofile, applicantprofilephoto, applicantprofilesummary, applicantprofileexperience, applicantprofileeducation, applicantprofileskills, applicantprofiledelete } from '../../Actions/applicant_login_profile_actions';
 
 class Profile extends Component{
     constructor(props){
@@ -17,12 +19,16 @@ class Profile extends Component{
             lastname : "",
             state : "",
             zipcode : "",
-            sskills :"",
+            skills :"",
+            updatedskills : "",
+            profilesummary : "",
+            phonenumber : "",
+            address : "",
             profilePicture : "",
             experience : [{}],
             education : [{}],
-            skills : "",  
-            resume : "",          
+            resume : "",
+            uploadedresume: "",   
             touchedprofile : {
                 firstname: false,
                 lastname: false,
@@ -30,15 +36,26 @@ class Profile extends Component{
                 zipcode : false,
             },
             profiledata : [],
-            isLoading : true
+            isLoading : true,
+            alert: null,
         };
         this.changeHandler = this.changeHandler.bind(this);
         this.profilephotochangeHandler = this.profilephotochangeHandler.bind(this);
         this.openFileDialog = this.openFileDialog.bind(this)
         this.updateSkills = this.updateSkills.bind(this)
         this.submitProfile = this.submitProfile.bind(this)
+        this.deleteProfileConfirm = this.deleteProfileConfirm.bind(this)
+        this.deleteProfile = this.deleteProfile.bind(this)
+        this.cancelDelete = this.cancelDelete.bind(this)
         this.uploadresume = this.uploadresume.bind(this)
+        this.handleChange = this.handleChange.bind(this)
     }
+
+
+    handleChange(data) {
+        this.setState(data);
+    }
+
 
     componentDidMount() {
         //call to action
@@ -54,40 +71,39 @@ class Profile extends Component{
                         profilesummary : response.payload.data.profile.profileSummary === undefined || "" ? "" : response.payload.data.profile.profileSummary,
                         state : response.payload.data.profile.state,
                         zipcode : response.payload.data.profile.zipcode,
-                        fname : response.payload.data.profile.firstName,
-                        lname : response.payload.data.profile.lastName,
-                        sstate : response.payload.data.profile.state,
-                        zzipcode : response.payload.data.profile.zipcode,
-                        phonenumber : response.payload.data.profile.phoneNumber === undefined || ""  ? "" : response.payload.data.profile.phoneNumber,
+                        phonenumber : response.payload.data.profile.phoneNumber === undefined || null || ""  ? "" : response.payload.data.profile.phoneNumber,
                         address : response.payload.data.profile.address === undefined || "" ? "" : response.payload.data.profile.address,
                         experience : response.payload.data.profile.experience,
                         education : response.payload.data.profile.education,
                         skills : response.payload.data.profile.skills === undefined || ""  ? "" : response.payload.data.profile.skills,
-                        sskills : response.payload.data.profile.skills === undefined || ""  ? "" : response.payload.data.profile.skills,
+                        updatedskills : response.payload.data.profile.skills === undefined || ""  ? "" : response.payload.data.profile.skills,
                         profilePicture : response.payload.data.profile.profilePicture,
                         isLoading : false
                 });                
             }
-                this.refs.myfirstname.value = this.state.fname;
-                this.refs.mylastname.value = this.state.lname;
-                this.refs.myprofilesummary.value = this.state.profilesummary;
-                this.refs.mystate.value = this.state.sstate;
-                this.refs.myzipcode.value = this.state.zzipcode;
-                this.refs.myphonenumber.value = this.state.phonenumber
-                this.refs.myaddress.value = this.state.address;
-                this.refs.myskills.value = this.state.sskills;
+                this.refs.myfirstname.value = this.state.profiledata.firstName;
+                this.refs.mylastname.value = this.state.profiledata.lastName;
+                this.refs.myprofilesummary.value = this.state.profiledata.profileSummary;
+                this.refs.mystate.value = this.state.profiledata.state;
+                this.refs.myzipcode.value = this.state.profiledata.zipcode;
+                this.refs.myphonenumber.value = this.state.profiledata.phonenumber === "" || null  ? "" : response.payload.data.profile.phoneNumber;
+                this.refs.myaddress.value = this.state.profiledata.address;
+                this.refs.myskills.value = this.state.profiledata.skills;
         })
     }   
 
     updateSkills () {
         const email = JSON.parse(localStorage.getItem(userConstants.USER_DETAILS)).email;
         const token =  JSON.parse(localStorage.getItem(userConstants.AUTH_TOKEN));
-        var data = this.state.skills
-        
-        this.props.applicantprofileskills(email, token, data).then(response => {
+        var data = {
+            email: email,
+            skills: this.state.skills
+        }
+        this.props.applicantprofileskills(data, token).then(response => {
             console.log("response:", response);
             if(response.payload.status === 200){
                 console.log("Profile Skills Updated Successfully")
+                this.setState ({ updatedskills : this.state.skills})
             }
         })
     }
@@ -105,12 +121,10 @@ class Profile extends Component{
         event.preventDefault();
         var file = event.target.files[0]
         console.log(file)
-        var formData = new FormData();
-        formData.append("description", 'selectedFile')
-        formData.append("selectedFile", file);
-        console.log(formData);
+
         this.setState ({
-            resume : event.target.files[0].name
+            resume : file.name,
+            uploadedresume : file
         })
     }
 
@@ -118,13 +132,28 @@ class Profile extends Component{
         event.preventDefault();
         var file = event.target.files[0]
         console.log(file)
-        var formData = new FormData();
 
-        formData.append("description", 'selectedFile')
-        formData.append("selectedFile", file);
-        console.log(formData);
-        this.setState ({
-            profilePicture : event.target.files[0].name
+        const email = JSON.parse(localStorage.getItem(userConstants.USER_DETAILS)).email;
+        var formData = new FormData();
+        formData.append('email', email)
+        formData.append('uploadedPhoto', file);
+        
+        
+        // Display the formdata key/value pairs
+        for (var pair of formData.entries()) {
+            console.log(pair[0]+ ', ' + pair[1]); 
+        }
+
+        const token =  JSON.parse(localStorage.getItem(userConstants.AUTH_TOKEN));
+        this.props.applicantprofilephoto(formData, token).then(response => {
+            console.log("response:", response);
+            if(response.payload.status === 200){
+                console.log("Profile Image Updated Successfully", response.payload.data.profile)
+                this.setState ({
+                    profiledata: { ...this.state.profiledata,  profilePicture : response.payload.data.profile.profilePicture},
+                    profilePicture : response.payload.data.profile.profilePicture
+                })
+            }
         })
     }
      
@@ -133,6 +162,7 @@ class Profile extends Component{
           ...this.state,
           [e.target.name]: e.target.value,
           }
+
         this.setState(state);
     }
 
@@ -150,32 +180,91 @@ class Profile extends Component{
                 profileSummary : this.state.profilesummary,
                 phoneNumber : this.state.phonenumber,
                 resume : this.state.resume,
-                profilePicture : this.state.profilePicture,
             }
-            console.log(data);
-            this.props.applicantprofilesummary(data, token, ).then(response => {
+
+            var formData = new FormData();
+            formData.append('uploadedFile', this.state.uploadedresume);
+            
+            Object.keys(data).forEach(function(key){
+                formData.append(key, data[key]);
+            });
+
+            // Display the formdata key/value pairs
+            for (var pair of formData.entries()) {
+                console.log(pair[0]+ ', ' + pair[1]); 
+            }
+
+            const state = {
+                ...this.state,
+                profiledata: {
+                    ...this.state.profiledata,
+                firstName : this.state.firstname,
+                lastName : this.state.lastname,
+                state : this.state.state,
+                zipcode : this.state.zipcode,
+                address : this.state.address,
+                profileSummary : this.state.profilesummary,
+                phoneNumber : this.state.phonenumber,
+                resume : this.state.resume
+                }
+            }
+            this.setState(state);
+            this.props.applicantprofilesummary(formData, token).then(response => {
                 console.log("response:", response);
                 if(response.payload.status === 200){
                     console.log("Profile Summary Updated Successfully")
+                    this.setState ({
+                        profiledata: { ...this.state.profiledata},
+                    })
                 }
-            })
-        }
+             })
+            }
     } 
+
+    deleteProfileConfirm = () => {
+        const getAlert = () => (
+            <SweetAlert 
+                warning
+                showCancel
+                confirmBtnText="Yes, delete!"
+                confirmBtnBsStyle="danger"
+                cancelBtnBsStyle="default"
+                title="Are you sure?"
+                onConfirm={this.deleteProfile}
+                onCancel={this.cancelDelete}
+            >
+                You will not be able to recover your profile!
+            </SweetAlert>
+        );
+  
+        this.setState({
+          alert: getAlert(),
+        })
+    }
+
+    cancelDelete = () => {
+        this.setState({
+            alert: null
+        });
+    }
+
+    deleteProfile = () => {
+        const email = JSON.parse(localStorage.getItem(userConstants.USER_DETAILS)).email;
+        const token =  JSON.parse(localStorage.getItem(userConstants.AUTH_TOKEN));
+
+        this.props.applicantprofiledelete(email, token).then(response => {
+            console.log("response:", response);
+            if(response.payload.status === 200){
+                console.log("Profile Deleted Successfully")
+                localStorage.clear();
+                window.location = "/"
+            }
+        })
+    }
+  
 
     shouldComponentUpdate(nextState) {
         if (nextState.profiledata !== this.state.profiledata) {
-            return true; 
-        }
-        if (nextState.firstname !== this.state.firstname) {
-            return true; 
-        }
-        if (nextState.lastname !== this.state.lastname) {
-            return true; 
-        }
-        if (nextState.state !== this.state.state) {
-            return true; 
-        }
-        if (nextState.zipcode !== this.state.zipcode) {
             return true; 
         }
         else {
@@ -206,7 +295,12 @@ class Profile extends Component{
             return Object.keys(experience).map(function(i) {
                 return <li className ="pv-profile-section__card-item-v2 pv-profile-section pv-position-entity ember-view" key ={i}>
                     {/* <div className = "pv-entity__actions"><FontAwesomeIcon icon="pencil-alt" color="#0073b1" size ="lg"/> </div> */}
-                    <EditExperience experience={experience[i]} experiencelist = {self.state.experience} id = {i} applicantprofileexperience = {self.props.applicantprofileexperience}/>
+                    <EditExperience 
+                    experience={experience[i]} 
+                    experiencelist = {self.state.experience}
+                    id = {i} 
+                    handleChange={self.handleChange} 
+                    applicantprofileexperience = {self.props.applicantprofileexperience}/>
                     <div className ="pv-entity__summary-info pv-entity__summary-info--background-section mb2">
                     <h3 className = "t-16 t-black t-bold">{experience[i].title}</h3> 
                     <h4 className = "t-16 t-black-light t-normal">{experience[i].company}</h4>
@@ -227,7 +321,12 @@ class Profile extends Component{
             return Object.keys(education).map(function(i) {
                 return <li className ="pv-profile-section__card-item-v2 pv-profile-section pv-position-entity ember-view" key ={i}>
                 {/* <div className = "pv-entity__actions"><FontAwesomeIcon icon="pencil-alt" color="#0073b1" size ="lg"/> </div> */}
-                <EditEducation education={education[i]} id = {i} educationlist = {self.state.education} applicantprofileeducation = {self.props.applicantprofileeducation}/>
+                <EditEducation 
+                education={education[i]} 
+                id = {i} 
+                educationlist = {self.state.education} 
+                handleChange={self.handleChange} 
+                applicantprofileeducation = {self.props.applicantprofileeducation}/>
                 <div className ="pv-entity__summary-info pv-entity__summary-info--background-section mb2">
                 <h3 className = "t-16 t-black t-bold">{education[i].school}</h3> 
                 <h4 className = "t-16 t-black-light t-normal">{education[i].degree}</h4>
@@ -399,27 +498,27 @@ class Profile extends Component{
 
                 <div className = "pv-entity__actions" data-toggle="modal" data-target="#profilemodal"><FontAwesomeIcon icon="pencil-alt" color="#0073b1" size ="lg"/></div>
                     <div className="row">
-                      <div className="col-md-12">
+                      <div className="col-md-12" style = {{width : "800px"}}>
                         <div className="row">
                             <div className="col-xs-12 col-sm-4 text-center"> 
-                            {this.state.profilePicture === "" || undefined ?
-                                <img src= "/images/avatar.png" alt="" className="center-block img-circle rounded-circle img-thumbnail img-responsive"/> : <img src = {this.state.profilePicture} alt="" className="center-block img-circle rounded-circle img-thumbnail img-responsive"/>}
+                            {this.state.profiledata.profilePicture === undefined  || this.state.profiledata.profilePicture === "" || this.state.profiledata.profilePicture === null ?
+                                <img src= "/images/avatar.png" alt="" className="center-block img-circle rounded-circle img-thumbnail img-responsive"/> : 
+                                <img src = {URI.ROOT_URL + "/profilepictures/" + this.state.profiledata.profilePicture} alt="" className="center-block img-circle rounded-circle img-thumbnail img-responsive" style = {{width : "160px", height : "160px"}}/>}
                                 <div className="rank-label-container">
                                   <input id='fileid' type='file' onChange={this.profilephotochangeHandler} hidden/>
                                   <button type="file" className ="btn btn-default btn-icon-circle" onClick={this.openFileDialog}>
                                   <FontAwesomeIcon icon="pencil-alt" color="black" size ="lg"/></button>
                                 </div>
                            </div>
-                          <div className="col-xs-12 col-sm-8">
-                            <h3>{this.state.fname}&nbsp;{this.state.lname}</h3>
-                            <p>{this.state.sstate}</p>
-                           {this.state.address ? <p><strong>Address: </strong> {this.state.address} </p>  : (null)}
-                            {/* <p><strong>City: </strong> <span className="label label-info tags"></span> <span className="label label-info tags"></span> </p> */}
+                          <div className="col-xs-12 col-sm-6">
+                            <h3>{this.state.profiledata.firstName}&nbsp;{this.state.profiledata.lastName}</h3>
+                            <p>{this.state.profiledata.state}</p>
+                           {this.state.profiledata.address ? <p><strong>Address: </strong> {this.state.profiledata.address} </p>  : (null)}
                           </div>
                         </div>
                         <hr/>
-                        {this.state.profilesummary ?
-                        <p><strong>Profile Summary: </strong>{this.state.profilesummary}</p> : (null)}
+                        {this.state.profiledata.profileSummary ?
+                        <p><strong>Profile Summary: </strong>{this.state.profiledata.profileSummary}</p> : (null)}
                       </div>
                       <hr/>
                     </div>
@@ -428,7 +527,9 @@ class Profile extends Component{
 
               <div className = "pv-profile-section artdeco-container-card ember-view gap">
                     <header className = "pv-profile-section__card-header">
-                    <Experience experiencelist = {this.state.experience} applicantprofileexperience = {this.props.applicantprofileexperience}></Experience>
+                    <Experience experiencelist = {this.state.experience} 
+                    handleChange={this.handleChange} 
+                    applicantprofileexperience = {this.props.applicantprofileexperience}></Experience>
                         <h2 className = "pv-profile-section__card-heading t-20 t-black t-normal">Experience</h2>
                     </header>   
                     <div className = "pv-entity__position-group-pager pv-profile-section__list-item ember-view">
@@ -438,7 +539,9 @@ class Profile extends Component{
 
               <div className = "pv-profile-section artdeco-container-card ember-view gap">
                     <header className = "pv-profile-section__card-header">
-                    <Education educationlist = {this.state.education} applicantprofileeducation = {this.props.applicantprofileeducation}></Education>
+                    <Education educationlist = {this.state.education} 
+                    handleChange={this.handleChange} 
+                    applicantprofileeducation = {this.props.applicantprofileeducation}></Education>
                         <h2 className = "pv-profile-section__card-heading t-20 t-black t-normal">Education</h2>
                     </header>   
                     <div className = "pv-entity__position-group-pager pv-profile-section__list-item ember-view">
@@ -448,7 +551,6 @@ class Profile extends Component{
 
               <div className = "pv-profile-section artdeco-container-card ember-view gap">
                     <header className = "pv-profile-section__card-header">
-
                          <div className="modal fade  bd-example-modal-lg" id="skillsmodal" tabIndex="-1" role="dialog" aria-labelledby="skillsmodallabel" aria-hidden="true" style = {{marginTop : "40px"}}>
                             <div className="modal-dialog modal-dialog-centered modal-lg">
                                 <div className="modal-content">
@@ -475,7 +577,6 @@ class Profile extends Component{
                                     </label>
                                     </div> */}
                                     <textarea className = "form-control" ref = "myskills" name = "skills" onChange = {this.changeHandler} id="position-description-typeahead"/>
-
                                 </div>
                                 <div className="modal-footer">  
                                     <button type="button" className="btn arteco-btn-save" data-dismiss="modal">Close</button>
@@ -492,12 +593,13 @@ class Profile extends Component{
                     <div className = "pv-entity__position-group-pager pv-profile-section__list-item ember-view">
                         <li className ="pv-profile-section__card-item-v2 pv-profile-section pv-position-entity ember-view">
                             <div className = "ember-view">
-                            <p className ="pv-entity__description t-14 t-black t-normal ember-view">{this.state.sskills}</p>
+                            <p className ="pv-entity__description t-14 t-black t-normal ember-view">{this.state.updatedskills}</p>
                             </div>
                         </li>
                     </div>                   
               </div>
-
+              <button type="submit" className="btn arteco-btn" onClick = {this.deleteProfileConfirm} style = {{width : "150px"}}>Delete Profile</button>
+              {this.state.alert}
             </div>
         </div>
       </div>   
@@ -529,6 +631,7 @@ constructor(props){
     this.submitExperience = this.submitExperience.bind(this);
 }
 
+
 submitExperience = () => {
     if (this.handleValidationExperience()) {
         const email = JSON.parse(localStorage.getItem(userConstants.USER_DETAILS)).email;
@@ -548,14 +651,16 @@ submitExperience = () => {
             email: email,
             experiencelist : experiencelist
         }
+
         this.props.applicantprofileexperience(data, token).then(response => {
             console.log("response:", response);
             if(response.payload.status === 200){
                 console.log("Profile Experience Updated Successfully")
+                this.props.handleChange({ experience: experiencelist });
             }
         })
     }
-} 
+}
 
 changeHandler = (e) => {
     const state = {
@@ -694,6 +799,7 @@ class EditEducation extends Component {
     submitEducation = () => {
         if (this.handleValidationEducation()) {
             const email = JSON.parse(localStorage.getItem(userConstants.USER_DETAILS)).email;
+            const token =  JSON.parse(localStorage.getItem(userConstants.AUTH_TOKEN));
             var editedEducation = {
                 school : this.state.school,
                 degree : this.state.degree,
@@ -703,12 +809,15 @@ class EditEducation extends Component {
             }
             var educationlist = this.props.educationlist
             educationlist[this.state.id] = editedEducation
-            var data = educationlist
-            console.log(localStorage.getItem(userConstants.USER_DETAILS));
-            this.props.applicantprofileeducation(email, localStorage.getItem(userConstants.AUTH_TOKEN, data)).then(response => {
+            var data = {
+                email: email,
+                educationlist : educationlist
+            }
+            this.props.applicantprofileeducation(data, token).then(response => {
                 console.log("response:", response);
                 if(response.payload.status === 200){
                     console.log("Profile Education Updated Successfully")
+                    this.props.handleChange({ education: educationlist });
                 }
             })
         }
@@ -854,15 +963,16 @@ class Experience extends Component {
                 description : this.state.description
             }
             var experiencelist = this.props.experiencelist
-            var data = {
+            experiencelist.push(newExperience)
+            var userData = {
                 email: email,
-                experiencelist : experiencelist.push(newExperience)
+                experiencelist : experiencelist
             }
-            console.log(localStorage.getItem(userConstants.USER_DETAILS));
-            this.props.applicantprofileexperience(data, token).then(response => {
+            this.props.applicantprofileexperience(userData, token).then(response => {
                 console.log("response:", response);
                 if(response.payload.status === 200){
                     console.log("Profile Experience Updated Successfully")
+                    this.props.handleChange({ experience: experiencelist});
                 }
             })
         }
@@ -1003,6 +1113,7 @@ class Education extends Component {
     submitEducation = () => {
         if (this.handleValidationEducation()) {
             const email = JSON.parse(localStorage.getItem(userConstants.USER_DETAILS)).email;
+            const token =  JSON.parse(localStorage.getItem(userConstants.AUTH_TOKEN));
             var newEducation = {
                 school : this.state.school,
                 degree : this.state.degree,
@@ -1011,12 +1122,16 @@ class Education extends Component {
                 description : this.state.description
             }
             var educationlist = this.props.educationlist
-            var data = educationlist.push(newEducation)
-            console.log(localStorage.getItem(userConstants.USER_DETAILS));
-            this.props.applicantprofileeducation(email, localStorage.getItem(userConstants.AUTH_TOKEN, data)).then(response => {
+            educationlist.push(newEducation)
+            var data = {
+                email: email,
+                educationlist : educationlist
+            }
+            this.props.applicantprofileeducation(data, token).then(response => {
                 console.log("response:", response);
                 if(response.payload.status === 200){
                     console.log("Profile Education Updated Successfully")
+                    this.props.handleChange({ education: educationlist });
                 }
             })
         }
@@ -1160,13 +1275,15 @@ function validateEducation(school, degree, schoolfromYear, schooltoYear) {
 function mapStateToProps(state) {
     return {
         getapplicantprofile: state.getapplicantprofile,
+        applicantprofilephoto: state.applicantprofilephoto,
         applicantprofilesummary : state.applicantprofilesummary, 
         applicantprofileexperience : state.applicantprofileexperience, 
         applicantprofileeducation :  state.applicantprofileeducation, 
-        applicantprofileskills : state.applicantprofileskills
+        applicantprofileskills : state.applicantprofileskills,
+        applicantprofiledelete : state.applicantprofiledelete
     };
 }
 
 export default withRouter(reduxForm({
 form: "Applicant_profile"
-})(connect(mapStateToProps, { getapplicantprofile, applicantprofilesummary, applicantprofileexperience, applicantprofileeducation, applicantprofileskills })(Profile)));
+})(connect(mapStateToProps, { getapplicantprofile, applicantprofilephoto, applicantprofilesummary, applicantprofileexperience, applicantprofileeducation, applicantprofileskills, applicantprofiledelete })(Profile)));

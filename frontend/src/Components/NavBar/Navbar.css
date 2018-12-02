@@ -20,11 +20,11 @@
 
 .jobs-search-box {
     display: flex;
-    width : 300px;
+    width : 280px;
 }
 .jobs-map-box {
     display: flex;
-    width : 300px;
+    width : 280px;
 }
 
 .jobs-search-box__input input {
@@ -195,4 +195,8 @@ li{
     font-weight: 100;
     margin: 0 8px;
     vertical-align: middle;
+}
+
+.dropdown > .selection-nav{
+    min-width: 150px !important;
 }

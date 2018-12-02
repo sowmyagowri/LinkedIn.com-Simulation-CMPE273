@@ -8,6 +8,8 @@ import { withRouter } from 'react-router-dom';
 import { connect } from "react-redux";
 import { applicantlogin } from '../../Actions';
 import validator from 'validator';
+import { userConstants } from '../../constants';
+
 import FloatingLabel, {
     floatingStyles,
     focusStyles,
@@ -45,6 +47,7 @@ class Login extends Component{
             email: { value: '', isValid: true },
             password: { value: '', isValid: true },
             message: "",
+            islogged : false,
         };
 
         //Bind the handlers to this class
@@ -67,8 +70,6 @@ class Login extends Component{
 
 
     handleValidation() {
-
-        console.log("validation check")
 
         let formIsValid = true;
         const email = { ...this.state.email };
@@ -132,6 +133,8 @@ class Login extends Component{
                 }
                 this.props.applicantlogin(data).then(response => {
                     if(response.payload.status === 200){
+                        localStorage.setItem(userConstants.USER_DETAILS, JSON.stringify(response.payload.data));
+                        localStorage.setItem(userConstants.AUTH_TOKEN, JSON.stringify(response.payload.data.token));
                         this.setState({
                             islogged: true
                         });
