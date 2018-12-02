@@ -132,16 +132,16 @@ class Home extends Component{
         //prevent page from refresh
         event.preventDefault();
         if (this.handleValidation()) {
-             const { firstname, lastname, email, password } = this.state;
-            // const data = {
-            //     firstname : firstname.value,
-            //     lastname : lastname.value,
-            //     email : email.value,
-            //     password : password.value
-            // }
-            // console.log(data);
-            // this.props.applicantsignup(data).then(response => {
-            //     if(response.payload.status === 200){
+            const { firstname, lastname, email, password } = this.state;
+            const data = {
+                firstname : firstname.value,
+                lastname : lastname.value,
+                email : email.value,
+                password : password.value
+            }
+            console.log(data);
+            this.props.applicantsignup(data).then(response => {
+                if(response.payload.status === 200){
                     this.props.history.push({
                         pathname:"/profilelocation/new",
                         state:{
@@ -151,23 +151,23 @@ class Home extends Component{
                             password : password.value
                         }
                     });
-            //     }
-            // }).catch (error => {
-            //     console.log("Error is", error);
-            //     const getAlert = () => (
-            //         <SweetAlert
-            //             error
-            //             confirmBtnText="Ok"
-            //             title="Oops!"
-            //             onConfirm={this.closeAlert}
-            //         >
-            //             User already exists!
-            //         </SweetAlert>
-            //     );
-            //     this.setState({
-            //       alert: getAlert(),
-            //     })
-            // })
+                }
+            }).catch (error => {
+                console.log("Error is", error);
+                const getAlert = () => (
+                    <SweetAlert
+                        error
+                        confirmBtnText="Ok"
+                        title="Oops!"
+                        onConfirm={this.closeAlert}
+                    >
+                        User already exists!
+                    </SweetAlert>
+                );
+                this.setState({
+                  alert: getAlert(),
+                })
+            })
         }
     }
 
