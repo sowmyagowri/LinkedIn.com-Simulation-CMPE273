@@ -1,4 +1,5 @@
 # LinkedIn.com-Simulation-CMPE273
+This website was developed solely for educational purposes.
 
 ## How can I run LinkedIn Simulation?
   - Run back-end using instructions in ReadMe.md in backend directory
@@ -20,3 +21,7 @@
   ### Data Storage
     - MySQL
     - MongoDB
+
+  ### HomePage
+
+![linkedin simulation homepage](https://user-images.githubusercontent.com/25673997/49334513-d6a27e00-f58c-11e8-9887-53192664ee9c.png)
