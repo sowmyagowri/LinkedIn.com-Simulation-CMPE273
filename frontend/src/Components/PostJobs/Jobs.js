@@ -81,6 +81,11 @@ class Jobs extends Component {
                     <button
                       type="button"
                       className="btn btn-block blueBackground text-white"
+                      onClick={()=>{
+                        this.props.getAllApplicationsForJob(job._id);
+                        this.props.history.push("/applications");
+
+                      }}
                     >
                       <FontAwesomeIcon
                         style={{ color: "#e6e6e6" }}
