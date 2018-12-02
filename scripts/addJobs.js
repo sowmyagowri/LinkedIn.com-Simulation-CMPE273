@@ -31,7 +31,7 @@ function addJobs() {
     for (var i = 2; i < 100; i++) {
         console.log("Created Job", i);
         var data = {
-            recruiterEmail : recruiter_email[Math.floor(Math.random()*recruiter_email.length)],
+            recruiterEmail : 'akhilesh.anand@sjsu.edu',
             title : 'Title' + i.toString(),
             company : 'Company' + i.toString(),
             jobDescription : 'Job Description' + i.toString(),

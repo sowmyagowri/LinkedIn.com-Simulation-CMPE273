@@ -39,6 +39,7 @@ let searchJobs = require('./services/searchJobs');
 let searchPeople = require('./services/searchPeople');
 let updateProfileViews = require('./services/updateProfileViews');
 let graphProfileViews = require('./services/graphProfileViews');
+let getAllApplicationsForAJob = require('./services/getAllApplicationsForAJob');
 
 //import kafka topics
 const {
@@ -57,7 +58,7 @@ const {
     SEND_CONNECTION_REQUEST, GET_ALL_CONNECTION_REQUEST, CONNECTION_RESPONSE_REQUEST,
     APPLY_FOR_JOB_REQUEST, SAVE_JOB_REQUEST, GET_ALL_SAVED_JOBS_REQUEST, DELETE_PROFILE_REQUEST, 
     SEARCH_JOBS_REQUEST, SEARCH_PEOPLE_REQUEST, UPDATE_PROFILE_VIEWS_REQUEST,
-    GRAPH_PROFILE_VIEWS_REQUEST
+    GRAPH_PROFILE_VIEWS_REQUEST, GET_ALL_APPLICATIONS_REQUEST
 } = require('./kafka/topics');
 
 function handleTopicRequest(topic_name, fname) {
@@ -132,4 +133,5 @@ handleTopicRequest(SEARCH_JOBS_REQUEST, searchJobs);
 handleTopicRequest(SEARCH_PEOPLE_REQUEST, searchPeople);
 handleTopicRequest(UPDATE_PROFILE_VIEWS_REQUEST, updateProfileViews);
 handleTopicRequest(GRAPH_PROFILE_VIEWS_REQUEST, graphProfileViews);
+handleTopicRequest(GET_ALL_APPLICATIONS_REQUEST, getAllApplicationsForAJob);
 

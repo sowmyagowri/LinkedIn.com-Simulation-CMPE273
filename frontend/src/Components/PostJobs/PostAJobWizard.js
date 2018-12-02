@@ -101,7 +101,7 @@ class PostAJobWizard extends Component {
           <div className="row">
             <div className="col-12">
               <Field
-                name="companylogo"
+                name="companyLogo"
                 type="text"
                 component={renderFieldLarge}
                 label="Image URL"

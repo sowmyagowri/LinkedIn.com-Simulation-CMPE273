@@ -17,6 +17,7 @@ async function handle_request(msg, callback) {
         let company_logo = msg.companyLogo;
         let posted_date = msg.postedDate;
         let expiry_date = msg.expiryDate;
+        let application_method = msg.applicationMethod;
 
         let job = await Jobs.updateOne(
             { _id: _id },
@@ -31,7 +32,8 @@ async function handle_request(msg, callback) {
                     job_function: job_function,
                     company_logo: company_logo,
                     posted_date: posted_date,
-                    expiry_date: expiry_date
+                    expiry_date: expiry_date,
+                    application_method: application_method
                 }
             })
         resp = prepareSuccess({ "jobID": job._id });

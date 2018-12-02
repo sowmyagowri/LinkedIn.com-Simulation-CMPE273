@@ -2,6 +2,8 @@ import React, { Component } from "react";
 import PostJobNav from "../PostJobs/PostJobNav";
 import { withRouter } from "react-router-dom";
 import { connect } from "react-redux";
+import checkValidityRecruiter from "../../Actions/ValidityScript"
+
 var BarChart = require("react-chartjs").Bar;
 
 function rand(min, max, num) {
@@ -11,6 +13,7 @@ function rand(min, max, num) {
   }
   return rtn;
 }
+
 
 const data = {
   labels: [
@@ -47,6 +50,9 @@ class RecruiterGraphs extends Component {
 
   componentDidMount() {}
 
+  componentWillMount(){
+    checkValidityRecruiter(this);
+  }
   render() {
     return (
       <div>

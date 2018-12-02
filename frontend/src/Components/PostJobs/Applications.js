@@ -8,6 +8,7 @@ import { v4 } from "node-uuid";
 import moment from "moment";
 import { Document, Page } from "react-pdf";
 import { pdfjs } from "react-pdf";
+import checkValidityRecruiter from "../../Actions/ValidityScript"
 
 pdfjs.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/${
   pdfjs.version
@@ -27,6 +28,9 @@ class Jobs extends Component {
     this.setState({ numPages });
   };
 
+  componentWillMount(){
+    checkValidityRecruiter(this);
+  }
   render() {
     const { pageNumber, numPages } = this.state;
 

@@ -41,6 +41,7 @@ let searchJobs = require('./routes/searchJobs');
 let searchPeople = require('./routes/searchPeople');
 let graphProfileViews = require('./routes/graphProfileViews');
 let updateProfileViews = require('./routes/updateProfileViews');
+let getAllApplicationsForAJob = require('./routes/getAllApplicationsForAJob');
 
 let expressValidator = require("express-validator");
 var morgan = require('morgan');
@@ -118,6 +119,7 @@ app.use("/searchJobs", searchJobs);
 app.use("/searchPeople", searchPeople);
 app.use("/graph_profile_views/", graphProfileViews);
 app.use("/update_profile_views/", updateProfileViews);
+app.use("/get_all_applications/", getAllApplicationsForAJob);
 
 /** start server */
 app.listen(port, () => {

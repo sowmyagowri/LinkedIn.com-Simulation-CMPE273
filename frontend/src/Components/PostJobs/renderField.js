@@ -142,7 +142,7 @@ export const renderCheckbox = ({
 
 
 const ApplicationTypes = [
-  "Regular",
+  "Normal",
   "Easy Apply"
 ];
 

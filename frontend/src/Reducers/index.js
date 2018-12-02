@@ -2,6 +2,7 @@ import { combineReducers } from "redux";
 import { reducer as formReducer } from "redux-form";
 import { HomeReducer } from "./reducer_home";
 import  JobsReducer  from "./reducer_jobs";
+import  EditJobsReducer  from "./reducer_editjobs";
 import  ShowJobsReducer  from "./reducer_showjobs";
 import  { ConnectionsReducer }  from "./reducer_connections";
 import { ApplicantJobsReducer } from "./reducer_applicantjobs"
@@ -18,6 +19,7 @@ const rootReducer = combineReducers({
     ConnectionsReducer,
     ApplicantJobsReducer,
     AddJobReducer,
+    EditJobsReducer,
     form: formReducer,
     RecruiterSignUpReducer,
     conversations: Conversations,

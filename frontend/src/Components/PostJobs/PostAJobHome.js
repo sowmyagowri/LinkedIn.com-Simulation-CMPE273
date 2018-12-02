@@ -3,6 +3,7 @@ import PostJobNav from "./PostJobNav";
 import { populateJobsForm } from "../../Actions/recruiterActions";
 import { withRouter } from "react-router-dom";
 import { connect } from "react-redux";
+import checkValidityRecruiter from "../../Actions/ValidityScript"
 
 class PostAJobHome extends Component {
   constructor(props) {
@@ -14,7 +15,9 @@ class PostAJobHome extends Component {
     };
   }
 
-
+  componentWillMount(){
+    checkValidityRecruiter(this);
+  }
   companyChangeHandler = e => {
     this.setState({
       company: e.target.value

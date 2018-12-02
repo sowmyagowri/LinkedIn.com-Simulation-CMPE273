@@ -1,30 +1,32 @@
 import React, { Component } from "react";
 import PostAJobWizard from "./PostAJobWizard";
-import { createNewJob } from "../../Actions/recruiterActions";
+import { editJob} from "../../Actions/recruiterActions";
 import { withRouter } from "react-router-dom";
 import { connect } from "react-redux";
 import checkValidityRecruiter from "../../Actions/ValidityScript"
 
 import PostJobNav from "./PostJobNav";
 
-class PostJobHeader extends Component {
+class EditJobHeader extends Component {
   onAddJobClickListener = values => {
-    this.props
-      .createNewJob(values)
+
+    values.jobID=this.props.initState.jobID
+    console.log(values);
+    this.props.editJob(values)
       .then(res => {
-        console.log("Job Posted Successfully");
+        console.log("Job Edited Successfully");
       })
       .catch(err => {
         console.log("Error was encountered", err);
       });
   };
+
   componentWillMount(){
     checkValidityRecruiter(this);
   }
-
   render() {
     if (this.props.jobAdditionState.jobcreationmessage) {
-      alert("Job Added Sucessfully!");
+      alert("Job Edited Sucessfully!");
       this.props.history.push("/jobs");
     }
 
@@ -33,7 +35,7 @@ class PostJobHeader extends Component {
         <PostJobNav />
         <br />
         <br />
-        <br />
+        
         <div className="container">
           <div className="row">
             <div className="col-8">
@@ -43,7 +45,7 @@ class PostJobHeader extends Component {
             </div>
             <div className="col-4" style={{ fontSize: "90%" }}>
               <br />
-              <br />
+            
               <img src="images/bulb.png" style={{ width: "20%" }} alt="" />
               <br />
               <br />
@@ -63,12 +65,13 @@ class PostJobHeader extends Component {
 
 function mapStateToProps(state) {
   return {
-    jobAdditionState: state.JobsReducer
+    jobAdditionState: state.EditJobsReducer,
+    initState:state.AddJobReducer.addjob
   };
 }
 export default withRouter(
   connect(
     mapStateToProps,
-    { createNewJob }
-  )(PostJobHeader)
+    { editJob }
+  )(EditJobHeader)
 );

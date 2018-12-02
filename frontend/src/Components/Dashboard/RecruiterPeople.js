@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import checkValidityRecruiter from "../../Actions/ValidityScript"
 
 import { reduxForm } from "redux-form";
 import { withRouter } from "react-router-dom";
@@ -38,7 +39,9 @@ class RecruiterSearchPeople extends Component {
       this.searchFunc(this.state.query);
 
   }
-
+  componentWillMount(){
+    checkValidityRecruiter(this);
+  }
 
   componentDidMount() {
     this.searchFunc(this.state.query);

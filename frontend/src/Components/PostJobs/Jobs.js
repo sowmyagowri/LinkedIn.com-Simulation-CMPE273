@@ -7,6 +7,7 @@ import { getRecruiterJobs } from "../../Actions/recruiterActions";
 import { v4 } from "node-uuid";
 import moment from "moment";
 import { populateJobsForm } from "../../Actions/recruiterActions";
+import checkValidityRecruiter from "../../Actions/ValidityScript"
 
 class Jobs extends Component {
 
@@ -22,6 +23,8 @@ class Jobs extends Component {
 
 
   componentWillMount() {
+    checkValidityRecruiter(this);
+
     this.props.getRecruiterJobs();
   }
 
@@ -95,7 +98,7 @@ class Jobs extends Component {
                       onClick={()=>{
                           let j={
                             company:job.company,
-                            companylogo:job.company_logo,
+                            companyLogo:job.company_logo,
                             employmentType: job.employment_type,
                             expiryDate: job.expiry_date,
                             industry:job.industry,
@@ -103,11 +106,11 @@ class Jobs extends Component {
                             jobFunction: job.job_function,
                             location:job.location,
                             title:job.title,
-                           
+                            jobID: job._id                           
                           }
-                          console.log(job);
+                          console.log(j);
                         this.props.populateJobsForm(j);
-                        this.props.history.push("/postajob");
+                        this.props.history.push("/editjob");
                         
                       }}
                     >
