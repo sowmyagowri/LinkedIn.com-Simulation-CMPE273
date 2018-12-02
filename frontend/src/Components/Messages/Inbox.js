@@ -4,6 +4,7 @@ import './Inbox.css';
 import { connect } from "react-redux";
 import { fetchConversations, postMessage } from "../../Actions/action_messages"
 import { userConstants } from '../../constants';
+import PostJobNav from "../PostJobs/PostJobNav";
 
 class Inbox extends Component {
 
@@ -36,9 +37,10 @@ class Inbox extends Component {
     }
 
     render() {
+        let role = localStorage.getItem("role");
         return (
             <div className="user-inbox">
-                <Navbar></Navbar>
+                {(role && role === "R")? <PostJobNav /> : <Navbar/>}
                 <div className="content">
                     <div className="master">
                         <div className="master-header">
