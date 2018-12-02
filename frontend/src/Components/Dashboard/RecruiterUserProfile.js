@@ -8,7 +8,7 @@ import URI from '../../constants/URI';
 import { postMessage } from "../../Actions/action_messages"
 import { makeconnections } from '../../Actions/action_connections';
 import PostJobNav from "../PostJobs/PostJobNav";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import checkValidityRecruiter from "../../Actions/ValidityScript"
 
 class RecruiterUserProfile extends Component{
     constructor(props){
@@ -29,7 +29,9 @@ class RecruiterUserProfile extends Component{
             loggedin : false
         })
     }
-
+    componentWillMount(){
+        checkValidityRecruiter(this);
+      }
     componentDidMount() {
         //call to action
         this.setState ({
@@ -68,47 +70,10 @@ class RecruiterUserProfile extends Component{
         }
         return (
             <div>
-               <div>
-        <nav className=" bottomBorder navbar navbar-expand-md navbar-fixed-top navbar-dark  main-nav" style={{background:"#006097"}}>
-          <div className="container" style={{ marginLeft: "15%" }}>
-            <a className="navbar-brand" href="/recruiterDash">
-              <img style={{ width: "50%" }} src="images/linkedinjob.png"  alt=""/>
-            </a>
+             
+            <PostJobNav/>
 
-            <ul className="nav navbar-nav mx-auto">
-              <li className="nav-item">
-                <a className="nav-link text-white navlinkhover" href="/recruiterDash">
-                  HOME
-                </a>
-              </li>
-              <li className="nav-item">
-                <a className="nav-link text-white navlinkhover" href="/postajobhome">
-                  POST A JOB
-                </a>
-              </li>
-              <li className="nav-item">
-                <a className="nav-link text-white navlinkhover" href="/">
-                  LINKEDIN.COM
-                </a>
-              </li>{" "}
-            </ul>
-
-            <ul className="nav navbar-nav">
-              <li className="nav-link">
-              <a href="/jobs" >
-                <FontAwesomeIcon color="#dee2e6" size="lg" icon="envelope" />
-                </a>
-              </li>
-              <li className="nav-link">
-              <a href="/profile" >
-                <FontAwesomeIcon color="#dee2e6" size="lg" icon="user-circle" />
-               </a>
-              </li>
-            </ul>
-          </div>
-        </nav>
-
-      </div>
+ 
             <div className="jobsearch-wrapper">
            
                 <div className="pv-content profile-view-grid neptune-grid2 two-column">

@@ -12,6 +12,10 @@ export const RECRUITER_SIGNUP_FAILURE = "recruiter_signup_failure";
 
 export const CREATE_JOB_SUCCESS = "create_job_successfully";
 export const CREATE_JOB_FAILURE = "create_job_error";
+export const EDIT_JOB_SUCCESS = "EDIT_job_successfully";
+export const EDIT_JOB_FAILURE = "EDIT_job_error";
+
+
 export const FETCH_JOBS_SUCCESS = "fetch_jobs_successfully";
 export const FETCH_JOBS_FAILURE = "fetch_jobs_error";
 
@@ -84,8 +88,8 @@ export function recruiterSignIn(data) {
 
 
 export function createNewJob(data) {
-  data.recruiterEmail = "";
-  data.postedDate="2018-08-10"
+  data.recruiterEmail = localStorage.getItem("user");
+  data.postedDate= Date.now();
   return async dispatch => {
     try {
       axios.defaults.withCredentials = true;
@@ -100,6 +104,31 @@ export function createNewJob(data) {
     } catch (error) {
       dispatch({
         type: CREATE_JOB_FAILURE,
+        payload: "Error Adding Job"
+      });
+
+    }
+  };
+}
+
+
+export function editJob(data) {
+  data.recruiterEmail = localStorage.getItem("user");
+  data.postedDate=Date.now();
+  return async dispatch => {
+    try {
+      axios.defaults.withCredentials = true;
+      axios.defaults.headers.common["Authorization"] =localStorage.getItem("user");
+      var response = await axios.put(`${ROOT_URL}/edit_job`, data);
+      if (response.status === 200) {
+        dispatch({
+          type: EDIT_JOB_SUCCESS,
+          payload: "Successful"
+        });
+      } 
+    } catch (error) {
+      dispatch({
+        type: EDIT_JOB_FAILURE,
         payload: "Error Adding Job"
       });
 
