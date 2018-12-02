@@ -12,7 +12,8 @@ class RecruiterSigin extends Component {
         super(props);
         this.state = {
           email: "",
-          password: ""
+          password: "",
+          localErrorMessage:""
 
         };
     
@@ -109,7 +110,6 @@ class RecruiterSigin extends Component {
                     <div className="card shadow-lg">
                       <div className="card-body">
                         <form>
-     
                           <br />
                           <div className="input-group">
                             <div className="input-group-append border-right-0">
@@ -146,7 +146,7 @@ class RecruiterSigin extends Component {
                             onClick={this.signInClickHandler}
                             className="btn btn-lg btn-block text-white"
                           >
-                            Sign Up
+                            Sign In
                           </button>
     
                           {this.state.localerror ? (
@@ -158,11 +158,11 @@ class RecruiterSigin extends Component {
                             </div>
                           ) : null}
     
-                          {this.props.SignUpState.error ? (
+                          {this.props.SignInState.error ? (
                             <div>
                               <br />
                               <span className="text-danger">
-                                {this.props.SignUpState.errorMessage}
+                                {this.props.SignInState.errorMessage}
                               </span>
                             </div>
                           ) : null}

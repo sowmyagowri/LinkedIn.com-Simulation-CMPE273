@@ -12,7 +12,7 @@ class PostJobNav extends Component {
       <div>
         <nav className=" bottomBorder navbar navbar-expand-md navbar-fixed-top navbar-dark blueBackground main-nav">
           <div className="container" style={{ marginLeft: "15%" }}>
-            <a className="navbar-brand" href="/">
+            <a className="navbar-brand" href="/recruiterDash">
               <img style={{ width: "50%" }} src="images/linkedinjob.png"  alt=""/>
             </a>
 

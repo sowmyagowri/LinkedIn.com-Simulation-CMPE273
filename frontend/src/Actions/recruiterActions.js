@@ -27,14 +27,15 @@ export function recruiterSignUp(data) {
         var response = await axios.post(`${ROOT_URL}/signup_recruiter`, data);
         console.log(response);
         if (response.status === 200) {
-            localStorage.setItem(
-                userConstants.USER_DETAILS,
-                JSON.stringify(response.data)
-              );
-              localStorage.setItem(
-                userConstants.AUTH_TOKEN,
-                JSON.stringify(response.data.token)
-              );
+          var base64Url = response.data.token.split(".")[1];
+          var base64 = base64Url.replace("-", "+").replace("_", "/");
+          var tok = JSON.parse(window.atob(base64));
+          localStorage.setItem("user", response.data.token);
+          localStorage.setItem("token_expiry", tok.exp);
+          localStorage.setItem("username", tok.email);
+          localStorage.setItem("role", "R");
+          localStorage.setItem(userConstants.USER_DETAILS, JSON.stringify(response.data));
+          localStorage.setItem(userConstants.AUTH_TOKEN, JSON.stringify(response.data.token));
           dispatch({
             type: RECRUITER_SIGNUP_SUCCESS,
             payload: "Successful"
@@ -54,26 +55,24 @@ export function recruiterSignIn(data) {
   return async dispatch => {
     try {
       axios.defaults.withCredentials = true;
-      /**
-       * TODO 
-       * Check Role
-       */
       var response = await axios.post(`${ROOT_URL}/signin_recruiter`, data);
-      if (response.payload.status === 200) {
-        localStorage.setItem(
-          userConstants.USER_DETAILS,
-          JSON.stringify(response.payload.data)
-        );
-        localStorage.setItem(
-          userConstants.AUTH_TOKEN,
-          JSON.stringify(response.payload.data.token)
-        );
+      if (response.status === 200) {
+        var base64Url = response.data.token.split(".")[1];
+        var base64 = base64Url.replace("-", "+").replace("_", "/");
+        var tok = JSON.parse(window.atob(base64));
+        localStorage.setItem("user", response.data.token);
+        localStorage.setItem("token_expiry", tok.exp);
+        localStorage.setItem("username", tok.email);
+        localStorage.setItem("role", "R");
+        localStorage.setItem(userConstants.USER_DETAILS, JSON.stringify(response.data));
+        localStorage.setItem(userConstants.AUTH_TOKEN, JSON.stringify(response.data.token));
         dispatch({
           type: RECRUITER_SIGNIN_SUCCESS,
           payload: "Successful"
         });
       } 
     } catch (error) {
+      console.log(error);
       dispatch({
         type: RECRUITER_SIGNIN_FAILURE,
         payload: "Error Signing In"
@@ -85,14 +84,12 @@ export function recruiterSignIn(data) {
 
 
 export function createNewJob(data) {
-  data.recruiterID = "012675443";
+  data.recruiterEmail = "";
   data.postedDate="2018-08-10"
   return async dispatch => {
     try {
       axios.defaults.withCredentials = true;
-      axios.defaults.headers.common["Authorization"] = JSON.parse(
-        localStorage.getItem("auth_token")
-      );
+      axios.defaults.headers.common["Authorization"] =localStorage.getItem("user");
       var response = await axios.post(`${ROOT_URL}/post_job`, data);
       if (response.status === 200) {
         dispatch({
@@ -111,16 +108,14 @@ export function createNewJob(data) {
 }
 
 export function getRecruiterJobs() {
-  let recruiterID = "012675443";
+  let recruiterEmail = localStorage.getItem("username");
   return async dispatch => {
     try {
       axios.defaults.withCredentials = true;
-      axios.defaults.headers.common["Authorization"] = JSON.parse(
-        localStorage.getItem("auth_token")
-      );
+      axios.defaults.headers.common["Authorization"] =localStorage.getItem("user");
       var response = await axios.get(`${ROOT_URL}/get_jobs_by_recruiter`, {
         params: {
-          recruiterID
+          recruiterEmail
         }
       });
       if (response.status === 200) {
@@ -130,6 +125,7 @@ export function getRecruiterJobs() {
         });
       } 
     } catch (error) {
+      console.log(error)
       dispatch({
         type: FETCH_JOBS_FAILURE,
         payload: error

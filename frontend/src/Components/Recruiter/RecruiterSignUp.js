@@ -148,7 +148,6 @@ class RecruiterSignUp extends Component {
                           onChange={this.lnameChangeHandler}
                         />
                       </div>
-
                       <br />
                       <div className="input-group">
                         <div className="input-group-append border-right-0">

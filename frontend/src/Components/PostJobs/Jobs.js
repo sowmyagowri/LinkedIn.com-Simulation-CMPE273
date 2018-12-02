@@ -6,15 +6,37 @@ import { connect } from "react-redux";
 import { getRecruiterJobs } from "../../Actions/recruiterActions";
 import { v4 } from "node-uuid";
 import moment from "moment";
+import { populateJobsForm } from "../../Actions/recruiterActions";
+
 class Jobs extends Component {
+
+
+  constructor(props) {
+    super(props);
+    this.state = {
+      search:""
+
+    };
+  }
+
+
+
   componentWillMount() {
     this.props.getRecruiterJobs();
   }
 
+  searchChangeListener = e => {
+    this.setState({
+      search: e.target.value
+    });
+  };
+
+  
   render() {
     let jobs = null;
     if (this.props.jobsState.jobs.length) {
       jobs = this.props.jobsState.jobs.map(job => {
+        if(job.title.includes(this.state.search)){
         return (
           <div  key={v4()} className="dashItem">
             <div  className="card shadow-lg ">
@@ -70,6 +92,24 @@ class Jobs extends Component {
                     <button
                       type="button"
                       className="btn btn-block blueBackground text-white"
+                      onClick={()=>{
+                          let j={
+                            company:job.company,
+                            companylogo:job.company_logo,
+                            employmentType: job.employment_type,
+                            expiryDate: job.expiry_date,
+                            industry:job.industry,
+                            jobDescription: job.job_description,
+                            jobFunction: job.job_function,
+                            location:job.location,
+                            title:job.title,
+                           
+                          }
+                          console.log(job);
+                        this.props.populateJobsForm(j);
+                        this.props.history.push("/postajob");
+                        
+                      }}
                     >
                       <FontAwesomeIcon
                         style={{ color: "#e6e6e6" }}
@@ -79,15 +119,16 @@ class Jobs extends Component {
                       &nbsp; Edit Posting{" "}
                     </button>
                   </div>
-                  <hr />
+              
                 </div>
               </div>
-              <hr />
+   
             </div>
             <br />
             <br />
           </div>
         );
+      }
       });
     } else {
       jobs = (
@@ -113,6 +154,7 @@ class Jobs extends Component {
         <br />
         <br />
         <br />
+
         <div className="container">
           <div className="row">
             <div className="col-6 offset-2">
@@ -121,6 +163,7 @@ class Jobs extends Component {
                 className="form-control form-control-lg shadow-lg"
                 placeholder="Search"
                 aria-label="Sizing example input"
+                onChange={this.searchChangeListener}
               />
             </div>
 
@@ -128,8 +171,8 @@ class Jobs extends Component {
               <button
                 type="button"
                 className="btn btn-block btn-lg blueBackground text-white shadow-lg"
+                
               >
-          
                 Search
               </button>
             </div>
@@ -145,6 +188,8 @@ class Jobs extends Component {
             </div>
           </div>
         </div>
+
+        
       </div>
     );
   }
@@ -159,6 +204,6 @@ function mapStateToProps(state) {
 export default withRouter(
   connect(
     mapStateToProps,
-    { getRecruiterJobs }
+    { getRecruiterJobs, populateJobsForm }
   )(Jobs)
 );
