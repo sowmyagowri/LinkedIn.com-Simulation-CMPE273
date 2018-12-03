@@ -22,21 +22,22 @@ async function handle_request(msg, callback) {
         let data = await Users.find(
             { email: email },
             {
-                profileViews : 1,
-                _id : 0
+                profileViews: 1,
+                _id: 0
             }
         )
         console.log("Data - ", data);
-        var view_dict = {}
-        var data_list = data[0].profileViews;
-
-        for (var i = 0; i < data_list.length; i++) {
-            if (range.contains(data_list[i])) {
-                if (data_list[i].getDate() in view_dict) {
-                    view_dict[data_list[i].getDate()] += 1;
-                }
-                else {
-                    view_dict[data_list[i].getDate()] = 1;
+        var view_dict = {};
+        if (data && data[0]) {
+            var data_list = data[0].profileViews;
+            for (var i = 0; i < data_list.length; i++) {
+                if (range.contains(data_list[i])) {
+                    if (data_list[i].getDate() in view_dict) {
+                        view_dict[data_list[i].getDate()] += 1;
+                    }
+                    else {
+                        view_dict[data_list[i].getDate()] = 1;
+                    }
                 }
             }
         }

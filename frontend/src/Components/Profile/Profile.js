@@ -86,7 +86,7 @@ class Profile extends Component{
                 this.refs.myprofilesummary.value = this.state.profiledata.profileSummary;
                 this.refs.mystate.value = this.state.profiledata.state;
                 this.refs.myzipcode.value = this.state.profiledata.zipcode;
-                this.refs.myphonenumber.value = this.state.profiledata.phonenumber === "" || null  || 0 ? "" : response.payload.data.profile.phoneNumber;
+                this.refs.myphonenumber.value = this.state.profiledata.phonenumber === undefined || null || "" || 0 ? "" : response.payload.data.profile.phoneNumber;
                 this.refs.myaddress.value = this.state.profiledata.address;
                 this.refs.myskills.value = this.state.profiledata.skills;
         })
