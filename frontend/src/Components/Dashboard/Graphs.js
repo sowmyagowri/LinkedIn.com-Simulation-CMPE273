@@ -2,6 +2,8 @@ import React, { Component } from "react";
 import PostJobNav from "../PostJobs/PostJobNav";
 import { withRouter } from "react-router-dom";
 import { connect } from "react-redux";
+import checkValidityRecruiter from "../../Actions/ValidityScript"
+
 var BarChart = require("react-chartjs").Bar;
 
 function rand(min, max, num) {
@@ -45,8 +47,31 @@ class RecruiterGraphs extends Component {
     this.state = {};
   }
 
-  componentDidMount() {}
+  
+// componentDidMount() {
+//       try {
+//         axios.defaults.withCredentials = true;
+//         axios.defaults.headers.common["Authorization"] =localStorage.getItem("user");
+//         var response = await axios.get(`${ROOT_URL}/graph_top_job_postings`, {
+//           params: {
+//             recruiterEmail
+//           }
+//         });
+//         if (response.status === 200) {
+//         }
+//         } catch (error) {
+//         console.log(error)
+       
+//     };
+//   }
+  
 
+
+
+
+  componentWillMount(){
+    checkValidityRecruiter(this);
+  }
   render() {
     return (
       <div>

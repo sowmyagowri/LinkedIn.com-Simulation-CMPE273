@@ -7,6 +7,7 @@ var cookieParser = require('cookie-parser');
 let signupRecruiter = require('./routes/signupRecruiter')
 let addRecruiterRole = require('./routes/addRecruiterRole');
 let signupApplicant = require('./routes/signupApplicant');
+let signupApplicantCheck = require('./routes/signupApplicantCheck');
 let signinRecruiter = require('./routes/signinRecruiter');
 let signinApplicant = require('./routes/signinApplicant');
 let postJob = require('./routes/postJob');
@@ -39,6 +40,9 @@ let getAllSavedJobs = require('./routes/getAllSavedJobs');
 let deleteProfile = require('./routes/deleteProfile');
 let searchJobs = require('./routes/searchJobs');
 let searchPeople = require('./routes/searchPeople');
+let graphProfileViews = require('./routes/graphProfileViews');
+let updateProfileViews = require('./routes/updateProfileViews');
+let getAllApplicationsForAJob = require('./routes/getAllApplicationsForAJob');
 
 let expressValidator = require("express-validator");
 var morgan = require('morgan');
@@ -74,9 +78,27 @@ app.use(morgan('dev'));
 // define routes
 app.use("/signup_recruiter/", signupRecruiter);
 app.use("/signup_applicant/", signupApplicant);
+app.use("/signup_applicant_check/", signupApplicantCheck);
 app.use("/signin_recruiter/", signinRecruiter);
 app.use("/signin_applicant/", signinApplicant);
 app.use('/profilepictures', express.static(path.join(__dirname, '/profilepictures/')));
+app.get("/resumes/:resume", function(req, res, next) {
+    var options = {
+      root: __dirname + "/resumes" ,
+      dotfiles: "deny",
+      headers: {
+        "x-timestamp": Date.now(),
+        "x-sent": true
+      }
+    };
+    var fileName = req.params.resume;
+    res.sendFile(fileName, options, function(err) {
+      if (err) {
+        next(err);
+      } else {
+      }
+    });
+  });
 
 // Add routes above this line if they do not require passport authentication
 // Add passport Authentication code will go here
@@ -114,6 +136,10 @@ app.use("/get_all_saved_jobs/", getAllSavedJobs);
 app.use("/delete_profile/", deleteProfile);
 app.use("/searchJobs", searchJobs);
 app.use("/searchPeople", searchPeople);
+app.use("/graph_profile_views/", graphProfileViews);
+app.use("/update_profile_views/", updateProfileViews);
+app.use("/get_all_applications/", getAllApplicationsForAJob);
+
 
 
 /** start server */

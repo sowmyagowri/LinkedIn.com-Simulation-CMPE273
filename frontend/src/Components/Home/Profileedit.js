@@ -16,6 +16,7 @@ class ProfileEdit extends Component{
             lastname : "",
             email : "",
             password : "",
+            city : "",
             state : "",
             zipcode : "",
             title : { value: '', isValid: true },
@@ -43,6 +44,7 @@ class ProfileEdit extends Component{
              lastname : this.props.location.state?this.props.location.state.lastname:"",
              email : this.props.location.state?this.props.location.state.email:"",
              password: this.props.location.state?this.props.location.state.password:"",
+             city: this.props.location.state?this.props.location.state.city:"",
              state : this.props.location.state?this.props.location.state.state:"",
              zipcode: this.props.location.state?this.props.location.state.zipcode:""
          })
@@ -61,8 +63,6 @@ class ProfileEdit extends Component{
     }
 
     handleValidation() {
-
-        console.log("validation check")
 
         let formIsValid = true;
         const { title, company, location, school, degree, schoolfromYear, schooltoYear} = {...this.state};
@@ -155,14 +155,16 @@ class ProfileEdit extends Component{
     submitSignup(event) {
         //prevent page from refresh
         event.preventDefault();
+        console.log("city", this.state.state)
         if (this.handleValidation()){
-            const { firstname, lastname, email, password, state, zipcode, title, company, location, fromMonth, fromYear, school, degree, schoolfromYear, schooltoYear} = {...this.state};
+            const { firstname, lastname, email, password, state, city, zipcode, title, company, location, fromMonth, fromYear, school, degree, schoolfromYear, schooltoYear} = {...this.state};
             const data = {
                 firstname : firstname,
                 lastname : lastname,
                 email : email,
                 password : password,
                 state : state,
+                city : city,
                 zipcode : zipcode,
                 title : title.value,
                 company : company.value,

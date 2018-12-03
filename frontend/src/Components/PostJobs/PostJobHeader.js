@@ -1,8 +1,9 @@
 import React, { Component } from "react";
 import PostAJobWizard from "./PostAJobWizard";
-import { createNewJob } from "../../Actions/PostJobActions";
+import { createNewJob } from "../../Actions/recruiterActions";
 import { withRouter } from "react-router-dom";
 import { connect } from "react-redux";
+import checkValidityRecruiter from "../../Actions/ValidityScript"
 
 import PostJobNav from "./PostJobNav";
 
@@ -17,7 +18,9 @@ class PostJobHeader extends Component {
         console.log("Error was encountered", err);
       });
   };
-
+  componentWillMount(){
+    checkValidityRecruiter(this);
+  }
 
   render() {
     if (this.props.jobAdditionState.jobcreationmessage) {

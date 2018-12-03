@@ -17,9 +17,11 @@ var Jobs = mongoose.model('Jobs', {
     no_of_clicks: Number,
     applications: [{
         applicant_email: String,
+        date : Date,
         first_name: String,
         last_name: String,
         address: String,
+        city: String,
         phone_number: String,
         how_did_they_hear_about_us: String,
         diversity_question: String,

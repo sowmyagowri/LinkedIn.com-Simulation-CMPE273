@@ -5,9 +5,10 @@ import { reduxForm } from "redux-form";
 import {Redirect} from 'react-router';
 import { withRouter } from 'react-router-dom';
 import { connect } from "react-redux";
-import { applicantlogin } from '../../Actions';
+import { applicantlogin, applicantsignupcheck } from '../../Actions/applicant_login_profile_actions';
 import validator from 'validator';
 import { userConstants } from '../../constants';
+import SweetAlert from 'react-bootstrap-sweetalert';
 
 class Home extends Component{
     constructor(props){
@@ -20,12 +21,14 @@ class Home extends Component{
             loginemail: { value: '', isValid: true },
             loginpassword: { value: '', isValid: true },
             islogged: false,
-            message: "",          
+            message: "",
+            alert: null,
         };
 
         //Bind the handlers to this class
         this.changeHandler = this.changeHandler.bind(this);
         this.handleValidation = this.handleValidation.bind(this);
+        this.closeAlert = this.closeAlert.bind(this)
         this.submitSignup = this.submitSignup.bind(this);
         this.submitLogin = this.submitLogin.bind(this);
     }
@@ -44,8 +47,6 @@ class Home extends Component{
     }
 
     handleValidation() {
-
-        console.log("validation check")
 
         let formIsValid = true;
         const firstname = { ...this.state.firstname };
@@ -132,16 +133,45 @@ class Home extends Component{
         event.preventDefault();
         if (this.handleValidation()) {
             const { firstname, lastname, email, password } = this.state;
-            this.props.history.push({
-                pathname:"/profilelocation/new",
-                state:{
-                    firstname : firstname.value,
-                    lastname : lastname.value,
-                    email : email.value,
-                    password : password.value
+            const data = {
+                email : email.value,
+            }
+            console.log(data);
+            this.props.applicantsignupcheck(data).then(response => {
+                if(response.payload.status === 200){
+                    this.props.history.push({
+                        pathname:"/profilelocation/new",
+                        state:{
+                            firstname : firstname.value,
+                            lastname : lastname.value,
+                            email : email.value,
+                            password : password.value
+                        }
+                    });
                 }
-            });
+            }).catch (error => {
+                console.log("Error is", error);
+                const getAlert = () => (
+                    <SweetAlert
+                        error
+                        confirmBtnText="Ok"
+                        title="Oops!"
+                        onConfirm={this.closeAlert}
+                    >
+                        User already exists!
+                    </SweetAlert>
+                );
+                this.setState({
+                  alert: getAlert(),
+                })
+            })
         }
+    }
+
+    closeAlert = () => {
+        this.setState({
+            alert: null
+        });
     }
 
     submitLogin(event) {
@@ -172,6 +202,14 @@ class Home extends Component{
                         message : "Please enter valid email address and password"
                     }
                 });
+            })
+        }
+    }
+
+    componentDidMount () {
+        if (localStorage.getItem(userConstants.AUTH_TOKEN) !== null) {
+            this.setState ({
+                islogged : true
             })
         }
     }
@@ -227,6 +265,7 @@ class Home extends Component{
                         <span className = "agreement">By clicking Join now, you agree to the LinkedIn User Agreement, Privacy Policy, and Cookie Policy.</span>
                         <input id ="registration-submit" className = "registration submit-button" type = "submit" value = "Join now"></input>
                     </section>
+                    {this.state.alert}
                 </form>
               </div>
               
@@ -242,4 +281,4 @@ function mapStateToProps(state) {
   }
   export default withRouter(reduxForm({
     form: "Home_Page"
-  })(connect(mapStateToProps, { applicantlogin })(Home)));
+  })(connect(mapStateToProps, { applicantlogin, applicantsignupcheck })(Home)));

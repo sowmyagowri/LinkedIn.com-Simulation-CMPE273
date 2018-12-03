@@ -7,15 +7,18 @@ import { reduxForm } from "redux-form";
 import { withRouter} from 'react-router-dom';
 import { connect } from "react-redux";
 import { userConstants } from '../../constants';
-import { getAllConnections, makeconnections } from '../../Actions/action_connections';
+import URI from '../../constants/URI';
+import { getAllConnections, makeconnections, searchpeople } from '../../Actions/action_connections';
+import { logprofileview } from '../../Actions/applicant_login_profile_actions';
+import { postMessage } from "../../Actions/action_messages"
 
 class SearchPeople extends Component{
     constructor(props){
         super(props);
         this.state = {
-            searchresults : "",
+            searchresults : 0,
             isLoading : false,
-            filteredResults : "",
+            filteredResults : [],
             connectionResults : [],
         };
         this.sendRequest = this.sendRequest.bind(this)
@@ -23,51 +26,76 @@ class SearchPeople extends Component{
 
     componentDidMount() {
         //call to action
-        var filteredResults =  [{
-            profilePicture : "/images/avatar.png",
-            firstName : "Saranya",
-            lastName : "Soundarrajan",
-            description : "Senior Accountant at asfasfasff",
-            email : "saranya@gmail.com"
-        },{
-            profilePicture : "/images/avatar.png",
-            firstName : "Nrupa",
-            lastName : "Chitley",
-            description : "Senior Accountant at asfasfasff",
-            email : "replica.recruiter@sjsu.edu"
-        }]
-        this.setState ({
-            filteredResults : filteredResults,
-            searchresults : filteredResults.length
-        })
+
         const token =  JSON.parse(localStorage.getItem(userConstants.AUTH_TOKEN));
-        this.props.getAllConnections(token).then(response => {
+
+        var data = {
+            search : this.props.location.state.search === undefined || this.props.location.state === undefined? "" : this.props.location.state.search
+        }
+        let user = JSON.parse(localStorage.getItem(userConstants.USER_DETAILS));
+        var email = user.email;
+        this.props.searchpeople(data, token).then(response => {
             console.log("response:", response);
             if(response.payload.status === 200){
-                var connectionResults = []
-                var approved = response.payload.data.connections.connectionsApproved
-                var incoming = response.payload.data.connections.connectionsIncoming
-                var outgoing = response.payload.data.connections.connectionsOutgoing
-                var i = 0;
-                if(approved.length > 0) {
-                    for (i = 0; i < approved.length; i++) {
-                        connectionResults.push(JSON.parse(JSON.stringify(approved[i].email)))
-                    }                }
-                if(incoming.length > 0) {
-                    for (i = 0; i < incoming.length; i++) {
-                        connectionResults.push(JSON.parse(JSON.stringify(incoming[i].email)))
-                    }                }
-                if(outgoing.length > 0) {
-                    for (i = 0; i < outgoing.length; i++) {
-                        connectionResults.push(JSON.parse(JSON.stringify(outgoing[i].email)))
-                    }
-                }
+                var filteredResults =  response.payload.data.people
+                filteredResults = filteredResults.filter(function(x){ return x.email !== email; });
 
                 this.setState ({
-                    connectionResults : connectionResults
+                    filteredResults : filteredResults,
+                    searchresults : filteredResults.length
                 })
-            }   
+
+                this.props.getAllConnections(token).then(response => {
+                    console.log("response:", response);
+                    if(response.payload.status === 200){
+                        var connectionResults = []
+                        var approved = response.payload.data.connections.connectionsApproved
+                        var incoming = response.payload.data.connections.connectionsIncoming
+                        var outgoing = response.payload.data.connections.connectionsOutgoing
+                        var i = 0;
+                        if(approved.length > 0) {
+                            for (i = 0; i < approved.length; i++) {
+                                connectionResults.push(JSON.parse(JSON.stringify(approved[i].email)))
+                            }                }
+                        if(incoming.length > 0) {
+                            for (i = 0; i < incoming.length; i++) {
+                                connectionResults.push(JSON.parse(JSON.stringify(incoming[i].email)))
+                            }                }
+                        if(outgoing.length > 0) {
+                            for (i = 0; i < outgoing.length; i++) {
+                                connectionResults.push(JSON.parse(JSON.stringify(outgoing[i].email)))
+                            }
+                        }
+
+                        this.setState ({
+                            connectionResults : connectionResults
+                        })
+                    }   
+                })
+            }
         })
+    }
+
+
+    gotoprofile = (event, profile, requestconnection) => {
+        console.log(requestconnection)
+        //call to action
+        const token =  JSON.parse(localStorage.getItem(userConstants.AUTH_TOKEN));
+        const data ={
+            email: profile.email
+        }
+        this.props.logprofileview(data, token).then(response => {
+            if(response.payload.status === 200){
+                console.log("Profile view logged")
+            }
+        })
+        this.props.history.push({
+            pathname:"/userprofile/"+profile._id,
+            state:{
+                profile : profile,
+                requestconnection : requestconnection
+            }
+        });
     }
 
 
@@ -113,11 +141,13 @@ class SearchPeople extends Component{
                             <div className = "invitation-card__details">
                                 <div className = "details-view">
                                 <div className = "msg-conversation-card__row pr2">
-                                    <img alt="" src={filteredResults[i].profilePicture} style = {{width : "56px", height : "56px"}}/>
+                                    {filteredResults[i].profilePicture === "" ?
+                                        <img alt="" src="/images/avatar.png" style = {{width : "56px", height : "56px"}}/> :
+                                        <img alt="" src={URI.ROOT_URL + "/profilepictures/" + filteredResults[i].profilePicture} style = {{width : "56px", height : "56px"}}/> }
                                     <div className = "row" style = {{marginLeft : "15px"}}>
                                         <div className = "form-group">
-                                            <h5 className = "t-14 t-black t-normal">{filteredResults[i].firstName}&nbsp;{filteredResults[i].lastName}</h5>
-                                            <h5 className = "t-12 t-black--light t-normal">{filteredResults[i].description}</h5>
+                                        <a href = {"/userprofile/"+filteredResults[i]._id} onClick = {(event) => self.gotoprofile(event,filteredResults[i], self.checkcondition(filteredResults[i].email))}><h5 className = "t-14 t-black t-normal">{filteredResults[i].firstName}&nbsp;{filteredResults[i].lastName}</h5></a>
+                                            <h5 className = "t-12 t-black--light t-normal">{filteredResults[i].profileSummary}</h5>
                                         </div>
                                     </div>
                                 </div>
@@ -125,7 +155,7 @@ class SearchPeople extends Component{
                                         {!self.checkcondition(filteredResults[i].email) ? 
                                         <button type="button" className="btn arteco-btn" style = {{width : "150px"}} onClick = {(event) => self.sendRequest(event,i)}>Send Request</button> 
                                         : (null)}
-                                        <button type="button" className="btn arteco-btn-save" style={{ marginLeft: "10px", width : "100px" }}>Message</button>
+                                        <SendMessage postMessage ={self.props.postMessage} id = {i} connection = {filteredResults[i]}></SendMessage>
                                 </div>  
                                 </div>
                             </div>
@@ -156,13 +186,99 @@ class SearchPeople extends Component{
     }
 }
 
+class SendMessage  extends Component {
+
+    constructor(props){
+        super(props);
+        this.state = {
+           messageDraft : ""
+        }
+        this.sendMessage = this.sendMessage.bind(this);
+        this.handlevalidation = this.handlevalidation.bind(this);
+    }
+    
+    sendMessage() {
+        if (this.state.messageDraft.trim().length > 0) {
+            let messageDetails = {
+                "receiver": {
+                    "username": this.props.connection.email,
+                    "firstname": this.props.connection.firstName,
+                    "lastname": this.props.connection.lastName
+                },
+                "message": this.state.messageDraft
+            }
+            this.props.postMessage(messageDetails);
+            this.setState ({
+                messageDraft : ""
+            })
+        }
+    }
+
+    handlevalidation () {
+        var formValid = true;
+        if(this.state.messageDraft.trim().length === 0){
+            formValid = false
+        } 
+        return formValid
+    }
+
+    render () {
+    var id = this.props.id
+    return (
+        <div>
+            <div className = "invitation-card__action-container pl3 pr5">
+                <button type="button" className="btn arteco-btn-save" data-toggle="modal" data-target={"#messagemodal"+id} style={{ marginLeft: "10px", width : "100px" }}>Message</button>
+            </div>  
+            <div className="modal fade  bd-example-modal-lg" id={"messagemodal"+id} tabIndex="-1" role="dialog" aria-labelledby={"messagemodallabel"+id} aria-hidden="true"  style = {{marginTop : "40px"}}>
+                <div className="modal-dialog modal-dialog-centered modal-lg">
+                    <div className="modal-content">
+                        <div className="modal-header">
+                            <h5 className="modal-title" id={"messagemodallabel"+id}>Message</h5>
+                            <button type="button" className="close" data-dismiss="modal" aria-label="Close">
+                            &times;
+                            </button>
+                        </div>
+                        <div className="modal-body">
+                        <div className="row form-group">
+                                <div className = "col-xs-6 col-md-6">
+                                <label htmlFor="position-firstname-typeahead" className="mb1 required">First Name</label>
+                                <input className = "form-control" name = "firstname" placeholder = {this.props.connection.firstName} id="position-firstname-typeahead" type="text" disabled/>
+                                </div>
+                                <div className = "col-xs-6 col-md-6">
+                                <label htmlFor="position-lastname-typeahead" className="mb1 required">Last Name</label>
+                                <input className = "form-control"  name = "lastname" placeholder = {this.props.connection.lastName}  id="position-lastname-typeahead" type="text" disabled/>
+                                </div>
+                        </div>
+                        <div className="form-group">
+                            <label htmlFor="messaging" className="mb1 required">Message*</label>
+                            <textarea rows="6" cols="40" id = "messaging" required maxLength="10000" className="form-control" value={this.state.messageDraft} onChange={(event) => { this.setState({ messageDraft: event.target.value }) }}
+                                name="message" placeholder="Enter Message"></textarea>
+                            </div>
+                        </div>
+                        <div className="modal-footer">
+                            {this.handlevalidation() ?
+                                <button type="submit" className="btn arteco-btn"  data-dismiss="modal" style = {{width : "150px"}} onClick = {this.sendMessage}>Send Message</button> :
+                                <div className=""  style = {{color: "red"}}>&nbsp;Message field is Mandatory&nbsp;&nbsp;
+                                <button type="submit" className="btn arteco-btn"  style = {{width : "150px"}}>Send Message</button></div> }
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    )
+    }
+}
+
 function mapStateToProps(state) {
     return {
         makeconnections: state.makeconnections,
-        getAllConnections : state.getAllConnections
+        getAllConnections : state.getAllConnections,
+        searchpeople : state.searchpeople,
+        postMessage : state.postMessage,
+        logprofileview : state.logprofileview
     };
 }
 
 export default withRouter(reduxForm({
 form: "Search_People"
-})(connect(mapStateToProps, { makeconnections, getAllConnections })(SearchPeople)));
+})(connect(mapStateToProps, { makeconnections, getAllConnections, searchpeople, postMessage, logprofileview})(SearchPeople)));

@@ -10,7 +10,7 @@ async function handle_request(msg, callback) {
     let lastName = msg.lastname;
     let email = msg.email;
     let address = msg.address;
-    let city = msg.city;
+    let city = (msg.city).toLowerCase();
     let state = msg.state;
     let zipcode = msg.zipcode;
     let phoneNumber = msg.phoneNumber;

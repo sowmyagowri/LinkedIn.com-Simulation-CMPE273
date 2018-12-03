@@ -27,9 +27,11 @@ async function handle_request(msg, callback) {
 
         var application = {
             applicant_email: msg.body.applicantEmail,
+            date: new Date() - 8 * 60 * 60000,
             first_name: msg.body.firstName,
             last_name: msg.body.lastName,
             address: msg.body.address,
+            city: (msg.body.city).toLowerCase(),
             phone_number: msg.body.phoneNumber,
             how_did_they_hear_about_us: msg.body.howDidTheyHearAboutUs,
             diversity_question: msg.body.disabilityQuestion,
@@ -38,8 +40,6 @@ async function handle_request(msg, callback) {
             resume: msg.resumeName,
             cover_letter: msg.coverletterName,
         }
-        console.log("jobID - ", msg.body.jobID);
-        console.log("Email - ", msg.body.applicantEmail);
         await Jobs.updateOne(
             { _id : msg.body.jobID },
             {

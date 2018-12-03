@@ -1,8 +1,7 @@
 # LinkedIn Simulation - Kafka-Backend
 
 How to run Kafka-backend?
-  - Navigate to Kafka-backend directory in cmd
+  - Navigate to kafka_backend directory in cmd
   - Install required dependencies using npm install
-  - zoo keeper and kafka need to be installed before the back-end for this app can be executed
+  - zoo keeper and kafka need to be installed before the kafka back-end server for this app can be started
   - Run kafka back-end using npm start
-  - Test API calls with Mocha using npm test

@@ -23,6 +23,7 @@ async function handle_request(msg, callback) {
             firstName : msg.firstname,
             lastName : msg.lastname,
             state : msg.state,
+            city : msg.city,
             zipcode : msg.zipcode,
             role: 'A',
             experience : [{

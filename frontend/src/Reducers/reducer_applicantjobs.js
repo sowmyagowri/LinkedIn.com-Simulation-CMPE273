@@ -9,6 +9,8 @@ export function ApplicantJobsReducer(state = {}, action) {
       return action.payload;
     case userConstants.GET_SAVEDJOBS:
       return action.payload;
+    case userConstants.SEARCH_JOBS:
+      return action.payload;
     default:
       return state;
   }

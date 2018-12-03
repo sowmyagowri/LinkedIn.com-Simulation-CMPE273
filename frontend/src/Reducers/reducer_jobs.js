@@ -1,7 +1,7 @@
 import {
  CREATE_JOB_SUCCESS,
  CREATE_JOB_FAILURE
-} from "../Actions/PostJobActions";
+} from "../Actions/recruiterActions";
 
 export default function(
   state = {

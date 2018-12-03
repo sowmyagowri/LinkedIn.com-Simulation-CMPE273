@@ -9,6 +9,8 @@ export function ConnectionsReducer(state = {}, action) {
       return action.payload;
     case userConstants.CONNECTION_RESPONSE:
       return action.payload;
+    case userConstants.SEARCH_PEOPLE:
+      return action.payload;
     default:
       return state;
   }

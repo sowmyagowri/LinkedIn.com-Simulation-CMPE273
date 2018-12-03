@@ -31,7 +31,8 @@ async function handle_request(msg, callback) {
             "result": "Recruiter Profile created Sucessfully",
             email: post.email,
             firstName: post.firstName,
-            lastName: post.lastName
+            lastName: post.lastName,
+            role: 'R'
          });
     }
     catch (error) {

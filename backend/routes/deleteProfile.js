@@ -6,7 +6,7 @@ const router = express.Router();
 
 router.delete("/", (req, res) => {
     console.log("Inside delete applicant profile controller");
-    console.log("DELETE APPLICANT PROFILE: ", req.body);
+    console.log("DELETE APPLICANT PROFILE: ", req.query);
     let errors = validateInput(req);
     if (errors) {
         let msg = errors.map(error => error.msg).reduce((accumulator, currentVal) => accumulator + "\n" + currentVal);
@@ -15,7 +15,7 @@ router.delete("/", (req, res) => {
         });
     }
     else {
-        kafka.make_request(DELETE_PROFILE_REQUEST, DELETE_PROFILE_RESPONSE, req.body, function (err, result) {
+        kafka.make_request(DELETE_PROFILE_REQUEST, DELETE_PROFILE_RESPONSE, req.query, function (err, result) {
             if (err) {
                 // called in case of time out error, or if we failed to send data over kafka
                 sendInternalServerError(res);

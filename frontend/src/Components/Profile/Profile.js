@@ -8,6 +8,7 @@ import { connect } from "react-redux";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { userConstants } from '../../constants';
 import URI from '../../constants/URI';
+import SweetAlert from 'react-bootstrap-sweetalert';
 import { getapplicantprofile, applicantprofilephoto, applicantprofilesummary, applicantprofileexperience, applicantprofileeducation, applicantprofileskills, applicantprofiledelete } from '../../Actions/applicant_login_profile_actions';
 
 class Profile extends Component{
@@ -35,14 +36,17 @@ class Profile extends Component{
                 zipcode : false,
             },
             profiledata : [],
-            isLoading : true
+            isLoading : true,
+            alert: null,
         };
         this.changeHandler = this.changeHandler.bind(this);
         this.profilephotochangeHandler = this.profilephotochangeHandler.bind(this);
         this.openFileDialog = this.openFileDialog.bind(this)
         this.updateSkills = this.updateSkills.bind(this)
         this.submitProfile = this.submitProfile.bind(this)
+        this.deleteProfileConfirm = this.deleteProfileConfirm.bind(this)
         this.deleteProfile = this.deleteProfile.bind(this)
+        this.cancelDelete = this.cancelDelete.bind(this)
         this.uploadresume = this.uploadresume.bind(this)
         this.handleChange = this.handleChange.bind(this)
     }
@@ -53,7 +57,7 @@ class Profile extends Component{
     }
 
 
-    componentWillMount() {
+    componentDidMount() {
         //call to action
         const data = JSON.parse(localStorage.getItem(userConstants.USER_DETAILS)).email;
         const token =  JSON.parse(localStorage.getItem(userConstants.AUTH_TOKEN));
@@ -67,7 +71,7 @@ class Profile extends Component{
                         profilesummary : response.payload.data.profile.profileSummary === undefined || "" ? "" : response.payload.data.profile.profileSummary,
                         state : response.payload.data.profile.state,
                         zipcode : response.payload.data.profile.zipcode,
-                        phonenumber : response.payload.data.profile.phoneNumber === undefined || null || ""  ? "" : response.payload.data.profile.phoneNumber,
+                        phonenumber : response.payload.data.profile.phoneNumber === undefined || null || "" || 0 ? "" : response.payload.data.profile.phoneNumber,
                         address : response.payload.data.profile.address === undefined || "" ? "" : response.payload.data.profile.address,
                         experience : response.payload.data.profile.experience,
                         education : response.payload.data.profile.education,
@@ -82,7 +86,7 @@ class Profile extends Component{
                 this.refs.myprofilesummary.value = this.state.profiledata.profileSummary;
                 this.refs.mystate.value = this.state.profiledata.state;
                 this.refs.myzipcode.value = this.state.profiledata.zipcode;
-                this.refs.myphonenumber.value = this.state.profiledata.phonenumber === "" || null  ? "" : response.payload.data.profile.phoneNumber;
+                this.refs.myphonenumber.value = this.state.profiledata.phonenumber === undefined || null || "" || 0 ? "" : response.payload.data.profile.phoneNumber;
                 this.refs.myaddress.value = this.state.profiledata.address;
                 this.refs.myskills.value = this.state.profiledata.skills;
         })
@@ -152,7 +156,6 @@ class Profile extends Component{
             }
         })
     }
-    
      
     changeHandler = (e) => {
         const state = {
@@ -175,7 +178,7 @@ class Profile extends Component{
                 zipcode : this.state.zipcode,
                 address : this.state.address,
                 profileSummary : this.state.profilesummary,
-                phoneNumber : this.state.phonenumber,
+                phoneNumber : this.state.phonenumber === "" ? 0 : this.state.phonenumber,
                 resume : this.state.resume,
             }
 
@@ -218,21 +221,47 @@ class Profile extends Component{
             }
     } 
 
-    deleteProfile = () => {
-       const email = JSON.parse(localStorage.getItem(userConstants.USER_DETAILS)).email;
-        const token =  JSON.parse(localStorage.getItem(userConstants.AUTH_TOKEN));
-        const data = {
-            email: email,
-        }
+    deleteProfileConfirm = () => {
+        const getAlert = () => (
+            <SweetAlert 
+                warning
+                showCancel
+                confirmBtnText="Yes, delete!"
+                confirmBtnBsStyle="danger"
+                cancelBtnBsStyle="default"
+                title="Are you sure?"
+                onConfirm={this.deleteProfile}
+                onCancel={this.cancelDelete}
+            >
+                You will not be able to recover your profile!
+            </SweetAlert>
+        );
+  
+        this.setState({
+          alert: getAlert(),
+        })
+    }
 
-        this.props.applicantprofiledelete(data, token).then(response => {
+    cancelDelete = () => {
+        this.setState({
+            alert: null
+        });
+    }
+
+    deleteProfile = () => {
+        const email = JSON.parse(localStorage.getItem(userConstants.USER_DETAILS)).email;
+        const token =  JSON.parse(localStorage.getItem(userConstants.AUTH_TOKEN));
+
+        this.props.applicantprofiledelete(email, token).then(response => {
             console.log("response:", response);
             if(response.payload.status === 200){
-                console.log("Profile Summary Deleted Successfully")
+                console.log("Profile Deleted Successfully")
+                localStorage.clear();
+                window.location = "/"
             }
-            })
-        }
-    } 
+        })
+    }
+  
 
     shouldComponentUpdate(nextState) {
         if (nextState.profiledata !== this.state.profiledata) {
@@ -441,7 +470,7 @@ class Profile extends Component{
                             </div>
 
                             <label htmlFor="position-phone-typeahead" className="mb1 required">Phone Number</label>
-                            <input className = "form-control" name = "phonenumber"  ref = "myphonenumber" onChange = {this.changeHandler}  id="position-phone-typeahead"  pattern="[0-9]{10}" placeholder="1234567890" type="text"/>
+                            <input className = "form-control" name = "phonenumber"  ref = "myphonenumber" onChange = {this.changeHandler}  id="position-phone-typeahead"  pattern="[0-9]{10}" placeholder="1234567890" type="number"/>
                             
                             <label htmlFor="position-address-typeahead" className="mb1 required">Address</label>
                             <textarea className = "form-control" name = "address"  ref = "myaddress" onChange = {this.changeHandler}  id="position-address-typeahead"/>
@@ -569,7 +598,8 @@ class Profile extends Component{
                         </li>
                     </div>                   
               </div>
-
+              <button type="submit" className="btn arteco-btn" onClick = {this.deleteProfileConfirm} style = {{width : "150px"}}>Delete Profile</button>
+              {this.state.alert}
             </div>
         </div>
       </div>   
@@ -1249,7 +1279,8 @@ function mapStateToProps(state) {
         applicantprofilesummary : state.applicantprofilesummary, 
         applicantprofileexperience : state.applicantprofileexperience, 
         applicantprofileeducation :  state.applicantprofileeducation, 
-        applicantprofileskills : state.applicantprofileskills
+        applicantprofileskills : state.applicantprofileskills,
+        applicantprofiledelete : state.applicantprofiledelete
     };
 }
 

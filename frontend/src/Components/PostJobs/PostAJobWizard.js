@@ -4,7 +4,9 @@ import {
   renderFieldLarge,
   renderEmploymentType,
   renderJobDescription,
-  renderDatePicker
+  renderDatePicker,
+  renderCheckbox,
+  renderApplicationType
 } from "./renderField";
 import { connect } from "react-redux";
 
@@ -19,6 +21,7 @@ class PostAJobWizard extends Component {
         <div className="container">
           <br />
           <div style={{ fontSize: "150%" }}>What job do you want to post?</div>
+
           <br />
           <div className="row">
             <div className="col-4">
@@ -66,6 +69,7 @@ class PostAJobWizard extends Component {
               <Field
                 name="employmentType"
                 type="text"
+                
                 component={renderEmploymentType}
                 label="Employment Field"
                 validate={[required]}
@@ -97,7 +101,7 @@ class PostAJobWizard extends Component {
           <div className="row">
             <div className="col-12">
               <Field
-                name="companylogo"
+                name="companyLogo"
                 type="text"
                 component={renderFieldLarge}
                 label="Image URL"
@@ -118,8 +122,22 @@ class PostAJobWizard extends Component {
               />
             </div>
           </div>
+          <br/>
+          <div className="row">
+         
+          <div className="col-4">
+              <Field
+                name="applicationMethod"
+                type="text"
+                component={renderApplicationType}
+                label="Application Type"
+                validate={[required]}
+              />
+            </div>
+             
+          </div>
+          <br/>
           <br />
-
           <div className="row">
             <div className="col-4">
               <span style={{ color: "#0073b1" }}>*</span>&nbsp;Required
@@ -142,14 +160,17 @@ class PostAJobWizard extends Component {
   }
 }
 
-function mapStateToProps(state) {
-  return {};
-}
 
 PostAJobWizard = reduxForm({
-  form: "postAJobWizard"
+  form: "postAJobWizard",
+  enableReinitialize:true,
+  keepDirtyOnReinitialize:true
 })(PostAJobWizard);
 
-export default connect(mapStateToProps)(PostAJobWizard);
 
 
+export default connect(  
+  state => ({
+      initialValues: state.AddJobReducer.addjob, 
+    })
+)(PostAJobWizard);

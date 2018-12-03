@@ -4,10 +4,8 @@ var con = require('../kafka_backend/config/mysql')
 con.startConnection()
 
 function addJobs() {
-    var recruiter_id = [
-        '5bfcf161c4887a4415cd1be9', '5bfcf161c4887a4415cd1bea', '5bfcf215fa36bb441e5b2930', '5bfcf215fa36bb441e5b2931', '5bfcf215fa36bb441e5b2936',
-        '5bfcf215fa36bb441e5b2935', '5bfcf215fa36bb441e5b2938', '5bfcf215fa36bb441e5b293c', '5bfcf215fa36bb441e5b293a', '5bfcf215fa36bb441e5b293d',
-        '5bfcf215fa36bb441e5b2942', '5bfcf215fa36bb441e5b2940', '5bfcf215fa36bb441e5b293e', '5bfcf216fa36bb441e5b2946', '5bfcf216fa36bb441e5b2945'
+    var recruiter_email = [
+        'recruiter1@gmail.com', 'recruiter2@gmail.com', 'recruiter3@gmail.com', 'recruiter4@gmail.com'
     ]
 
     var location_array = [
@@ -26,10 +24,14 @@ function addJobs() {
         'Full Time', 'Internship'
     ]
 
-    for (var i = 0; i < 10000; i++) {
+    var application_methods = [
+        'Easy', 'Normal'
+    ] 
+
+    for (var i = 2; i < 100; i++) {
         console.log("Created Job", i);
         var data = {
-            recruiterID : recruiter_id[Math.floor(Math.random()*recruiter_id.length)],
+            recruiterEmail : 'akhilesh.anand@sjsu.edu',
             title : 'Title' + i.toString(),
             company : 'Company' + i.toString(),
             jobDescription : 'Job Description' + i.toString(),
@@ -39,7 +41,8 @@ function addJobs() {
             jobFunction : 'Job Function' + i.toString(),
             companyLogo : 'https://logonoid.com/images/sjsu-logo.png',
             postedDate : posted_date_array[Math.floor(Math.random()*posted_date_array.length)],
-            expiryDate : expiry_date_array[Math.floor(Math.random()*expiry_date_array.length)]
+            expiryDate : expiry_date_array[Math.floor(Math.random()*expiry_date_array.length)],
+            applicationMethod : application_methods[Math.floor(Math.random()*application_methods.length)]
         }
         addJob.handle_request(data, function (res) {
             console.log("Result", res)

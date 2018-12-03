@@ -5,12 +5,12 @@ async function handle_request(msg, callback) {
     console.log("Inside kafka get graph for top 10 job postings per month backend");
     console.log("In handle request:" + JSON.stringify(msg));
 
-    let _id = msg.recruiterID;
+    let email = msg.recruiterEmail;
     let req_month = parseInt(msg.month);
     let resp = {};
     try {
         let data = await Jobs.find(
-            { 'posted_by': _id }, { title: 1, applications: 1 }
+            { 'posted_by': email }, { title: 1, applications: 1 }
         )
         total_jobs = []
         for (var i = 0; i < data.length; i++) {
@@ -37,7 +37,7 @@ async function handle_request(msg, callback) {
             "#BF00FF", "#00FFFF", "#FFC0CB"]
         let values = []
         for (var i = 0; i < total_jobs.length; i++) {
-            label.push(total_jobs[i][1] +"_"+total_jobs[i][0])
+            label.push(total_jobs[i][1])
             values.push(total_jobs[i][2])
         }
         resp = prepareSuccess({'colors':colors, 'values':values,'label':label});
