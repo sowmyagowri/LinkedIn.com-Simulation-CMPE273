@@ -148,7 +148,7 @@ class Viewjob extends Component{
                                         <div className = "row form-group" style  ={{width : "400px"}}>
                                         {!this.state.saved ?
                                         <button type="submit" className="btn arteco-btn-save" onClick = {this.saveajob}>Save</button> : (null)}
-                                        {jobs.application_method === "Easy" ?
+                                        {jobs.application_method === "Easy Apply" ?
                                         <Easyapply applyjob ={this.props.applyjob} getapplicantprofile = {this.props.getapplicantprofile} id = {jobs._id} jobdetails = {jobs}/>  :
                                         <button type="submit" className="btn arteco-btn" onClick = {(event) => this.normalapplyjob(event, jobs)} style={{ marginLeft: "10px" }}>Apply</button>}
                                         </div>
