@@ -14,6 +14,18 @@ export function applicantsignup(data) {
   };  
 }
 
+//target action for applicant signup
+export function applicantsignupcheck(data) {
+  console.log("inside applicant signup check action")
+  axios.defaults.withCredentials = true;
+  const response =  axios.post(URI.ROOT_URL + '/signup_applicant_check/', data);
+  console.log("Response", response);
+  return {
+    type: userConstants.APPLICANT_SIGNUP_CHECK,
+    payload: response
+  };  
+}
+
 //target action for applicant login
 export function applicantlogin(data) {
   console.log("inside applicant login action")

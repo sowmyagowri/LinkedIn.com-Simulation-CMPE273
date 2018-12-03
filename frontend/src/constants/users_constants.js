@@ -1,6 +1,7 @@
 export const userConstants = {
     APPLICANT_LOGIN: 'applicantlogin',
     APPLICANT_SIGNUP: 'applicantsignup',
+    APPLICANT_SIGNUP_CHECK: 'applicantsignupcheck',
     APPLICANT_PROFILE_FETCH: 'getapplicantprofile',
     APPLICANT_PROFILE_SUMMARY_POST: 'applicantprofilesummary',
     APPLICANT_PROFILE_EXPERIENCE_POST: 'applicantprofileexperience',
