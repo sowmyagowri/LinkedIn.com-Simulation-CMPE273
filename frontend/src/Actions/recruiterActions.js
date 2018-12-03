@@ -29,6 +29,15 @@ export const APPLICATIONS_FETCH_SUCCESS = "applications_fetch_success";
 export const APPLICATIONS_FETCH_FAILURE = "applications_fetch_failure";
 
 
+export const RECRUITER_PROFILE_SUCCESS = "recruiter_profile_fetch_success";
+export const RECRUITER_PROFILE_FAILURE = "recruiter_profile_fetch_failure";
+
+
+export const UPDATE_RECRUITER_PROFILE_SUCCESS = "update_recruiter_profile_success";
+export const UPDATE_RECRUITER_PROFILE_FAILURE = "update_recruiter_profile_failure";
+
+
+
 
 export function recruiterSignUp(data) {
     return async dispatch => {
@@ -163,6 +172,64 @@ export function getRecruiterJobs() {
       console.log(error)
       dispatch({
         type: FETCH_JOBS_FAILURE,
+        payload: error
+      });
+    }
+  };
+}
+
+export function PostRecruiterInformation(data) {
+  data.email = localStorage.getItem("user");
+  data.postedDate= Date.now();
+  return async dispatch => {
+    try {
+      axios.defaults.withCredentials = true;
+      axios.defaults.headers.common["Authorization"] =localStorage.getItem("user");
+      var response = await axios.post(`${ROOT_URL}/post_recruiter_profile`, data);
+      if (response.status === 200) {
+        dispatch({
+          type: UPDATE_RECRUITER_PROFILE_SUCCESS,
+          payload: "Successful"
+        });
+      } 
+    } catch (error) {
+      dispatch({
+        type: UPDATE_RECRUITER_PROFILE_FAILURE,
+        payload: "Error Adding Job"
+      });
+
+    }
+  };
+}
+
+
+
+
+
+export function getRecruiterProfileInformation() {
+  let email = localStorage.getItem("username");
+  return async dispatch => {
+    try {
+      axios.defaults.withCredentials = true;
+      axios.defaults.headers.common["Authorization"] =localStorage.getItem("user");
+      var response = await axios.get(`${ROOT_URL}/get_recruiter_profile`, {
+        params: {
+          email
+        }
+      });
+      if (response.status === 200) {
+        console.log(response);
+        let data =response.data.profile;
+
+        dispatch({
+          type: RECRUITER_PROFILE_SUCCESS,
+          payload: response.data.profile
+        });
+      } 
+    } catch (error) {
+      console.log(error)
+      dispatch({
+        type: RECRUITER_PROFILE_FAILURE,
         payload: error
       });
     }

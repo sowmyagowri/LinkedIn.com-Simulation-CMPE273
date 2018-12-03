@@ -72,7 +72,7 @@ class ViewSavedJobs extends Component{
                             <div className="job-details__posted">Expires on {rows[i].expiry_date}</div>
                         </div>  
                     </div>
-                    {rows[i].application_method  === "Easy" ? 
+                    {rows[i].application_method  === "Easy Apply" ? 
                         <Easyapply applyjob ={self.props.applyjob} getapplicantprofile = {self.props.getapplicantprofile} id = {rows[i]._id} jobdetails = {rows[i]}/>  :
                         <button type="submit" className="btn arteco-btn" onClick = {(event) => self.normalapplyjob(event, rows[i])}>Apply</button>
                     }

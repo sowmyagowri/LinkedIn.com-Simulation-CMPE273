@@ -369,10 +369,10 @@ const JobDetails = ({jobs, self, applyjob, getapplicantprofile}) =>{
                     </div></a>
                     <div className="job-details__name">{jobs.company}</div>
                     <div className="job-details__location"><FontAwesomeIcon className = "fa-map-marker-alt" icon="map-marker-alt"></FontAwesomeIcon>&nbsp;&nbsp;{jobs.location}</div>
-                    <div className="job-details__posted">Posted on {jobs.posted_date}</div>
+                    <div className="job-details__posted">Posted on {jobs.posted_date.slice(0,new Date().toISOString().indexOf("T")).replace(/-/g,"/")}</div>
                     <div className = "row form-group">&nbsp;&nbsp;&nbsp;&nbsp;<div className="job-details__posted">{jobs.no_of_views === undefined ? 0 : jobs.no_of_views}&nbsp;view(s)</div>
                     <div className="job-details__posted">&nbsp;&nbsp;{jobs.applications.length}&nbsp;applicant(s) applied</div></div>
-                    {jobs.application_method  === "Easy" ? 
+                    {jobs.application_method  === "Easy Apply" ? 
                         <Easyapply applyjob ={applyjob} getapplicantprofile = {getapplicantprofile} id = {jobs._id} jobdetails = {jobs}/> :
                         <button type="submit" className="btn arteco-btn" onClick = {(event) => self.normalapplyjob(event, jobs)}>Apply</button>
                     }

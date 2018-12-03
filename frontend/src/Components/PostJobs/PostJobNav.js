@@ -19,13 +19,20 @@ class PostJobNav extends Component {
             </a>
             <ul className="nav navbar-nav">
               <li className="nav-link">
-              <a href="/jobs" >
+              <a href="/messages" >
                 <FontAwesomeIcon color="#dee2e6" size="lg" icon="envelope" />
                 </a>
               </li>
               <li className="nav-link">
-              <a href="/profile" >
+              <a href="/recprofile" >
                 <FontAwesomeIcon color="#dee2e6" size="lg" icon="user-circle" />
+               </a>
+              </li>
+              <li className="nav-link">
+              <a href=" "  onClick={()=>{
+                localStorage.clear();
+              }}>
+                <FontAwesomeIcon color="#dee2e6" size="lg" icon="sign-out-alt" />
                </a>
               </li>
             </ul>

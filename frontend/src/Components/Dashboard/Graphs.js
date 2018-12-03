@@ -227,7 +227,7 @@ class RecruiterGraphs extends Component {
         }
       }).then((res)=>{
         if (res.status === 200) {
-          console.log(res)
+          console.log("Log", res)
         //   data = {
         //     labels: res.data.lables,
         //     datasets: [
@@ -255,6 +255,47 @@ class RecruiterGraphs extends Component {
       })
     }
 
+    ProfileViewsGraph =()=>{
+      console.log();
+      let email = "saranya@gmail.com";
+      axios.defaults.withCredentials = true;
+      axios.defaults.headers.common["Authorization"] =localStorage.getItem("user");
+      axios.get(`${URI.ROOT_URL}/graph_profile_views`, {
+        params: {
+          email
+        }
+      }).then((res)=>{
+        if (res.status === 200) {
+          console.log("Profile Views", res)
+        //   data = {
+        //     labels: res.data.lables,
+        //     datasets: [
+        //       {
+        //         label: "My dataset",
+        //         fillColor: "rgba(151,187,205,0.2)",
+        //         strokeColor: "rgba(151,187,205,1)",
+        //         pointColor: "rgba(151,187,205,1)",
+        //         pointStrokeColor: "#fff",
+        //         pointHighlightFill: "#fff",
+        //         pointHighlightStroke: "rgba(151,187,205,1)",
+                
+        //         data: res.data.values
+        //       }
+        //     ]
+        //   };
+        //   console.log("City Wise Jobs",data)
+        //  this.setState({
+        //   logGraph:data
+        //  })
+        }
+   
+      }).catch((err)=>{
+          console.log(err);
+      })
+    }
+
+
+    
 
 
     populateCity =()=>{
@@ -286,6 +327,8 @@ class RecruiterGraphs extends Component {
       this.UnpopularJobs();
     this.populateCity();
     this.LogGraph();
+    this.ProfileViewsGraph();
+
   }
 
   componentWillMount(){
