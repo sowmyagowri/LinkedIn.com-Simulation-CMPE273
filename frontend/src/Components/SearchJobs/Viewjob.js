@@ -17,7 +17,7 @@ class Viewjob extends Component{
             jobs : [],
             saved : false,
             loggedin : true,
-            isloading : false
+            isloading : true
         }
         this.signout = this.signout.bind(this);
         this.saveajob = this.saveajob.bind(this)
@@ -45,7 +45,7 @@ class Viewjob extends Component{
                 var savedJobs = response.payload.data.profile.savedJobs
                 this.setState ({
                     saved : savedJobs.includes(viewjob._id),
-                    isloading : true
+                    isloading : false
                 })
             }
         })
@@ -140,8 +140,9 @@ class Viewjob extends Component{
                                         <div className="job-details__location">
                                             <FontAwesomeIcon className="fa-map-marker-alt" icon="map-marker-alt">
                                             </FontAwesomeIcon>&nbsp;&nbsp;{jobs.location}</div>
-                                        <div className="job-details__posted">Posted on {jobs.posted_date}</div>
-                                        {this.state.isloading ?
+                                        {!this.state.isloading ?
+                                        <div className="job-details__posted">Posted on {jobs.posted_date.slice(0,new Date().toISOString().indexOf("T")).replace(/-/g,"/")}</div> : (null) }
+                                        {!this.state.isloading ?
                                         <div className = "row form-group">&nbsp;&nbsp;&nbsp;&nbsp;<div className="job-details__posted">{jobs.no_of_views === undefined ? 0 : jobs.no_of_views}&nbsp;view(s)</div>
                                         <div className="job-details__posted">&nbsp;&nbsp;{jobs.applications.length}&nbsp;applicant(s) applied</div></div> :
                                         (null)}
