@@ -141,7 +141,7 @@
 }
 
 .search-filters-bar--jobs-search {
-    z-index: 100;
+    /* z-index: 1; */
 }
 
 .relative {
@@ -370,7 +370,7 @@
 }
 .jobs-details-top-card {
     position: relative;
-    z-index: 1;
+    /* z-index: 1; */
 }
 .jobs-box--full-width {
     padding: 0;

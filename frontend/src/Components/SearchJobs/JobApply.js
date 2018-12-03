@@ -74,7 +74,7 @@ class JobApply extends Component{
             if(response.payload.status === 200){
                 this.setState({ 
                         profile: response.payload.data.profile,
-                        profilephoto : response.payload.data.profile.profilePicture === "" ? "images/avatar.png" : response.payload.data.profile.profilePicture,
+                        profilephoto : response.payload.data.profile.profilePicture,
                         isLoading : false
                 }); 
             }
@@ -286,8 +286,8 @@ class JobApply extends Component{
                             <div className = "profile-title">LinkedIn profile</div>
                             <div className = "profile-entity">
                             <figure>
-                                {this.state.profilephoto === "/images/avatar.png" ?
-                                <img alt="" src = "/images/avatar.png" /> : 
+                                {this.state.profilephoto === undefined  || this.state.profilephoto === "" || this.state.profilephoto === null ?
+                                <img src= "/images/avatar.png" alt="" /> : 
                                 <img src = {URI.ROOT_URL + "/profilepictures/" + this.state.profilephoto} alt="" />}
                             </figure>
                             <dl>
