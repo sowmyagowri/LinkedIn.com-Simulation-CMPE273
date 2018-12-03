@@ -44,7 +44,7 @@ function addJobs() {
     ]
 
     var employment_type_array = [
-        'Full-Time', 'Internship', 'Part-Time', 'Contract', 'Temporary', 'Voluntary'
+        'Full Time', 'Internship', 'Part Time', 'Contract', 'Temporary', 'Voluntary'
     ]
 
     var application_methods = [

@@ -10,7 +10,7 @@ const router = express.Router();
  *  below "/" is relative resource path, the actual resource path is /post_job/
  * 
  */
-router.put("/", (req, res) => {
+router.post("/", (req, res) => {
     console.log("Inside post Recruiter Profile controller");
     console.log("POSTRECRUITERPROFILE: ", req.body);
     let errors = validateInput(req);
