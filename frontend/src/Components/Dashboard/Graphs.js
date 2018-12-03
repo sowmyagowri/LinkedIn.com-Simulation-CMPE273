@@ -23,7 +23,8 @@ class RecruiterGraphs extends Component {
       jobs:[],
       cityWiseMonth:"1",
       cityWiseJobTitle:null,
-      cityWise:null
+      cityWise:null,
+      logGraph:null,
 
 
     };
@@ -186,27 +187,73 @@ class RecruiterGraphs extends Component {
         }
       }).then((res)=>{
         if (res.status === 200) {
-          console.log(res);
-        //   data = {
-        //     labels: res.data.label,
-        //     datasets: [
-        //       {
-        //         label: "My dataset",
-        //         fillColor:  res.data.colors,
-        //         data: [5,4,2,1,6]
-        //       }
-        //     ]
-        //   };
-        //   console.log("City Wise Jobs",data)
-        //  this.setState({
-        //   cityWise:data
-        //  })
+          console.log(res.data)
+          data = {
+            labels: res.data.lables,
+            datasets: [
+              {
+                label: "My dataset",
+                fillColor: "rgba(151,187,205,0.2)",
+                strokeColor: "rgba(151,187,205,1)",
+                pointColor: "rgba(151,187,205,1)",
+                pointStrokeColor: "#fff",
+                pointHighlightFill: "#fff",
+                pointHighlightStroke: "rgba(151,187,205,1)",
+                
+                data: res.data.values
+              }
+            ]
+          };
+          console.log("City Wise Jobs",data)
+         this.setState({
+          cityWise:data
+         })
         }
+   
       }).catch((err)=>{
           console.log(err);
       })
     }
 
+
+    LogGraph =()=>{
+      console.log();
+      let recruiterEmail = "recruiter4@gmail.com";
+      axios.defaults.withCredentials = true;
+      axios.defaults.headers.common["Authorization"] =localStorage.getItem("user");
+      axios.get(`${URI.ROOT_URL}/graph_log_event`, {
+        params: {
+          recruiterEmail
+        }
+      }).then((res)=>{
+        if (res.status === 200) {
+          console.log(res)
+        //   data = {
+        //     labels: res.data.lables,
+        //     datasets: [
+        //       {
+        //         label: "My dataset",
+        //         fillColor: "rgba(151,187,205,0.2)",
+        //         strokeColor: "rgba(151,187,205,1)",
+        //         pointColor: "rgba(151,187,205,1)",
+        //         pointStrokeColor: "#fff",
+        //         pointHighlightFill: "#fff",
+        //         pointHighlightStroke: "rgba(151,187,205,1)",
+                
+        //         data: res.data.values
+        //       }
+        //     ]
+        //   };
+        //   console.log("City Wise Jobs",data)
+        //  this.setState({
+        //   logGraph:data
+        //  })
+        }
+   
+      }).catch((err)=>{
+          console.log(err);
+      })
+    }
 
 
 
@@ -238,6 +285,7 @@ class RecruiterGraphs extends Component {
       this.ClicksPerJob()
       this.UnpopularJobs();
     this.populateCity();
+    this.LogGraph();
   }
 
   componentWillMount(){
@@ -385,6 +433,35 @@ class RecruiterGraphs extends Component {
               </div>
             </div>
           </div>
+          <br />
+          <br />
+
+
+          <div className="row">
+            <div className="col-12">
+              <div className="card shadow-lg">
+                <div className="card-body">
+                  <h5 className="card-title">Unpopular Jobs</h5>
+                  <div className="row">
+                    <div className="col-8">
+                    {this.state.unpopularJobs===null ? null: <BarChart data={this.state.unpopularJobs} width="600" height="250" /> }
+                    </div>
+          
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div> 
+
+ <br />
+          <br />
+
+
+          <br />
+          <br />
+
+
+
 
         </div>
       </div>
