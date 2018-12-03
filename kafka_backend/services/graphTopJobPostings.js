@@ -37,7 +37,7 @@ async function handle_request(msg, callback) {
             "#BF00FF", "#00FFFF", "#FFC0CB"]
         let values = []
         for (var i = 0; i < total_jobs.length; i++) {
-            label.push(total_jobs[i][1] +"_"+total_jobs[i][0])
+            label.push(total_jobs[i][1])
             values.push(total_jobs[i][2])
         }
         resp = prepareSuccess({'colors':colors, 'values':values,'label':label});
