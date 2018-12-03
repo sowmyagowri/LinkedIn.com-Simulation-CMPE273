@@ -8,78 +8,125 @@ import URI from "../../constants/URI"
 
 var BarChart = require("react-chartjs").Bar;
 
-function rand(min, max, num) {
-  var rtn = [];
-  while (rtn.length < num) {
-    rtn.push(Math.random() * (max - min) + min);
-  }
-  return rtn;
-}
 
 
-const data = {
-  labels: [
-    "Job1",
-    "Job2",
-    "Job3",
-    "Job4",
-    "Job5",
-    "Job6",
-    "Job7",
-    "Job8",
-    "Job9",
-    "Job10"
-  ],
-  datasets: [
-    {
-      label: "My dataset",
-      fillColor: "rgba(151,187,205,0.2)",
-      strokeColor: "rgba(151,187,205,1)",
-      pointColor: "rgba(151,187,205,1)",
-      pointStrokeColor: "#fff",
-      pointHighlightFill: "#fff",
-      pointHighlightStroke: "rgba(151,187,205,1)",
-      data: rand(32, 100, 10)
-    }
-  ]
-};
 
 class RecruiterGraphs extends Component {
   constructor(props) {
     super(props);
-    this.state = {};
-  }
+    this.state = {
+      topten:null,
+      clicksPerJob:null,
+      topTenMonth:"1"
 
-  
-componentDidMount() {
-        let recruiterEmail = "recruiter3@gmail.com";
-        let month = "12"
-        axios.defaults.withCredentials = true;
-        axios.defaults.headers.common["Authorization"] =localStorage.getItem("user");
-        axios.get(`${URI.ROOT_URL}/graph_top_job_postings`, {
-          params: {
-            recruiterEmail,
-            month
-          }
-        }).then((res)=>{
-          if (res.status === 200) {
-            console.log(res)
-          }
-        }).catch((err)=>{
-            console.log(err);
-        })
-  
     };
 
-  
+    this.TopTenMonthChangeHandler.bind(this);
+    this.TopTenJobs.bind(this);
+    this.ClicksPerJob.bind(this);
+  }
+
+
+    
+
+    TopTenMonthChangeHandler= (e)=>{
+     this.setState({
+      topTenMonth:e.target.value+""
+     })
+     this.TopTenJobs(e.target.value+"")
+    }
+
+
+     TopTenJobs =(month)=>{
+      let data = null;
+      let recruiterEmail = "recruiter3@gmail.com";
+      axios.defaults.withCredentials = true;
+      axios.defaults.headers.common["Authorization"] =localStorage.getItem("user");
+        axios.get(`${URI.ROOT_URL}/graph_top_job_postings`, {
+        params: {
+          recruiterEmail,
+          month
+        }
+      }).then((res)=>{
+        if (res.status === 200) {
+          console.log(res);
+          data = {
+            labels: res.data.label.slice(0,10),
+            datasets: [
+              {
+                label: "My dataset",
+                fillColor: "rgba(151,187,205,0.2)",
+                strokeColor: "rgba(151,187,205,1)",
+                pointColor: "rgba(151,187,205,1)",
+                pointStrokeColor: "#fff",
+                pointHighlightFill: "#fff",
+                pointHighlightStroke: "rgba(151,187,205,1)",
+                data: res.data.values.slice(0,10)
+              }
+            ]
+          };
+         this.setState({
+           topten:data
+         })
+        }
+      }).catch((err)=>{
+          console.log(err);
+      })
+    }
 
 
 
+    ClicksPerJob =()=>{
+      let data = null;
+      let recruiterEmail = "recruiter3@gmail.com";
+      axios.defaults.withCredentials = true;
+      axios.defaults.headers.common["Authorization"] =localStorage.getItem("user");
+      axios.get(`${URI.ROOT_URL}/graph_clicks_per_job`, {
+        params: {
+          recruiterEmail,
+        }
+      }).then((res)=>{
+        if (res.status === 200) {
+          console.log("Hello", res);
+          data = {
+            labels: res.data.label,
+            datasets: [
+              {
+                label: "My dataset",
+                fillColor: "rgba(151,187,205,0.2)",
+                strokeColor: "rgba(151,187,205,1)",
+                pointColor: "rgba(151,187,205,1)",
+                pointStrokeColor: "#fff",
+                pointHighlightFill: "#fff",
+                pointHighlightStroke: "rgba(151,187,205,1)",
+                data: res.data.values
+              }
+            ]
+          };
+
+         this.setState({
+          clicksPerJob:data
+         })
+        }
+      }).catch((err)=>{
+          console.log(err);
+      })
+    }
+
+
+  componentDidMount(){
+
+    this.TopTenJobs(this.state.topTenMonth)
+    this.ClicksPerJob()
+  }
 
   componentWillMount(){
     checkValidityRecruiter(this);
+
+  
   }
   render() {
+
     return (
       <div>
         <PostJobNav />
@@ -89,36 +136,50 @@ componentDidMount() {
         <div className="container">
           <div className="row">
             <div className="col-12">
-              <div class="card shadow-lg">
-                <div class="card-body">
-                  <h5 class="card-title">Top 10 Jobs Per Month</h5>
-                  {/* <h6 class="card-subtitle mb-2 text-muted">Card subtitle</h6> */}
+              <div className="card shadow-lg">
+                <div className="card-body">
+                  <h5 className="card-title">Top 10 Jobs Per Month</h5>
                   <div className="row">
                     <div className="col-8">
-                      <BarChart data={data} width="600" height="250" />{" "}
+                    {this.state.topten===null ? null: <BarChart data={this.state.topten} width="600" height="250" /> }
+                      
                     </div>
                     <div className="col-4">
                       <br />
                       <br />
                       <h5> Select Month</h5>
-                      <select class="form-control">
-                        <option>January</option>
-                        <option>Febuary</option>
-                        <option>March</option>
-                        <option>April</option>
-                        <option>May</option>
-                        <option>June</option>
-                        <option>July</option>
-                        <option>August</option>
-                        <option>September</option>
-                        <option>October</option>
-                        <option>November</option>
-                        <option>December</option>
+                      <select onChange={this.TopTenMonthChangeHandler}  className="form-control">
+                        <option value="1">January</option>
+                        <option value="2">Febuary</option>
+                        <option value="3">March</option>
+                        <option value="4">April</option>
+                        <option value="5">May</option>
+                        <option value="6">June</option>
+                        <option value="7">July</option>
+                        <option value="8">August</option>
+                        <option value="9">September</option>
+                        <option value="10">October</option>
+                        <option value="11">November</option>
+                        <option value="12">December</option>
                       </select>
                     </div>
                   </div>
                 </div>
               </div>
+
+
+              {/* <div className="card shadow-lg">
+                <div className="card-body">
+                  <h5 className="card-title">Clicks Per Job </h5>
+                  <div className="row">
+                    <div className="col-12">
+                    {this.state.clicksPerJob===null ? null: <BarChart data={this.state.clicksPerJob} width="600" height="250" /> } 
+                    </div>
+                  </div>
+                </div>
+              </div> */}
+
+
             </div>
           </div>
 
@@ -127,10 +188,10 @@ componentDidMount() {
 
           {/* <div className="row">
             <div className="col-12">
-              <div class="card shadow-lg">
-                <div class="card-body">
-                  <h5 class="card-title">City wise Application/month</h5>
-                  {/* <h6 class="card-subtitle mb-2 text-muted">Card subtitle</h6> 
+              <div className="card shadow-lg">
+                <div className="card-body">
+                  <h5 className="card-title">City wise Application/month</h5>
+                  {/* <h6 className="card-subtitle mb-2 text-muted">Card subtitle</h6> 
                   <div className="row">
                     <div className="col-8">
                       <BarChart data={data} width="600" height="250" />
@@ -139,7 +200,7 @@ componentDidMount() {
                       <br />
                       <br />
                       <h5> Select Job Posting</h5>
-                      <select class="form-control" />
+                      <select className="form-control" />
                     </div>
                   </div>
                 </div>
