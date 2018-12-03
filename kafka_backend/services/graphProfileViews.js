@@ -26,22 +26,37 @@ async function handle_request(msg, callback) {
                 _id: 0
             }
         )
-        console.log("Data - ", data);
         var view_dict = {};
         if (data && data[0]) {
             var data_list = data[0].profileViews;
             for (var i = 0; i < data_list.length; i++) {
                 if (range.contains(data_list[i])) {
-                    if (data_list[i].getDate() in view_dict) {
-                        view_dict[data_list[i].getDate()] += 1;
+                    let key = (data_list[i].getMonth() + 1) + "/" + data_list[i].getDate();
+                    if (key in view_dict) {
+                        view_dict[key] += 1;
                     }
                     else {
-                        view_dict[data_list[i].getDate()] = 1;
+                        view_dict[key] = 1;
                     }
                 }
             }
         }
-        resp = prepareSuccess({ "data": view_dict });
+        let values = []
+        let labels = []
+        let limit = new Date(new Date() - 8 * 60 * 60000 + 1 * 24 * 60 * 60000);
+        for (var d = limit_date; d <= limit; d.setDate(d.getDate() + 1)) {
+            let k = (new Date(d).getMonth() + 1) + "/" + new Date(d).getDate();
+            if(k in view_dict){
+                labels.push(k);
+                values.push(view_dict[k]);
+            }
+            else{
+                labels.push(k);
+                values.push(0);
+            }
+        }
+
+        resp = prepareSuccess({ "labels" : labels, "values" : values });
     }
     catch (error) {
         console.log("Something went wrong while getting data! : ", error);
