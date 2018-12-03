@@ -10,7 +10,6 @@ import ViewJob from './SearchJobs/Viewjob';
 import ViewSavedJobs from './SearchJobs/Viewsavedjobs';
 import MyNetwork from './Connections/Mynetwork'
 import Inbox from './Messages/Inbox'
-import EasyApply from './SearchJobs/Easyapply'
 import ApplyJob from './SearchJobs/JobApply'
 import PostAJobHome from './PostJobs/PostAJobHome'
 import PostAJobHeader from './PostJobs/PostJobHeader'
@@ -50,7 +49,6 @@ class Main extends Component {
                 <Route path="/messages" component={Inbox}/>
                 <Route path="/mynetwork" component={MyNetwork}/>
                 <Route path="/myconnections" component={MyConnections}/>
-                <Route path="/easyapply/:jobid" component={EasyApply}/>
                 <Route path="/applyjob/:jobid" component={ApplyJob}/>
                 <Route path="/job/view/:jobid" component={ViewJob}/>
                 <Route path="/job/saved" component={ViewSavedJobs}/>
