@@ -7,6 +7,7 @@ var cookieParser = require('cookie-parser');
 let signupRecruiter = require('./routes/signupRecruiter')
 let addRecruiterRole = require('./routes/addRecruiterRole');
 let signupApplicant = require('./routes/signupApplicant');
+let signupApplicantCheck = require('./routes/signupApplicantCheck');
 let signinRecruiter = require('./routes/signinRecruiter');
 let signinApplicant = require('./routes/signinApplicant');
 let postJob = require('./routes/postJob');
@@ -77,6 +78,7 @@ app.use(morgan('dev'));
 // define routes
 app.use("/signup_recruiter/", signupRecruiter);
 app.use("/signup_applicant/", signupApplicant);
+app.use("/signup_applicant_check/", signupApplicantCheck);
 app.use("/signin_recruiter/", signinRecruiter);
 app.use("/signin_applicant/", signinApplicant);
 app.use('/profilepictures', express.static(path.join(__dirname, '/profilepictures/')));

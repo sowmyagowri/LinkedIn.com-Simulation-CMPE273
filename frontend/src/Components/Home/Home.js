@@ -5,7 +5,7 @@ import { reduxForm } from "redux-form";
 import {Redirect} from 'react-router';
 import { withRouter } from 'react-router-dom';
 import { connect } from "react-redux";
-import { applicantlogin, applicantsignup } from '../../Actions';
+import { applicantlogin, applicantsignupcheck } from '../../Actions/applicant_login_profile_actions';
 import validator from 'validator';
 import { userConstants } from '../../constants';
 import SweetAlert from 'react-bootstrap-sweetalert';
@@ -134,13 +134,10 @@ class Home extends Component{
         if (this.handleValidation()) {
             const { firstname, lastname, email, password } = this.state;
             const data = {
-                firstname : firstname.value,
-                lastname : lastname.value,
                 email : email.value,
-                password : password.value
             }
             console.log(data);
-            this.props.applicantsignup(data).then(response => {
+            this.props.applicantsignupcheck(data).then(response => {
                 if(response.payload.status === 200){
                     this.props.history.push({
                         pathname:"/profilelocation/new",
@@ -284,4 +281,4 @@ function mapStateToProps(state) {
   }
   export default withRouter(reduxForm({
     form: "Home_Page"
-  })(connect(mapStateToProps, { applicantlogin, applicantsignup })(Home)));
+  })(connect(mapStateToProps, { applicantlogin, applicantsignupcheck })(Home)));
