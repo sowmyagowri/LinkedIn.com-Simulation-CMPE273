@@ -100,7 +100,6 @@ class RecruiterSearchPeople extends Component {
                 );
               }
             }
-
             this.setState({
               connectionResults: connectionResults
             });

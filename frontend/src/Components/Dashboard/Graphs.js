@@ -49,7 +49,6 @@ class RecruiterGraphs extends Component {
         }
       }).then((res)=>{
         if (res.status === 200) {
-          console.log(res);
           data = {
             labels: res.data.label.slice(0,10),
             datasets: [
@@ -65,6 +64,9 @@ class RecruiterGraphs extends Component {
               }
             ]
           };
+
+          console.log("Top Ten", data);
+
          this.setState({
            topten:data
          })
@@ -103,7 +105,7 @@ class RecruiterGraphs extends Component {
               }
             ]
           };
-
+          console.log("Clicks Per Job",data)
          this.setState({
           clicksPerJob:data
          })
@@ -114,10 +116,9 @@ class RecruiterGraphs extends Component {
     }
 
 
-  componentDidMount(){
-
-    this.TopTenJobs(this.state.topTenMonth)
-    this.ClicksPerJob()
+   componentDidMount() {
+      this.TopTenJobs(this.state.topTenMonth)
+      this.ClicksPerJob()
   }
 
   componentWillMount(){
@@ -142,7 +143,6 @@ class RecruiterGraphs extends Component {
                   <div className="row">
                     <div className="col-8">
                     {this.state.topten===null ? null: <BarChart data={this.state.topten} width="600" height="250" /> }
-                      
                     </div>
                     <div className="col-4">
                       <br />
@@ -166,35 +166,19 @@ class RecruiterGraphs extends Component {
                   </div>
                 </div>
               </div>
-
-
-              {/* <div className="card shadow-lg">
-                <div className="card-body">
-                  <h5 className="card-title">Clicks Per Job </h5>
-                  <div className="row">
-                    <div className="col-12">
-                    {this.state.clicksPerJob===null ? null: <BarChart data={this.state.clicksPerJob} width="600" height="250" /> } 
-                    </div>
-                  </div>
-                </div>
-              </div> */}
-
-
             </div>
           </div>
-
           <br />
           <br />
 
-          {/* <div className="row">
+          <div className="row">
             <div className="col-12">
               <div className="card shadow-lg">
                 <div className="card-body">
                   <h5 className="card-title">City wise Application/month</h5>
-                  {/* <h6 className="card-subtitle mb-2 text-muted">Card subtitle</h6> 
                   <div className="row">
                     <div className="col-8">
-                      <BarChart data={data} width="600" height="250" />
+                    {this.state.clicksPerJob===null ? null: <BarChart data={this.state.clicksPerJob} width="600" height="250" /> }
                     </div>
                     <div className="col-4">
                       <br />
@@ -206,7 +190,7 @@ class RecruiterGraphs extends Component {
                 </div>
               </div>
             </div>
-          </div> */}
+          </div> 
 
 
           
