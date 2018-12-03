@@ -52,20 +52,20 @@ const UPDATE_JOB_VIEWS_RESPONSE = "updateJobViewsResponse";
 const GRAPHS_CLICK_PER_JOB_REQUEST = "graphClicksPerJobRequest";
 const GRAPHS_CLICK_PER_JOB_RESPONSE = "graphClicksPerJobResponse";
 
-const GRAPHS_UNPOPULAR_JOB_POSTINGS_REQUEST = "graphClicksPerJobRequest";
-const GRAPHS_UNPOPULAR_JOB_POSTINGS_RESPONSE = "graphClicksPerJobResponse";
+const GRAPHS_UNPOPULAR_JOB_POSTINGS_REQUEST = "graphUnpopularJobPostingsRequest";
+const GRAPHS_UNPOPULAR_JOB_POSTINGS_RESPONSE = "graphUnpopularJobPostingsResponse";
 
-const GRAPHS_CITYWISE_APPLICATION_REQUEST = "graphClicksPerJobRequest";
-const GRAPHS_CITYWISE_APPLICATION_RESPONSE = "graphClicksPerJobResponse";
+const GRAPHS_CITYWISE_APPLICATION_REQUEST = "graphCitywiseApplicationRequest";
+const GRAPHS_CITYWISE_APPLICATION_RESPONSE = "graphCitywiseApplicationResponse";
 
-const GRAPHS_LOG_EVENT_REQUEST = "graphClicksPerJobRequest";
-const GRAPHS_LOG_EVENT_RESPONSE = "graphClicksPerJobResponse";
+const GRAPHS_LOG_EVENT_REQUEST = "graphLogEventRequest";
+const GRAPHS_LOG_EVENT_RESPONSE = "graphLogEventResponse";
 
-const GRAPH_PROFILE_VIEWS_REQUEST = "graphClicksPerJobRequest";
-const GRAPH_PROFILE_VIEWS_RESPONSE = "graphClicksPerJobResponse";
+const GRAPH_PROFILE_VIEWS_REQUEST = "graphProfileViewsRequest";
+const GRAPH_PROFILE_VIEWS_RESPONSE = "graphProfileViewsResponse";
 
-const GRAPHS_TOP_JOB_POSTINGS_REQUEST = "graphClicksPerJobRequest";
-const GRAPHS_TOP_JOB_POSTINGS_RESPONSE = "graphClicksPerJobResponse";
+const GRAPHS_TOP_JOB_POSTINGS_REQUEST = "graphTopJobPostingsRequest";
+const GRAPHS_TOP_JOB_POSTINGS_RESPONSE = "graphTopJobPostingsResponse";
 
 
 
