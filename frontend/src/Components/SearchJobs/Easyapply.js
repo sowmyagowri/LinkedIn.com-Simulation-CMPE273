@@ -53,7 +53,7 @@ class Easyapply extends Component{
                         lastname : response.payload.data.profile.lastName,
                         phonenumber : response.payload.data.profile.phoneNumber === 0 ? "" : response.payload.data.profile.phoneNumber,
                         email : response.payload.data.profile.email,
-                        resume : response.payload.data.profile.resume,
+                        resume : response.payload.data.profile.resume === null ? "" : response.payload.data.profile.resume,
                         address : response.payload.data.profile.address,
                         profilephoto : response.payload.data.profile.profilePicture === "" ? "images/avatar.png" : response.payload.data.profile.profilePicture,
                         isLoading : false,
