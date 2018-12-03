@@ -14,10 +14,6 @@ function rand(min, max, num) {
   return rtn;
 }
 
-
-
-
-
 const data = {
   labels: [
     "Job1",

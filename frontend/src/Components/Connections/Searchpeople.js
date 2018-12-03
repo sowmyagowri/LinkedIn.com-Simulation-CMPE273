@@ -274,7 +274,8 @@ function mapStateToProps(state) {
         makeconnections: state.makeconnections,
         getAllConnections : state.getAllConnections,
         searchpeople : state.searchpeople,
-        postMessage : state.postMessage
+        postMessage : state.postMessage,
+        logprofileview : state.logprofileview
     };
 }
 
