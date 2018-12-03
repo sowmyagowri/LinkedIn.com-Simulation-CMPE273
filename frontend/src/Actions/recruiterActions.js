@@ -29,6 +29,7 @@ export const APPLICATIONS_FETCH_SUCCESS = "applications_fetch_success";
 export const APPLICATIONS_FETCH_FAILURE = "applications_fetch_failure";
 
 
+
 export function recruiterSignUp(data) {
     return async dispatch => {
       try {
@@ -169,10 +170,12 @@ export function getRecruiterJobs() {
 }
 
 
-export function getAllApplicationsForJob() {
+
+
+export function getAllApplicationsForJob(jobID) {
   //let recruiterEmail = localStorage.getItem("username");
 
-  let jobID = "5c01ee70fcfe329f94c4043d";
+   jobID = "5c01ee70fcfe329f94c4043d";
 
   return async dispatch => {
     try {

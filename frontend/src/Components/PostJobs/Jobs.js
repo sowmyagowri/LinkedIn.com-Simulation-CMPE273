@@ -3,7 +3,7 @@ import PostJobNav from "./PostJobNav";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { withRouter } from "react-router-dom";
 import { connect } from "react-redux";
-import { getRecruiterJobs } from "../../Actions/recruiterActions";
+import { getRecruiterJobs, getAllApplicationsForJob } from "../../Actions/recruiterActions";
 import { v4 } from "node-uuid";
 import moment from "moment";
 import { populateJobsForm } from "../../Actions/recruiterActions";
@@ -34,6 +34,8 @@ class Jobs extends Component {
     });
   };
 
+
+  
   
   render() {
     let jobs = null;
@@ -82,6 +84,7 @@ class Jobs extends Component {
                       type="button"
                       className="btn btn-block blueBackground text-white"
                       onClick={()=>{
+                        console.log(job._id);
                         this.props.getAllApplicationsForJob(job._id);
                         this.props.history.push("/applications");
 
@@ -212,6 +215,6 @@ function mapStateToProps(state) {
 export default withRouter(
   connect(
     mapStateToProps,
-    { getRecruiterJobs, populateJobsForm }
+    { getRecruiterJobs, populateJobsForm, getAllApplicationsForJob }
   )(Jobs)
 );

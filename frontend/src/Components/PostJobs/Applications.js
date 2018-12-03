@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import PostJobNav from "./PostJobNav";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { withRouter } from "react-router-dom";
+import axios from "axios";
 import { connect } from "react-redux";
 import { getAllApplicationsForJob } from "../../Actions/recruiterActions";
 import { v4 } from "node-uuid";
@@ -9,6 +10,14 @@ import moment from "moment";
 import { Document, Page } from "react-pdf";
 import { pdfjs } from "react-pdf";
 import URI from "../../constants/URI"
+import { userConstants } from "../../constants";
+
+import {
+  getAllConnections,
+  makeconnections,
+  searchpeople
+} from "../../Actions/action_connections";
+import { logprofileview } from "../../Actions/applicant_login_profile_actions";
 import checkValidityRecruiter from "../../Actions/ValidityScript"
 pdfjs.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/${
   pdfjs.version
@@ -18,6 +27,7 @@ class RecruiterJobApplications extends Component {
 
   componentWillMount() {
     checkValidityRecruiter(this);
+        this.props.getAllApplicationsForJob("a")
   }
 
   constructor(props) {
@@ -38,10 +48,96 @@ class RecruiterJobApplications extends Component {
 
 
 
-  componentDidMount(){
-    this.props.getAllApplicationsForJob();
-  }
 
+  getConnections= () => {
+
+    return new Promise((resolve,reject)=>{
+
+      const token = JSON.parse(localStorage.getItem(userConstants.AUTH_TOKEN));
+      this.props.getAllConnections(token).then(response => {
+        console.log("response:", response);
+        if (response.payload.status === 200) {
+          var connectionResults = [];
+          var approved =
+            response.payload.data.connections.connectionsApproved;
+          var incoming =
+            response.payload.data.connections.connectionsIncoming;
+          var outgoing =
+            response.payload.data.connections.connectionsOutgoing;
+          var i = 0;
+          if (approved.length > 0) {
+            for (i = 0; i < approved.length; i++) {
+              connectionResults.push(
+                JSON.parse(JSON.stringify(approved[i].email))
+              );
+            }
+          }
+          if (incoming.length > 0) {
+            for (i = 0; i < incoming.length; i++) {
+              connectionResults.push(
+                JSON.parse(JSON.stringify(incoming[i].email))
+              );
+            }
+          }
+          if (outgoing.length > 0) {
+            for (i = 0; i < outgoing.length; i++) {
+              connectionResults.push(
+                JSON.parse(JSON.stringify(outgoing[i].email))
+              );
+            }
+          }
+          resolve(connectionResults);
+        }
+      }).catch((err)=>{
+        reject(err);
+
+      });
+    })
+
+  }
+  
+  checkcondition = email => {
+    var result = this.state.connectionResults.includes(email);
+    return result;
+  };
+
+
+  goToProfile = (email) => {
+    //Fetch Profile
+  //let recruiterEmail = localStorage.getItem("username");
+  console.log(email)
+      axios.defaults.withCredentials = true;
+      axios.defaults.headers.common["Authorization"] =localStorage.getItem("user");
+      axios.get(`${URI.ROOT_URL}/get_applicant_profile`, {
+        params: {
+          email
+        }
+      }).then((res)=>{
+        console.log(res.data.profile);
+         this.getConnections().then((connections)=>{
+          console.log(connections);
+          const token = JSON.parse(localStorage.getItem(userConstants.AUTH_TOKEN));
+          const data = {
+            email
+          };
+          this.props.logprofileview(data, token).then(response => {
+            if (response.payload.status === 200) {
+              console.log("Profile view logged");
+            }
+          });
+          this.props.history.push({
+            pathname: "/recruiteruserprofile/" + res.data.profile._id,
+            state: {
+              profile: res.data.profile,
+              requestconnection: connections.includes(email)
+            }
+          });
+
+        });
+        
+      })
+  };
+ 
 
 
   searchChangeListener = e => {
@@ -67,7 +163,10 @@ class RecruiterJobApplications extends Component {
                     <h5
                       style={{ fontWeight: "500" }}
                       className="linkBlue"
-                      href="/"
+                      href=" "
+                      onClick ={()=>{
+                        this.goToProfile(application.applicant_email)
+                      }}
                     >
                       {application.first_name}{" "}{application.last_name}
                     </h5>
@@ -121,6 +220,9 @@ class RecruiterJobApplications extends Component {
           
         );
                     }
+
+
+                    
       });
 
 
@@ -165,7 +267,9 @@ class RecruiterJobApplications extends Component {
               <button
                 type="button"
                 className="btn btn-block btn-lg blueBackground text-white shadow-lg"
-                
+                onClick={()=>{
+                  this.goToProfile("saranya@gmail.com");
+                }}
               >
                 Search
               </button>
@@ -218,14 +322,24 @@ class RecruiterJobApplications extends Component {
 
 function mapStateToProps(state) {
   return {
-    applicationsState: state.ApplicationsReducer
+    applicationsState: state.ApplicationsReducer,
+    makeconnections: state.makeconnections,
+    getAllConnections: state.getAllConnections,
+    searchpeople: state.searchpeople,
+    postMessage: state.postMessage
+    
   };
 }
 
 export default withRouter(
   connect(
     mapStateToProps,
-    { getAllApplicationsForJob }
+    { getAllApplicationsForJob,
+      makeconnections,
+      getAllConnections,
+      searchpeople,
+      logprofileview
+    }
   )(RecruiterJobApplications)
 );
 

@@ -49,26 +49,16 @@ const POST_APPLICANT_PROFILE_SKILLS_RESPONSE = "postApplicantProfileSkillsRespon
 const POST_APPLICANT_PROFILE_PHOTO_REQUEST =  "postApplicantProfilePhotoRequest";
 const POST_APPLICANT_PROFILE_PHOTO_RESPONSE = "postApplicantProfilePhotoResponse";
 
-const GRAPHS_CLICK_PER_JOB_REQUEST = "graphClicksPerJobRequest";
-const GRAPHS_CLICK_PER_JOB_RESPONSE = "graphClicksPerJobResponse";
 
-const GRAPHS_TOP_JOB_POSTINGS_REQUEST = "graphTopJobPostingsRequest";
-const GRAPHS_TOP_JOB_POSTINGS_RESPONSE = "graphTopJobPostingsResponse";
 
 const UPDATE_JOB_CLICKS_REQUEST = "updateJobClicksRequest";
 const UPDATE_JOB_CLICKS_RESPONSE = "updateJobClicksResponse";
 
-const GRAPHS_UNPOPULAR_JOB_POSTINGS_REQUEST = "graphUnpopularJobPostingsRequest";
-const GRAPHS_UNPOPULAR_JOB_POSTINGS_RESPONSE = "graphUnpopularJobPostingsResponse";
-
-const GRAPHS_CITYWISE_APPLICATION_REQUEST = "graphCitywiseApplicationRequest";
-const GRAPHS_CITYWISE_APPLICATION_RESPONSE = "graphCitywiseApplicationResponse";
 
 const LOG_EVENT_REQUEST = "logEventRequest";
 const LOG_EVENT_RESPONSE = "logEventResponse";
 
-const GRAPHS_LOG_EVENT_REQUEST = "graphLogEventRequest";
-const GRAPHS_LOG_EVENT_RESPONSE = "graphLogEventResponse";
+
 
 const SEND_MESSAGE_REQUEST = "sendMessageRequest";
 const SEND_MESSAGE_RESPONSE = "sendMessageResponse";
@@ -100,14 +90,28 @@ const SEARCH_JOBS_RESPONSE = "searchJobsResponse";
 const SEARCH_PEOPLE_REQUEST = "searchPeopleRequest";
 const SEARCH_PEOPLE_RESPONSE = "searchPeopleResponse";
 
-const GRAPH_PROFILE_VIEWS_REQUEST = "graphProfileViewsRequest";
-const GRAPH_PROFILE_VIEWS_RESPONSE = "graphProfileViewsResponse";
 
 const UPDATE_PROFILE_VIEWS_REQUEST = "updateProfileViewsRequest";
 const UPDATE_PROFILE_VIEWS_RESPONSE = "updateProfileViewsResponse";
 
 const GET_ALL_APPLICATIONS_REQUEST = "getAllApplicationsRequest";
 const GET_ALL_APPLICATIONS_RESPONSE = "getAllApplicationsResponse";
+
+
+
+const GRAPHS_CLICK_PER_JOB_REQUEST = "graphClicksPerJobRequest";
+const GRAPHS_CLICK_PER_JOB_RESPONSE = "graphClicksPerJobResponse";
+const GRAPHS_UNPOPULAR_JOB_POSTINGS_REQUEST = "graphUnpopularJobPostingsRequest";
+const GRAPHS_UNPOPULAR_JOB_POSTINGS_RESPONSE = "graphUnpopularJobPostingsResponse";
+const GRAPHS_CITYWISE_APPLICATION_REQUEST = "graphCitywiseApplicationRequest";
+const GRAPHS_CITYWISE_APPLICATION_RESPONSE = "graphCitywiseApplicationResponse";
+const GRAPHS_LOG_EVENT_REQUEST = "graphLogEventRequest";
+const GRAPHS_LOG_EVENT_RESPONSE = "graphLogEventResponse";
+const GRAPH_PROFILE_VIEWS_REQUEST = "graphProfileViewsRequest";
+const GRAPH_PROFILE_VIEWS_RESPONSE = "graphProfileViewsResponse";
+const GRAPHS_TOP_JOB_POSTINGS_REQUEST = "graphTopJobPostingsRequest";
+const GRAPHS_TOP_JOB_POSTINGS_RESPONSE = "graphTopJobPostingsResponse";
+
 
 module.exports = {
     SIGNIN_RECRUITER_REQUEST_TOPIC, SIGNIN_RECRUITER_RESPONSE_TOPIC,
