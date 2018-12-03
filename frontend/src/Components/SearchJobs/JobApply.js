@@ -23,6 +23,7 @@ class JobApply extends Component{
           phonenumber : "",
           email : "",
           address : "",
+          city : "",
           profilephoto : "",
           resume : "",
           coverletter : "",
@@ -45,6 +46,7 @@ class JobApply extends Component{
             email : false,
             ethnicity : false,
             address : false,
+            city : false,
             question : false,
             resume : false,
             coverletter : false,
@@ -143,7 +145,7 @@ class JobApply extends Component{
 
     cancelApply = (e) => {
         var touchedfields = this.state.touchedfields;
-        if (touchedfields.firstname || touchedfields.lastname || touchedfields.phonenumber || touchedfields.email || touchedfields.ethnicity || touchedfields.address || touchedfields.question || touchedfields.resume || touchedfields.coverletter || touchedfields.sponsorship || touchedfields.disability ) {
+        if (touchedfields.firstname || touchedfields.lastname || touchedfields.phonenumber || touchedfields.email || touchedfields.ethnicity || touchedfields.address || touchedfields.city || touchedfields.question || touchedfields.resume || touchedfields.coverletter || touchedfields.sponsorship || touchedfields.disability ) {
             var halffilled = true
         }
         const token =  JSON.parse(localStorage.getItem(userConstants.AUTH_TOKEN));
@@ -177,8 +179,8 @@ class JobApply extends Component{
 
     handleValidation () {
         let formIsValid = false;
-        const errors = validateprofile(this.state.firstname, this.state.lastname, this.state.phonenumber, this.state.email, this.state.address, this.state.resume);
-        if(!errors.firstname && !errors.lastname && !errors.lastname && !errors.phonenumber && !errors.email && !errors.address && !errors.resume){
+        const errors = validateprofile(this.state.firstname, this.state.lastname, this.state.phonenumber, this.state.email, this.state.address, this.state.city, this.state.resume);
+        if(!errors.firstname && !errors.lastname && !errors.lastname && !errors.phonenumber && !errors.email && !errors.address && !errors.city && !errors.resume){
           formIsValid = true
         }
         return formIsValid;
@@ -194,6 +196,7 @@ class JobApply extends Component{
                 applicantEmail : this.state.email,
                 phoneNumber : this.state.phonenumber,
                 address : this.state.address,
+                city : this.state.city,
                 diversity_question : this.state.ethnicity,
                 disability_que : this.state.disability,
                 sponsorship_que : this.state.sponsorship,
@@ -242,7 +245,7 @@ class JobApply extends Component{
         const {profile, jobdetails} = this.state;
         const {isLoading} = this.state;
         if(!isLoading){
-            const errors = validateprofile(this.state.firstname, this.state.lastname, this.state.phonenumber, this.state.email, this.state.address, this.state.resume);
+            const errors = validateprofile(this.state.firstname, this.state.lastname, this.state.phonenumber, this.state.email, this.state.address, this.state.city, this.state.resume);
             var shouldMarkError = (field) => {
                 const hasError = errors[field];
                 const shouldShow = this.state.touchedprofile[field];
@@ -317,13 +320,22 @@ class JobApply extends Component{
                                     }
                                 </div>
                                 <div className="row form-group">
-                                   <div className = "col-xs-12 col-md-12">
+                                   <div className = "col-xs-6 col-md-6">
                                         <label htmlFor="position-address-typeahead" className="mb1 required">Address*</label>
                                         <input className = "form-control" name = "address" onChange = {this.changeHandler} onBlur={this.handleBlur('address')} id="position-address-typeahead" maxLength="100" type="text"/>
                                     </div>
+                                    <div className = "col-xs-6 col-md-6">
+                                        <label htmlFor="position-city-typeahead" className="mb1 required">City*</label>
+                                        <input className = "form-control" name = "city" onChange = {this.changeHandler} onBlur={this.handleBlur('city')} id="position-city-typeahead" maxLength="100" type="text"/>
+                                    </div>
                                     {!isLoading ?
-                                        <div className = "col-xs-12 col-md-12">
+                                        <div className = "col-xs-6 col-md-6">
                                         {shouldMarkError('address') ? <div className=""  style = {{color: "red"}}>Address is a required field</div> : (null)}
+                                        </div> : (null)
+                                    }
+                                    {!isLoading ?
+                                        <div className = "col-xs-6 col-md-6">
+                                        {shouldMarkError('city') ? <div className=""  style = {{color: "red"}}>City is a required field</div> : (null)}
                                         </div> : (null)
                                     }
                                 </div>
@@ -411,7 +423,7 @@ class JobApply extends Component{
     }
 }
 
-function validateprofile(firstname, lastname, phonenumber, email, address, resume) {
+function validateprofile(firstname, lastname, phonenumber, email, address, city, resume) {
     // true means invalid, so our conditions got reversed
     return {
       firstname: firstname.length === 0, 
@@ -419,6 +431,7 @@ function validateprofile(firstname, lastname, phonenumber, email, address, resum
       phonenumber: phonenumber.length < 10 || phonenumber.length > 10,
       email: validator.isEmail(email) ? false : true,
       address : address.length === 0,
+      city : city.length === 0,
       resume: resume.length === 0,
     };
 }

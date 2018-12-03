@@ -31,6 +31,7 @@ async function handle_request(msg, callback) {
             first_name: msg.body.firstName,
             last_name: msg.body.lastName,
             address: msg.body.address,
+            city: msg.body.city,
             phone_number: msg.body.phoneNumber,
             how_did_they_hear_about_us: msg.body.howDidTheyHearAboutUs,
             diversity_question: msg.body.disabilityQuestion,

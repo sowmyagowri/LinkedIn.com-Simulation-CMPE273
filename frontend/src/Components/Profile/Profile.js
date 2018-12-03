@@ -71,7 +71,7 @@ class Profile extends Component{
                         profilesummary : response.payload.data.profile.profileSummary === undefined || "" ? "" : response.payload.data.profile.profileSummary,
                         state : response.payload.data.profile.state,
                         zipcode : response.payload.data.profile.zipcode,
-                        phonenumber : response.payload.data.profile.phoneNumber === undefined || null || ""  ? "" : response.payload.data.profile.phoneNumber,
+                        phonenumber : response.payload.data.profile.phoneNumber === 0 ? "" : response.payload.data.profile.phoneNumber,
                         address : response.payload.data.profile.address === undefined || "" ? "" : response.payload.data.profile.address,
                         experience : response.payload.data.profile.experience,
                         education : response.payload.data.profile.education,
@@ -86,7 +86,7 @@ class Profile extends Component{
                 this.refs.myprofilesummary.value = this.state.profiledata.profileSummary;
                 this.refs.mystate.value = this.state.profiledata.state;
                 this.refs.myzipcode.value = this.state.profiledata.zipcode;
-                this.refs.myphonenumber.value = this.state.profiledata.phonenumber === "" || null  ? "" : response.payload.data.profile.phoneNumber;
+                this.refs.myphonenumber.value = this.state.profiledata.phonenumber === undefined  || "" ? "" :  this.state.profiledata.phonenumber;
                 this.refs.myaddress.value = this.state.profiledata.address;
                 this.refs.myskills.value = this.state.profiledata.skills;
         })
