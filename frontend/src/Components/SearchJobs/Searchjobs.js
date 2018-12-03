@@ -236,12 +236,12 @@ class SearchJobs extends Component{
                                         <div className="checkbox-wrapper">
                                         <div className="checkbox" data-search="Full Time" >
                                             <label className = "align-boxes-center">
-                                            <input name="employment_type" onChange={this.changeHandler} value="FullTime" type="radio"/>&nbsp;&nbsp;Full Time
+                                            <input name="employment_type" onChange={this.changeHandler} value="Full Time" type="radio"/>&nbsp;&nbsp;Full Time
                                             </label>
                                         </div>   
                                         <div className="checkbox" data-search="Part Time" >
                                             <label className = "align-boxes-center">
-                                            <input name="employment_type" onChange={this.changeHandler} value="Parttime" type="radio"/>&nbsp;&nbsp;Part Time
+                                            <input name="employment_type" onChange={this.changeHandler} value="Part Time" type="radio"/>&nbsp;&nbsp;Part Time
                                             </label>
                                         </div>  
                                         <div className="checkbox" data-search="Contract" >
