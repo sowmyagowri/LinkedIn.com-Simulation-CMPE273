@@ -71,7 +71,7 @@ class Profile extends Component{
                         profilesummary : response.payload.data.profile.profileSummary === undefined || "" ? "" : response.payload.data.profile.profileSummary,
                         state : response.payload.data.profile.state,
                         zipcode : response.payload.data.profile.zipcode,
-                        phonenumber : response.payload.data.profile.phoneNumber === 0 ? "" : response.payload.data.profile.phoneNumber,
+                        phonenumber : response.payload.data.profile.phoneNumber === undefined || null || "" || 0 ? "" : response.payload.data.profile.phoneNumber,
                         address : response.payload.data.profile.address === undefined || "" ? "" : response.payload.data.profile.address,
                         experience : response.payload.data.profile.experience,
                         education : response.payload.data.profile.education,
@@ -86,7 +86,7 @@ class Profile extends Component{
                 this.refs.myprofilesummary.value = this.state.profiledata.profileSummary;
                 this.refs.mystate.value = this.state.profiledata.state;
                 this.refs.myzipcode.value = this.state.profiledata.zipcode;
-                this.refs.myphonenumber.value = this.state.profiledata.phonenumber === undefined  || "" ? "" :  this.state.profiledata.phonenumber;
+                this.refs.myphonenumber.value = this.state.profiledata.phonenumber === undefined || null || "" || 0 ? "" : response.payload.data.profile.phoneNumber;
                 this.refs.myaddress.value = this.state.profiledata.address;
                 this.refs.myskills.value = this.state.profiledata.skills;
         })
@@ -178,7 +178,7 @@ class Profile extends Component{
                 zipcode : this.state.zipcode,
                 address : this.state.address,
                 profileSummary : this.state.profilesummary,
-                phoneNumber : this.state.phonenumber,
+                phoneNumber : this.state.phonenumber === "" ? 0 : this.state.phonenumber,
                 resume : this.state.resume,
             }
 
@@ -470,7 +470,7 @@ class Profile extends Component{
                             </div>
 
                             <label htmlFor="position-phone-typeahead" className="mb1 required">Phone Number</label>
-                            <input className = "form-control" name = "phonenumber"  ref = "myphonenumber" onChange = {this.changeHandler}  id="position-phone-typeahead"  pattern="[0-9]{10}" placeholder="1234567890" type="text"/>
+                            <input className = "form-control" name = "phonenumber"  ref = "myphonenumber" onChange = {this.changeHandler}  id="position-phone-typeahead"  pattern="[0-9]{10}" placeholder="1234567890" type="number"/>
                             
                             <label htmlFor="position-address-typeahead" className="mb1 required">Address</label>
                             <textarea className = "form-control" name = "address"  ref = "myaddress" onChange = {this.changeHandler}  id="position-address-typeahead"/>
