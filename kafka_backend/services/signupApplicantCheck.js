@@ -1,5 +1,4 @@
 const db = require('./../config/mysql');
-var { Users } = require('../models/user');
 const { prepareInternalServerError, prepareSuccess, prepareResourceConflictFailure } = require('./responses')
 
 async function handle_request(msg, callback) {

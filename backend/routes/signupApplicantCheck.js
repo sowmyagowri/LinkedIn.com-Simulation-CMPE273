@@ -1,6 +1,6 @@
 const express = require("express");
 const kafka = require('./../kafka/client');
-const { SIGNUP_APPLICANT_REQUEST_TOPIC, SIGNUP_APPLICANT_RESPONSE_TOPIC } = require('./../kafka/topics');
+const { SIGNUP_APPLICANT_CHECK_REQUEST_TOPIC, SIGNUP_APPLICANT_CHECK_RESPONSE_TOPIC } = require('./../kafka/topics');
 const { responseHandler, sendInternalServerError, sendBadRequest } = require('./response');
 const router = express.Router();
 const jwt = require('jsonwebtoken');
@@ -22,7 +22,7 @@ router.post("/", (req, res) => {
         });
     }
     else {
-        kafka.make_request(SIGNUP_APPLICANT_REQUEST_TOPIC, SIGNUP_APPLICANT_RESPONSE_TOPIC, req.body, function (err, result) {
+        kafka.make_request(SIGNUP_APPLICANT_CHECK_REQUEST_TOPIC, SIGNUP_APPLICANT_CHECK_RESPONSE_TOPIC, req.body, function (err, result) {
             if (err) {
                 // called in case of time out error, or if we failed to send data over kafka
                 sendInternalServerError(res);
