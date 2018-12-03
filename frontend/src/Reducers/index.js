@@ -11,9 +11,11 @@ import RecruiterLoginReducer from "./reducer_recruiter_sigin";
 import RecruiterSignUpReducer from "./reducer_recruiter_signup";
 import AddJobReducer from "./reducer_addjobs";
 import ApplicationsReducer from "./reducer_applications";
+import RecruiterProfileReducer from "./reducer_recruiter_profile";
 
 const rootReducer = combineReducers({
     HomeReducer,
+    RecruiterProfileReducer,
     JobsReducer,
     ShowJobsReducer,
     RecruiterLoginReducer,

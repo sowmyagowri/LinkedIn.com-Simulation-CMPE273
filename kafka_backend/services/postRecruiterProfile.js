@@ -6,8 +6,8 @@ async function handle_request(msg, callback) {
     console.log("Inside kafka post Recruiter profile backend");
     console.log("In handle request:" + JSON.stringify(msg));
 
-    let firstName = msg.firstname;
-    let lastName = msg.lastname;
+    let firstName = msg.firstName;
+    let lastName = msg.lastName;
     let email = msg.email;
     let address = msg.address;
     let city = (msg.city).toLowerCase();

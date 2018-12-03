@@ -28,7 +28,11 @@ import MyConnections from './Connections/Myconnections';
 import UserProfile from './Connections/UserProfile';
 import NotARecruiter from './Recruiter/NotAReccruiter'
 import RecruiterJobApplications from './PostJobs/Applications'
+import RecruiterProfile from './Recruiter/RecruiterProfileForm'
+
 class Main extends Component {
+
+    
     render(){
         return(
             <div>
@@ -54,6 +58,7 @@ class Main extends Component {
                 <Route path="/postajob" component={PostAJobHeader}/>
                 <Route path="/editjob" component={EditJobHeader}/>
                 <Route path="/jobs" component={Jobs}/>
+                <Route path="/recprofile/" component={RecruiterProfile}/>
                 <Route path="/graphs/" component={RecruiterGraphs}/>
                 <Route path="/recruiterdash/" component={RecruiterDashboard}/>
                 <Route path="/Applications/" component={Applications}/>
