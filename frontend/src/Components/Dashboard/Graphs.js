@@ -17,13 +17,16 @@ class RecruiterGraphs extends Component {
     this.state = {
       topten:null,
       clicksPerJob:null,
-      topTenMonth:"1"
+      topTenMonth:"1",
+      unpopularJobs:null
 
     };
 
     this.TopTenMonthChangeHandler.bind(this);
     this.TopTenJobs.bind(this);
     this.ClicksPerJob.bind(this);
+    this.UnpopularJobs.bind(this);
+
   }
 
 
@@ -91,7 +94,7 @@ class RecruiterGraphs extends Component {
         if (res.status === 200) {
           console.log("Hello", res);
           data = {
-            labels: res.data.label,
+            labels: res.data.labels,
             datasets: [
               {
                 label: "My dataset",
@@ -116,9 +119,48 @@ class RecruiterGraphs extends Component {
     }
 
 
+    UnpopularJobs =()=>{
+      let data = null;
+      let recruiterEmail = "recruiter3@gmail.com";
+      axios.defaults.withCredentials = true;
+      axios.defaults.headers.common["Authorization"] =localStorage.getItem("user");
+      axios.get(`${URI.ROOT_URL}/graph_unpopular_job_postings`, {
+        params: {
+          recruiterEmail,
+        }
+      }).then((res)=>{
+        if (res.status === 200) {
+          console.log("Hello", res);
+          data = {
+            labels: res.data.label,
+            datasets: [
+              {
+                label: "My dataset",
+                fillColor: "rgba(151,187,205,0.2)",
+                strokeColor: "rgba(151,187,205,1)",
+                pointColor: "rgba(151,187,205,1)",
+                pointStrokeColor: "#fff",
+                pointHighlightFill: "#fff",
+                pointHighlightStroke: "rgba(151,187,205,1)",
+                data: res.data.values
+              }
+            ]
+          };
+          console.log("Unpopular Jobs",data)
+         this.setState({
+          unpopularJobs:data
+         })
+        }
+      }).catch((err)=>{
+          console.log(err);
+      })
+    }
+
+
    componentDidMount() {
       this.TopTenJobs(this.state.topTenMonth)
       this.ClicksPerJob()
+      this.UnpopularJobs();
   }
 
   componentWillMount(){
@@ -134,7 +176,11 @@ class RecruiterGraphs extends Component {
         <br />
         <br />
         <br />
-        <div className="container">
+
+
+        <div className="container text-center">
+        <h3>Statistical Analysis</h3>
+
           <div className="row">
             <div className="col-12">
               <div className="card shadow-lg">
@@ -171,21 +217,37 @@ class RecruiterGraphs extends Component {
           <br />
           <br />
 
+
           <div className="row">
             <div className="col-12">
               <div className="card shadow-lg">
                 <div className="card-body">
-                  <h5 className="card-title">City wise Application/month</h5>
+                  <h5 className="card-title">Clicks per Job</h5>
+                  <div className="row">
+                    <div className="col-12">
+                    {this.state.clicksPerJob===null ? null: <BarChart data={this.state.clicksPerJob} width="1000" height="250" /> }
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div> 
+
+
+          <br />
+          <br />
+
+
+          <div className="row">
+            <div className="col-12">
+              <div className="card shadow-lg">
+                <div className="card-body">
+                  <h5 className="card-title">Unpopular Jobs</h5>
                   <div className="row">
                     <div className="col-8">
-                    {this.state.clicksPerJob===null ? null: <BarChart data={this.state.clicksPerJob} width="600" height="250" /> }
+                    {this.state.unpopularJobs===null ? null: <BarChart data={this.state.unpopularJobs} width="600" height="250" /> }
                     </div>
-                    <div className="col-4">
-                      <br />
-                      <br />
-                      <h5> Select Job Posting</h5>
-                      <select className="form-control" />
-                    </div>
+          
                   </div>
                 </div>
               </div>
