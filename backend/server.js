@@ -101,11 +101,6 @@ app.get("/resumes/:resume", function(req, res, next) {
     });
   });
 
-
-
-
-
-
 // Add routes above this line if they do not require passport authentication
 // Add passport Authentication code will go here
 app.use("/", requireAuth);

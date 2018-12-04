@@ -94,6 +94,7 @@ class UserProfile extends Component{
                                 <FontAwesomeIcon color="#dee2e6" size="lg" icon="user-circle"></FontAwesomeIcon><small className ="nocolor small">Me</small></button>
                             <div className="dropdown-menu selection-nav" aria-labelledby="dropdownMenuProfile">
                                 <a className="dropdown-item" href="/profile">Profile</a>
+                                <a className="dropdown-item" href="/applicantdashboard">Dashboard</a>
                                 <div className="dropdown-divider"></div>
                                 <a className="dropdown-item" href="/searchjobs">Job Postings</a>
                                 <a className="dropdown-item" href="/job/saved">Saved Jobs</a>
@@ -122,10 +123,8 @@ class UserProfile extends Component{
                                     <div className="row">
                                         <div className="col-xs-12 col-sm-4 text-center"> 
                                         {this.state.profiledata.profilePicture === undefined  || this.state.profiledata.profilePicture === "" || this.state.profiledata.profilePicture === null ?
-                                            <img src= "/images/avatar.png" alt="" className="center-block img-circle rounded-circle img-thumbnail img-responsive"/> 
-                                        : 
-                                            <img src = {URI.ROOT_URL + "/profilepictures/" + this.state.profiledata.profilePicture} alt="" className="center-block img-circle rounded-circle img-thumbnail img-responsive" style = {{width : "160px", height : "160px"}}/>
-                                        }
+                                            <img src= "/images/avatar.png" alt="" className="center-block img-circle rounded-circle img-thumbnail img-responsive"/> : 
+                                            <img src = {URI.ROOT_URL + "/profilepictures/" + this.state.profiledata.profilePicture} alt="" className="center-block img-circle rounded-circle img-thumbnail img-responsive" style = {{width : "160px", height : "160px"}}/>}
                                     </div>
                                     <div className="col-xs-12 col-sm-6">
                                         <h3>{this.state.profiledata.firstName}&nbsp;{this.state.profiledata.lastName}</h3>
