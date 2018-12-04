@@ -20,12 +20,11 @@ class RecruiterGraphs extends Component {
       cityWiseJobTitle: null,
       cityWise: null,
       logGraph: [],
-      clicksPerJob: null,
+      clicksPerJob: null
     };
   }
 
-  jobIDChangeListener
-
+  jobIDChangeListener;
 
   jobIDChangeListener = e => {
     this.LogGraph(e.target.value + "");
@@ -206,8 +205,7 @@ class RecruiterGraphs extends Component {
             ]
           };
           console.log("City Wise Jobs", data);
-          
-          
+
           this.setState({
             cityWise: data
           });
@@ -218,7 +216,7 @@ class RecruiterGraphs extends Component {
       });
   };
 
-  LogGraph = (jobID) => {
+  LogGraph = jobID => {
     console.log();
     let recruiterEmail = localStorage.getItem("username");
     axios.defaults.withCredentials = true;
@@ -230,70 +228,66 @@ class RecruiterGraphs extends Component {
         params: {
           recruiterEmail,
           jobID
-
         }
       })
       .then(res => {
         if (res.status === 200) {
-          let labels=[];
+          let labels = ["COMPLETELY_FILL_FORM","HALF_FILL_FORM", "JUST_READ_APPLICATION"];
           let data;
-          let cities =[];
-          let datasets =[]
-
+          let cities = [];
+          let datasets = [];
+          console.log(res)
           res.data.data.forEach(element => {
-            labels.push(element.event_name);
-
-            if(!cities.includes(element.city) ) {
-              cities.push(element.city)
-          }
-
+            if (!cities.includes(element.city)) {
+              cities.push(element.city);
+            }
           });
-
 
           cities.forEach(city => {
-            let local_data=[];
+            let local_data = [0,0,0];
             res.data.data.forEach(element => {
-             if(element.city===city){
-               local_data.push(element.count);
-             }
+              if (element.city === city) {
+                if(element.event_name==="COMPLETELY_FILL_FORM"){
+                  local_data[0]=element.count;
+
+                }else if(element.event_name==="HALF_FILL_FORM"){
+                  local_data[1]=element.count;
+
+                }else if(element.event_name==="JUST_READ_APPLICATION"){
+                  local_data[2]=element.count;
+
+                }
+              }
+            });
+
+            data = {
+              labels: labels,
+              datasets: [
+                {
+                  label: city,
+                  fillColor: "rgba(151,187,205,0.2)",
+                  strokeColor: "rgba(151,187,205,1)",
+                  pointColor: "rgba(151,187,205,1)",
+                  pointStrokeColor: "#fff",
+                  pointHighlightFill: "#fff",
+                  pointHighlightStroke: "rgba(151,187,205,1)",
+                  data: local_data
+                }
+              ]
+            };
+            datasets.push(data);
           });
 
-          data = {
-            labels: labels,
-            datasets: [
-              {
-                label: city,
-                fillColor: "rgba(151,187,205,0.2)",
-                strokeColor: "rgba(151,187,205,1)",
-                pointColor: "rgba(151,187,205,1)",
-                pointStrokeColor: "#fff",
-                pointHighlightFill: "#fff",
-                pointHighlightStroke: "rgba(151,187,205,1)",
-                data: local_data
-              }
-            ]
-          };
-             datasets.push(data)
-            });
-     
-
-  
-
-            console.log("Log Jobs",datasets)
-           this.setState({
-            logGraph:datasets,
-           })
+          console.log("Log Jobs", datasets);
+          this.setState({
+            logGraph: datasets
+          });
         }
       })
       .catch(err => {
         console.log(err);
       });
   };
-
-
-
-
-
 
   populateCity = () => {
     let recruiterEmail = localStorage.getItem("username");
@@ -309,18 +303,17 @@ class RecruiterGraphs extends Component {
       })
       .then(res => {
         if (res.status === 200) {
-          console.log("Populate City",res);
+          console.log("Populate City", res);
           this.setState({
             jobs: res.data.allJobs,
             cityWiseJobTitle: res.data.allJobs[0]._id
           });
           this.CityWiseGraph(res.data.allJobs[0]._id, "1");
           this.LogGraph(res.data.allJobs[0]._id);
-
         }
       })
       .catch(err => {
-        console.log("Populate City",err);
+        console.log("Populate City", err);
       });
   };
 
@@ -338,29 +331,26 @@ class RecruiterGraphs extends Component {
     let cities = this.state.jobs.map(job => {
       return <option value={job._id}>{job.title}</option>;
     });
-    let lographs =null;
+    let lographs = null;
 
-    
-    if(this.state.logGraph.length>0){
-    lographs = this.state.logGraph.map(graph => {
+    if (this.state.logGraph.length > 0) {
+      lographs = this.state.logGraph.map(graph => {
+        let city = graph.datasets[0].label;
 
-      return(
-        
-        <div>    
-          <h3 style={{fontWeight:"200"}}>{graph.datasets[0].label}</h3>
-     <BarChart
-      data={graph}
-      width="600"
-      height="250"
-    /> <br/>
-    
-    </div>
+        city = city
+          .toLowerCase()
+          .split(" ")
+          .map(s => s.charAt(0).toUpperCase() + s.substring(1))
+          .join(" ");
 
-      );
-    });
-  }
-     
-
+        return (
+          <div>
+            <h3 style={{ fontWeight: "200" }}>{city}</h3>
+            <BarChart data={graph} width="600" height="250" /> <br />
+          </div>
+        );
+      });
+    }
 
     return (
       <div>
@@ -525,8 +515,6 @@ class RecruiterGraphs extends Component {
             </div>
           </div>
 
-
-
           <br />
           <br />
 
@@ -545,13 +533,13 @@ class RecruiterGraphs extends Component {
                     </div>
                     <div className="col-4">
                       <br />
-                    
+
                       <h5> Select Job Title</h5>
                       <select
                         onChange={this.jobIDChangeListener}
                         className="form-control"
                       >
-                           {cities}
+                        {cities}
                       </select>
                       <br />
                     </div>
