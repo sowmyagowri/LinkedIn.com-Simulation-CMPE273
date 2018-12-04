@@ -205,7 +205,7 @@ class JobApply extends Component{
 
             var formData = new FormData();
             formData.append('uploadedResume', this.state.uploadedresume);
-            if (this.state.Coverletter) {
+            if (this.state.coverletter) {
                 formData.append('uploadedcoverletter', this.state.uploadedcoverletter);
             }
             
