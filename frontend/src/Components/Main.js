@@ -28,6 +28,7 @@ import UserProfile from './Connections/UserProfile';
 import NotARecruiter from './Recruiter/NotAReccruiter'
 import RecruiterJobApplications from './PostJobs/Applications'
 import RecruiterProfile from './Recruiter/RecruiterProfileForm'
+import ApplicantGraph from './Dashboard/ApplicantGraph'
 
 class Main extends Component {
 
@@ -65,6 +66,7 @@ class Main extends Component {
                 <Route path="/recruiterSearchPeople/" component={RecruiterSearchPeople}/>
                 <Route path="/notarecruiter/" component={NotARecruiter}/>
                 <Route path="/recruiterApplications/" component={RecruiterJobApplications}/>
+                <Route path="/applicantdashboard/" component={ApplicantGraph}/>
 
                 </Switch>
             </div>

@@ -148,6 +148,7 @@ class Navbar extends Component {
                                 <FontAwesomeIcon color="#dee2e6" size="lg" icon="user-circle"></FontAwesomeIcon><small className ="nocolor small">Me</small></button>
                             <div className="dropdown-menu selection-nav" aria-labelledby="dropdownMenuProfile">
                                 <a className="dropdown-item" href="/profile">Profile</a>
+                                <a className="dropdown-item" href="/applicantdashboard">Dashboard</a>
                                 <div className="dropdown-divider"></div>
                                 <a className="dropdown-item" href="/searchjobs">Job Postings</a>
                                 <a className="dropdown-item" href="/job/saved">Saved Jobs</a>
