@@ -176,13 +176,13 @@ class RecruiterJobApplications extends Component {
                       className="fa-map-marker-alt"
                       icon="map-marker-alt"
                     />
-                    &nbsp;&nbsp;{application.phone_number} <br />
+                    &nbsp;&nbsp;{application.address} <br />
                     <FontAwesomeIcon
                       style={{ color: "#e6e6e6" }}
                       className="calendar-alt"
                       icon="phone"
                     />
-                    &nbsp;&nbsp;{application.address}{" "}
+                    &nbsp;&nbsp;{application.phone_number}{" "}
                     <br />
                   </div>
                   <div className="col-4 offset-3 ">

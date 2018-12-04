@@ -103,7 +103,7 @@ export function recruiterSignIn(data) {
 
 
 export function createNewJob(data) {
-  data.recruiterEmail = localStorage.getItem("user");
+  data.recruiterEmail = localStorage.getItem("username");
   data.postedDate= Date.now();
   return async dispatch => {
     try {
@@ -240,9 +240,7 @@ export function getRecruiterProfileInformation() {
 
 
 export function getAllApplicationsForJob(jobID) {
-  //let recruiterEmail = localStorage.getItem("username");
 
-   jobID = "5c01ee70fcfe329f94c4043d";
 
   return async dispatch => {
     try {

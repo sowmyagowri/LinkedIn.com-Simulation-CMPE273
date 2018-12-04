@@ -14,7 +14,6 @@ class ApplicantGraph extends Component {
     };
   }
 
-
   ProfileViewsGraph = () => {
     let data = null;
     let email = JSON.parse(localStorage.getItem("user_details")).email
@@ -22,7 +21,6 @@ class ApplicantGraph extends Component {
     axios.defaults.headers.common["Authorization"] =  JSON.parse(localStorage.getItem(
      "auth_token")
     );
-
     axios
       .get(`${URI.ROOT_URL}/graph_profile_views`, {
         params: {
