@@ -107,6 +107,7 @@ class Viewjob extends Component{
                                 <FontAwesomeIcon color="#dee2e6" size="lg" icon="user-circle"></FontAwesomeIcon><small className ="nocolor small">Me</small></button>
                             <div className="dropdown-menu selection-nav" aria-labelledby="dropdownMenuProfile">
                                 <a className="dropdown-item" href="/profile">Profile</a>
+                                <a className="dropdown-item" href="/applicantdashboard">Dashboard</a>
                                 <div className="dropdown-divider"></div>
                                 <a className="dropdown-item" href="/searchjobs">Job Postings</a>
                                 <a className="dropdown-item" href="/job/saved">Saved Jobs</a>
@@ -136,7 +137,7 @@ class Viewjob extends Component{
                                         <div className="job-details__subject" >
                                             {jobs.title}
                                         </div>
-                                        <div className="job-details__name">{jobs.posted_by}</div>
+                                        <div className="job-details__name">{jobs.company}</div>
                                         <div className="job-details__location">
                                             <FontAwesomeIcon className="fa-map-marker-alt" icon="map-marker-alt">
                                             </FontAwesomeIcon>&nbsp;&nbsp;{jobs.location}</div>
@@ -169,15 +170,15 @@ class Viewjob extends Component{
                             <p className ="pv-entity__description t-14 t-black t-normal ember-view">{jobs.job_description}</p>
                             </div>
                             <div className ="pv-entity__summary-info pv-entity__summary-info--background-section mb2">
-                            <h5 className = "pv-profile-section__card-heading t-black t-normal">Job Functions</h5> 
+                            <h5 className = "t-20 t-black t-bold">Job Functions</h5> 
                             <h5 className = "t-black t-normal" style = {{fontSize : "1rem"}}>{jobs.job_function}</h5>
                             </div>
                             <div className ="pv-entity__summary-info pv-entity__summary-info--background-section mb2">
-                            <h5 className = "pv-profile-section__card-heading t-black t-normal">Job Type</h5> 
+                            <h5 className = "t-20 t-black t-bold">Job Type</h5> 
                             <h5 className = "t-black t-normal" style = {{fontSize : "1rem"}}>{jobs.employment_type}</h5>
                             </div>
                             <div className ="pv-entity__summary-info pv-entity__summary-info--background-section mb2">
-                            <h5 className = "pv-profile-section__card-heading t-black t-normal">Industry</h5> 
+                            <h5 className = "t-20 t-black t-bold">Industry</h5> 
                             <h5 className = "t-black t-normal" style = {{fontSize : "1rem"}}>{jobs.industry}</h5>
                             </div>
                         </li>

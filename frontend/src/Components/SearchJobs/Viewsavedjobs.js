@@ -69,7 +69,7 @@ class ViewSavedJobs extends Component{
                             <div className="job-details__location">
                              <FontAwesomeIcon className = "fa-map-marker-alt" icon="map-marker-alt">
                             </FontAwesomeIcon>&nbsp;&nbsp;{rows[i].location}</div>
-                            <div className="job-details__posted">Expires on {rows[i].expiry_date}</div>
+                            <div className="job-details__posted">Expires on {rows[i].expiry_date.slice(0,new Date().toISOString().indexOf("T")).replace(/-/g,"/")}</div>
                         </div>  
                     </div>
                     {rows[i].application_method  === "Easy Apply" ? 
