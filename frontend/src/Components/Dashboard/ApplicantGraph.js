@@ -19,8 +19,8 @@ class ApplicantGraph extends Component {
     let data = null;
     let email = localStorage.getItem("user_details").email;
     axios.defaults.withCredentials = true;
-    axios.defaults.headers.common["Authorization"] = localStorage.getItem(
-      "user"
+    axios.defaults.headers.common["Authorization"] =  JSON.parse(localStorage.getItem(
+     "auth_token")
     );
     axios
       .get(`${URI.ROOT_URL}/graph_profile_views`, {
