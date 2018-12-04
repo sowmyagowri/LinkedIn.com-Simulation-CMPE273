@@ -481,7 +481,8 @@ function mapStateToProps(state) {
     return {
         saveajob : state.saveajob,
         getapplicantprofile : state.getapplicantprofile,
-        applyjob : state.applyjob
+        applyjob : state.applyjob,
+        logapplyapplicationtypes : state.logapplyapplicationtypes
     };
 }
 
