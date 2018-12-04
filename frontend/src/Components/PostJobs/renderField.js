@@ -29,8 +29,8 @@ export const renderFieldLarge = ({
 );
 
 const types = [
-  "Full-Time",
-  "Part-Time",
+  "Full Time",
+  "Part Time",
   "Contract",
   "Temporary",
   "Voluntary",
