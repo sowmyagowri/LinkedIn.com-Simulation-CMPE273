@@ -533,6 +533,22 @@ class Easyapply extends Component{
                     console.log("response:", response);
                     if(response.payload.status === 200){
                         console.log("Applied job Successfully")
+                        if(response.payload.status === 200){
+                            console.log("Applied job Successfully")
+                            const data = {
+                                jobID : this.props.id,
+                                eventName: "COMPLETELY_FILL_FORM",
+                                applicantEmail: this.state.email,
+                                recruiterEmail: this.props.jobdetails.posted_by,
+                                city: this.state.profile.city
+                            }
+                            this.props.logapplyapplicationtypes(data, token).then(response => {
+                                console.log("Application logged as completely filled")
+                                if(response.payload.status === 200){
+                                    window.close();
+                                }
+                            })
+                        }
                     }
                 })
             } else {           
