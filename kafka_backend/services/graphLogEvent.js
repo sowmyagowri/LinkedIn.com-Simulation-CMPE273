@@ -6,9 +6,13 @@ async function handle_request(msg, callback) {
     console.log("In handle request:" + JSON.stringify(msg));
 
     let email = msg.recruiterEmail;
+    let job_id =  msg.jobID;
     let resp = {};
     try {
-        let data = await db.selectQuery('SELECT job_id, job_title, recruiter_email, event_name, COUNT(applicant_email) AS count FROM logging GROUP BY job_id, event_name HAVING recruiter_email = ?',[ email ]);
+        let data = await db.selectQuery(
+            'SELECT job_id, job_title, recruiter_email, event_name, COUNT(applicant_email) AS count FROM (SELECT job_id, job_title, recruiter_email, event_name, applicant_email FROM logging WHERE recruiter_email = ? and job_id = ?) AS t GROUP BY event_name',
+            [ email, job_id ]
+        );
         resp = prepareSuccess({ "data": data });
     }
     catch (error) {
