@@ -110,7 +110,6 @@ class RecruiterSearchPeople extends Component {
   }
 
   gotoprofile = (event, profile, requestconnection) => {
-      
     console.log(requestconnection);
     //call to action
     const token = JSON.parse(localStorage.getItem(userConstants.AUTH_TOKEN));
