@@ -240,8 +240,6 @@ export function getRecruiterProfileInformation() {
 
 
 export function getAllApplicationsForJob(jobID) {
-
-
   return async dispatch => {
     try {
       axios.defaults.withCredentials = true;

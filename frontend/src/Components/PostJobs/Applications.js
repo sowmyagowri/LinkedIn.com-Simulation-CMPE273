@@ -151,12 +151,14 @@ class RecruiterJobApplications extends Component {
             application.first_name.includes(this.state.search) ||
             application.last_name.includes(this.state.search)
           ) {
+            console.log(application)
+
             return (
               <div key={v4()} className="dashItem">
                 <div className="card shadow-lg ">
                   <div className="card-body">
                     <div className="row">
-                      <div className="col-5">
+                      <div className="col-8">
                         <h5
                           style={{ fontWeight: "500" }}
                           className="linkBlue"
@@ -180,8 +182,20 @@ class RecruiterJobApplications extends Component {
                           icon="phone"
                         />
                         &nbsp;&nbsp;{application.phone_number} <br />
+                        {application.how_did_they_hear_about_us !== undefined ?  <div><b> How Did they Hear Aboout Us:</b>
+                        &nbsp;&nbsp;{application.how_did_they_hear_about_us} <br /> </div>: null}
+                        {application.ethnicity !== undefined ?  <div><b> Ethnicity:</b>
+                        &nbsp;&nbsp;{application.ethnicity} <br /> </div>: null}
+                        {application.diversity_question !== undefined ?  <div><b> How Did they Hear Aboout Us:</b>
+                        &nbsp;&nbsp;{application.diversity_question} <br /> </div>: null}
+                        {application.sponsorship_question !== undefined ?  <div><b> Do They Require Sponsorship?</b>
+                        &nbsp;&nbsp;{application.sponsorship_question} <br /> </div>: null}
+                        {application.disability_question !== undefined ?  <div><b> Are They Disabled? :</b>
+                        &nbsp;&nbsp;{application.disability_question} <br /> </div>: null}
+
+                
                       </div>
-                      <div className="col-4 offset-3 ">
+                      <div className="col-4  ">
                         <button
                           type="button"
                           className="btn btn-block blueBackground text-white"

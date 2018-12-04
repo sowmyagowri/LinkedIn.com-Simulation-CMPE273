@@ -21,9 +21,15 @@ class RecruiterGraphs extends Component {
       cityWise: null,
       logGraph: null,
       clicksPerJob: null,
-      profileViews:null
     };
   }
+
+  jobIDChangeListener
+
+
+  jobIDChangeListener = e => {
+    this.LogGraph(e.target.value + "");
+  };
 
   CityWiseMonthChangeHandler = e => {
     this.setState({
@@ -210,7 +216,7 @@ class RecruiterGraphs extends Component {
       });
   };
 
-  LogGraph = () => {
+  LogGraph = (jobID) => {
     console.log();
     let recruiterEmail = localStorage.getItem("username");
     axios.defaults.withCredentials = true;
@@ -220,81 +226,49 @@ class RecruiterGraphs extends Component {
     axios
       .get(`${URI.ROOT_URL}/graph_log_event`, {
         params: {
-          recruiterEmail
+          recruiterEmail,
+          jobID
+
         }
       })
       .then(res => {
         if (res.status === 200) {
           console.log("Log", res);
-          //   data = {
-          //     labels: res.data.lables,
-          //     datasets: [
-          //       {
-          //         label: "My dataset",
-          //         fillColor: "rgba(151,187,205,0.2)",
-          //         strokeColor: "rgba(151,187,205,1)",
-          //         pointColor: "rgba(151,187,205,1)",
-          //         pointStrokeColor: "#fff",
-          //         pointHighlightFill: "#fff",
-          //         pointHighlightStroke: "rgba(151,187,205,1)",
-
-          //         data: res.data.values
-          //       }
-          //     ]
-          //   };
-          //   console.log("City Wise Jobs",data)
-          //  this.setState({
-          //   logGraph:data
-          //  })
-        }
-      })
-      .catch(err => {
-        console.log(err);
-      });
-  };
-
-  ProfileViewsGraph = () => {
-    let data = null;
-    console.log();
-    let email = "gsowmya@gmail.com";
-    axios.defaults.withCredentials = true;
-    axios.defaults.headers.common["Authorization"] = localStorage.getItem(
-      "user"
-    );
-    axios
-      .get(`${URI.ROOT_URL}/graph_profile_views`, {
-        params: {
-          email
-        }
-      })
-      .then(res => {
-        if (res.status === 200) {
-          console.log(res)
-          data = {
-            labels: res.data.labels,
-            datasets: [
-              {
-                label: "My dataset",
-                fillColor: "rgba(151,187,205,0.2)",
-                strokeColor: "rgba(151,187,205,1)",
-                pointColor: "rgba(151,187,205,1)",
-                pointStrokeColor: "#fff",
-                pointHighlightFill: "#fff",
-                pointHighlightStroke: "rgba(151,187,205,1)",
-                data: res.data.values
-              }
-            ]
-          };
-          console.log("Profile Views Graph", data);
-          this.setState({
-            profileViews: data
+          let labels =[];
+          let data =[];
+          res.data.data.forEach(element => {
+            labels.push(element.event_name);
+            data.push(element.count);
           });
+          console.log(labels);
+          console.log(data);
+            data = {
+              labels: labels,
+              datasets: [
+                {
+                  label: "My dataset",
+                  fillColor: "rgba(151,187,205,0.2)",
+                  strokeColor: "rgba(151,187,205,1)",
+                  pointColor: "rgba(151,187,205,1)",
+                  pointStrokeColor: "#fff",
+                  pointHighlightFill: "#fff",
+                  pointHighlightStroke: "rgba(151,187,205,1)",
+
+                  data: data
+                }
+              ]
+            };
+            console.log("City Wise Jobs",data)
+           this.setState({
+            logGraph:data
+           })
         }
       })
       .catch(err => {
         console.log(err);
       });
   };
+
 
   populateCity = () => {
     let recruiterEmail = localStorage.getItem("username");
@@ -316,6 +290,8 @@ class RecruiterGraphs extends Component {
             cityWiseJobTitle: res.data.allJobs[0]._id
           });
           this.CityWiseGraph(res.data.allJobs[0]._id, "1");
+          this.LogGraph(res.data.allJobs[0]._id);
+
         }
       })
       .catch(err => {
@@ -328,8 +304,6 @@ class RecruiterGraphs extends Component {
     this.ClicksPerJob();
     this.UnpopularJobs();
     this.populateCity();
-    this.LogGraph();
-    this.ProfileViewsGraph();
   }
 
   componentWillMount() {
@@ -339,6 +313,9 @@ class RecruiterGraphs extends Component {
     let cities = this.state.jobs.map(job => {
       return <option value={job._id}>{job.title}</option>;
     });
+
+
+
     return (
       <div>
         <PostJobNav />
@@ -501,6 +478,9 @@ class RecruiterGraphs extends Component {
               </div>
             </div>
           </div>
+
+
+
           <br />
           <br />
 
@@ -508,18 +488,29 @@ class RecruiterGraphs extends Component {
             <div className="col-12">
               <div className="card shadow-lg">
                 <div className="card-body">
-                  <h5 className="card-title">Profile Views Graph</h5>
+                  <h5 className="card-title">Job Logs</h5>
                   <div className="row">
                     <div className="col-8">
-                      {this.state.profileViews === null ? (
+                      {this.state.logGraph === null ? (
                         <h3>Not Enough Data</h3>
                       ) : (
                         <BarChart
-                          data={this.state.profileViews}
-                          width="1000"
+                          data={this.state.logGraph}
+                          width="600"
                           height="250"
                         />
                       )}
+                    </div>
+                    <div className="col-4">
+                      <br />
+                      <br />
+                      <h5> Select Month</h5>
+                      <select
+                        onChange={this.jobIDChangeListener}
+                        className="form-control"
+                      >
+                           {cities}
+                      </select>
                     </div>
                   </div>
                 </div>
