@@ -84,7 +84,7 @@ app.use("/signin_applicant/", signinApplicant);
 app.use('/profilepictures', express.static(path.join(__dirname, '/profilepictures/')));
 app.get("/resumes/:resume", function(req, res, next) {
     var options = {
-      root: __dirname + "/resumes" ,
+      root: __dirname + "/resumes_and_coverletter" ,
       dotfiles: "deny",
       headers: {
         "x-timestamp": Date.now(),
@@ -99,6 +99,11 @@ app.get("/resumes/:resume", function(req, res, next) {
       }
     });
   });
+
+
+
+
+
 
 // Add routes above this line if they do not require passport authentication
 // Add passport Authentication code will go here

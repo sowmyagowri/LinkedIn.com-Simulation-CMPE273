@@ -9,7 +9,7 @@ import { v4 } from "node-uuid";
 import moment from "moment";
 import { Document, Page } from "react-pdf";
 import { pdfjs } from "react-pdf";
-import URI from "../../constants/URI"
+import URI from "../../constants/URI";
 import { userConstants } from "../../constants";
 
 import {
@@ -18,105 +18,103 @@ import {
   searchpeople
 } from "../../Actions/action_connections";
 import { logprofileview } from "../../Actions/applicant_login_profile_actions";
-import checkValidityRecruiter from "../../Actions/ValidityScript"
+import checkValidityRecruiter from "../../Actions/ValidityScript";
 pdfjs.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/${
   pdfjs.version
 }/pdf.worker.js`;
 
 class RecruiterJobApplications extends Component {
-
   componentWillMount() {
     checkValidityRecruiter(this);
-        this.props.getAllApplicationsForJob("a")
+    this.props.getAllApplicationsForJob("a");
   }
 
   constructor(props) {
     super(props);
     this.state = {
-      search:"",
+      search: "",
       numPages: null,
       pageNumber: 1,
-      resumeUrl:""
-
+      resumeUrl: ""
     };
   }
 
- 
   onDocumentLoadSuccess = ({ numPages }) => {
     this.setState({ numPages });
-  }
+  };
 
-
-
-
-  getConnections= () => {
-
-    return new Promise((resolve,reject)=>{
-
+  getConnections = () => {
+    return new Promise((resolve, reject) => {
       const token = JSON.parse(localStorage.getItem(userConstants.AUTH_TOKEN));
-      this.props.getAllConnections(token).then(response => {
-        console.log("response:", response);
-        if (response.payload.status === 200) {
-          var connectionResults = [];
-          var approved =
-            response.payload.data.connections.connectionsApproved;
-          var incoming =
-            response.payload.data.connections.connectionsIncoming;
-          var outgoing =
-            response.payload.data.connections.connectionsOutgoing;
-          var i = 0;
-          if (approved.length > 0) {
-            for (i = 0; i < approved.length; i++) {
-              connectionResults.push(
-                JSON.parse(JSON.stringify(approved[i].email))
-              );
+      this.props
+        .getAllConnections(token)
+        .then(response => {
+          console.log("response:", response);
+          if (response.payload.status === 200) {
+            var connectionResults = [];
+            var approved =
+              response.payload.data.connections.connectionsApproved;
+            var incoming =
+              response.payload.data.connections.connectionsIncoming;
+            var outgoing =
+              response.payload.data.connections.connectionsOutgoing;
+            var i = 0;
+            if (approved.length > 0) {
+              for (i = 0; i < approved.length; i++) {
+                connectionResults.push(
+                  JSON.parse(JSON.stringify(approved[i].email))
+                );
+              }
             }
-          }
-          if (incoming.length > 0) {
-            for (i = 0; i < incoming.length; i++) {
-              connectionResults.push(
-                JSON.parse(JSON.stringify(incoming[i].email))
-              );
+            if (incoming.length > 0) {
+              for (i = 0; i < incoming.length; i++) {
+                connectionResults.push(
+                  JSON.parse(JSON.stringify(incoming[i].email))
+                );
+              }
             }
-          }
-          if (outgoing.length > 0) {
-            for (i = 0; i < outgoing.length; i++) {
-              connectionResults.push(
-                JSON.parse(JSON.stringify(outgoing[i].email))
-              );
+            if (outgoing.length > 0) {
+              for (i = 0; i < outgoing.length; i++) {
+                connectionResults.push(
+                  JSON.parse(JSON.stringify(outgoing[i].email))
+                );
+              }
             }
+            resolve(connectionResults);
           }
-          resolve(connectionResults);
-        }
-      }).catch((err)=>{
-        reject(err);
+        })
+        .catch(err => {
+          reject(err);
+        });
+    });
+  };
 
-      });
-    })
-
-  }
-  
   checkcondition = email => {
     var result = this.state.connectionResults.includes(email);
     return result;
   };
 
-
-  goToProfile = (email) => {
+  goToProfile = email => {
     //Fetch Profile
-  //let recruiterEmail = localStorage.getItem("username");
-  console.log(email)
-      axios.defaults.withCredentials = true;
-      axios.defaults.headers.common["Authorization"] =localStorage.getItem("user");
-      axios.get(`${URI.ROOT_URL}/get_applicant_profile`, {
+    //let recruiterEmail = localStorage.getItem("username");
+    console.log(email);
+    axios.defaults.withCredentials = true;
+    axios.defaults.headers.common["Authorization"] = localStorage.getItem(
+      "user"
+    );
+    axios
+      .get(`${URI.ROOT_URL}/get_applicant_profile`, {
         params: {
           email
         }
-      }).then((res)=>{
+      })
+      .then(res => {
         console.log(res.data.profile);
-         this.getConnections().then((connections)=>{
+        this.getConnections().then(connections => {
           console.log(connections);
-          const token = JSON.parse(localStorage.getItem(userConstants.AUTH_TOKEN));
+          const token = JSON.parse(
+            localStorage.getItem(userConstants.AUTH_TOKEN)
+          );
           const data = {
             email
           };
@@ -132,13 +130,9 @@ class RecruiterJobApplications extends Component {
               requestconnection: connections.includes(email)
             }
           });
-
         });
-        
-      })
+      });
   };
- 
-
 
   searchChangeListener = e => {
     this.setState({
@@ -146,86 +140,99 @@ class RecruiterJobApplications extends Component {
     });
   };
 
-  
   render() {
     const { pageNumber, numPages } = this.state;
 
     let applications = null;
     if (this.props.applicationsState.applications.length) {
-      applications = this.props.applicationsState.applications.map(application => {
-        if(application.first_name.includes(this.state.search) ||  application.last_name.includes(this.state.search) ){
-        return (
-          <div  key={v4()} className="dashItem">
-            <div  className="card shadow-lg ">
-              <div className="card-body">
-                <div className="row">
-                  <div className="col-5">
-                    <h5
-                      style={{ fontWeight: "500" }}
-                      className="linkBlue"
-                      href=" "
-                      onClick ={()=>{
-                        this.goToProfile(application.applicant_email)
-                      }}
-                    >
-                      {application.first_name}{" "}{application.last_name}
-                    </h5>
-                    <h5>{application.applicant_email}</h5>
-                    <FontAwesomeIcon
-                      style={{ color: "#e6e6e6" }}
-                      className="fa-map-marker-alt"
-                      icon="map-marker-alt"
-                    />
-                    &nbsp;&nbsp;{application.address} <br />
-                    <FontAwesomeIcon
-                      style={{ color: "#e6e6e6" }}
-                      className="calendar-alt"
-                      icon="phone"
-                    />
-                    &nbsp;&nbsp;{application.phone_number}{" "}
-                    <br />
+      applications = this.props.applicationsState.applications.map(
+        application => {
+          if (
+            application.first_name.includes(this.state.search) ||
+            application.last_name.includes(this.state.search)
+          ) {
+            return (
+              <div key={v4()} className="dashItem">
+                <div className="card shadow-lg ">
+                  <div className="card-body">
+                    <div className="row">
+                      <div className="col-5">
+                        <h5
+                          style={{ fontWeight: "500" }}
+                          className="linkBlue"
+                          href=" "
+                          onClick={() => {
+                            this.goToProfile(application.applicant_email);
+                          }}
+                        >
+                          {application.first_name} {application.last_name}
+                        </h5>
+                        <h5>{application.applicant_email}</h5>
+                        <FontAwesomeIcon
+                          style={{ color: "#e6e6e6" }}
+                          className="fa-map-marker-alt"
+                          icon="map-marker-alt"
+                        />
+                        &nbsp;&nbsp;{application.address} <br />
+                        <FontAwesomeIcon
+                          style={{ color: "#e6e6e6" }}
+                          className="calendar-alt"
+                          icon="phone"
+                        />
+                        &nbsp;&nbsp;{application.phone_number} <br />
+                      </div>
+                      <div className="col-4 offset-3 ">
+                        <button
+                          type="button"
+                          className="btn btn-block blueBackground text-white"
+                          onClick={() => {
+                            this.setState({
+                              resumeUrl:
+                                URI.ROOT_URL + "/resumes/" + application.resume
+                            });
+                          }}
+                          data-toggle="modal"
+                          data-target="#resumeModal"
+                        >
+                          <FontAwesomeIcon
+                            style={{ color: "#e6e6e6" }}
+                            className="scroll"
+                            icon="scroll"
+                          />
+                          &nbsp; View Resume
+                        </button>
+                        <br />
+                        <button
+                          type="button"
+                          className="btn btn-block blueBackground text-white"
+                          onClick={() => {
+                            this.setState({
+                              resumeUrl:
+                                URI.ROOT_URL + "/resumes/" + application.cover_letter
+                            });
+                          }}
+                          data-toggle="modal"
+                          data-target="#resumeModal"
+                        >
+                          <FontAwesomeIcon
+                            style={{ color: "#e6e6e6" }}
+                            className="scroll"
+                            icon="scroll"
+                          />
+                          &nbsp; View Cover Letter
+                        </button>
+                        <br />
+                      </div>
+                    </div>
                   </div>
-                  <div className="col-4 offset-3 ">
-                  <br/> 
-                    <button
-                      type="button"
-                      className="btn btn-block blueBackground text-white"
-                      onClick={()=>{
-                        this.setState({
-                          resumeUrl: URI.ROOT_URL+"/resumes/"+application.resume
-                        })
-                      }}
-                      data-toggle="modal" data-target="#resumeModal"
-                    >
-                      <FontAwesomeIcon
-                        style={{ color: "#e6e6e6" }}
-                        className="scroll"
-                        icon="scroll"
-                      />
-                      &nbsp; View Resume
-                    </button>
-                    <br/>
-            
-                  </div>
-              
                 </div>
+                <br />
+                <br />
               </div>
-   
-            </div>
-            <br />
-            <br />
-  
-
-          </div>
-          
-        );
-                    }
-
-
-                    
-      });
-
-
+            );
+          }
+        }
+      );
     } else {
       applications = (
         <div className="col-6 offset-3 text-center">
@@ -251,7 +258,7 @@ class RecruiterJobApplications extends Component {
         <br />
         <br />
 
-       <div className="container">
+        <div className="container">
           <div className="row">
             <div className="col-6 offset-2">
               <input
@@ -267,17 +274,14 @@ class RecruiterJobApplications extends Component {
               <button
                 type="button"
                 className="btn btn-block btn-lg blueBackground text-white shadow-lg"
-                onClick={()=>{
-                  this.goToProfile("saranya@gmail.com");
-                }}
               >
                 Search
               </button>
             </div>
           </div>
           <br />
-        <br />
-          <hr/>
+          <br />
+          <hr />
           <div className="row">
             <div className="col-10 offset-1">
               <br />
@@ -285,36 +289,44 @@ class RecruiterJobApplications extends Component {
               {applications}
             </div>
           </div>
-    </div>
+        </div>
 
-
-          <div className="modal fade bd-example-modal-lg" tabIndex="-1" role="dialog" id="resumeModal" aria-hidden="true">
-  <div className="modal-dialog modal-lg">
-    <div className="modal-content">
-      <div className="modal-header">
-        <h5 className="modal-title">Resume</h5>
-        <button type="button" className="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <div className="modal-body">
-      <div>
-        <Document
-          file={this.state.resumeUrl}
-          onLoadSuccess={this.onDocumentLoadSuccess}
+        <div
+          className="modal fade bd-example-modal-lg"
+          tabIndex="-1"
+          role="dialog"
+          id="resumeModal"
+          aria-hidden="true"
         >
-          <Page pageNumber={pageNumber} />
-        </Document>
-        <p>Page {pageNumber} of {numPages}</p>
-      </div>
-      </div>
-    </div>
-  </div>
-</div>
-
-
-
-        
+          <div className="modal-dialog modal-lg">
+            <div className="modal-content">
+              <div className="modal-header">
+                <h5 className="modal-title">Resume</h5>
+                <button
+                  type="button"
+                  className="close"
+                  data-dismiss="modal"
+                  aria-label="Close"
+                >
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </div>
+              <div className="modal-body">
+                <div>
+                  <Document
+                    file={this.state.resumeUrl}
+                    onLoadSuccess={this.onDocumentLoadSuccess}
+                  >
+                    <Page pageNumber={pageNumber} />
+                  </Document>
+                  <p>
+                    Page {pageNumber} of {numPages}
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
     );
   }
@@ -327,14 +339,14 @@ function mapStateToProps(state) {
     getAllConnections: state.getAllConnections,
     searchpeople: state.searchpeople,
     postMessage: state.postMessage
-    
   };
 }
 
 export default withRouter(
   connect(
     mapStateToProps,
-    { getAllApplicationsForJob,
+    {
+      getAllApplicationsForJob,
       makeconnections,
       getAllConnections,
       searchpeople,
@@ -342,7 +354,3 @@ export default withRouter(
     }
   )(RecruiterJobApplications)
 );
-
-
-
-
