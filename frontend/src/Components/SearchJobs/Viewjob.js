@@ -8,7 +8,7 @@ import { connect } from "react-redux";
 import { userConstants } from '../../constants';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { getapplicantprofile } from '../../Actions/applicant_login_profile_actions';
-import { saveajob, applyjob } from '../../Actions/actions_jobs';
+import { saveajob, applyjob, logapplyapplicationtypes } from '../../Actions/actions_jobs';
 
 class Viewjob extends Component{
     constructor(props){
@@ -151,7 +151,7 @@ class Viewjob extends Component{
                                         {!this.state.saved ?
                                         <button type="submit" className="btn arteco-btn-save" onClick = {this.saveajob}>Save</button> : (null)}
                                         {jobs.application_method === "Easy Apply" ?
-                                        <Easyapply applyjob ={this.props.applyjob} getapplicantprofile = {this.props.getapplicantprofile} id = {jobs._id} jobdetails = {jobs}/>  :
+                                        <Easyapply applyjob ={this.props.applyjob} logapplyapplicationtypes = {this.props.logapplyapplicationtypes} getapplicantprofile = {this.props.getapplicantprofile} id = {jobs._id} jobdetails = {jobs}/>  :
                                         <button type="submit" className="btn arteco-btn" onClick = {(event) => this.normalapplyjob(event, jobs)} style={{ marginLeft: "10px" }}>Apply</button>}
                                         </div>
                                     </div>
@@ -202,6 +202,7 @@ class Easyapply extends Component{
           email : "",
           profilephoto : "",
           address : "",
+          city : "",
           resume : "",
           touchedprofile : {
             firstname: false,
@@ -233,6 +234,7 @@ class Easyapply extends Component{
                         email : response.payload.data.profile.email,
                         resume : response.payload.data.profile.resume === null ? "" : response.payload.data.profile.resume,
                         address : response.payload.data.profile.address,
+                        city : response.payload.data.profile.city,
                         profilephoto : response.payload.data.profile.profilePicture === "" ? "images/avatar.png" : response.payload.data.profile.profilePicture,
                         isLoading : false,
                 }); 
@@ -292,6 +294,7 @@ class Easyapply extends Component{
                 firstName : this.state.firstname,
                 lastName : this.state.lastname,
                 address : this.state.address,
+                city : this.state.city,
                 phoneNumber : this.state.phonenumber,
                 applicantEmail : this.state.email,
                 resume : this.state.resume
@@ -313,6 +316,22 @@ class Easyapply extends Component{
                     console.log("response:", response);
                     if(response.payload.status === 200){
                         console.log("Applied job Successfully")
+                        if(response.payload.status === 200){
+                            console.log("Applied job Successfully")
+                            const data = {
+                                jobID : this.props.id,
+                                eventName: "COMPLETELY_FILL_FORM",
+                                applicantEmail: this.state.email,
+                                recruiterEmail: this.props.jobdetails.posted_by,
+                                city: this.state.profile.city
+                            }
+                            this.props.logapplyapplicationtypes(data, token).then(response => {
+                                console.log("Application logged as completely filled")
+                                if(response.payload.status === 200){
+                                    window.close();
+                                }
+                            })
+                        }
                     }
                 })
             } else {           
@@ -321,6 +340,22 @@ class Easyapply extends Component{
                     console.log("response:", response);
                     if(response.payload.status === 200){
                         console.log("Applied job Successfully")
+                        if(response.payload.status === 200){
+                            console.log("Applied job Successfully")
+                            const data = {
+                                jobID : this.props.id,
+                                eventName: "COMPLETELY_FILL_FORM",
+                                applicantEmail: this.state.email,
+                                recruiterEmail: this.props.jobdetails.posted_by,
+                                city: this.state.profile.city
+                            }
+                            this.props.logapplyapplicationtypes(data, token).then(response => {
+                                console.log("Application logged as completely filled")
+                                if(response.payload.status === 200){
+                                    window.close();
+                                }
+                            })
+                        }
                     }
                 })
             }
@@ -452,4 +487,4 @@ function mapStateToProps(state) {
 
 export default withRouter(reduxForm({
 form: "View_Job"
-})(connect(mapStateToProps, { saveajob, getapplicantprofile, applyjob })(Viewjob)));
+})(connect(mapStateToProps, { saveajob, getapplicantprofile, applyjob, logapplyapplicationtypes })(Viewjob)));
