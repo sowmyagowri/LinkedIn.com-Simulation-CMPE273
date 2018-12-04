@@ -19,7 +19,7 @@ class RecruiterGraphs extends Component {
       cityWiseMonth: "1",
       cityWiseJobTitle: null,
       cityWise: null,
-      logGraph: null,
+      logGraph: [],
       clicksPerJob: null,
     };
   }
@@ -206,6 +206,8 @@ class RecruiterGraphs extends Component {
             ]
           };
           console.log("City Wise Jobs", data);
+          
+          
           this.setState({
             cityWise: data
           });
@@ -233,34 +235,53 @@ class RecruiterGraphs extends Component {
       })
       .then(res => {
         if (res.status === 200) {
-          console.log("Log", res);
-          let labels =[];
-          let data =[];
+          let labels=[];
+          let data;
+          let cities =[];
+          let datasets =[]
+
           res.data.data.forEach(element => {
             labels.push(element.event_name);
-            data.push(element.count);
-          });
-          console.log(labels);
-          console.log(data);
-            data = {
-              labels: labels,
-              datasets: [
-                {
-                  label: "My dataset",
-                  fillColor: "rgba(151,187,205,0.2)",
-                  strokeColor: "rgba(151,187,205,1)",
-                  pointColor: "rgba(151,187,205,1)",
-                  pointStrokeColor: "#fff",
-                  pointHighlightFill: "#fff",
-                  pointHighlightStroke: "rgba(151,187,205,1)",
 
-                  data: data
-                }
-              ]
-            };
-            console.log("City Wise Jobs",data)
+            if(!cities.includes(element.city) ) {
+              cities.push(element.city)
+          }
+
+          });
+
+
+          cities.forEach(city => {
+            let local_data=[];
+            res.data.data.forEach(element => {
+             if(element.city===city){
+               local_data.push(element.count);
+             }
+          });
+
+          data = {
+            labels: labels,
+            datasets: [
+              {
+                label: city,
+                fillColor: "rgba(151,187,205,0.2)",
+                strokeColor: "rgba(151,187,205,1)",
+                pointColor: "rgba(151,187,205,1)",
+                pointStrokeColor: "#fff",
+                pointHighlightFill: "#fff",
+                pointHighlightStroke: "rgba(151,187,205,1)",
+                data: local_data
+              }
+            ]
+          };
+             datasets.push(data)
+            });
+     
+
+  
+
+            console.log("Log Jobs",datasets)
            this.setState({
-            logGraph:data
+            logGraph:datasets,
            })
         }
       })
@@ -268,6 +289,10 @@ class RecruiterGraphs extends Component {
         console.log(err);
       });
   };
+
+
+
+
 
 
   populateCity = () => {
@@ -313,7 +338,28 @@ class RecruiterGraphs extends Component {
     let cities = this.state.jobs.map(job => {
       return <option value={job._id}>{job.title}</option>;
     });
+    let lographs =null;
 
+    
+    if(this.state.logGraph.length>0){
+    lographs = this.state.logGraph.map(graph => {
+
+      return(
+        
+        <div>    
+          <h3 style={{fontWeight:"200"}}>{graph.datasets[0].label}</h3>
+     <BarChart
+      data={graph}
+      width="600"
+      height="250"
+    /> <br/>
+    
+    </div>
+
+      );
+    });
+  }
+     
 
 
     return (
@@ -491,26 +537,23 @@ class RecruiterGraphs extends Component {
                   <h5 className="card-title">Job Logs</h5>
                   <div className="row">
                     <div className="col-8">
-                      {this.state.logGraph === null ? (
+                      {this.state.lographs === null ? (
                         <h3>Not Enough Data</h3>
                       ) : (
-                        <BarChart
-                          data={this.state.logGraph}
-                          width="600"
-                          height="250"
-                        />
+                        lographs
                       )}
                     </div>
                     <div className="col-4">
                       <br />
-                      <br />
-                      <h5> Select Month</h5>
+                    
+                      <h5> Select Job Title</h5>
                       <select
                         onChange={this.jobIDChangeListener}
                         className="form-control"
                       >
                            {cities}
                       </select>
+                      <br />
                     </div>
                   </div>
                 </div>

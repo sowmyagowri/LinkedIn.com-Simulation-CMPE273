@@ -10,7 +10,7 @@ async function handle_request(msg, callback) {
     let resp = {};
     try {
         let data = await db.selectQuery(
-            'SELECT job_id, job_title, recruiter_email, event_name, COUNT(applicant_email) AS count FROM (SELECT job_id, job_title, recruiter_email, event_name, applicant_email FROM logging WHERE recruiter_email = ? and job_id = ?) AS t GROUP BY event_name',
+            'SELECT job_id, job_title, city, recruiter_email, event_name, COUNT(applicant_email) AS count FROM (SELECT job_id, job_title, city, recruiter_email, event_name, applicant_email FROM logging WHERE recruiter_email = ? and job_id = ?) AS t GROUP BY event_name',
             [ email, job_id ]
         );
         resp = prepareSuccess({ "data": data });
