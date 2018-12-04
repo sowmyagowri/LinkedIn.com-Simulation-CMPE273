@@ -17,7 +17,6 @@ router.get("/", (req, res) => {
     else {
         kafka.make_request(GRAPH_SAVED_JOBS_REQUEST, GRAPH_SAVED_JOBS_RESPONSE, req.query, function (err, result) {
             if (err) {
-                // called in case of time out error, or if we failed to send data over kafka
                 sendInternalServerError(res);
             } else {
                 responseHandler(res, result);
@@ -27,22 +26,8 @@ router.get("/", (req, res) => {
 });
 
 
-/**
- * 
- * returns false if there is no validation error, otherwise returns array of error messages.
- * for more detail on handling error with express-validator check https://github.com/chriso/validator.js/
- *  
- * @param {object} req - express request object 
- */
 
 function validateInput(req) {
-    // req.checkBody("title", "Job Title is required.").notEmpty();
-    // req.checkBody("jobDescription", "Job Description is required.").notEmpty();
-    // req.checkBody("employmentType", "Employment Type is required.").notEmpty();
-    // req.checkBody("location", "Job location is required.").notEmpty();
-    // req.checkBody("expiryDate", "Job expiry date is required.").notEmpty();
-
-    //add more validation if needed.
     return req.validationErrors();
 }
 

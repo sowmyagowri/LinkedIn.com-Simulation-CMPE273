@@ -20,7 +20,8 @@ class RecruiterGraphs extends Component {
       cityWiseJobTitle: null,
       cityWise: null,
       logGraph: [],
-      clicksPerJob: null
+      clicksPerJob: null,
+      savedJobs:null
     };
   }
 
@@ -150,6 +151,8 @@ class RecruiterGraphs extends Component {
         }
       })
       .then(res => {
+        console.log("Unpopular Jobs", res);
+
         if (res.status === 200) {
           data = {
             labels: res.data.label,
@@ -157,11 +160,10 @@ class RecruiterGraphs extends Component {
               {
                 label: "My dataset",
                 fillColor: res.data.colors,
-                data: [5, 4, 2, 1, 6]
+                data: res.data.values
               }
             ]
           };
-          console.log("Unpopular Jobs", data);
           this.setState({
             unpopularJobs: data
           });
@@ -171,6 +173,52 @@ class RecruiterGraphs extends Component {
         console.log(err);
       });
   };
+
+
+  SavedJobs = () => {
+    let data = null;
+    let recruiterEmail = localStorage.getItem("username");
+    axios.defaults.withCredentials = true;
+    axios.defaults.headers.common["Authorization"] = localStorage.getItem(
+      "user"
+    );
+    axios
+      .get(`${URI.ROOT_URL}/graph_saved_jobs`, {
+        params: {
+          email:recruiterEmail
+        }
+      })
+      .then(res => {
+        if (res.status === 200) {
+          console.log(res);
+          data = {
+            labels: ["Count"],
+            datasets: [
+              {
+                label: "My dataset",
+                fillColor: "rgba(151,187,205,0.2)",
+                strokeColor: "rgba(151,187,205,1)",
+                pointColor: "rgba(151,187,205,1)",
+                pointStrokeColor: "#fff",
+                pointHighlightFill: "#fff",
+                pointHighlightStroke: "rgba(151,187,205,1)",
+                data: [Object.keys(res.data.data).length]
+              }
+            ]
+          };
+          console.log("Saved Jobs", data);
+          this.setState({
+            savedJobs: data
+          });
+        }
+      })
+      .catch(err => {
+        console.log(err);
+      });
+  };
+
+
+
 
   CityWiseGraph = (jobID, month) => {
     let data = null;
@@ -310,6 +358,8 @@ class RecruiterGraphs extends Component {
           });
           this.CityWiseGraph(res.data.allJobs[0]._id, "1");
           this.LogGraph(res.data.allJobs[0]._id);
+          this.SavedJobs();
+
         }
       })
       .catch(err => {
@@ -551,7 +601,31 @@ class RecruiterGraphs extends Component {
 
           <br />
           <br />
+          <div className="row">
+            <div className="col-12">
+              <div className="card shadow-lg">
+                <div className="card-body">
+                  <h5 className="card-title">Saved Jobs</h5>
+                  <div className="row">
+                    <div className="col-8">
+                      {this.state.savedJobs === null ? (
+                        <h3>Not Enough Data</h3>
+                      ) : (
+                        <BarChart
+                          data={this.state.savedJobs}
+                          width="600"
+                          height="250"
+                        />
+                      )}
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
 
+          <br />
+          <br />
           <br />
           <br />
         </div>
