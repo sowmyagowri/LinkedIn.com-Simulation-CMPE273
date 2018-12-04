@@ -267,7 +267,8 @@ class RecruiterSearchPeople extends Component {
             <div className="col-2">
               <button
                 type="button"
-                className="btn btn-block btn-lg blueBackground text-white shadow-lg"
+                className="btn arteco-btn"
+                style ={{height : "45px", width : "100px", marginTop : "0px"}}
                 onClick={this.searchClickedListener}
               >
                 Search
