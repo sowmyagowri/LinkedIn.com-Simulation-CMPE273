@@ -9,7 +9,7 @@ import { withRouter} from 'react-router-dom';
 import { connect } from "react-redux";
 import { userConstants } from '../../constants';
 import { searchjob, logjobclicks } from '../../Actions/actions_jobs';
-import { applyjob } from '../../Actions/actions_jobs';
+import { applyjob, logapplyapplicationtypes } from '../../Actions/actions_jobs';
 import { getapplicantprofile } from '../../Actions/applicant_login_profile_actions';
 
 class SearchJobs extends Component{
@@ -283,7 +283,7 @@ class SearchJobs extends Component{
                         <div className = "jobs-search-two-pane__details pt4 ph3 jobs-search-two-pane__details--responsive ember-view">
                             <div id = "job-view-layout jobs-details ember-view">
                             <JobDetails 
-                                    jobs={currentjobliststate} self = {this} applyjob = {this.props.applyjob} getapplicantprofile = {this.props.getapplicantprofile}
+                                    jobs={currentjobliststate} self = {this} logapplyapplicationtypes = {this.props.logapplyapplicationtypes} applyjob = {this.props.applyjob} getapplicantprofile = {this.props.getapplicantprofile}
                             /> 
                             </div>
                         </div>
@@ -346,7 +346,7 @@ const JobListItem = ({ job, openJob, selectedJob, self}) => {
     );
 };
 
-const JobDetails = ({jobs, self, applyjob, getapplicantprofile}) =>{
+const JobDetails = ({jobs, self, applyjob, logapplyapplicationtypes, getapplicantprofile}) =>{
     if(!jobs) {
         return (
             <div className="jobs-details__wrapper">
@@ -373,7 +373,7 @@ const JobDetails = ({jobs, self, applyjob, getapplicantprofile}) =>{
                     <div className = "row form-group">&nbsp;&nbsp;&nbsp;&nbsp;<div className="job-details__posted">{jobs.no_of_views === undefined ? 0 : jobs.no_of_views}&nbsp;view(s)</div>
                     <div className="job-details__posted">&nbsp;&nbsp;{jobs.applications.length}&nbsp;applicant(s) applied</div></div>
                     {jobs.application_method  === "Easy Apply" ? 
-                        <Easyapply applyjob ={applyjob} getapplicantprofile = {getapplicantprofile} id = {jobs._id} jobdetails = {jobs}/> :
+                        <Easyapply applyjob ={applyjob} logapplyapplicationtypes = {logapplyapplicationtypes} getapplicantprofile = {getapplicantprofile} id = {jobs._id} jobdetails = {jobs}/> :
                         <button type="submit" className="btn arteco-btn" onClick = {(event) => self.normalapplyjob(event, jobs)}>Apply</button>
                     }
                 </div>  
@@ -419,6 +419,7 @@ class Easyapply extends Component{
           email : "",
           profilephoto : "",
           address : "",
+          city : "",
           resume : "",
           touchedprofile : {
             firstname: false,
@@ -450,6 +451,7 @@ class Easyapply extends Component{
                         email : response.payload.data.profile.email,
                         resume : response.payload.data.profile.resume === null ? "" : response.payload.data.profile.resume,
                         address : response.payload.data.profile.address,
+                        city : response.payload.data.profile.city,
                         profilephoto : response.payload.data.profile.profilePicture === "" ? "images/avatar.png" : response.payload.data.profile.profilePicture,
                         isLoading : false,
                 }); 
@@ -509,6 +511,7 @@ class Easyapply extends Component{
                 firstName : this.state.firstname,
                 lastName : this.state.lastname,
                 address : this.state.address,
+                city : this.state.city,
                 phoneNumber : this.state.phonenumber,
                 applicantEmail : this.state.email,
                 resume : this.state.resume
@@ -538,6 +541,19 @@ class Easyapply extends Component{
                     console.log("response:", response);
                     if(response.payload.status === 200){
                         console.log("Applied job Successfully")
+                        const data = {
+                            jobID : this.props.id,
+                            eventName: "COMPLETELY_FILL_FORM",
+                            applicantEmail: this.state.email,
+                            recruiterEmail: this.props.jobdetails.posted_by,
+                            city: this.state.profile.city
+                        }
+                        this.props.logapplyapplicationtypes(data, token).then(response => {
+                            console.log("Application logged as completely filled")
+                            if(response.payload.status === 200){
+                                window.close();
+                            }
+                        })
                     }
                 })
             }
@@ -664,10 +680,11 @@ function mapStateToProps(state) {
         searchjob: state.searchjob,
         getapplicantprofile : state.getapplicantprofile,
         applyjob : state.applyjob,
+        logapplyapplicationtypes : state.logapplyapplicationtypes,
         logjobclicks : state.logjobclicks
     }
 }
 
 export default withRouter(reduxForm({
     form: "Search_jobs"
-})(connect(mapStateToProps, { searchjob, logjobclicks, getapplicantprofile, applyjob}) (SearchJobs)));
+})(connect(mapStateToProps, { searchjob, logjobclicks, getapplicantprofile, applyjob, logapplyapplicationtypes}) (SearchJobs)));

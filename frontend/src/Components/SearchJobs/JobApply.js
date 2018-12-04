@@ -229,7 +229,6 @@ class JobApply extends Component{
                         recruiterEmail: this.state.jobdetails.posted_by,
                         city: this.state.profile.city
                     }
-                    console.log("Application logged as just-read")
                     this.props.logapplyapplicationtypes(data, token).then(response => {
                         console.log("Application logged as completely filled")
                         if(response.payload.status === 200){
